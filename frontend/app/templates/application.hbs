@@ -1,0 +1,77 @@
+<div id="container" class="{{unless sidebarOpen "sidebar-closed"}}">
+  {{!-- Header --}}
+  <header class="header black-bg">
+    <div class="sidebar-toggle-box">
+      <div class="fa fa-bars tooltips" {{action "toggleSidebar"}}></div>
+    </div>
+
+    <a href="index.html" class="logo"><b>Irrational Co</b></a>
+    
+    <div class="top-menu">
+      {{!-- <ul class="nav pull-right top-menu">
+        <li></li>
+      </ul> --}}
+      <div class="pull-right profile-circle">
+        MR
+      </div>
+    </div>
+  </header>
+
+  {{!-- Sidebar --}}
+  {{#if sidebarOpen}}
+    <div id="sidebar" class="sidebar-box nav-collapse">
+      <ul class="sidebar-menu" id="nav-accordion">
+
+        <li class="mt">
+          <a href="#">
+            <i class="fa fa-dashboard"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="sub-menu">
+          <a href="javascript:;" >
+            <i class="fa fa-tasks"></i>
+            <span>Formas</span>
+          </a>
+          <ul class="sub">
+            <li><a  href="#">Form Components</a></li>
+          </ul>
+        </li>
+        <li class="sub-menu">
+          <a href="javascript:;" >
+            <i class="fa fa-th"></i>
+            <span>Tablas</span>
+          </a>
+          <ul class="sub">
+            <li><a  href="#">Basic Table</a></li>
+            <li><a  href="#">Responsive Table</a></li>
+          </ul>
+        </li>
+        <li class="sub-menu">
+          <a href="javascript:;" >
+            <i class=" fa fa-bar-chart-o"></i>
+            <span>Graficas</span>
+          </a>
+          <ul class="sub">
+            <li><a  href="#">Morris</a></li>
+            <li><a  href="#">Chartjs</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  {{/if}}
+
+  {{!-- Content --}}
+  <section id="main-content">
+    <section class="wrapper site-min-height">
+      {{!-- <h3> Testing Radar Chart </h3> --}}
+      <div class="row mt">
+        {{test-map}}
+        {{!-- {{radar-chart}}
+        {{line-chart}}
+        {{doughnut-chart}} --}}
+      </div>
+    </section>
+  </section>
+</div>

@@ -1,0 +1,590 @@
+// Import fonts
+@import url(http://fonts.googleapis.com/css?family=Ruda:400,700,900)
+
+body
+  color: #797979
+  background: #f2f2f2
+  font-family: 'Ruda', sans-serif
+  padding: 0px !important
+  margin: 0px !important
+  font-size: 13px
+
+ul li
+  list-style: none
+
+a
+  text-decoration: none
+  outline: none
+  &:hover, &:focus
+    text-decoration: none
+    outline: none
+
+\::selection, ::-moz-selection
+  background: #68dff0
+  color: #fff
+
+#container
+  width: 100%
+  height: 100%
+
+// Cards 
+
+.card
+  background-color: #f9f8f8
+  border-radius: 3px
+  box-shadow: 0 0 8px #87888a
+
+.card-box
+  padding: 10px
+
+// Bootstrap Modifications
+
+.modal-header
+  background: #68dff0
+
+.modal-title
+  color: white
+
+.btn-round
+  border-radius: 20px
+  -webkit-border-radius: 20px
+
+.accordion-heading .accordion-toggle
+  display: block
+  cursor: pointer
+  border-top: 1px solid #F5F5F5
+  padding: 5px 0px
+  line-height: 28.75px
+  text-transform: uppercase
+  color: #1a1a1a
+  background-color: #ffffff
+  outline: none !important
+  text-decoration: none
+
+hr
+  margin-top: 20px
+  margin-bottom: 20px
+  border: 0
+  border-top: 1px solid #797979
+
+// Exclusive Theme Colors Configuration
+
+.label-theme, .bg-theme
+  background-color: #68dff0
+
+ul.top-menu > li > .logout
+  color: #f2f2f2
+  font-size: 12px
+  border-radius: 4px
+  -webkit-border-radius: 4px
+  border: 1px solid #64c3c2 !important
+  padding: 5px 15px
+  margin-right: 15px
+  background: #68dff0
+  margin-top: 15px
+
+// Sidebar navigation
+
+#sidebar
+  width: 210px
+  height: 100%
+  position: fixed
+  background: #424a5d
+  h5
+    color: #f2f2f2
+    font-weight: 700
+  ul li
+    position: relative
+  .sub-menu > .sub li
+    padding-left: 32px
+    &:last-child
+      padding-bottom: 10px
+
+// Map
+#map-world
+  height: 700px
+  width: 700px
+
+// Profile Icon
+.profile-circle
+  height: 40px
+  width: 40px
+  margin-right: 5px
+  margin-top: 10px
+  border-radius: 50%
+  background-color: #6fa6cc
+  color: #f2f2f2
+  font-size: 16px
+  text-align: center
+  line-height: 41px
+
+.nav-collapse.collapse
+  display: inline
+
+ul.sidebar-menu
+  margin: -2px 0 0
+  padding: 0
+  li ul.sub
+    margin: -2px 0 0
+    padding: 0
+  margin-top: 75px
+
+#sidebar > ul > li
+  > ul.sub
+    display: none
+  &.active > ul.sub, > ul.sub > li > a
+    display: block
+
+ul.sidebar-menu li
+  ul.sub li
+    background: #424a5d
+    margin-bottom: 0
+    margin-left: 0
+    margin-right: 0
+    &:last-child
+      border-radius: 0 0 4px 4px
+      -webkit-border-radius: 0 0 4px 4px
+    a
+      font-size: 12px
+      padding: 6px 0
+      line-height: 35px
+      height: 35px
+      -webkit-transition: all 0.3s ease
+      -moz-transition: all 0.3s ease
+      -o-transition: all 0.3s ease
+      -ms-transition: all 0.3s ease
+      transition: all 0.3s ease
+      color: #aeb2b7
+      &:hover
+        color: white
+        background: transparent
+    &.active a
+      color: #68dff0
+      -webkit-transition: all 0.3s ease
+      -moz-transition: all 0.3s ease
+      -o-transition: all 0.3s ease
+      -ms-transition: all 0.3s ease
+      transition: all 0.3s ease
+      display: block
+  margin-bottom: 5px
+  margin-left: 10px
+  margin-right: 10px
+  &.sub-menu
+    line-height: 15px
+  a
+    span
+      display: inline-block
+    color: #aeb2b7
+    text-decoration: none
+    display: block
+    padding: 15px 0 15px 10px
+    font-size: 12px
+    outline: none
+    -webkit-transition: all 0.3s ease
+    -moz-transition: all 0.3s ease
+    -o-transition: all 0.3s ease
+    -ms-transition: all 0.3s ease
+    transition: all 0.3s ease
+    &.active, &:hover, &:focus
+      background: #636f8c
+      color: #fff
+      display: block
+      -webkit-transition: all 0.3s ease
+      -moz-transition: all 0.3s ease
+      -o-transition: all 0.3s ease
+      -ms-transition: all 0.3s ease
+      transition: all 0.3s ease
+    i
+      font-size: 15px
+      padding-right: 6px
+    &:hover i, &:focus i, &.active i
+      color: #fff
+
+.mail-info
+  margin: -3px 6px 0 0
+  font-size: 11px
+  &:hover
+    margin: -3px 6px 0 0
+    font-size: 11px
+
+// MAIN CONTENT CONFIGURATION
+
+#main-content
+  margin-left: 210px
+
+.header, .footer
+  min-height: 60px
+  padding: 0 15px
+
+.header
+  position: fixed
+  left: 0
+  right: 0
+  z-index: 1002
+
+.black-bg
+  background: #ffd777
+  border-bottom: 1px solid #c9aa5f
+
+.wrapper
+  display: inline-block
+  margin-top: 60px
+  padding-left: 15px
+  padding-right: 15px
+  padding-bottom: 15px
+  padding-top: 0px
+  width: 100%
+
+
+// Logo
+a.logo
+  font-size: 20px
+  color: #ffffff
+  float: left
+  margin-top: 15px
+  text-transform: uppercase
+  b
+    font-weight: 900
+  &:hover, &:focus
+    text-decoration: none
+    outline: none
+  span
+    color: #68dff0
+
+// sidebar toggle
+
+.sidebar-toggle-box
+  float: left
+  padding-right: 15px
+  margin-top: 20px
+  .fa-bars
+    cursor: pointer
+    display: inline-block
+    font-size: 20px
+
+// .sidebar-closed
+//   > #sidebar > ul
+//     display: none
+//   #main-content
+//     margin-left: 0px
+//   #sidebar
+//     margin-left: -180px
+
+.sidebar-closed
+  #main-content
+    margin-left: 0px
+
+// Dash Side
+
+.ds
+  background: #ffffff
+  padding-top: 20px
+  h4
+    font-size: 14px
+    font-weight: 700
+  h3
+    color: #ffffff
+    font-size: 16px
+    padding: 0 10px
+    line-height: 60px
+    height: 60px
+    margin: 0
+    background: #ff865c
+    text-align: center
+  i
+    font-size: 12px
+    line-height: 16px
+  .desc
+    border-bottom: 1px solid #eaeaea
+    display: inline-block
+    padding: 15px 0
+    width: 100%
+    &:hover
+      background: #f2f2f2
+  .thumb
+    width: 30px
+    margin: 0 10px 0 20px
+    display: block
+    float: left
+  .details
+    width: 170px
+    float: left
+  > .desc p
+    font-size: 11px
+  p > muted
+    font-size: 9px
+    text-transform: uppercase
+    font-style: italic
+    color: #666666
+  a
+    color: #68dff0
+
+// LINE ICONS CONFIGURATION
+
+.mtbox
+  margin-top: 80px
+  margin-bottom: 40px
+
+.box1
+  padding: 15px
+  text-align: center
+  color: #989898
+  border-bottom: 1px solid #989898
+  span
+    font-size: 50px
+  h3
+    text-align: center
+
+.box0
+  &:hover .box1
+    border-bottom: 1px solid #ffffff
+  p
+    text-align: center
+    font-size: 12px
+    color: #f2f2f2
+  &:hover
+    p
+      color: #ff865c
+    background: #ffffff
+    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2)
+
+// TOGGLE CONFIGURATION
+
+.has-switch
+  border-radius: 30px
+  -webkit-border-radius: 30px
+  display: inline-block
+  cursor: pointer
+  line-height: 1.231
+  overflow: hidden
+  position: relative
+  text-align: left
+  width: 80px
+  -webkit-mask: url('../img/mask.png') 0 0 no-repeat
+  mask: url('../img/mask.png') 0 0 no-repeat
+  -webkit-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  -o-user-select: none
+  user-select: none
+  &.deactivate
+    opacity: 0.5
+    filter: alpha(opacity = 50)
+    cursor: default !important
+    label, span
+      cursor: default !important
+  > div
+    width: 162%
+    position: relative
+    top: 0
+    &.switch-animate
+      -webkit-transition: left 0.25s ease-out
+      -moz-transition: left 0.25s ease-out
+      -o-transition: left 0.25s ease-out
+      transition: left 0.25s ease-out
+      -webkit-backface-visibility: hidden
+    &.switch-off
+      left: -63%
+      label
+        background-color: #7f8c9a
+        border-color: #bdc3c7
+        -webkit-box-shadow: -1px 0 0 rgba(255, 255, 255, 0.5)
+        -moz-box-shadow: -1px 0 0 rgba(255, 255, 255, 0.5)
+        box-shadow: -1px 0 0 rgba(255, 255, 255, 0.5)
+    &.switch-on
+      left: 0%
+      label
+        background-color: #41cac0
+  input[type=checkbox]
+    display: none
+  span
+    cursor: pointer
+    font-size: 14.994px
+    font-weight: 700
+    float: left
+    height: 29px
+    line-height: 19px
+    margin: 0
+    padding-bottom: 6px
+    padding-top: 5px
+    position: relative
+    text-align: center
+    width: 50%
+    z-index: 1
+    -webkit-box-sizing: border-box
+    -moz-box-sizing: border-box
+    box-sizing: border-box
+    -webkit-transition: 0.25s ease-out
+    -moz-transition: 0.25s ease-out
+    -o-transition: 0.25s ease-out
+    transition: 0.25s ease-out
+    -webkit-backface-visibility: hidden
+    &.switch-left
+      border-radius: 30px 0 0 30px
+      background-color: #2A3542
+      color: #41cac0
+      border-left: 1px solid transparent
+    &.switch-right
+      border-radius: 0 30px 30px 0
+      background-color: #bdc3c7
+      color: #ffffff
+      text-indent: 7px
+      [class*="fui-"]
+        text-indent: 0
+  label
+    border: 4px solid #2A3542
+    border-radius: 50%
+    -webkit-border-radius: 50%
+    float: left
+    height: 29px
+    margin: 0 -21px 0 -14px
+    padding: 0
+    position: relative
+    vertical-align: middle
+    width: 29px
+    z-index: 100
+    -webkit-transition: 0.25s ease-out
+    -moz-transition: 0.25s ease-out
+    -o-transition: 0.25s ease-out
+    transition: 0.25s ease-out
+    -webkit-backface-visibility: hidden
+
+.switch-square
+  border-radius: 6px
+  -webkit-border-radius: 6px
+  -webkit-mask: url('../img/mask.png') 0 0 no-repeat
+  mask: url('../img/mask.png') 0 0 no-repeat
+  > div.switch-off label
+    border-color: #7f8c9a
+    border-radius: 6px 0 0 6px
+  span
+    &.switch-left
+      border-radius: 6px 0 0 6px
+      [class*="fui-"]
+        text-indent: -10px
+    &.switch-right
+      border-radius: 0 6px 6px 0
+      [class*="fui-"]
+        text-indent: 5px
+  label
+    border-radius: 0 6px 6px 0
+    border-color: #41cac0
+
+// badge
+
+.badge
+  &.bg-primary
+    background: #8075c4
+  &.bg-success
+    background: #a9d86e
+  &.bg-warning
+    background: #FCB322
+  &.bg-important
+    background: #ff6c60
+  &.bg-info
+    background: #41cac0
+  &.bg-inverse
+    background: #2A3542
+
+// footer
+
+.site-footer
+  background: #68dff0
+  color: #fff
+  padding: 10px 0
+
+.go-top
+  margin-right: 1%
+  float: right
+  background: rgba(255, 255, 255, 0.5)
+  width: 20px
+  height: 20px
+  border-radius: 50%
+  -webkit-border-radius: 50%
+  i
+    color: #2A3542
+
+.site-min-height
+  min-height: 900px
+
+// Media queries
+
+@media (max-width: 768px)
+  .header
+    position: absolute
+  // sidebar
+  #sidebar
+    height: auto
+    overflow: hidden
+    position: absolute
+    width: 100%
+    z-index: 1001
+  // body container
+  #main-content
+    margin: 0px !important
+    position: none !important
+  #sidebar
+    > ul > li
+      > a
+        > span
+          line-height: 35px
+        height: 35px
+        line-height: 35px
+        padding: 0 10px
+        text-align: left
+        i
+          // display: none !important;
+      margin: 0 10px 5px 10px
+    ul
+      > li > a .arrow
+        margin-right: 10px
+        margin-top: 15px
+      > li
+        &.active > a .arrow
+          margin-top: 15px
+        > a
+          &:hover .arrow, &:focus .arrow
+            margin-top: 15px
+    > ul > li > a .arrow.open
+      margin-right: 10px
+      margin-top: 15px
+    > ul > li
+      &.active > a .arrow.open
+        margin-top: 15px
+      >
+        a
+          &:hover .arrow.open, &:focus .arrow.open
+            margin-top: 15px
+          width: 100%
+        ul.sub > li
+          width: 100%
+          > a
+            background: transparent !important
+            &:hover
+    margin: 0px !important
+    .btn-navbar
+      &.collapsed .arrow
+        display: none
+      .arrow
+        position: absolute
+        right: 35px
+        width: 0
+        height: 0
+        top: 48px
+        border-bottom: 15px solid #282e36
+        border-left: 15px solid transparent
+        border-right: 15px solid transparent
+  
+  // sidebar collabler
+  .modal-footer .btn
+    margin-bottom: 0px !important
+  .btn
+    margin-bottom: 5px
+  
+  // menu icon plus minus
+  .dcjq-icon
+    top: 10px
+  ul.sidebar-menu li ul.sub li a
+    padding: 0
+  .img-responsive
+    width: 100%
