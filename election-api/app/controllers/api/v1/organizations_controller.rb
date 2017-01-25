@@ -5,8 +5,11 @@ class Api::V1::OrganizationsController < ApplicationController
   def index
     @organizations = Organization.all
 
-    render json: @organizations
+    render json: @organizations, include: 'users'
   end
+
+# render json: @blog, include: 'posts.category, posts.author.address', fields: { posts: { category: [:name], author: [:id, :name] } }
+
 
   # GET /organizations/1
   def show
