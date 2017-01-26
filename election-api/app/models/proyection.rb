@@ -1,0 +1,2 @@
+class Proyection < ApplicationRecord
+end

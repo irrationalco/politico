@@ -8,7 +8,7 @@ class Api::V1::OrganizationsController < ApplicationController
     render json: @organizations, include: 'users'
   end
 
-# render json: @blog, include: 'posts.category, posts.author.address', fields: { posts: { category: [:name], author: [:id, :name] } }
+  # render json: @blog, include: 'posts.category, posts.author.address', fields: { posts: { category: [:name], author: [:id, :name] } }
 
 
   # GET /organizations/1
