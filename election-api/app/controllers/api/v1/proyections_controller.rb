@@ -1,4 +1,4 @@
-class ProyectionsController < ApplicationController
+class Api::V1::ProyectionsController < ApplicationController
   before_action :set_proyection, only: [:show, :update, :destroy]
 
   # GET /proyections
