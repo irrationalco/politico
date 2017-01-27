@@ -1,0 +1,2 @@
+class ProyectionDatum < ApplicationRecord
+end
