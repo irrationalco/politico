@@ -1,2 +1,0 @@
-class ProyectionDatum < ApplicationRecord
-end

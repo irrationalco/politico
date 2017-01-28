@@ -4,10 +4,9 @@ class CreateOrganizations < ActiveRecord::Migration[5.0]
       # Attributes
       t.string :name
       t.timestamps
-      
+
       # Foreign keys
       t.integer :admin_id
-      t.integer :proyection_id
     end
   end
 end
