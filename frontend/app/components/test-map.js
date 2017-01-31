@@ -18,7 +18,8 @@ export default Ember.Component.extend({
 			let maptestestados = new Datamap({
 				element: document.getElementById('map-world'),
 				geographyConfig: {
-					dataUrl: 'assets/nuevoleon_secciones.json',
+					// dataUrl: 'assets/nuevoleon_secciones.json',
+					dataUrl: 'assets/mx_states.json',
 					popupTemplate: function(geography, data) {
 						return '<div class="hoverinfo"><strong>' + geography.properties.name + '</strong>'
 						+ '<p>PAN: '+ data.PAN +'</p>' 
@@ -28,7 +29,8 @@ export default Ember.Component.extend({
 					},
 					borderWidth: 0,
 				},
-				scope: 'nuevoleon_geolectorales',
+				// scope: 'nuevoleon_geolectorales',
+				scope: 'states',
 				fills: {
 					defaultFill: "#9E9E9E",
 					'Red': '#EF5350',
@@ -37,8 +39,8 @@ export default Ember.Component.extend({
 				data: this.get('mapData'),
 				setProjection: function(element) {
 					var projection = d3.geo.mercator()
-					.center([-99.8, 25.5])
-					.scale(7000)
+					.center([-102, 23])
+					.scale(1000)
 					.translate([element.offsetWidth / 2, element.offsetHeight / 2]);
 					var path = d3.geo.path().projection(projection);
 					return {path: path, projection: projection};
@@ -47,6 +49,12 @@ export default Ember.Component.extend({
 		});
 	}
 });
+
+// // Centers
+// // Mexico: -102, 23
+	// scale(1000)
+// // Nuevo Leon: -99.8, 25.5
+	// scale(7000)
 
 // var election = new Datamap({
 //   scope: 'usa',
