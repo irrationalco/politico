@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20170128002503) do
     t.string   "name"
     t.integer  "map_key"
     t.json     "topojson"
+    t.json     "settings"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
