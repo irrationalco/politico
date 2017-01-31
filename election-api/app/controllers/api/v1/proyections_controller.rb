@@ -18,7 +18,7 @@ class Api::V1::ProyectionsController < ApplicationController
     @proyection = Proyection.new(proyection_params)
 
     if @proyection.save
-      render json: @proyection, status: :created, location: @proyection
+      render json: @proyection
     else
       render json: @proyection.errors, status: :unprocessable_entity
     end

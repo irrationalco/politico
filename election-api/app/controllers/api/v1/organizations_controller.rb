@@ -21,7 +21,7 @@ class Api::V1::OrganizationsController < ApplicationController
     @organization = Organization.new(organization_params)
 
     if @organization.save
-      render json: @organization, status: :created, location: @organization
+      render json: @organization
     else
       render json: @organization.errors, status: :unprocessable_entity
     end

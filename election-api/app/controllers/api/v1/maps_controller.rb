@@ -18,7 +18,7 @@ class Api::V1::MapsController < ApplicationController
     @map = Map.new(map_params)
 
     if @map.save
-      render json: @map, status: :created, location: @map
+      render json: @map
     else
       render json: @map.errors, status: :unprocessable_entity
     end
@@ -46,6 +46,6 @@ class Api::V1::MapsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def map_params
-      params.require(:map).permit(:topojson, :name, :settings)
+      params.require(:map).permit(:url, :name)
     end
 end

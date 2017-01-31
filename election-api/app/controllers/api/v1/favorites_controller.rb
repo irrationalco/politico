@@ -18,7 +18,7 @@ class Api::V1::FavoritesController < ApplicationController
     @favorite = Favorite.new(favorite_params)
 
     if @favorite.save
-      render json: @favorite, status: :created, location: @favorite
+      render json: @favorite
     else
       render json: @favorite.errors, status: :unprocessable_entity
     end
