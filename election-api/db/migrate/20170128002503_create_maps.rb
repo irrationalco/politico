@@ -5,7 +5,8 @@ class CreateMaps < ActiveRecord::Migration[5.0]
       t.string  :name
       t.integer :map_key
       t.json    :topojson
-      t.json    :settings
+      t.float   :lat
+      t.float   :long
 
       t.timestamps
     end
