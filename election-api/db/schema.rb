@@ -28,10 +28,12 @@ ActiveRecord::Schema.define(version: 20170128002503) do
   create_table "maps", force: :cascade do |t|
     t.string   "type"
     t.string   "name"
+    t.string   "map_scope"
     t.integer  "map_key"
     t.string   "url"
     t.float    "lat"
     t.float    "long"
+    t.integer  "scale"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

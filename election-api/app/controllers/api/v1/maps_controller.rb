@@ -46,6 +46,6 @@ class Api::V1::MapsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def map_params
-      params.require(:map).permit(:url, :name)
+      params.require(:map).permit(:url, :name, :lat, :long, :scale, :map_scope)
     end
 end
