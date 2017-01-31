@@ -6,7 +6,7 @@ export default Ember.Component.extend({
 
 	init() {
 		this._super(...arguments);
-		Ember.$.getJSON('assets/nuevoLeonData.json', json => {
+		Ember.$.getJSON('../assets/nuevoLeonData.json', json => {
 			this.set('mapData', json);		
 		});
 	},
@@ -14,12 +14,12 @@ export default Ember.Component.extend({
 	didInsertElement() {
 		// let map = new Datamap({element: document.getElementById('map-world')});
 
-		Ember.$.getJSON('assets/nuevoLeonData.json', json => {
+		Ember.$.getJSON('../assets/nuevoLeonData.json', json => {
 			let maptestestados = new Datamap({
 				element: document.getElementById('map-world'),
 				geographyConfig: {
 					// dataUrl: 'assets/nuevoleon_secciones.json',
-					dataUrl: 'assets/mx_states.json',
+					dataUrl: '../' + this.get('map.url'),
 					popupTemplate: function(geography, data) {
 						return '<div class="hoverinfo"><strong>' + geography.properties.name + '</strong>'
 						+ '<p>PAN: '+ data.PAN +'</p>' 
@@ -30,7 +30,7 @@ export default Ember.Component.extend({
 					borderWidth: 0,
 				},
 				// scope: 'nuevoleon_geolectorales',
-				scope: 'states',
+				scope: this.get('map.mapScope'),
 				fills: {
 					defaultFill: "#9E9E9E",
 					'Red': '#EF5350',
@@ -40,7 +40,7 @@ export default Ember.Component.extend({
 				setProjection: function(element) {
 					var projection = d3.geo.mercator()
 					.center([-102, 23])
-					.scale(1000)
+					.scale(2000)
 					.translate([element.offsetWidth / 2, element.offsetHeight / 2]);
 					var path = d3.geo.path().projection(projection);
 					return {path: path, projection: projection};
