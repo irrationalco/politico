@@ -12,7 +12,10 @@ export default Ember.Component.extend({
 	},
 
 	didInsertElement() {
-		// let map = new Datamap({element: document.getElementById('map-world')});
+
+		let lat = this.get('map.lat');
+		let long = this.get('map.long');
+		let scale = this.get('map.scale');
 
 		Ember.$.getJSON('../assets/nuevoLeonData.json', json => {
 			let maptestestados = new Datamap({
@@ -39,8 +42,8 @@ export default Ember.Component.extend({
 				data: this.get('mapData'),
 				setProjection: function(element) {
 					var projection = d3.geo.mercator()
-					.center([-102, 23])
-					.scale(2000)
+					.center([long, lat])
+					.scale(scale)
 					.translate([element.offsetWidth / 2, element.offsetHeight / 2]);
 					var path = d3.geo.path().projection(projection);
 					return {path: path, projection: projection};
