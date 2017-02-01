@@ -29,6 +29,13 @@ module.exports = function(defaults) {
   app.import('bower_components/topojson/topojson.min.js');
   app.import('bower_components/datamaps/dist/datamaps.world.min.js');
 
+  // D3 Carto
+  app.import('vendor/d3Carto/d3.carto.map.js');
+  app.import('vendor/d3Carto/d3.geo.raster.js');
+  app.import('vendor/d3Carto/d3.quadtiles.js');
+  app.import('vendor/d3Carto/tile.js');
+  app.import('vendor/d3Carto/d3map.css');
+
   // Vendor
   app.import('vendor/mx_states.json', {
     destDir: 'assets'
