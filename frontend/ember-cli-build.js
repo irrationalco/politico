@@ -27,17 +27,26 @@ module.exports = function(defaults) {
   // Datamaps & D3
   app.import('bower_components/d3/d3.min.js');
   app.import('bower_components/topojson/topojson.min.js');
-  app.import('bower_components/datamaps/dist/datamaps.world.min.js');
+  // app.import('bower_components/datamaps/dist/datamaps.world.min.js');
 
   // D3 Carto
-  app.import('vendor/d3Carto/d3.carto.map.js');
-  app.import('vendor/d3Carto/d3.geo.raster.js');
-  app.import('vendor/d3Carto/d3.quadtiles.js');
+  app.import('vendor/d3Carto/d3.geo.projection.v0.min.js');
   app.import('vendor/d3Carto/tile.js');
+  app.import('vendor/d3Carto/d3.quadtiles.js');
+  app.import('vendor/d3Carto/d3.geo.raster.js');
+  app.import('vendor/d3Carto/d3.carto.map.js');
+
   app.import('vendor/d3Carto/d3map.css');
+
+
+
 
   // Vendor
   app.import('vendor/mx_states.json', {
+    destDir: 'assets'
+  });
+
+  app.import('vendor/us.json', {
     destDir: 'assets'
   });
 
