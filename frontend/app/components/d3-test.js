@@ -65,5 +65,15 @@ export default Ember.Component.extend({
 			.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
 		}
 
+		function reset() {
+			active.classed("active", false);
+			active = d3.select(null);
+
+			g.transition()
+			.duration(750)
+			.style("stroke-width", "1.5px")
+			.attr("transform", "");
+		}
+
 	}
 });
