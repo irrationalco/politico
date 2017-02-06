@@ -47,6 +47,10 @@ module.exports = function(defaults) {
     destDir: 'assets'
   });
 
+  app.import('vendor/US-counties-cities-states.json', {
+    destDir: 'assets'
+  });
+
   app.import('vendor/customAfghanMap.topo.json', {
     destDir: 'assets'
   });
