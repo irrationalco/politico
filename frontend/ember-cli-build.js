@@ -38,9 +38,6 @@ module.exports = function(defaults) {
 
   app.import('vendor/d3Carto/d3map.css');
 
-
-
-
   // Vendor
   app.import('vendor/mx_states.json', {
     destDir: 'assets'
