@@ -30,9 +30,20 @@ export default Ember.Component.extend({
 			.style("stroke-width", "1.5px");
 
 		// Getting topojson data
-		d3.json("../assets/us.json", (error, us) => {
+		d3.json("../assets/us.json", (error, data) => {
 			if (error) { console.log(error); }
 
+			g.selectAll("path")
+				.data(topojson.feature(data, data.objects.states).features)
+				.enter().append("path")
+				.attr("d", path)
+				.attr("class", "feature")
+				.on("click", clicked);
+
+			g.append("path")
+				.datum(topojson.mesh(data, data.objects.states, function(a, b) { return a !== b; }))
+				.attr("class", "mesh")
+				.attr("d", path);
 		});
 
 	}
