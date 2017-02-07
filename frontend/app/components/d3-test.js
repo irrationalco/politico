@@ -22,7 +22,7 @@ export default Ember.Component.extend({
 
 		// Mexico states projection
 		let projection = d3.geoMercator()
-			.center([-102, 23])
+			.center([-100, 23])
 			.scale(1700)
 			.translate([width / 2, height / 2]);
 
@@ -61,11 +61,6 @@ export default Ember.Component.extend({
 				.attr("d", path)
 				.attr("class", "feature")
 				.on("click", clicked);
-
-			// g.append("path")
-			// 	.datum(topojson.mesh(data, data.objects.states, function(a, b) { return a !== b; }))
-			// 	.attr("class", "mesh")
-			// 	.attr("d", path);
 
 			gStates.append("path")
 				.datum(topojson.mesh(data, data.objects.states, function(a, b) { return a !== b; }))
