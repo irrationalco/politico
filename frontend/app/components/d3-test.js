@@ -106,6 +106,7 @@ export default Ember.Component.extend({
 				.style("stroke-width", 1.5 / scale + "px")
 				.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
 
+				// 
 				Ember.run.later(this, () => {
 					gMunicipalities.append("path")
 					.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
@@ -115,9 +116,7 @@ export default Ember.Component.extend({
 					}))
 					.attr("class", "mesh")
 					.attr("d", path);
-				}, 450);
-
-				
+				}, 600);
 			});
 		}
 
