@@ -41,7 +41,11 @@ export default Ember.Component.extend({
 			.attr("height", height)
 			.on("click", reset);
 
-		let g = svg.append("g")
+		// Defining layers
+		let gStates = svg.append("g")
+			.style("stroke-width", "1.5px");
+
+		let gMunicipalities = svg.append("g")
 			.style("stroke-width", "1px");
 
 		// "https://d3js.org/us-10m.v1.json"
@@ -51,7 +55,7 @@ export default Ember.Component.extend({
 
 			this.set('mapData', data);
 
-			g.selectAll("path")
+			gStates.selectAll("path")
 				.data(topojson.feature(data, data.objects.states).features)
 				.enter().append("path")
 				.attr("d", path)
@@ -63,15 +67,19 @@ export default Ember.Component.extend({
 			// 	.attr("class", "mesh")
 			// 	.attr("d", path);
 
-			g.append("path")
+			gStates.append("path")
 				.datum(topojson.mesh(data, data.objects.states, function(a, b) { return a !== b; }))
 				.attr("class", "mesh")
 				.attr("d", path);
 		});
 
 		function clicked(d) {
-
-			if (active.node() === this) return reset();
+			if (active.node() === this) {
+				return reset();
+			} else {
+				gMunicipalities.selectAll("*").remove();	
+			}
+			
 			active.classed("active", false);
 			active = d3.select(this).classed("active", true);
 
@@ -85,35 +93,46 @@ export default Ember.Component.extend({
 			translate = [width / 2 - scale * x, height / 2 - scale * y];
 
 			// Zoom in transition
-			g.transition()
+			gStates.transition()
 			.duration(750)
 			.style("stroke-width", 1.5 / scale + "px")
 			.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
 
 			// Drawing selected states municipalities
 			d3.json("../assets/mx_tj.json", (error, data) => {
-				console.log(d);
+				
+				// Zoom in transition
+				gMunicipalities.transition()
+				.style("stroke-width", 1.5 / scale + "px")
+				.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
 
-				g.append("path")
-				.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
-					if (a.properties.state_code == d.properties.state_code) {
-						return a !== b; 	
-					}
-				}))
-				.attr("class", "mesh")
-				.attr("d", path);
+				Ember.run.later(this, () => {
+					gMunicipalities.append("path")
+					.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
+						if (a.properties.state_code == d.properties.state_code) {
+							return a !== b; 	
+						}
+					}))
+					.attr("class", "mesh")
+					.attr("d", path);
+				}, 450);
+
+				
 			});
 		}
 
 		function reset() {
+			console.log("reset");
 			active.classed("active", false);
 			active = d3.select(null);
 
 			// Zoom out transition
-			g.transition()
+			gStates.transition()
 			.duration(750)
 			.style("stroke-width", "1.5px")
 			.attr("transform", "");
+
+			gMunicipalities.selectAll("*").remove();
 		}
 
 	}
