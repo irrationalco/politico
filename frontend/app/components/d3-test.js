@@ -70,12 +70,12 @@ export default Ember.Component.extend({
 		});
 
 		function clicked(d) {
-			console.log(d);
 
 			if (active.node() === this) return reset();
 			active.classed("active", false);
 			active = d3.select(this).classed("active", true);
 
+			// Calculating scale by getting path bounds
 			var bounds = path.bounds(d),
 			dx = bounds[1][0] - bounds[0][0],
 			dy = bounds[1][1] - bounds[0][1],
@@ -84,16 +84,32 @@ export default Ember.Component.extend({
 			scale = .9 / Math.max(dx / width, dy / height),
 			translate = [width / 2 - scale * x, height / 2 - scale * y];
 
+			// Zoom in transition
 			g.transition()
 			.duration(750)
 			.style("stroke-width", 1.5 / scale + "px")
 			.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+
+			// Drawing selected states municipalities
+			d3.json("../assets/mx_tj.json", (error, data) => {
+				console.log(d);
+
+				g.append("path")
+				.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
+					if (a.properties.state_code == d.properties.state_code) {
+						return a !== b; 	
+					}
+				}))
+				.attr("class", "mesh")
+				.attr("d", path);
+			});
 		}
 
 		function reset() {
 			active.classed("active", false);
 			active = d3.select(null);
 
+			// Zoom out transition
 			g.transition()
 			.duration(750)
 			.style("stroke-width", "1.5px")
