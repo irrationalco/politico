@@ -7,6 +7,7 @@ export default Ember.Component.extend({
 	mapData: null,
 
 	didInsertElement() {
+
 		// Setting width and height of map container
 		let width = Ember.$("#map").width();
 		let height = Ember.$("#map").height() - 10;
