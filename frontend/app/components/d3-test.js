@@ -10,7 +10,7 @@ export default Ember.Component.extend({
 
 		// Setting width and height of map container
 		let width = Ember.$("#map").width();
-		let height = Ember.$("#map").height() - 10;
+		let height = Ember.$("#map").height();
 		let active = d3.select(null);
 
 		// Settings of the map projection
