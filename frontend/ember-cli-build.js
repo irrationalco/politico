@@ -56,6 +56,11 @@ module.exports = function(defaults) {
   app.import('vendor/nuevoLeonData.json', {
     destDir: 'assets'
   });
+
+  //  // Datamaps & D3
+  // app.import('bower_components/d3/d3.min.js');
+  // app.import('bower_components/topojson/topojson.min.js');
+  // app.import('bower_components/datamaps/dist/datamaps.world.min.js');
   
   return app.toTree([fontawesome]);
 };

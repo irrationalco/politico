@@ -21,8 +21,8 @@ export default Ember.Component.extend({
 			let maptestestados = new Datamap({
 				element: document.getElementById('map-world'),
 				geographyConfig: {
-					// dataUrl: 'assets/nuevoleon_secciones.json',
-					dataUrl: '../' + this.get('map.url'),
+					dataUrl: 'assets/nuevoleon_secciones.json',
+					// dataUrl: '../' + this.get('map.url'),
 					popupTemplate: function(geography, data) {
 						return '<div class="hoverinfo"><strong>' + geography.properties.name + '</strong>'
 						+ '<p>PAN: '+ data.PAN +'</p>' 
@@ -32,8 +32,8 @@ export default Ember.Component.extend({
 					},
 					borderWidth: 0,
 				},
-				// scope: 'nuevoleon_geolectorales',
-				scope: this.get('map.mapScope'),
+				scope: 'nuevoleon_geolectorales',
+				// scope: this.get('map.mapScope'),
 				fills: {
 					defaultFill: "#9E9E9E",
 					'Red': '#EF5350',
@@ -42,8 +42,9 @@ export default Ember.Component.extend({
 				data: this.get('mapData'),
 				setProjection: function(element) {
 					var projection = d3.geo.mercator()
-					.center([long, lat])
-					.scale(scale)
+					// .center([long, lat])
+					.center([-99.8, 25.5])
+					.scale(7000)
 					.translate([element.offsetWidth / 2, element.offsetHeight / 2]);
 					var path = d3.geo.path().projection(projection);
 					return {path: path, projection: projection};
