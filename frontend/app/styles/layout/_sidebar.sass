@@ -86,7 +86,7 @@ ul.top-menu > li > .logout
 // Sidebar navigation
 
 #sidebar
-  width: 210px
+  width: $sidebar-width
   height: 100%
   position: fixed
   background: #424a5d
@@ -131,48 +131,19 @@ ul.sidebar-menu
     display: block
 
 ul.sidebar-menu li
-  ul.sub li
-    background: #424a5d
-    margin-bottom: 0
-    margin-left: 0
-    margin-right: 0
-    &:last-child
-      border-radius: 0 0 4px 4px
-      -webkit-border-radius: 0 0 4px 4px
-    a
-      font-size: 12px
-      padding: 6px 0
-      line-height: 35px
-      height: 35px
-      -webkit-transition: all 0.3s ease
-      -moz-transition: all 0.3s ease
-      -o-transition: all 0.3s ease
-      -ms-transition: all 0.3s ease
-      transition: all 0.3s ease
-      color: #aeb2b7
-      &:hover
-        color: white
-        background: transparent
-    &.active a
-      color: #68dff0
-      -webkit-transition: all 0.3s ease
-      -moz-transition: all 0.3s ease
-      -o-transition: all 0.3s ease
-      -ms-transition: all 0.3s ease
-      transition: all 0.3s ease
-      display: block
   margin-bottom: 5px
   margin-left: 10px
   margin-right: 10px
   &.sub-menu
     line-height: 15px
+    text-align: center
   a
     span
       display: inline-block
     color: #aeb2b7
     text-decoration: none
     display: block
-    padding: 15px 0 15px 10px
+    padding: 15px 0 15px 0px
     font-size: 12px
     outline: none
     -webkit-transition: all 0.3s ease
@@ -190,7 +161,7 @@ ul.sidebar-menu li
       -ms-transition: all 0.3s ease
       transition: all 0.3s ease
     i
-      font-size: 15px
+      font-size: 25px
       padding-right: 6px
     &:hover i, &:focus i, &.active i
       color: #fff
@@ -205,7 +176,7 @@ ul.sidebar-menu li
 // MAIN CONTENT CONFIGURATION
 
 #main-content
-  margin-left: 210px
+  margin-left: $sidebar-width
   padding-top: 60px
 
 .header, .footer
