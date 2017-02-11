@@ -14,12 +14,6 @@ export default Ember.Component.extend({
 		let active = d3.select(null);
 
 		// Settings of the map projection
-
-		// United States Projection
-		// let projection = d3.geoAlbersUsa()
-		// 	.scale(1000)
-		// 	.translate([width / 2, height / 2]);
-
 		// Mexico states projection
 		let projection = d3.geoMercator()
 			.center([-100, 23])
@@ -28,7 +22,6 @@ export default Ember.Component.extend({
 
 		let path = d3.geoPath().projection(projection);
 		// let path = d3.geoPath();
-
 
 		// Initializing SVG on the html element
 		let svg = d3.select("#map").append("svg")
@@ -68,6 +61,7 @@ export default Ember.Component.extend({
 				.attr("d", path);
 		});
 
+		// Zooming to bounding box when clicked
 		function clicked(d) {
 			if (active.node() === this) {
 				return reset();
@@ -101,7 +95,6 @@ export default Ember.Component.extend({
 				.style("stroke-width", 1.5 / scale + "px")
 				.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
 
-				// 
 				Ember.run.later(this, () => {
 					gMunicipalities.append("path")
 					.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
@@ -115,6 +108,7 @@ export default Ember.Component.extend({
 			});
 		}
 
+		// Reset zoom and remove cities
 		function reset() {
 			console.log("reset");
 			active.classed("active", false);
