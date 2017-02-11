@@ -7,7 +7,7 @@ module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     // Add options here
   });
-
+  
   // Bootstrap
   app.import(app.bowerDirectory + '/bootstrap/dist/css/bootstrap.css');
   app.import(app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js');
@@ -57,7 +57,7 @@ module.exports = function(defaults) {
     destDir: 'assets'
   });
 
-  //  // Datamaps & D3
+  // Datamaps & D3
   // app.import('bower_components/d3/d3.min.js');
   // app.import('bower_components/topojson/topojson.min.js');
   // app.import('bower_components/datamaps/dist/datamaps.world.min.js');

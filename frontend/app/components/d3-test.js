@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import d3 from "npm:d3";
+import d3Tile from "npm:d3-tile";
 import topojson from "npm:topojson";
 
 export default Ember.Component.extend({
@@ -7,6 +8,8 @@ export default Ember.Component.extend({
 	mapData: null,
 
 	didInsertElement() {
+
+		let some = d3Tile.tile();
 
 		// Setting width and height of map container
 		let width = Ember.$("#map").width();
@@ -63,6 +66,9 @@ export default Ember.Component.extend({
 
 		// Zooming to bounding box when clicked
 		function clicked(d) {
+
+			console.log(d);
+
 			if (active.node() === this) {
 				return reset();
 			} else {
@@ -110,7 +116,6 @@ export default Ember.Component.extend({
 
 		// Reset zoom and remove cities
 		function reset() {
-			console.log("reset");
 			active.classed("active", false);
 			active = d3.select(null);
 
