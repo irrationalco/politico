@@ -28,6 +28,14 @@ export default Ember.Component.extend({
 			.scale(1 / tau)
 			.translate([0,0]);
 
+		// Zoom
+		let zoom = d3.zoom()
+		.on("zoom", testFn);
+
+		function testFn() {
+			console.log(d3.zoomIdentity);
+		}
+
 		// Bounding Box Mexico
 		let mexicoBounds = [[-116.2, 12.87],[-88.15, 32.82]],
 		 	p0 = projection([mexicoBounds[0][0], mexicoBounds[1][1]]),
@@ -45,21 +53,21 @@ export default Ember.Component.extend({
 
 		// Lastly convert this to the corresponding tile.scale and tile.translate;
 		// see http://bl.ocks.org/mbostock/4150951 for a related example.
-		var tiles = d3Tile.tile()
-		.size([width, height])
-		.scale(k)
-		.translate([tx, ty])
-		();
+		// var tiles = d3Tile.tile()
+		// .size([width, height])
+		// .scale(k)
+		// .translate([tx, ty])
+		// ();
 
-
-		d3.select("#tiles")
-		.selectAll("img").data(tiles).enter().append("img")
-		.style("position", "absolute")
-		.attr("src", function(d, i) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
-		.style("left", function(d) { return (d[0] + tiles.translate[0]) * tiles.scale + "px"; })
-		.style("top", function(d) { return (d[1] + tiles.translate[1]) * tiles.scale + "px"; })
-		.attr("width", tiles.scale)
-		.attr("height", tiles.scale);
+		// TILES TILES
+		// d3.select("#tiles")
+		// .selectAll("img").data(tiles).enter().append("img")
+		// .style("position", "absolute")
+		// .attr("src", function(d, i) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
+		// .style("left", function(d) { return (d[0] + tiles.translate[0]) * tiles.scale + "px"; })
+		// .style("top", function(d) { return (d[1] + tiles.translate[1]) * tiles.scale + "px"; })
+		// .attr("width", tiles.scale)
+		// .attr("height", tiles.scale);
 
 		let path = d3.geoPath().projection(projection);
 		// let path = d3.geoPath();
@@ -68,7 +76,8 @@ export default Ember.Component.extend({
 		let svg = d3.select("#map").append("svg")
 			.attr("class", "svg-map")
 			.attr("width", width)
-			.attr("height", height);
+			.attr("height", height)
+			.call(zoom);
 
 		svg.append("rect")
 			.attr("class", "map-background")
@@ -94,10 +103,10 @@ export default Ember.Component.extend({
 				.attr("class", "feature")
 				.on("click", clicked);
 
-			gStates.append("path")
-				.datum(topojson.mesh(data, data.objects.states, function(a, b) { return a !== b; }))
-				.attr("class", "mesh")
-				.attr("d", path);
+			// gStates.append("path")
+			// 	.datum(topojson.mesh(data, data.objects.states, function(a, b) { return a !== b; }))
+			// 	.attr("class", "mesh")
+			// 	.attr("d", path);
 		});
 
 		// Zooming to bounding box when clicked
@@ -111,28 +120,21 @@ export default Ember.Component.extend({
 			active.classed("active", false);
 			active = d3.select(this).classed("active", true);
 
-			// Calculating scale by getting path bounds
-			var bounds = path.bounds(d),
-			dx = bounds[1][0] - bounds[0][0],
-			dy = bounds[1][1] - bounds[0][1],
-			x = (bounds[0][0] + bounds[1][0]) / 2,
-			y = (bounds[0][1] + bounds[1][1]) / 2,
-			scale = .9 / Math.max(dx / width, dy / height),
-			translate = [width / 2 - scale * x, height / 2 - scale * y];
+			let transform = calculateZoomToBBox(d);
 
 			// Zoom in transition
 			gStates.transition()
 			.duration(750)
-			.style("stroke-width", 1.5 / scale + "px")
-			.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+			.style("stroke-width", 1.5 / transform.k + "px")
+			.attr("transform", transform);
 
 			// Drawing selected states municipalities
 			d3.json("../assets/mx_tj.json", (error, data) => {
 				
 				// Zoom in transition
 				gMunicipalities.transition()
-				.style("stroke-width", 1.5 / scale + "px")
-				.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+				.style("stroke-width", 1.5 / transform.k + "px")
+				.attr("transform", transform);
 
 				Ember.run.later(this, () => {
 					gMunicipalities.append("path")
@@ -145,6 +147,21 @@ export default Ember.Component.extend({
 					.attr("d", path);
 				}, 600);
 			});
+		}
+
+		function calculateZoomToBBox(d) {
+
+			// Calculating scale by getting path bounds
+			let bounds = path.bounds(d),
+			dx = bounds[1][0] - bounds[0][0],
+			dy = bounds[1][1] - bounds[0][1],
+			x = (bounds[0][0] + bounds[1][0]) / 2,
+			y = (bounds[0][1] + bounds[1][1]) / 2;
+
+			return d3.zoomIdentity
+				.translate(width / 2, height / 2)
+				.scale(.9 / Math.max(dx / width, dy / height))
+				.translate(-x, -y);
 		}
 
 		// Reset zoom and remove cities
@@ -163,3 +180,13 @@ export default Ember.Component.extend({
 
 	}
 });
+
+
+// Calculating scale by getting path bounds
+// let bounds = path.bounds(d),
+// dx = bounds[1][0] - bounds[0][0],
+// dy = bounds[1][1] - bounds[0][1],
+// x = (bounds[0][0] + bounds[1][0]) / 2,
+// y = (bounds[0][1] + bounds[1][1]) / 2,
+// scale = .9 / Math.max(dx / width, dy / height),
+// translate = [width / 2 - scale * x, height / 2 - scale * y];
