@@ -38,8 +38,10 @@ export default Ember.Component.extend({
     	let mexicoBBox = [projection([mexicoCornersCoordinates[0][0], mexicoCornersCoordinates[1][1]]), 
     					  projection([mexicoCornersCoordinates[1][0], mexicoCornersCoordinates[0][1]])];
 
+
 		let initTransform = calculateZoomToBBox(mexicoBBox);
 
+		// Set projection to initial transform
 		projection
 		.scale(initTransform.k / tau)
 		.translate([initTransform.x, initTransform.y]);
@@ -47,7 +49,6 @@ export default Ember.Component.extend({
 		addTiles(initTransform);
 
 		let path = d3.geoPath().projection(projection);
-		// let path = d3.geoPath();
 
 		// Initializing SVG on the html element
 		let svg = d3.select("#map").append("svg")
@@ -85,8 +86,10 @@ export default Ember.Component.extend({
 			// 	.attr("d", path);
 		});
 
-		function calculateZoomToBBox(d) {
 
+		// Function that calculates zoom and the required translation to a given Bounding Box
+		// Accepts as a param a geoprahy object or a BBox as an array
+		function calculateZoomToBBox(d) {
 			let bounds = Array.isArray(d) ? d : path.bounds(d);
 			
 			// Calculating scale by getting path bounds
@@ -102,27 +105,48 @@ export default Ember.Component.extend({
 		}
 
 		function addTiles(t) {
+
+			console.log("updating tiles");
+
 			// Lastly convert this to the corresponding tile.scale and tile.translate;
 			// see http://bl.ocks.org/mbostock/4150951 for a related example.
-			var tiles = d3Tile.tile()
+			let tiles = d3Tile.tile()
 			.size([width, height])
 			.scale(t.k)
 			.translate([t.x, t.y])
 			();
 
-
 			// TILES TILES
-			d3.select("#tiles")
-			.selectAll("img")
-			.data(tiles)
-			.enter()
-			.append("img")
+
+			let image = d3.select("#tiles")
+			.selectAll("img").data(tiles, function(d) { return d; });
+
+			// image.exit().remove();
+
+			image.enter().append("img")
 			.style("position", "absolute")
 			.attr("src", function(d, i) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
 			.style("left", function(d) { return (d[0] + tiles.translate[0]) * tiles.scale + "px"; })
 			.style("top", function(d) { return (d[1] + tiles.translate[1]) * tiles.scale + "px"; })
 			.attr("width", tiles.scale)
 			.attr("height", tiles.scale);
+
+			// image.enter().append("img")
+			// .style("position", "absolute")
+			// .attr("src", function(d) { return "http://" + ["a", "b", "c"][Math.random() * 3 | 0] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
+			// .style("left", function(d) { return (d[0] << 8) + "px"; })
+			// .style("top", function(d) { return (d[1] << 8) + "px"; });
+
+
+			// d3.select("#tiles")
+			// .selectAll("img").data(tiles).enter()
+			// .append("img")
+			// .style("position", "absolute")
+			// .attr("src", function(d, i) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
+			// .style("left", function(d) { return (d[0] + tiles.translate[0]) * tiles.scale + "px"; })
+			// .style("top", function(d) { return (d[1] + tiles.translate[1]) * tiles.scale + "px"; })
+			// .attr("width", tiles.scale)
+			// .attr("height", tiles.scale);
 		}
 
 		function zoomed() {
@@ -172,6 +196,8 @@ export default Ember.Component.extend({
 			.duration(750)
 			.style("stroke-width", 1.5 / transform.k + "px")
 			.attr("transform", transform);
+
+			addTiles(transform);
 
 			// Drawing selected states municipalities
 			d3.json("../assets/mx_tj.json", (error, data) => {
