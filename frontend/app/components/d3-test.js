@@ -71,7 +71,8 @@ export default Ember.Component.extend({
 				.data(topojson.feature(data, data.objects.states).features)
 				.enter().append("path")
 				.attr("d", path)
-				.attr("class", "feature");
+				.attr("class", "feature")
+				.on("click", clicked);
 
 			// gMunicipalities.append("path")
 			// 	.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { return a !== b; }))
@@ -114,7 +115,6 @@ export default Ember.Component.extend({
 			var k = scale / 256, r = scale % 1 ? Number : Math.round;
 			return "translate(" + r(translate[0] * scale) + "," + r(translate[1] * scale) + ") scale(" + k + ")";
 		}
-
 
 		// Function that calculates zoom and the required translation to a given Bounding Box
 		// Accepts as a param a geoprahy object or a BBox as an array
@@ -171,17 +171,15 @@ export default Ember.Component.extend({
 
 			let transform = calculateZoomToBBox(d);
 
-			// svg.transition()
-			// .duration(750)
-			// .call(zoom.transform, transform);
-
-			// Zoom in transition
-			gStates.transition()
+			svg.transition()
 			.duration(750)
-			.style("stroke-width", 1.5 / transform.k + "px")
-			.attr("transform", transform);
+			.call(zoom.transform, transform);
 
-			addTiles(transform);
+			// // Zoom in transition
+			// gStates.transition()
+			// .duration(750)
+			// .style("stroke-width", 1.5 / transform.k + "px")
+			// .attr("transform", transform);
 
 			// Drawing selected states municipalities
 			d3.json("../assets/mx_tj.json", (error, data) => {
@@ -209,13 +207,14 @@ export default Ember.Component.extend({
 			active.classed("active", false);
 			active = d3.select(null);
 
-			// Zoom out transition
-			gStates.transition()
-			.duration(750)
-			.style("stroke-width", "1.5px")
-			.attr("transform", "");
-
 			gMunicipalities.selectAll("*").remove();
+
+			svg.transition()
+			.duration(750)
+			.call(zoom.transform, d3.zoomIdentity
+			.translate(width / 2, height / 2)
+			.scale(1 << 13)
+			.translate(-center[0], -center[1]));
 		}
 
 	}
