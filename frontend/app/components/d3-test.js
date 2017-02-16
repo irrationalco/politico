@@ -9,14 +9,8 @@ export default Ember.Component.extend({
 
 	didInsertElement() {
 
-		// ZOOM 
-		let zoom = d3.zoom()
-		.on("zoom", testFn);
-
-		function testFn() {
-			console.log(d3.event.transform);
-		}
-
+		let pi = Math.PI;
+		let tau = 2 * pi;
 
 		// Setting width and height of map container
 		let width = Ember.$("#map").width();
@@ -25,28 +19,16 @@ export default Ember.Component.extend({
 
 		// Settings of the map projection
 		// Mexico states projection
-		let pi = Math.PI;
-		let tau = 2 * pi;
-
 		let projection = d3.geoMercator()
 			.scale(1 / tau)
-			.translate([0,0]);
+			.translate([0, 0]);
 
-		// Creating Mexico Bounding Box
-		let mexicoCornersCoordinates = [[-116.2, 12.87],[-88.15, 32.82]];
+		let zoom = d3.zoom()
+			.scaleExtent([1 << 11, 1 << 14])
+			.on("zoom", zoomed);
 
-    	let mexicoBBox = [projection([mexicoCornersCoordinates[0][0], mexicoCornersCoordinates[1][1]]), 
-    					  projection([mexicoCornersCoordinates[1][0], mexicoCornersCoordinates[0][1]])];
-
-
-		let initTransform = calculateZoomToBBox(mexicoBBox);
-
-		// Set projection to initial transform
-		projection
-		.scale(initTransform.k / tau)
-		.translate([initTransform.x, initTransform.y]);
-
-		addTiles(initTransform);
+		let tile = d3Tile.tile()
+			.size([width, height]);
 
 		let path = d3.geoPath().projection(projection);
 
@@ -63,11 +45,22 @@ export default Ember.Component.extend({
 			.on("click", reset);
 
 		// Defining layers
+		let raster = svg.append("g");
+
 		let gStates = svg.append("g")
 			.style("stroke-width", "1.5px");
 
 		let gMunicipalities = svg.append("g")
 			.style("stroke-width", "1px");
+
+		let center = projection([-102, 23]);
+
+		svg
+		.call(zoom)
+		.call(zoom.transform, d3.zoomIdentity
+			.translate(width / 2, height / 2)
+			.scale(1 << 12)
+			.translate(-center[0], -center[1]));
 
 		// Getting topojson data
 		d3.json("../assets/mx_tj.json", (error, data) => {
@@ -77,14 +70,45 @@ export default Ember.Component.extend({
 				.data(topojson.feature(data, data.objects.states).features)
 				.enter().append("path")
 				.attr("d", path)
-				.attr("class", "feature")
-				.on("click", clicked);
+				.attr("class", "feature");
 
 			// gStates.append("path")
 			// 	.datum(topojson.mesh(data, data.objects.states, function(a, b) { return a !== b; }))
 			// 	.attr("class", "mesh")
 			// 	.attr("d", path);
 		});
+
+		function zoomed() {
+			let transform = d3.event.transform;
+
+			let tiles = tile
+			.scale(transform.k)
+			.translate([transform.x, transform.y])
+			();
+
+			gStates
+			.attr("transform", transform)
+			.style("stroke-width", 1 / transform.k);
+
+			var image = raster
+			.attr("transform", stringify(tiles.scale, tiles.translate))
+			.selectAll("image")
+			.data(tiles, function(d) { return d; });
+
+			image.exit().remove();
+
+			image.enter().append("image")
+			.attr("xlink:href", function(d) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
+			.attr("x", function(d) { return d[0] * 256; })
+			.attr("y", function(d) { return d[1] * 256; })
+			.attr("width", 256)
+			.attr("height", 256);
+		}
+
+		function stringify(scale, translate) {
+			var k = scale / 256, r = scale % 1 ? Number : Math.round;
+			return "translate(" + r(translate[0] * scale) + "," + r(translate[1] * scale) + ") scale(" + k + ")";
+		}
 
 
 		// Function that calculates zoom and the required translation to a given Bounding Box
@@ -105,9 +129,6 @@ export default Ember.Component.extend({
 		}
 
 		function addTiles(t) {
-
-			console.log("updating tiles");
-
 			// Lastly convert this to the corresponding tile.scale and tile.translate;
 			// see http://bl.ocks.org/mbostock/4150951 for a related example.
 			let tiles = d3Tile.tile()
@@ -121,7 +142,7 @@ export default Ember.Component.extend({
 			let image = d3.select("#tiles")
 			.selectAll("img").data(tiles, function(d) { return d; });
 
-			// image.exit().remove();
+			image.exit().remove();
 
 			image.enter().append("img")
 			.style("position", "absolute")
@@ -130,48 +151,6 @@ export default Ember.Component.extend({
 			.style("top", function(d) { return (d[1] + tiles.translate[1]) * tiles.scale + "px"; })
 			.attr("width", tiles.scale)
 			.attr("height", tiles.scale);
-
-			// image.enter().append("img")
-			// .style("position", "absolute")
-			// .attr("src", function(d) { return "http://" + ["a", "b", "c"][Math.random() * 3 | 0] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
-			// .style("left", function(d) { return (d[0] << 8) + "px"; })
-			// .style("top", function(d) { return (d[1] << 8) + "px"; });
-
-
-			// d3.select("#tiles")
-			// .selectAll("img").data(tiles).enter()
-			// .append("img")
-			// .style("position", "absolute")
-			// .attr("src", function(d, i) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
-			// .style("left", function(d) { return (d[0] + tiles.translate[0]) * tiles.scale + "px"; })
-			// .style("top", function(d) { return (d[1] + tiles.translate[1]) * tiles.scale + "px"; })
-			// .attr("width", tiles.scale)
-			// .attr("height", tiles.scale);
-		}
-
-		function zoomed() {
-			var tiles = tile
-			.scale(zoom.scale())
-			.translate(zoom.translate())
-			();
-
-			projection
-			.scale(zoom.scale() / 2 / Math.PI)
-			.translate(zoom.translate());
-
-			var image = layer
-			.style(prefix + "transform", matrix3d(tiles.scale, tiles.translate))
-			.selectAll(".tile")
-			.data(tiles, function(d) { return d; });
-
-			image.exit()
-			.remove();
-
-			image.enter().append("img")
-			.attr("class", "tile")
-			.attr("src", function(d) { return "http://" + ["a", "b", "c"][Math.random() * 3 | 0] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
-			.style("left", function(d) { return (d[0] << 8) + "px"; })
-			.style("top", function(d) { return (d[1] << 8) + "px"; });
 		}
 
 		// Zooming to bounding box when clicked
