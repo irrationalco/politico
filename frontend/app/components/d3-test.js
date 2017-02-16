@@ -23,8 +23,9 @@ export default Ember.Component.extend({
 			.scale(1 / tau)
 			.translate([0, 0]);
 
+
 		let zoom = d3.zoom()
-			.scaleExtent([1 << 11, 1 << 14])
+			.scaleExtent([1 << 11, 1 << 20])
 			.on("zoom", zoomed);
 
 		let tile = d3Tile.tile()
@@ -59,7 +60,7 @@ export default Ember.Component.extend({
 		.call(zoom)
 		.call(zoom.transform, d3.zoomIdentity
 			.translate(width / 2, height / 2)
-			.scale(1 << 12)
+			.scale(1 << 13)
 			.translate(-center[0], -center[1]));
 
 		// Getting topojson data
@@ -72,8 +73,8 @@ export default Ember.Component.extend({
 				.attr("d", path)
 				.attr("class", "feature");
 
-			// gStates.append("path")
-			// 	.datum(topojson.mesh(data, data.objects.states, function(a, b) { return a !== b; }))
+			// gMunicipalities.append("path")
+			// 	.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { return a !== b; }))
 			// 	.attr("class", "mesh")
 			// 	.attr("d", path);
 		});
@@ -87,6 +88,10 @@ export default Ember.Component.extend({
 			();
 
 			gStates
+			.attr("transform", transform)
+			.style("stroke-width", 1 / transform.k);
+
+			gMunicipalities
 			.attr("transform", transform)
 			.style("stroke-width", 1 / transform.k);
 
