@@ -102,9 +102,10 @@ export default Ember.Component.extend({
 			.data(tiles, function(d) { return d; });
 
 			image.exit().remove();
-
+			
+			// .attr("xlink:href", function(d) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
 			image.enter().append("image")
-			.attr("xlink:href", function(d) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
+			.attr("xlink:href", function(d) { return "https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
 			.attr("x", function(d) { return d[0] * 256; })
 			.attr("y", function(d) { return d[1] * 256; })
 			.attr("width", 256)
@@ -149,9 +150,12 @@ export default Ember.Component.extend({
 
 			image.exit().remove();
 
+			https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/13/2278/3179.png
+
 			image.enter().append("img")
 			.style("position", "absolute")
-			.attr("src", function(d, i) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
+			.attr("src", function(d, i) { return "https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/" + d[2] + "/" + d[0] + "/" + d[1] + ".png" })
+			// .attr("src", function(d, i) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
 			.style("left", function(d) { return (d[0] + tiles.translate[0]) * tiles.scale + "px"; })
 			.style("top", function(d) { return (d[1] + tiles.translate[1]) * tiles.scale + "px"; })
 			.attr("width", tiles.scale)
