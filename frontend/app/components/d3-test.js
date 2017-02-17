@@ -94,7 +94,7 @@ export default Ember.Component.extend({
 
 			gMunicipalities
 			.attr("transform", transform)
-			.style("stroke-width", 1 / transform.k);
+			.style("stroke-width", 1.5 / transform.k);
 
 			var image = raster
 			.attr("transform", stringify(tiles.scale, tiles.translate))
@@ -102,7 +102,7 @@ export default Ember.Component.extend({
 			.data(tiles, function(d) { return d; });
 
 			image.exit().remove();
-			
+
 			// .attr("xlink:href", function(d) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
 			image.enter().append("image")
 			.attr("xlink:href", function(d) { return "https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
@@ -134,34 +134,6 @@ export default Ember.Component.extend({
 			.translate(-x, -y);
 		}
 
-		function addTiles(t) {
-			// Lastly convert this to the corresponding tile.scale and tile.translate;
-			// see http://bl.ocks.org/mbostock/4150951 for a related example.
-			let tiles = d3Tile.tile()
-			.size([width, height])
-			.scale(t.k)
-			.translate([t.x, t.y])
-			();
-
-			// TILES TILES
-
-			let image = d3.select("#tiles")
-			.selectAll("img").data(tiles, function(d) { return d; });
-
-			image.exit().remove();
-
-			https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/13/2278/3179.png
-
-			image.enter().append("img")
-			.style("position", "absolute")
-			.attr("src", function(d, i) { return "https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/" + d[2] + "/" + d[0] + "/" + d[1] + ".png" })
-			// .attr("src", function(d, i) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
-			.style("left", function(d) { return (d[0] + tiles.translate[0]) * tiles.scale + "px"; })
-			.style("top", function(d) { return (d[1] + tiles.translate[1]) * tiles.scale + "px"; })
-			.attr("width", tiles.scale)
-			.attr("height", tiles.scale);
-		}
-
 		// Zooming to bounding box when clicked
 		function clicked(d) {
 			if (active.node() === this) {
@@ -176,23 +148,14 @@ export default Ember.Component.extend({
 			let transform = calculateZoomToBBox(d);
 
 			svg.transition()
-			.duration(750)
-			.call(zoom.transform, transform);
+			.duration(950)
+			.call(zoom.transform, transform)
+			.on("end", drawMunicipalities(d));
 
-			// // Zoom in transition
-			// gStates.transition()
-			// .duration(750)
-			// .style("stroke-width", 1.5 / transform.k + "px")
-			// .attr("transform", transform);
+		}
 
-			// Drawing selected states municipalities
+		function drawMunicipalities(d) {
 			d3.json("../assets/mx_tj.json", (error, data) => {
-				
-				// Zoom in transition
-				gMunicipalities.transition()
-				.style("stroke-width", 1.5 / transform.k + "px")
-				.attr("transform", transform);
-
 				Ember.run.later(this, () => {
 					gMunicipalities.append("path")
 					.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
@@ -202,7 +165,7 @@ export default Ember.Component.extend({
 					}))
 					.attr("class", "mesh")
 					.attr("d", path);
-				}, 600);
+				}, 300);
 			});
 		}
 
@@ -223,6 +186,17 @@ export default Ember.Component.extend({
 
 	}
 });
+
+// // Zoom in transition
+// gStates.transition()
+// .duration(750)
+// .style("stroke-width", 1.5 / transform.k + "px")
+// .attr("transform", transform);
+
+// // Zoom in transition
+// gMunicipalities.transition()
+// .style("stroke-width", 1.5 / transform.k + "px")
+// .attr("transform", transform);
 
 
 // Bounding Box Mexico
