@@ -94,7 +94,7 @@ export default Ember.Component.extend({
 
 			gMunicipalities
 			.attr("transform", transform)
-			.style("stroke-width", 1.5 / transform.k);
+			.style("stroke-width", 1.3 / transform.k);
 
 			var image = raster
 			.attr("transform", stringify(tiles.scale, tiles.translate))
@@ -136,10 +136,13 @@ export default Ember.Component.extend({
 
 		// Zooming to bounding box when clicked
 		function clicked(d) {
+
+			console.log(d);
+			console.log(this);
+			console.log(active.node());
+
 			if (active.node() === this) {
 				return reset();
-			} else {
-				gMunicipalities.selectAll("*").remove();	
 			}
 			
 			active.classed("active", false);
@@ -155,8 +158,20 @@ export default Ember.Component.extend({
 		}
 
 		function drawMunicipalities(d) {
+
 			d3.json("../assets/mx_tj.json", (error, data) => {
+
+				let municipalities = topojson.feature(data, data.objects.municipalities).features
+									.filterBy("properties.state_code", d.properties.state_code);
+
 				Ember.run.later(this, () => {
+					gMunicipalities.selectAll("path")
+					.data(municipalities)
+					.enter().append("path")
+					.attr("d", path)
+					.attr("class", "feature")
+					.on("click", clicked);
+
 					gMunicipalities.append("path")
 					.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
 						if (a.properties.state_code == d.properties.state_code) {
@@ -165,6 +180,7 @@ export default Ember.Component.extend({
 					}))
 					.attr("class", "mesh")
 					.attr("d", path);
+
 				}, 300);
 			});
 		}
@@ -186,6 +202,22 @@ export default Ember.Component.extend({
 
 	}
 });
+
+
+
+// Draw Municipalities mesh
+// d3.json("../assets/mx_tj.json", (error, data) => {
+// 	Ember.run.later(this, () => {
+// 		gMunicipalities.append("path")
+// 		.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
+// 			if (a.properties.state_code == d.properties.state_code) {
+// 				return a !== b; 	
+// 			}
+// 		}))
+// 		.attr("class", "mesh")
+// 		.attr("d", path);
+// 	}, 300);
+// });
 
 // // Zoom in transition
 // gStates.transition()
