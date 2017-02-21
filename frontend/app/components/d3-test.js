@@ -23,11 +23,12 @@ export default Ember.Component.extend({
 			.scale(1 / tau)
 			.translate([0, 0]);
 
-
+		// Defining zoom behaviour
 		let zoom = d3.zoom()
 			.scaleExtent([1 << 11, 1 << 20])
 			.on("zoom", zoomed);
 
+		// Initializing tiles
 		let tile = d3Tile.tile()
 			.size([width, height]);
 
@@ -54,8 +55,10 @@ export default Ember.Component.extend({
 		let gMunicipalities = svg.append("g")
 			.style("stroke-width", "1px");
 
+		// Center on Mexico
 		let center = projection([-102, 23]);
 
+		// Apply zoom behaviour to svg, and make an initial transform to center
 		svg
 		.call(zoom)
 		.call(zoom.transform, d3.zoomIdentity
@@ -202,8 +205,6 @@ export default Ember.Component.extend({
 
 	}
 });
-
-
 
 // Draw Municipalities mesh
 // d3.json("../assets/mx_tj.json", (error, data) => {
