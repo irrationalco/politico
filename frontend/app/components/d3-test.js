@@ -49,21 +49,22 @@ export default Ember.Component.extend({
 		// Defining layers
 		let raster = svg.append("g");
 
-		let gStates = svg.append("g")
-			.style("stroke-width", "1.5px");
+		let gStates = svg.append("g");
 
-		let gMunicipalities = svg.append("g")
-			.style("stroke-width", "1px");
+		let gMunicipalities = svg.append("g");
+
+		let gSections = svg.append("g");
 
 		// Center on Mexico
-		let center = projection([-102, 23]);
+		// let center = projection([-102, 23]);
+		let center = projection([-99.8, 25.5]);
 
 		// Apply zoom behaviour to svg, and make an initial transform to center
 		svg
 		.call(zoom)
 		.call(zoom.transform, d3.zoomIdentity
 			.translate(width / 2, height / 2)
-			.scale(1 << 13)
+			.scale(1 << 16)
 			.translate(-center[0], -center[1]));
 
 		// Getting topojson data
@@ -94,6 +95,10 @@ export default Ember.Component.extend({
 			gStates
 			.attr("transform", transform)
 			.style("stroke-width", 1 / transform.k);
+
+			gSections
+			.attr("transform", transform)
+			.style("stroke-width", 1.3 / transform.k);
 
 			gMunicipalities
 			.attr("transform", transform)
@@ -139,10 +144,9 @@ export default Ember.Component.extend({
 
 		// Zooming to bounding box when clicked
 		function clicked(d) {
-
-			console.log(d);
-			console.log(this);
-			console.log(active.node());
+			// console.log(d);
+			// console.log(this);
+			// console.log(active.node());
 
 			if (active.node() === this) {
 				return reset();
@@ -157,36 +161,50 @@ export default Ember.Component.extend({
 			.duration(950)
 			.call(zoom.transform, transform)
 			.on("end", drawMunicipalities(d));
-
 		}
 
 		function drawMunicipalities(d) {
 
-			d3.json("../assets/MX_NLe5.json", (error, data) => {
+			// d3.json("../assets/mx_tj.json", (error, data) => {
 
-				let municipalities = topojson.feature(data, data.objects.municipalities).features
-									.filterBy("properties.state_code", d.properties.state_code);
+			// 	let municipalities = topojson.feature(data, data.objects.municipalities).features
+			// 						.filterBy("properties.state_code", d.properties.state_code);
+
+			// 	Ember.run.later(this, () => {
+			// 		gMunicipalities.selectAll("path")
+			// 		.data(municipalities)
+			// 		.enter().append("path")
+			// 		.attr("d", path)
+			// 		.attr("class", "feature")
+			// 		.on("click", clicked);
+
+			// 		gMunicipalities.append("path")
+			// 		.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
+			// 			if (a.properties.state_code == d.properties.state_code) {
+			// 				return a !== b; 	
+			// 			}
+			// 		}))
+			// 		.attr("class", "mesh")
+			// 		.attr("d", path);
+
+			// 	}, 300);
+			// });
+
+			d3.json("../assets/MX_NL.json", (error,data) => {
 
 				Ember.run.later(this, () => {
-					gMunicipalities.selectAll("path")
-					.data(municipalities)
-					.enter().append("path")
-					.attr("d", path)
-					.attr("class", "feature")
-					.on("click", clicked);
 
-					gMunicipalities.append("path")
-					.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
-						if (a.properties.state_code == d.properties.state_code) {
-							return a !== b; 	
-						}
-					}))
-					.attr("class", "mesh")
-					.attr("d", path);
+					gSections.selectAll("path")
+						.data(topojson.feature(data, data.objects.nuevoLeon).features)
+						.enter().append("path")
+						.attr("d", path)
+						.attr("class", "feature")
+						.on("click", clicked);
+				});
 
-				}, 300);
 			});
 		}
+
 
 		// Reset zoom and remove cities
 		function reset() {
