@@ -25,7 +25,7 @@ export default Ember.Component.extend({
 
 		// Defining zoom behaviour
 		let zoom = d3.zoom()
-			.scaleExtent([1 << 11, 1 << 20])
+			.scaleExtent([1 << 11, 1 << 24])
 			.on("zoom", zoomed);
 
 		// Initializing tiles
@@ -67,7 +67,7 @@ export default Ember.Component.extend({
 			.translate(-center[0], -center[1]));
 
 		// Getting topojson data
-		d3.json("../assets/mx_tj.json", (error, data) => {
+		d3.json("../assets/MX_NL.json", (error, data) => {
 			if (error) { console.log(error); }
 
 			gStates.selectAll("path")
@@ -162,7 +162,7 @@ export default Ember.Component.extend({
 
 		function drawMunicipalities(d) {
 
-			d3.json("../assets/mx_tj.json", (error, data) => {
+			d3.json("../assets/MX_NLe5.json", (error, data) => {
 
 				let municipalities = topojson.feature(data, data.objects.municipalities).features
 									.filterBy("properties.state_code", d.properties.state_code);
