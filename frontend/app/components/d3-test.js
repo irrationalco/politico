@@ -160,36 +160,39 @@ export default Ember.Component.extend({
 			svg.transition()
 			.duration(950)
 			.call(zoom.transform, transform)
-			.on("end", drawMunicipalities(d));
+			.on("end", drawSections(d));
 		}
 
 		function drawMunicipalities(d) {
 
-			// d3.json("../assets/mx_tj.json", (error, data) => {
+			d3.json("../assets/mx_tj.json", (error, data) => {
 
-			// 	let municipalities = topojson.feature(data, data.objects.municipalities).features
-			// 						.filterBy("properties.state_code", d.properties.state_code);
+				let municipalities = topojson.feature(data, data.objects.municipalities).features
+									.filterBy("properties.state_code", d.properties.state_code);
 
-			// 	Ember.run.later(this, () => {
-			// 		gMunicipalities.selectAll("path")
-			// 		.data(municipalities)
-			// 		.enter().append("path")
-			// 		.attr("d", path)
-			// 		.attr("class", "feature")
-			// 		.on("click", clicked);
+				Ember.run.later(this, () => {
+					gMunicipalities.selectAll("path")
+					.data(municipalities)
+					.enter().append("path")
+					.attr("d", path)
+					.attr("class", "feature")
+					.on("click", clicked);
 
-			// 		gMunicipalities.append("path")
-			// 		.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
-			// 			if (a.properties.state_code == d.properties.state_code) {
-			// 				return a !== b; 	
-			// 			}
-			// 		}))
-			// 		.attr("class", "mesh")
-			// 		.attr("d", path);
+					gMunicipalities.append("path")
+					.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
+						if (a.properties.state_code == d.properties.state_code) {
+							return a !== b; 	
+						}
+					}))
+					.attr("class", "mesh")
+					.attr("d", path);
 
-			// 	}, 300);
-			// });
+				}, 300);
+			});
+		}
 
+		// Drawing sections
+		function drawSections(d) {
 			d3.json("../assets/MX_NL.json", (error,data) => {
 
 				Ember.run.later(this, () => {
