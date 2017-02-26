@@ -10,6 +10,7 @@ Router.map(function() {
 	// this.route('predi', function() {
 	// 	this.route("map", { path: ':map_id'});
 	// });
+	this.route('projections', { path: '/projections'});
 });
 
 export default Router;
