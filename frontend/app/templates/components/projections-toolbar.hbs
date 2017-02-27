@@ -1,3 +1,14 @@
 <div class="projections-toolbar">
-	<h2 {{action 'setState'}}>{{state}}</h2>
+
+	<div class="map-breadcrumbs">
+		<h2 {{action 'setState'}}>México > {{state}}</h2>
+		{{#if municipality}}
+		{{municipality}}
+		{{/if}}
+	</div>
+
+	<div class="searchbar-container">
+		{{input type='search' class='searchbar' value=searchValue placeholder="Search"}}
+		<i class="fa fa-search ticket-table-search-icon"></i>
+	</div>
 </div>
