@@ -1,10 +1,19 @@
 <div class="projections-toolbar">
 
 	<div class="map-breadcrumbs">
-		<h2 {{action 'setState'}}>México > {{state}}</h2>
-		{{#if municipality}}
-		{{municipality}}
-		{{/if}}
+	
+		<ul class="map-links">
+			<li class="map-link">
+				México >
+			</li>
+			<li class="map-link">
+				Nuevo Leon			
+			</li>
+
+			{{#if municipality}}
+			{{municipality}}
+			{{/if}}
+		</ul>
 	</div>
 
 	<div class="searchbar-container">
@@ -12,3 +21,5 @@
 		<i class="fa fa-search ticket-table-search-icon"></i>
 	</div>
 </div>
+
+{{!-- <h2 {{action 'setState'}}>México > {{state}}</h2> --}}
