@@ -148,6 +148,9 @@ export default Ember.Component.extend({
 			// console.log(this);
 			// console.log(active.node());
 
+
+			console.log(d);
+
 			if (active.node() === this) {
 				return reset();
 			}
