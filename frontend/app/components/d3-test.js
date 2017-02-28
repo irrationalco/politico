@@ -25,7 +25,7 @@ export default Ember.Component.extend({
 
 		// Defining zoom behaviour
 		let zoom = d3.zoom()
-			.scaleExtent([1 << 11, 1 << 24])
+			.scaleExtent([1 << 11, 1 << 26])
 			.on("zoom", zoomed);
 
 		// Initializing tiles

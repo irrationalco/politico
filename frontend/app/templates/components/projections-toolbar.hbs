@@ -9,17 +9,17 @@
 			<li class="map-link">
 				Nuevo Leon			
 			</li>
-
-			{{#if municipality}}
-			{{municipality}}
-			{{/if}}
 		</ul>
 	</div>
 
 	<div class="searchbar-container">
-		{{input type='search' class='searchbar' value=searchValue placeholder="Search"}}
+		{{input type='search' class='searchbar' key-down='setSearchValue' value=searchValue placeholder="Search"}}
 		<i class="fa fa-search ticket-table-search-icon"></i>
 	</div>
 </div>
 
 {{!-- <h2 {{action 'setState'}}>México > {{state}}</h2> --}}
+
+{{!-- {{#if municipality}}
+{{municipality}}
+{{/if}} --}}
