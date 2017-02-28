@@ -67,7 +67,7 @@ export default Ember.Component.extend({
 		.call(zoom)
 		.call(zoom.transform, d3.zoomIdentity
 			.translate(width / 2, height / 2)
-			.scale(1 << 14)
+			.scale(1 << 13.5)
 			.translate(-center[0], -center[1]));
 
 		// Getting topojson data
@@ -152,7 +152,7 @@ export default Ember.Component.extend({
 			// console.log(active.node());
 
 			if (d.properties.section_code) {
-				emberThis.sendAction('setState', String(d.properties.section_code));
+				emberThis.sendAction('setSection', String(d.properties.section_code));
 			} else if(d.properties.mun_code) {
 				emberThis.sendAction('setMunicipality', d.properties.mun_name);
 			} else {
@@ -168,10 +168,22 @@ export default Ember.Component.extend({
 
 			let transform = calculateZoomToBBox(d);
 
-			svg.transition()
-			.duration(950)
-			.call(zoom.transform, transform)
-			.on("end", drawMunicipalities(d));
+
+			Ember.run.later(this, () => {
+				svg.transition()
+				.duration(950)
+				.call(zoom.transform, transform)
+				.on("end", draw(d));
+			}, 50);
+
+		}
+
+		function draw(d) {
+			if (emberThis.get('state') === "Nuevo León" && emberThis.get('municipality')) {
+				drawSections(d);
+			} else {
+				drawMunicipalities(d);
+			}
 		}
 
 		function drawMunicipalities(d) {
