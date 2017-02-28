@@ -4,11 +4,19 @@
 	
 		<ul class="map-links">
 			<li class="map-link">
-				México >
+				México
 			</li>
+			{{#if state}}
 			<li class="map-link">
-				Nuevo León			
+				> {{state}}			
 			</li>
+			{{/if}}
+
+			{{#if municipality}}
+			<li class="map-link">
+				> {{municipality}}			
+			</li>
+			{{/if}}
 		</ul>
 	</div>
 

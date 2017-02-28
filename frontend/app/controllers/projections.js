@@ -13,7 +13,12 @@ export default Ember.Controller.extend({
 		},
 
 		setMunicipality(mun) {
+			console.log(mun);
 			this.set('municipality', mun);
+		},
+
+		setSection(sec) {
+			this.set('section', sec);
 		}
 	}
 });

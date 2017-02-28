@@ -8,6 +8,8 @@ export default Ember.Component.extend({
 	mapData: null,
 
 	didInsertElement() {
+		// Saving ember scope
+		let emberThis = this;
 
 		let pi = Math.PI;
 		let tau = 2 * pi;
@@ -150,13 +152,12 @@ export default Ember.Component.extend({
 			// console.log(active.node());
 
 			if (d.properties.section_code) {
-				console.log("Is Section");
+				emberThis.sendAction('setState', String(d.properties.section_code));
+			} else if(d.properties.mun_code) {
+				emberThis.sendAction('setMunicipality', d.properties.mun_name);
 			} else {
-				console.log("Is State");
+				emberThis.sendAction('setState', d.properties.state_name);
 			}
-
-
-			// console.log(d);
 
 			if (active.node() === this) {
 				return reset();
@@ -170,7 +171,7 @@ export default Ember.Component.extend({
 			svg.transition()
 			.duration(950)
 			.call(zoom.transform, transform)
-			.on("end", drawSections(d));
+			.on("end", drawMunicipalities(d));
 		}
 
 		function drawMunicipalities(d) {
@@ -225,6 +226,9 @@ export default Ember.Component.extend({
 			active = d3.select(null);
 
 			gMunicipalities.selectAll("*").remove();
+
+			emberThis.sendAction('setMunicipality', "");
+			emberThis.sendAction('setState', "");
 
 			svg.transition()
 			.duration(750)
