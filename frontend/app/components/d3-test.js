@@ -105,7 +105,7 @@ export default Ember.Component.extend({
 
 			gMunicipalities
 			.attr("transform", transform)
-			.style("stroke-width", 1.3 / transform.k);
+			.style("stroke-width", 6.0041e-06);
 
 			var image = raster
 			.attr("transform", stringify(tiles.scale, tiles.translate))
@@ -224,7 +224,7 @@ export default Ember.Component.extend({
 						.data(topojson.feature(data, data.objects.nuevoLeon).features)
 						.enter().append("path")
 						.attr("d", path)
-						.attr("class", "feature")
+						.attr("class", "section")
 						.on("click", clicked);
 				});
 
