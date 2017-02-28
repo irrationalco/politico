@@ -56,15 +56,16 @@ export default Ember.Component.extend({
 		let gSections = svg.append("g");
 
 		// Center on Mexico
-		// let center = projection([-102, 23]);
-		let center = projection([-99.8, 25.5]);
+		let center = projection([-102, 23]);
+		// Center on Nuevo León
+		// let center = projection([-99.8, 25.5]);
 
 		// Apply zoom behaviour to svg, and make an initial transform to center
 		svg
 		.call(zoom)
 		.call(zoom.transform, d3.zoomIdentity
 			.translate(width / 2, height / 2)
-			.scale(1 << 16)
+			.scale(1 << 14)
 			.translate(-center[0], -center[1]));
 
 		// Getting topojson data
@@ -148,8 +149,14 @@ export default Ember.Component.extend({
 			// console.log(this);
 			// console.log(active.node());
 
+			if (d.properties.section_code) {
+				console.log("Is Section");
+			} else {
+				console.log("Is State");
+			}
 
-			console.log(d);
+
+			// console.log(d);
 
 			if (active.node() === this) {
 				return reset();
