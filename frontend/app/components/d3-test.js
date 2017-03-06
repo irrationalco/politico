@@ -7,43 +7,9 @@ export default Ember.Component.extend({
 
 	mapData: null,
 
-	function zoomed() {
-		let transform = d3.event.transform;
-
-		let tiles = tile
-		.scale(transform.k)
-		.translate([transform.x, transform.y])
-		();
-
-		gStates
-		.attr("transform", transform)
-		.style("stroke-width", 1 / transform.k);
-
-		gSections
-		.attr("transform", transform)
-		.style("stroke-width", 1.3 / transform.k);
-
-
-		console.log(transform.k);
-
-		gMunicipalities
-		.attr("transform", transform)
-		.style("stroke-width", 6.0041e-06);
-
-		var image = raster
-		.attr("transform", stringify(tiles.scale, tiles.translate))
-		.selectAll("image")
-		.data(tiles, function(d) { return d; });
-
-		image.exit().remove();
-
-			// .attr("xlink:href", function(d) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
-			image.enter().append("image")
-			.attr("xlink:href", function(d) { return "https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
-			.attr("x", function(d) { return d[0] * 256; })
-			.attr("y", function(d) { return d[1] * 256; })
-			.attr("width", 256)
-			.attr("height", 256);
+	function stringify(scale, translate) {
+		var k = scale / 256, r = scale % 1 ? Number : Math.round;
+		return "translate(" + r(translate[0] * scale) + "," + r(translate[1] * scale) + ") scale(" + k + ")";
 	},
 
 	someFunction(t) {
