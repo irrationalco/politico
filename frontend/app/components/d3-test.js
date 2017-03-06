@@ -5,15 +5,29 @@ import topojson from "npm:topojson";
 
 export default Ember.Component.extend({
 
-	mapData: null,
+	tau: 2 * Math.pi,
 
-	function stringify(scale, translate) {
+	width: null,
+
+	height: null,
+
+	active: null,
+
+	projection: null,
+
+	zoom: null,
+
+	tile: null,
+
+	path: null,
+
+	svg: null,
+
+	center: null,	
+
+	stringify(scale, translate) {
 		var k = scale / 256, r = scale % 1 ? Number : Math.round;
 		return "translate(" + r(translate[0] * scale) + "," + r(translate[1] * scale) + ") scale(" + k + ")";
-	},
-
-	someFunction(t) {
-		console.log(this.get('state'));
 	},
 
 	didInsertElement() {
