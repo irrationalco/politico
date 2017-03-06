@@ -5,7 +5,9 @@ import topojson from "npm:topojson";
 
 export default Ember.Component.extend({
 
-	tau: 2 * Math.pi,
+	tau: 2 * Math.PI,
+
+	scaleExtent: [1 << 11, 1 << 26],
 
 	width: null,
 
@@ -30,28 +32,31 @@ export default Ember.Component.extend({
 		return "translate(" + r(translate[0] * scale) + "," + r(translate[1] * scale) + ") scale(" + k + ")";
 	},
 
+	init() {
+		this._super(...arguments);	
+	},
+
 	didInsertElement() {
 
 		// Saving ember scope
 		let emberThis = this;
-
-		let pi = Math.PI;
-		let tau = 2 * pi;
 
 		// Setting width and height of map container
 		let width = Ember.$("#map").width();
 		let height = Ember.$("#map").height();
 		let active = d3.select(null);
 
+		console.log(active)
+
 		// Settings of the map projection
 		// Mexico states projection
 		let projection = d3.geoMercator()
-			.scale(1 / tau)
+			.scale(1 / this.get('tau'))
 			.translate([0, 0]);
 
 		// Defining zoom behaviour
 		let zoom = d3.zoom()
-			.scaleExtent([1 << 11, 1 << 26])
+			.scaleExtent(this.get('scaleExtent'))
 			.on("zoom", zoomed);
 
 		// Initializing tiles
@@ -127,15 +132,12 @@ export default Ember.Component.extend({
 			.attr("transform", transform)
 			.style("stroke-width", 1.3 / transform.k);
 
-
-			console.log(transform.k);
-
 			gMunicipalities
 			.attr("transform", transform)
 			.style("stroke-width", 6.0041e-06);
 
 			var image = raster
-			.attr("transform", stringify(tiles.scale, tiles.translate))
+			.attr("transform", emberThis.stringify(tiles.scale, tiles.translate))
 			.selectAll("image")
 			.data(tiles, function(d) { return d; });
 
@@ -148,11 +150,6 @@ export default Ember.Component.extend({
 			.attr("y", function(d) { return d[1] * 256; })
 			.attr("width", 256)
 			.attr("height", 256);
-		}
-
-		function stringify(scale, translate) {
-			var k = scale / 256, r = scale % 1 ? Number : Math.round;
-			return "translate(" + r(translate[0] * scale) + "," + r(translate[1] * scale) + ") scale(" + k + ")";
 		}
 
 		// Function that calculates zoom and the required translation to a given Bounding Box
