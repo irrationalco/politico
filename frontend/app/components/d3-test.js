@@ -9,6 +9,8 @@ export default Ember.Component.extend({
 
 	scaleExtent: [1 << 11, 1 << 26],
 
+	center: [-102, 23],
+
 	width: null,
 
 	height: null,
@@ -25,13 +27,13 @@ export default Ember.Component.extend({
 
 	svg: null,
 
-	center: null,
-
 	statesLayer: null,
 
 	munLayer: null,
 
-	secLayer: null,
+	sectionsLayer: null,
+
+	imageLayer: null,
 
 	// Function that calculates zoom and the required translation to a given Bounding Box
 	// Accepts as a param a geoprahy object or a BBox as an array
@@ -100,18 +102,14 @@ export default Ember.Component.extend({
 			.on("click", reset);
 
 		// Defining layers
-		let raster = svg.append("g");
 
-		let gStates = svg.append("g");
-
+		this.set('imageLayer', svg.append('g'));
 		this.set('statesLayer', svg.append('g'));
-
-		let gMunicipalities = svg.append("g");
-
-		let gSections = svg.append("g");
+		this.set('munLayer', svg.append('g'));
+		this.set('sectionsLayer', svg.append('g'));
 
 		// Center on Mexico
-		let center = projection([-102, 23]);
+		let center = projection(this.get('center'));
 		// Center on Nuevo León
 		// let center = projection([-99.8, 25.5]);
 
@@ -170,15 +168,15 @@ export default Ember.Component.extend({
 			.attr("transform", transform)
 			.style("stroke-width", 1 / transform.k);
 
-			gSections
+			emberThis.get('sectionsLayer')
 			.attr("transform", transform)
 			.style("stroke-width", 1.3 / transform.k);
 
-			gMunicipalities
+			emberThis.get('munLayer')
 			.attr("transform", transform)
 			.style("stroke-width", 6.0041e-06);
 
-			var image = raster
+			var image = emberThis.get('imageLayer')
 			.attr("transform", emberThis.stringify(tiles.scale, tiles.translate))
 			.selectAll("image")
 			.data(tiles, function(d) { return d; });
@@ -243,14 +241,14 @@ export default Ember.Component.extend({
 									.filterBy("properties.state_code", d.properties.state_code);
 
 				Ember.run.later(this, () => {
-					gMunicipalities.selectAll("path")
+					emberThis.get('munLayer').selectAll("path")
 					.data(municipalities)
 					.enter().append("path")
 					.attr("d", path)
 					.attr("class", "feature")
 					.on("click", clicked);
 
-					gMunicipalities.append("path")
+					emberThis.get('munLayer').append("path")
 					.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
 						if (a.properties.state_code == d.properties.state_code) {
 							return a !== b; 	
@@ -269,7 +267,7 @@ export default Ember.Component.extend({
 
 				Ember.run.later(this, () => {
 
-					gSections.selectAll("path")
+					emberThis.get('sectionsLayer').selectAll("path")
 						.data(topojson.feature(data, data.objects.nuevoLeon).features)
 						.enter().append("path")
 						.attr("d", path)
@@ -285,7 +283,7 @@ export default Ember.Component.extend({
 			active.classed("active", false);
 			active = d3.select(null);
 
-			gMunicipalities.selectAll("*").remove();
+			emberThis.get('munLayer').selectAll("*").remove();
 
 			emberThis.sendAction('setMunicipality', "");
 			emberThis.sendAction('setState', "");
