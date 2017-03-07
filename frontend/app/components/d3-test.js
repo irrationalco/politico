@@ -25,7 +25,30 @@ export default Ember.Component.extend({
 
 	svg: null,
 
-	center: null,	
+	center: null,
+
+	statesLayer: null,
+
+	munLayer: null,
+
+	secLayer: null,
+
+	// Function that calculates zoom and the required translation to a given Bounding Box
+	// Accepts as a param a geoprahy object or a BBox as an array
+	calculateZoomToBBox(d, path) {
+		let bounds = Array.isArray(d) ? d : path.bounds(d);
+		
+		// Calculating scale by getting path bounds
+		let dx = bounds[1][0] - bounds[0][0],
+		dy = bounds[1][1] - bounds[0][1],
+		x = (bounds[0][0] + bounds[1][0]) / 2,
+		y = (bounds[0][1] + bounds[1][1]) / 2;
+
+		return d3.zoomIdentity
+		.translate(this.get('width') / 2, this.get('height') / 2)
+		.scale(.9 / Math.max(dx / this.get('width'), dy / this.get('height')))
+		.translate(-x, -y);
+	},
 
 	stringify(scale, translate) {
 		var k = scale / 256, r = scale % 1 ? Number : Math.round;
@@ -42,11 +65,10 @@ export default Ember.Component.extend({
 		let emberThis = this;
 
 		// Setting width and height of map container
-		let width = Ember.$("#map").width();
-		let height = Ember.$("#map").height();
 		let active = d3.select(null);
 
-		console.log(active)
+		this.set('width', Ember.$("#map").width());
+		this.set('height', Ember.$("#map").height());
 
 		// Settings of the map projection
 		// Mexico states projection
@@ -61,26 +83,28 @@ export default Ember.Component.extend({
 
 		// Initializing tiles
 		let tile = d3Tile.tile()
-			.size([width, height]);
+			.size([this.get('width'), this.get('height')]);
 
 		let path = d3.geoPath().projection(projection);
 
 		// Initializing SVG on the html element
 		let svg = d3.select("#map").append("svg")
 			.attr("class", "svg-map")
-			.attr("width", width)
-			.attr("height", height);
+			.attr("width", this.get('width'))
+			.attr("height", this.get('height'));
 
 		svg.append("rect")
 			.attr("class", "map-background")
-			.attr("width", width)
-			.attr("height", height)
+			.attr("width", this.get('width'))
+			.attr("height", this.get('height'))
 			.on("click", reset);
 
 		// Defining layers
 		let raster = svg.append("g");
 
 		let gStates = svg.append("g");
+
+		this.set('statesLayer', svg.append('g'));
 
 		let gMunicipalities = svg.append("g");
 
@@ -95,20 +119,37 @@ export default Ember.Component.extend({
 		svg
 		.call(zoom)
 		.call(zoom.transform, d3.zoomIdentity
-			.translate(width / 2, height / 2)
+			.translate(this.get('width') / 2, this.get('height') / 2)
 			.scale(1 << 13.5)
 			.translate(-center[0], -center[1]));
+
+
+		// drawStates() {
+		// 	d3.json("../assets/MX_NL.json", (error, data) => {
+		// 		if (error) { console.log(error); }
+
+
+
+		// 	});
+		// }
 
 		// Getting topojson data
 		d3.json("../assets/MX_NL.json", (error, data) => {
 			if (error) { console.log(error); }
 
-			gStates.selectAll("path")
+			this.get('statesLayer').selectAll("path")
 				.data(topojson.feature(data, data.objects.states).features)
 				.enter().append("path")
 				.attr("d", path)
 				.attr("class", "feature")
 				.on("click", clicked);
+
+			// gStates.selectAll("path")
+			// 	.data(topojson.feature(data, data.objects.states).features)
+			// 	.enter().append("path")
+			// 	.attr("d", path)
+			// 	.attr("class", "feature")
+			// 	.on("click", clicked);
 
 			// gMunicipalities.append("path")
 			// 	.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { return a !== b; }))
@@ -124,7 +165,8 @@ export default Ember.Component.extend({
 			.translate([transform.x, transform.y])
 			();
 
-			gStates
+
+			emberThis.get('statesLayer')
 			.attr("transform", transform)
 			.style("stroke-width", 1 / transform.k);
 
@@ -152,23 +194,6 @@ export default Ember.Component.extend({
 			.attr("height", 256);
 		}
 
-		// Function that calculates zoom and the required translation to a given Bounding Box
-		// Accepts as a param a geoprahy object or a BBox as an array
-		function calculateZoomToBBox(d) {
-			let bounds = Array.isArray(d) ? d : path.bounds(d);
-			
-			// Calculating scale by getting path bounds
-			let dx = bounds[1][0] - bounds[0][0],
-			dy = bounds[1][1] - bounds[0][1],
-			x = (bounds[0][0] + bounds[1][0]) / 2,
-			y = (bounds[0][1] + bounds[1][1]) / 2;
-
-			return d3.zoomIdentity
-			.translate(width / 2, height / 2)
-			.scale(.9 / Math.max(dx / width, dy / height))
-			.translate(-x, -y);
-		}
-
 		// Zooming to bounding box when clicked
 		function clicked(d) {
 			// console.log(d);
@@ -190,7 +215,7 @@ export default Ember.Component.extend({
 			active.classed("active", false);
 			active = d3.select(this).classed("active", true);
 
-			let transform = calculateZoomToBBox(d);
+			let transform = emberThis.calculateZoomToBBox(d, path);
 
 
 			Ember.run.later(this, () => {
@@ -268,7 +293,7 @@ export default Ember.Component.extend({
 			svg.transition()
 			.duration(750)
 			.call(zoom.transform, d3.zoomIdentity
-			.translate(width / 2, height / 2)
+			.translate(this.get('width') / 2, this.get('height') / 2)
 			.scale(1 << 13)
 			.translate(-center[0], -center[1]));
 		}
