@@ -194,6 +194,23 @@ export default Ember.Component.extend({
 		});
 	},
 
+	drawStates() {
+		let emberScope = this;
+
+		d3.json("../assets/MX_NL.json", (error, data) => {
+			if (error) { console.log(error); }
+
+			this.get('statesLayer').selectAll("path")
+				.data(topojson.feature(data, data.objects.states).features)
+				.enter().append("path")
+				.attr("d", this.get('path'))
+				.attr("class", "feature")
+				.on("click", function(d) {
+					emberScope.clicked(this, d);
+				});
+		});
+	},
+
 	// Overriding init
 	init() {
 		this._super(...arguments);	
@@ -239,31 +256,7 @@ export default Ember.Component.extend({
 				.scale(1 << 13.5)
 				.translate(-center[0], -center[1]));
 
-		// Getting topojson data
-		d3.json("../assets/MX_NL.json", (error, data) => {
-			if (error) { console.log(error); }
-
-			this.get('statesLayer').selectAll("path")
-				.data(topojson.feature(data, data.objects.states).features)
-				.enter().append("path")
-				.attr("d", emberThis.get('path'))
-				.attr("class", "feature")
-				.on("click", function(d) {
-					emberThis.clicked(this, d);
-				});
-
-			// gStates.selectAll("path")
-			// 	.data(topojson.feature(data, data.objects.states).features)
-			// 	.enter().append("path")
-			// 	.attr("d", path)
-			// 	.attr("class", "feature")
-			// 	.on("click", clicked);
-
-			// gMunicipalities.append("path")
-			// 	.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { return a !== b; }))
-			// 	.attr("class", "mesh")
-			// 	.attr("d", path);
-		});
+		this.drawStates();
 
 		// Reset zoom and remove cities
 		function reset() {
