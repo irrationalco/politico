@@ -8,7 +8,12 @@ export default Ember.Component.extend({
 	scaleExtent: [1 << 11, 1 << 26],
 
 	// Coordinates on where to center map
-	center: [-102, 23],
+	centerCoords: [-102, 23],
+
+	center: Ember.computed('projection', function() {
+		let projection = this.get('projection');
+		return projection(this.get('centerCoords'));
+	}),
 
 	width: null,
 
@@ -40,7 +45,7 @@ export default Ember.Component.extend({
 
 	statesLayer: null,
 
-	munLayer: null,
+	muniLayer: null,
 
 	sectionsLayer: null,
 
@@ -84,7 +89,7 @@ export default Ember.Component.extend({
 		.attr("transform", transform)
 		.style("stroke-width", 1.3 / transform.k);
 
-		this.get('munLayer')
+		this.get('muniLayer')
 		.attr("transform", transform)
 		.style("stroke-width", 6.0041e-06);
 
@@ -133,19 +138,13 @@ export default Ember.Component.extend({
 		// Defining layers
 		this.set('imageLayer', svg.append('g'));
 		this.set('statesLayer', svg.append('g'));
-		this.set('munLayer', svg.append('g'));
+		this.set('muniLayer', svg.append('g'));
 		this.set('sectionsLayer', svg.append('g'));
 
-		// Center on Mexico
-		let center = this.get('projection')(this.get('center'));
+		let center = this.get('center');
 		
 		// Center on Nuevo León
 		// let center = projection([-99.8, 25.5]);
-
-
-		console.log(this.get('zoom'));
-
-		console.log(this.get('zoom').transform);
 
 		// Apply zoom behaviour to svg, and make an initial transform to center
 		svg
@@ -228,14 +227,14 @@ export default Ember.Component.extend({
 									.filterBy("properties.state_code", d.properties.state_code);
 
 				Ember.run.later(this, () => {
-					emberThis.get('munLayer').selectAll("path")
+					emberThis.get('muniLayer').selectAll("path")
 					.data(municipalities)
 					.enter().append("path")
 					.attr("d", emberThis.get('path'))
 					.attr("class", "feature")
 					.on("click", clicked);
 
-					emberThis.get('munLayer').append("path")
+					emberThis.get('muniLayer').append("path")
 					.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
 						if (a.properties.state_code == d.properties.state_code) {
 							return a !== b; 	
@@ -270,7 +269,7 @@ export default Ember.Component.extend({
 			active.classed("active", false);
 			active = d3.select(null);
 
-			emberThis.get('munLayer').selectAll("*").remove();
+			emberThis.get('muniLayer').selectAll("*").remove();
 
 			emberThis.sendAction('setMunicipality', "");
 			emberThis.sendAction('setState', "");
