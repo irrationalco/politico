@@ -52,7 +52,6 @@ export default Ember.Component.extend({
 	imageLayer: null,
 
 	// Function that calculates zoom and the required translation to a given Bounding Box
-	// Accepts as a param a geoprahy object or a BBox as an array
 	calculateZoomToBBox(d, path) {
 		let bounds = Array.isArray(d) ? d : path.bounds(d);
 		
@@ -166,11 +165,18 @@ export default Ember.Component.extend({
 	// Drawing sections
 	drawSections(d) {
 		let emberScope = this;
+		let munCode = d.properties.mun_code + 1;
 
-		d3.json("../assets/MX_NL.json", (error,data) => {
+		d3.json("../assets/MX_NL.json", (error, data) => {
+
+			let sections = topojson.feature(data, data.objects.nuevoLeon).features
+				.filterBy("properties.mun_code_sec", munCode);
+
+			console.log(sections);
+
 			Ember.run.later(this, () => {
 				this.get('sectionsLayer').selectAll("path")
-					.data(topojson.feature(data, data.objects.nuevoLeon).features)
+					.data(sections)
 					.enter().append("path")
 					.attr("d", this.get('path'))
 					.attr("class", "section")
@@ -183,11 +189,12 @@ export default Ember.Component.extend({
 
 	// Drawing municipalities
 	drawMunicipalities(d) {
+		let emberScope = this;
+		let stateCode = d.properties.state_code;
 
 		d3.json("../assets/mx_tj.json", (error, data) => {
-			let emberScope = this;
 			let municipalities = topojson.feature(data, data.objects.municipalities).features
-			.filterBy("properties.state_code", d.properties.state_code);
+				.filterBy("properties.state_code", stateCode);
 
 			Ember.run.later(this, () => {
 				this.get('muniLayer').selectAll("path")
@@ -201,7 +208,7 @@ export default Ember.Component.extend({
 
 				this.get('muniLayer').append("path")
 				.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
-					if (a.properties.state_code == d.properties.state_code) {
+					if (a.properties.state_code == stateCode) {
 						return a !== b; 	
 					}
 				}))
@@ -258,15 +265,13 @@ export default Ember.Component.extend({
 		this.set('muniLayer', this.get('svg').append('g'));
 		this.set('sectionsLayer', this.get('svg').append('g'));
 
-		let center = this.get('center');
-
 		// Apply zoom behaviour to svg, and make an initial transform to center
 		this.get('svg')
 			.call(this.get('zoom'))
 			.call(this.get('zoom').transform, d3.zoomIdentity
 				.translate(this.get('width') / 2, this.get('height') / 2)
 				.scale(1 << 13.5)
-				.translate(-center[0], -center[1]));
+				.translate(-this.get('center')[0], -this.get('center')[1]));
 
 		this.drawStates();
 	}
