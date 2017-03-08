@@ -5,8 +5,6 @@ import topojson from "npm:topojson";
 
 export default Ember.Component.extend({
 
-	tau: 2 * Math.PI,
-
 	scaleExtent: [1 << 11, 1 << 26],
 
 	center: [-102, 23],
@@ -17,15 +15,17 @@ export default Ember.Component.extend({
 
 	active: null,
 
-	projection: null,
+	projection: d3.geoMercator().scale(1 / (2 * Math.PI)).translate([0,0]),
+
+	path: Ember.computed('projection', function(){
+		return d3.geoPath().projection(this.get('projection'));
+	}),
 
 	zoom: null,
 
 	tile: Ember.computed('width', 'height', function() {
 		return d3Tile.tile().size([this.get('width'), this.get('height')]);
 	}),
-
-	path: null,
 
 	svg: null,
 
@@ -100,7 +100,6 @@ export default Ember.Component.extend({
 	},
 
 	didInsertElement() {
-
 		// Saving ember scope
 		let emberThis = this;
 
@@ -110,20 +109,12 @@ export default Ember.Component.extend({
 		this.set('width', Ember.$("#map").width());
 		this.set('height', Ember.$("#map").height());
 
-		// Settings of the map projection
-		// Mexico states projection
-		let projection = d3.geoMercator()
-			.scale(1 / this.get('tau'))
-			.translate([0, 0]);
-
 		// Defining zoom behaviour
 		let zoom = d3.zoom()
 			.scaleExtent(this.get('scaleExtent'))
 			.on("zoom", () => {
 				this.zoomed();
 			});
-
-		let path = d3.geoPath().projection(projection);
 
 		// Initializing SVG on the html element
 		let svg = d3.select("#map").append("svg")
@@ -148,7 +139,9 @@ export default Ember.Component.extend({
 		console.log(this.get('sectionsLayer'));
 
 		// Center on Mexico
-		let center = projection(this.get('center'));
+		// let center = projection(this.get('center'));
+
+		let center = this.get('projection')(this.get('center'));
 		// Center on Nuevo León
 		// let center = projection([-99.8, 25.5]);
 
@@ -160,16 +153,6 @@ export default Ember.Component.extend({
 			.scale(1 << 13.5)
 			.translate(-center[0], -center[1]));
 
-
-		// drawStates() {
-		// 	d3.json("../assets/MX_NL.json", (error, data) => {
-		// 		if (error) { console.log(error); }
-
-
-
-		// 	});
-		// }
-
 		// Getting topojson data
 		d3.json("../assets/MX_NL.json", (error, data) => {
 			if (error) { console.log(error); }
@@ -177,7 +160,7 @@ export default Ember.Component.extend({
 			this.get('statesLayer').selectAll("path")
 				.data(topojson.feature(data, data.objects.states).features)
 				.enter().append("path")
-				.attr("d", path)
+				.attr("d", emberThis.get('path'))
 				.attr("class", "feature")
 				.on("click", clicked);
 
@@ -215,7 +198,7 @@ export default Ember.Component.extend({
 			active.classed("active", false);
 			active = d3.select(this).classed("active", true);
 
-			let transform = emberThis.calculateZoomToBBox(d, path);
+			let transform = emberThis.calculateZoomToBBox(d, emberThis.get('path'));
 
 
 			Ember.run.later(this, () => {
@@ -246,7 +229,7 @@ export default Ember.Component.extend({
 					emberThis.get('munLayer').selectAll("path")
 					.data(municipalities)
 					.enter().append("path")
-					.attr("d", path)
+					.attr("d", emberThis.get('path'))
 					.attr("class", "feature")
 					.on("click", clicked);
 
@@ -257,7 +240,7 @@ export default Ember.Component.extend({
 						}
 					}))
 					.attr("class", "mesh")
-					.attr("d", path);
+					.attr("d", emberThis.get('path'));
 
 				}, 300);
 			});
@@ -272,7 +255,7 @@ export default Ember.Component.extend({
 					emberThis.get('sectionsLayer').selectAll("path")
 						.data(topojson.feature(data, data.objects.nuevoLeon).features)
 						.enter().append("path")
-						.attr("d", path)
+						.attr("d", emberThis.get('path'))
 						.attr("class", "section")
 						.on("click", clicked);
 				});
