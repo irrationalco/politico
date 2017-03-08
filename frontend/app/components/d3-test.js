@@ -136,6 +136,24 @@ export default Ember.Component.extend({
 		}, 50);
 	},
 
+	// Reset zoom and remove cities
+	reset() {
+		active.classed("active", false);
+		active = d3.select(null);
+
+		this.get('muniLayer').selectAll("*").remove();
+
+		this.sendAction('setMunicipality', "");
+		this.sendAction('setState', "");
+
+		svg.transition()
+			.duration(750)
+			.call(this.get('zoom').transform, d3.zoomIdentity
+			.translate(this.get('width') / 2, this.get('height') / 2)
+			.scale(1 << 13)
+			.translate(-this.get('center')[0], -this.get('center')[1]));
+	},
+
 	// Function to decide which layer to draw based on url params
 	draw(d) {
 		if (this.get('state') === "Nuevo León" && this.get('municipality')) {
@@ -237,8 +255,7 @@ export default Ember.Component.extend({
 		this.get('svg').append("rect")
 			.attr("class", "map-background")
 			.attr("width", this.get('width'))
-			.attr("height", this.get('height'))
-			.on("click", reset);
+			.attr("height", this.get('height'));
 
 		// Defining layers
 		this.set('imageLayer', this.get('svg').append('g'));
@@ -257,25 +274,6 @@ export default Ember.Component.extend({
 				.translate(-center[0], -center[1]));
 
 		this.drawStates();
-
-		// Reset zoom and remove cities
-		function reset() {
-			active.classed("active", false);
-			active = d3.select(null);
-
-			emberThis.get('muniLayer').selectAll("*").remove();
-
-			emberThis.sendAction('setMunicipality', "");
-			emberThis.sendAction('setState', "");
-
-			svg.transition()
-			.duration(750)
-			.call(emberThis.get('zoom').transform, d3.zoomIdentity
-			.translate(this.get('width') / 2, this.get('height') / 2)
-			.scale(1 << 13)
-			.translate(-center[0], -center[1]));
-		}
-
 	}
 });
 
