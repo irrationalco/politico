@@ -7,6 +7,7 @@ export default Ember.Component.extend({
 
 	scaleExtent: [1 << 11, 1 << 26],
 
+	// Coordinates on where to center map
 	center: [-102, 23],
 
 	width: null,
@@ -15,13 +16,21 @@ export default Ember.Component.extend({
 
 	active: null,
 
+	// Map projection
 	projection: d3.geoMercator().scale(1 / (2 * Math.PI)).translate([0,0]),
 
-	path: Ember.computed('projection', function(){
+	// Defining Path according to projection
+	path: Ember.computed('projection', function() {
 		return d3.geoPath().projection(this.get('projection'));
 	}),
 
-	zoom: null,
+	// Defining Zoom Behaviour
+	zoom: Ember.computed('scaleExtent', function() {
+		return d3.zoom().scaleExtent(this.get('scaleExtent'))
+			.on('zoom', () => {
+				this.zoomed();
+			});
+	}),
 
 	tile: Ember.computed('width', 'height', function() {
 		return d3Tile.tile().size([this.get('width'), this.get('height')]);
@@ -109,13 +118,6 @@ export default Ember.Component.extend({
 		this.set('width', Ember.$("#map").width());
 		this.set('height', Ember.$("#map").height());
 
-		// Defining zoom behaviour
-		let zoom = d3.zoom()
-			.scaleExtent(this.get('scaleExtent'))
-			.on("zoom", () => {
-				this.zoomed();
-			});
-
 		// Initializing SVG on the html element
 		let svg = d3.select("#map").append("svg")
 			.attr("class", "svg-map")
@@ -129,26 +131,26 @@ export default Ember.Component.extend({
 			.on("click", reset);
 
 		// Defining layers
-
 		this.set('imageLayer', svg.append('g'));
 		this.set('statesLayer', svg.append('g'));
 		this.set('munLayer', svg.append('g'));
 		this.set('sectionsLayer', svg.append('g'));
 
-
-		console.log(this.get('sectionsLayer'));
-
 		// Center on Mexico
-		// let center = projection(this.get('center'));
-
 		let center = this.get('projection')(this.get('center'));
+		
 		// Center on Nuevo León
 		// let center = projection([-99.8, 25.5]);
 
+
+		console.log(this.get('zoom'));
+
+		console.log(this.get('zoom').transform);
+
 		// Apply zoom behaviour to svg, and make an initial transform to center
 		svg
-		.call(zoom)
-		.call(zoom.transform, d3.zoomIdentity
+		.call(this.get('zoom'))
+		.call(this.get('zoom').transform, d3.zoomIdentity
 			.translate(this.get('width') / 2, this.get('height') / 2)
 			.scale(1 << 13.5)
 			.translate(-center[0], -center[1]));
@@ -204,7 +206,7 @@ export default Ember.Component.extend({
 			Ember.run.later(this, () => {
 				svg.transition()
 				.duration(950)
-				.call(zoom.transform, transform)
+				.call(emberThis.get('zoom').transform, transform)
 				.on("end", draw(d));
 			}, 50);
 
@@ -275,7 +277,7 @@ export default Ember.Component.extend({
 
 			svg.transition()
 			.duration(750)
-			.call(zoom.transform, d3.zoomIdentity
+			.call(emberThis.get('zoom').transform, d3.zoomIdentity
 			.translate(this.get('width') / 2, this.get('height') / 2)
 			.scale(1 << 13)
 			.translate(-center[0], -center[1]));
