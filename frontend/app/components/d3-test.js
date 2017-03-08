@@ -21,7 +21,9 @@ export default Ember.Component.extend({
 
 	zoom: null,
 
-	tile: null,
+	tile: Ember.computed('width', 'height', function() {
+		return d3Tile.tile().size([this.get('width'), this.get('height')]);
+	}),
 
 	path: null,
 
@@ -57,6 +59,42 @@ export default Ember.Component.extend({
 		return "translate(" + r(translate[0] * scale) + "," + r(translate[1] * scale) + ") scale(" + k + ")";
 	},
 
+	zoomed() {
+		let transform = d3.event.transform;
+
+		let tiles = this.get('tile')
+		.scale(transform.k)
+		.translate([transform.x, transform.y])
+		();
+
+		this.get('statesLayer')
+		.attr("transform", transform)
+		.style("stroke-width", 1 / transform.k);
+
+		this.get('sectionsLayer')
+		.attr("transform", transform)
+		.style("stroke-width", 1.3 / transform.k);
+
+		this.get('munLayer')
+		.attr("transform", transform)
+		.style("stroke-width", 6.0041e-06);
+
+		var image = this.get('imageLayer')
+		.attr("transform", this.stringify(tiles.scale, tiles.translate))
+		.selectAll("image")
+		.data(tiles, function(d) { return d; });
+
+		image.exit().remove();
+
+		// .attr("xlink:href", function(d) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
+		image.enter().append("image")
+		.attr("xlink:href", function(d) { return "https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
+		.attr("x", function(d) { return d[0] * 256; })
+		.attr("y", function(d) { return d[1] * 256; })
+		.attr("width", 256)
+		.attr("height", 256);
+	},
+
 	init() {
 		this._super(...arguments);	
 	},
@@ -81,11 +119,9 @@ export default Ember.Component.extend({
 		// Defining zoom behaviour
 		let zoom = d3.zoom()
 			.scaleExtent(this.get('scaleExtent'))
-			.on("zoom", zoomed);
-
-		// Initializing tiles
-		let tile = d3Tile.tile()
-			.size([this.get('width'), this.get('height')]);
+			.on("zoom", () => {
+				this.zoomed();
+			});
 
 		let path = d3.geoPath().projection(projection);
 
@@ -107,6 +143,9 @@ export default Ember.Component.extend({
 		this.set('statesLayer', svg.append('g'));
 		this.set('munLayer', svg.append('g'));
 		this.set('sectionsLayer', svg.append('g'));
+
+
+		console.log(this.get('sectionsLayer'));
 
 		// Center on Mexico
 		let center = projection(this.get('center'));
@@ -154,43 +193,6 @@ export default Ember.Component.extend({
 			// 	.attr("class", "mesh")
 			// 	.attr("d", path);
 		});
-
-		function zoomed() {
-			let transform = d3.event.transform;
-
-			let tiles = tile
-			.scale(transform.k)
-			.translate([transform.x, transform.y])
-			();
-
-
-			emberThis.get('statesLayer')
-			.attr("transform", transform)
-			.style("stroke-width", 1 / transform.k);
-
-			emberThis.get('sectionsLayer')
-			.attr("transform", transform)
-			.style("stroke-width", 1.3 / transform.k);
-
-			emberThis.get('munLayer')
-			.attr("transform", transform)
-			.style("stroke-width", 6.0041e-06);
-
-			var image = emberThis.get('imageLayer')
-			.attr("transform", emberThis.stringify(tiles.scale, tiles.translate))
-			.selectAll("image")
-			.data(tiles, function(d) { return d; });
-
-			image.exit().remove();
-
-			// .attr("xlink:href", function(d) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
-			image.enter().append("image")
-			.attr("xlink:href", function(d) { return "https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
-			.attr("x", function(d) { return d[0] * 256; })
-			.attr("y", function(d) { return d[1] * 256; })
-			.attr("width", 256)
-			.attr("height", 256);
-		}
 
 		// Zooming to bounding box when clicked
 		function clicked(d) {
