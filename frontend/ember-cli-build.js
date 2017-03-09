@@ -46,6 +46,7 @@ module.exports = function(defaults) {
   });
 
   app.import('vendor/mx_tj.json', { destDir: 'assets' });
+  app.import('vendor/secciones.json', { destDir: 'assets' });
 
   app.import('vendor/MX_NL.json', { destDir: 'assets' });
   app.import('vendor/MX_NLe5.json', { destDir: 'assets' });

@@ -155,7 +155,9 @@ export default Ember.Component.extend({
 
 	// Function to decide which layer to draw based on url params
 	draw(d) {
-		if (this.get('state') === "Nuevo León" && this.get('municipality')) {
+		console.log(d);
+
+		if (this.get('state') && this.get('municipality')) {
 			this.drawSections(d);
 		} else {
 			this.drawMunicipalities(d);
@@ -165,16 +167,17 @@ export default Ember.Component.extend({
 	// Drawing sections
 	drawSections(d) {
 		let emberScope = this;
-		let munCode = d.properties.mun_code + 1;
+		let munCode = d.properties.mun_code;
+		let stateCode = d.properties.state_code;
 
-		d3.json("../assets/MX_NL.json", (error, data) => {
+		d3.json("../assets/secciones.json", (error, data) => {
 
-			let sections = topojson.feature(data, data.objects.nuevoLeon).features
-				.filterBy("properties.mun_code_sec", munCode);
+			let sections = topojson.feature(data, data.objects.secciones).features
+				.filterBy('properties.state_code', stateCode)
+				.filterBy('properties.mun_code', munCode);
 
-			console.log(sections);
+				this.get('sectionsLayer').selectAll("*").remove();
 
-			Ember.run.later(this, () => {
 				this.get('sectionsLayer').selectAll("path")
 					.data(sections)
 					.enter().append("path")
@@ -183,7 +186,6 @@ export default Ember.Component.extend({
 					.on("click", function(d) {
 						emberScope.clicked(this, d);
 					});
-			});
 		});
 	},
 
