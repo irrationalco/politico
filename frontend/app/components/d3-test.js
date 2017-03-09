@@ -51,6 +51,54 @@ export default Ember.Component.extend({
 
 	imageLayer: null,
 
+	// Overriding init
+	init() {
+		this._super(...arguments);	
+	},
+
+	didReceiveAttrs() {
+		this._super(...arguments);
+
+		console.log("params changed");
+	},
+
+	didInsertElement() {
+		// Setting width and height of map container
+		let active = d3.select(null);
+
+		this.set('width', Ember.$("#map").width());
+		this.set('height', Ember.$("#map").height());
+
+		// Initializing SVG on the html element
+		this.set('svg', d3.select("#map").append("svg")
+			.attr("class", "svg-map")
+			.attr("width", this.get('width'))
+			.attr("height", this.get('height')));
+
+		this.get('svg').append("rect")
+			.attr("class", "map-background")
+			.attr("width", this.get('width'))
+			.attr("height", this.get('height'));
+
+		// Defining layers
+		this.set('imageLayer', this.get('svg').append('g'));
+		this.set('statesLayer', this.get('svg').append('g'));
+		this.set('muniLayer', this.get('svg').append('g'));
+		this.set('sectionsLayer', this.get('svg').append('g'));
+
+		// Apply zoom behaviour to svg, and make an initial transform to center
+		this.get('svg')
+			.call(this.get('zoom'))
+			.call(this.get('zoom').transform, d3.zoomIdentity
+				.translate(this.get('width') / 2, this.get('height') / 2)
+				.scale(1 << 13.5)
+				.translate(-this.get('center')[0], -this.get('center')[1]));
+
+		this.drawStates();
+	},
+
+
+
 	// Function that calculates zoom and the required translation to a given Bounding Box
 	calculateZoomToBBox(d, path) {
 		let bounds = Array.isArray(d) ? d : path.bounds(d);
@@ -155,8 +203,6 @@ export default Ember.Component.extend({
 
 	// Function to decide which layer to draw based on url params
 	draw(d) {
-		console.log(d);
-
 		if (this.get('state') && this.get('municipality')) {
 			this.drawSections(d);
 		} else {
@@ -236,45 +282,5 @@ export default Ember.Component.extend({
 					emberScope.clicked(this, d);
 				});
 		});
-	},
-
-	// Overriding init
-	init() {
-		this._super(...arguments);	
-	},
-
-	didInsertElement() {
-		// Setting width and height of map container
-		let active = d3.select(null);
-
-		this.set('width', Ember.$("#map").width());
-		this.set('height', Ember.$("#map").height());
-
-		// Initializing SVG on the html element
-		this.set('svg', d3.select("#map").append("svg")
-			.attr("class", "svg-map")
-			.attr("width", this.get('width'))
-			.attr("height", this.get('height')));
-
-		this.get('svg').append("rect")
-			.attr("class", "map-background")
-			.attr("width", this.get('width'))
-			.attr("height", this.get('height'));
-
-		// Defining layers
-		this.set('imageLayer', this.get('svg').append('g'));
-		this.set('statesLayer', this.get('svg').append('g'));
-		this.set('muniLayer', this.get('svg').append('g'));
-		this.set('sectionsLayer', this.get('svg').append('g'));
-
-		// Apply zoom behaviour to svg, and make an initial transform to center
-		this.get('svg')
-			.call(this.get('zoom'))
-			.call(this.get('zoom').transform, d3.zoomIdentity
-				.translate(this.get('width') / 2, this.get('height') / 2)
-				.scale(1 << 13.5)
-				.translate(-this.get('center')[0], -this.get('center')[1]));
-
-		this.drawStates();
 	}
 });
