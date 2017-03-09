@@ -51,6 +51,10 @@ export default Ember.Component.extend({
 
 	imageLayer: null,
 
+	currState: null,
+	currMuni: null,
+	currSection: null,
+
 	// Overriding init
 	init() {
 		this._super(...arguments);	
@@ -58,11 +62,62 @@ export default Ember.Component.extend({
 
 	didReceiveAttrs() {
 		this._super(...arguments);
+	},
 
-		console.log("params changed");
+	didUpdateAttrs() {
+		this._super(...arguments);
+
+		if (this.get('level') === 'country') {
+			// remove sections
+			// remove municipalities
+			// center map on mexico
+		} else if(this.get('level') === 'state') {
+			// remove sections
+
+			// if (currState == newState)
+				// center map on newState
+			// else
+				// remove municipalities
+				// center map on newState
+				// draw municipalities of newState
+
+		} else if(this.get('level') === 'municipality') {
+			//if (currMuni == newMuni)
+				// center map on newMuni
+			//else 
+				//remove municipalities
+				//center map on newMuni
+				// draw sections of newMuni
+
+		} else if(this.get('level') === 'section') {
+ 			// if (currState != newState)
+ 				// remove sections
+ 				// remove municipalities
+ 				// draw municipalities
+ 				// draw sections
+ 				// center on newSection
+ 			// else if (currState == newState && currMuni != newMuni)
+ 				// remove sections
+ 				// draw sections
+ 				// center on newSection
+ 			// else
+ 				// center on newSection
+		}	
+
+		this.set('currState', this.get('state'));
+		this.set('currMuni', this.get('municipality'));
+		this.set('currSection', this.get('section'));
+
+		console.log("PARAMS CHANGED");
+		console.log(this.get('level'));
+		console.log(this.get('state'));
+		console.log(this.get('municipality'));
+		console.log(this.get('section'));
 	},
 
 	didInsertElement() {
+		this._super(...arguments);
+
 		// Setting width and height of map container
 		let active = d3.select(null);
 
@@ -180,6 +235,14 @@ export default Ember.Component.extend({
 				.duration(950)
 				.call(this.get('zoom').transform, transform)
 				.on("end", this.draw(d));
+		}, 50);
+	},
+
+	zoomTo(transform) {
+		Ember.run.later(this, () => {
+			this.get('svg').transition()
+				.duration(950)
+				.call(this.get('zoom').transform, transform);
 		}, 50);
 	},
 
