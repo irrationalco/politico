@@ -8,18 +8,23 @@ export default Ember.Service.extend({
 
   municipalities: null,
 
-  findMuniCode(stateName, muniName) {
+  getMuniCode(stateCode, muniName) {
+    return new Promise((resolve, reject) => {
+      if (this.get('municipalities')) {
+        resolve(this.findMuniCode(stateCode, muniName, this.get('municipalities')));
+      } else {
+        this.loadData().then(() => {
+          resolve(this.findMuniCode(stateCode, muniName, this.get('municipalities')));
+        });
+      }
+    });
   },
 
   getStateCode(stateName) {
     return new Promise((resolve, reject) => {
       if (this.get('states')) {
-
-        console.log("STATES NOT EMPTY");
-
         resolve(this.findStateCode(stateName, this.get('states')));
       } else {
-        console.log("STATES EMPTY");
         this.loadData().then(() => {
           resolve(this.findStateCode(stateName, this.get('states')));
         });
@@ -27,11 +32,24 @@ export default Ember.Service.extend({
     });
   },
 
-  findStateCode(stateName, data) {
-    let state = topojson.feature(data, data.objects.states).features
-      .filterBy('properties.state_name', stateName);
+  findStateCode(stateName, states) {
+    let state = states.filterBy('properties.state_name', stateName);
+    if (Ember.isEmpty(state)) {
+      return null;
+    } else {
+      return state[0].properties.state_code;  
+    }
+  },
 
-      return state;
+  findMuniCode(stateCode, muniName, municipalities) {
+    let muni = municipalities.filterBy('properties.state_code', stateCode).filterBy('properties.mun_name', muniName);
+
+    if (Ember.isEmpty(muni)) {
+      return null;
+    } else {
+      return muni[0].properties.mun_code;  
+    }
+    
   },
 
   loadData() {
@@ -39,7 +57,9 @@ export default Ember.Service.extend({
       d3.json("../assets/mx_tj.json", (error, data) => {
         if (error) { reject(error); }
         if (data) {
-          this.set('states', data);
+          this.set('states', topojson.feature(data, data.objects.states).features);
+          this.set('municipalities', topojson.feature(data, data.objects.municipalities).features);
+
           resolve("Data loaded succesfully.");
         }
       });

@@ -67,8 +67,11 @@ export default Ember.Component.extend({
 	didReceiveAttrs() {
 		this._super(...arguments);
 
-		this.get('cartography').getStateCode("Colima").then((data) => {
-			console.log(data);
+		this.get('cartography').getStateCode("Colima").then((stateCode) => {
+			console.log(stateCode);
+			this.get('cartography').getMuniCode(6, "Tecomán").then((data) => {
+				console.log(data);
+			});
 		});
 	},
 
