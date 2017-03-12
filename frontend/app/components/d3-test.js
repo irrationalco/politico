@@ -67,10 +67,15 @@ export default Ember.Component.extend({
 	didReceiveAttrs() {
 		this._super(...arguments);
 
+		this.get('cartography').loadSectionsData(6,9).then((data)=> {
+			console.log("sections");
+			console.log(data);
+		});
+
 		this.get('cartography').getStateCode("Colima").then((stateCode) => {
-			console.log(stateCode);
-			this.get('cartography').getMuniCode(6, "Tecomán").then((data) => {
-				console.log(data);
+			this.get('cartography').getMuniCode(stateCode, "Tecomán").then((muniCode) => {
+				console.log(stateCode);
+				console.log(muniCode);
 			});
 		});
 	},
@@ -249,7 +254,7 @@ export default Ember.Component.extend({
 		}, 50);
 	},
 
-	zoomTo(transform) {
+	zoomTo(d) {
 		Ember.run.later(this, () => {
 			this.get('svg').transition()
 				.duration(950)

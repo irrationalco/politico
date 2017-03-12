@@ -8,6 +8,8 @@ export default Ember.Service.extend({
 
   municipalities: null,
 
+  sections: null,
+
   getMuniCode(stateCode, muniName) {
     return new Promise((resolve, reject) => {
       if (this.get('municipalities')) {
@@ -61,6 +63,23 @@ export default Ember.Service.extend({
           this.set('municipalities', topojson.feature(data, data.objects.municipalities).features);
 
           resolve("Data loaded succesfully.");
+        }
+      });
+    });
+  },
+
+  loadSectionsData(stateCode, muniCode) {
+    return new Promise((resolve, reject) => {
+      d3.json("../assets/secciones.json", (error, data) => {
+        if (error) { reject(error); }
+        if (data) {
+          let sections = topojson.feature(data, data.objects.secciones).features
+            .filterBy('properties.state_code', stateCode)
+            .filterBy('properties.mun_code', muniCode);
+
+          this.set('sections', sections);
+
+          resolve(sections);
         }
       });
     });
