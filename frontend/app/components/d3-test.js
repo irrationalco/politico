@@ -230,11 +230,11 @@ export default Ember.Component.extend({
 	clicked(element, d) {
 
 		if (d.properties.section_code) {
-			this.sendAction('setSection', String(d.properties.section_code));
+			this.sendAction('setSection', d.properties.section_code);
 		} else if(d.properties.mun_code) {
-			this.sendAction('setMunicipality', d.properties.mun_name);
+			this.sendAction('setMunicipality',d.properties.mun_code, d.properties.mun_name);
 		} else {
-			this.sendAction('setState', d.properties.state_name);
+			this.sendAction('setState',d.properties.state_code, d.properties.state_name);
 		}
 
 		// if (active.node() === this) {
