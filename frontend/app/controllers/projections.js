@@ -7,8 +7,6 @@ export default Ember.Controller.extend({
 	section: "",
 
 	level: Ember.computed('state', 'municipality', 'section', function() {
-		console.log("Calculating LEVEL:");
-
 		if (Ember.isEmpty(this.get('state'))) {
 			return "country";
 		} else if(this.get('state') && Ember.isEmpty(this.get('municipality')) && Ember.isEmpty(this.get('section'))) {

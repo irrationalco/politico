@@ -5,6 +5,10 @@ import topojson from "npm:topojson";
 
 export default Ember.Component.extend({
 
+	cartography: Ember.inject.service(),
+
+	states: Ember.computed.oneWay('cartography.states'),
+
 	scaleExtent: [1 << 11, 1 << 26],
 
 	// Coordinates on where to center map
@@ -57,11 +61,15 @@ export default Ember.Component.extend({
 
 	// Overriding init
 	init() {
-		this._super(...arguments);	
+		this._super(...arguments);
 	},
 
 	didReceiveAttrs() {
 		this._super(...arguments);
+
+		this.get('cartography').getStateCode("Colima").then((data) => {
+			console.log(data);
+		});
 	},
 
 	didUpdateAttrs() {
@@ -108,11 +116,11 @@ export default Ember.Component.extend({
 		this.set('currMuni', this.get('municipality'));
 		this.set('currSection', this.get('section'));
 
-		console.log("PARAMS CHANGED");
-		console.log(this.get('level'));
-		console.log(this.get('state'));
-		console.log(this.get('municipality'));
-		console.log(this.get('section'));
+		// console.log("PARAMS CHANGED");
+		// console.log(this.get('level'));
+		// console.log(this.get('state'));
+		// console.log(this.get('municipality'));
+		// console.log(this.get('section'));
 	},
 
 	didInsertElement() {
@@ -333,7 +341,7 @@ export default Ember.Component.extend({
 	drawStates() {
 		let emberScope = this;
 
-		d3.json("../assets/MX_NL.json", (error, data) => {
+		d3.json("../assets/mx_tj.json", (error, data) => {
 			if (error) { console.log(error); }
 
 			this.get('statesLayer').selectAll("path")
