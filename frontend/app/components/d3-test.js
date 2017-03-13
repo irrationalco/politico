@@ -82,6 +82,13 @@ export default Ember.Component.extend({
 
 				console.log("sections del municipio:")
 				console.log(this.get('cartography').get('sections'));
+
+				let muniCode = municipality.properties.mun_code;
+
+				this.get('cartography').getSection(stateCode, muniCode, 280).then((section) => {
+					console.log("Seccion:");
+					console.log(section);
+				});
 			});
 		});
 	},

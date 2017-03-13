@@ -73,6 +73,31 @@ export default Ember.Service.extend({
     });
   },
 
+  getSection(stateCode, muniCode, sectionCode) {
+    return new Promise((resolve, reject) => {
+      // If sections data is store in var, then don't make request
+      if (this.get('sections')) {
+        let section = this.get('sections').filterBy('properties.section_code', sectionCode);
+        // If section code is wrong and couldn't find it
+        if (Ember.isEmpty(section)) {
+          reject(new Error("El código de la sección es incorrecto."));
+        } else {
+          resolve(section[0]);
+        }
+      } else {
+        this.loadSectionsData(stateCode, muniCode).then(() => {
+          let section = this.get('sections').filterBy('properties.section_code', sectionCode);
+          // If section code is wrong and couldn't find it
+          if (Ember.isEmpty(section)) {
+            reject(new Error("El código de la sección es incorrecto."));
+          } else {
+            resolve(section[0]);
+          }
+        });
+      }
+    });
+  },
+
   loadStatesData() {
     return new Promise((resolve, reject) => {
       d3.json("../assets/mx_tj.json", (error, data) => {
