@@ -10,59 +10,88 @@ export default Ember.Service.extend({
 
   sections: null,
 
-  getMuniCode(stateCode, muniName) {
+  // Function that gets a specific state object by name and loads its municipalities
+  getState(stateName) {
     return new Promise((resolve, reject) => {
-      if (this.get('municipalities')) {
-        resolve(this.findMuniCode(stateCode, muniName, this.get('municipalities')));
-      } else {
-        this.loadData().then(() => {
-          resolve(this.findMuniCode(stateCode, muniName, this.get('municipalities')));
-        });
-      }
-    });
-  },
-
-  getStateCode(stateName) {
-    return new Promise((resolve, reject) => {
+      // If states data is stored in var, then don't make request
       if (this.get('states')) {
-        resolve(this.findStateCode(stateName, this.get('states')));
+        let state = this.get('states').filterBy('properties.state_name', stateName);
+        if (Ember.isEmpty(state)) {
+            reject(new Error("El código del estado es incorrecto."));
+          } else {
+            let stateCode = state[0].properties.state_code;
+            this.loadMunicipalitiesData(stateCode).then(() => {
+              resolve(state[0]);
+            });
+          }
       } else {
-        this.loadData().then(() => {
-          resolve(this.findStateCode(stateName, this.get('states')));
+        this.loadStatesData().then(() => {
+          let state = this.get('states').filterBy('properties.state_name', stateName);
+          //If state name is wrong and couldnt find this state
+          if (Ember.isEmpty(state)) {
+            reject(new Error("El nombre del estado es incorrecto. Debe llevar acentos."));
+          } else {
+            let stateCode = state[0].properties.state_code;
+            this.loadMunicipalitiesData(stateCode).then(() => {
+              resolve(state[0]);
+            });
+          }
         });
       }
     });
   },
 
-  findStateCode(stateName, states) {
-    let state = states.filterBy('properties.state_name', stateName);
-    if (Ember.isEmpty(state)) {
-      return null;
-    } else {
-      return state[0].properties.state_code;  
-    }
+  // Function that gets a specific municipality object by name name and loads its sections
+  getMunicipality(muniName, stateCode) {
+    return new Promise((resolve, reject) => {
+      // If municipalities data is stored in var, then don't make request
+      if (this.get('municipalities')) {
+        let muni = this.get('municipalities').filterBy('properties.mun_name', muniName);
+        // If municipality name is wrong and couldnt find it
+        if (Ember.isEmpty(muni)) {
+          reject(new Error("El nombre del municipio es incorrecto. Debe llevar acentos."));
+        } else {
+          let muniCode = muni[0].properties.mun_code;
+          this.loadSectionsData(stateCode, muniCode).then(() => {
+            resolve(muni[0]);
+          });
+        }
+      } else {
+        this.loadData().then(() => {
+          let muni = this.get('municipalities').filterBy('properties.mun_name', muniName);
+          // If municipality name is wrong and couldnt find it
+          if (Ember.isEmpty(muni)) {
+            reject(new Error("El nombre del municipio es incorrecto. Debe llevar acentos."));
+          } else {
+            let muniCode = muni[0].properties.mun_code;
+            this.loadSectionsData(stateCode, muniCode).then(() => {
+              resolve(muni[0]);
+            });
+          }
+        });
+      }
+    });
   },
 
-  findMuniCode(stateCode, muniName, municipalities) {
-    let muni = municipalities.filterBy('properties.state_code', stateCode).filterBy('properties.mun_name', muniName);
-
-    if (Ember.isEmpty(muni)) {
-      return null;
-    } else {
-      return muni[0].properties.mun_code;  
-    }
-    
-  },
-
-  loadData() {
+  loadStatesData() {
     return new Promise((resolve, reject) => {
       d3.json("../assets/mx_tj.json", (error, data) => {
         if (error) { reject(error); }
         if (data) {
           this.set('states', topojson.feature(data, data.objects.states).features);
-          this.set('municipalities', topojson.feature(data, data.objects.municipalities).features);
+          resolve("States data loaded succesfully.");
+        }
+      });
+    });
+  },
 
-          resolve("Data loaded succesfully.");
+  loadMunicipalitiesData(stateCode){
+    return new Promise((resolve, reject) => {
+      d3.json("../assets/mx_tj.json", (error, data) => {
+        if (error) { reject(error); }
+        if (data) {
+          this.set('municipalities', topojson.feature(data, data.objects.municipalities).features.filterBy('properties.state_code',stateCode));
+          resolve("municipalities data loaded succesfully.");
         }
       });
     });

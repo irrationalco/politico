@@ -67,15 +67,21 @@ export default Ember.Component.extend({
 	didReceiveAttrs() {
 		this._super(...arguments);
 
-		this.get('cartography').loadSectionsData(6,9).then((data)=> {
-			console.log("sections");
-			console.log(data);
-		});
+		this.get('cartography').getState("Colima").then((state) => {
 
-		this.get('cartography').getStateCode("Colima").then((stateCode) => {
-			this.get('cartography').getMuniCode(stateCode, "Tecomán").then((muniCode) => {
-				console.log(stateCode);
-				console.log(muniCode);
+			console.log("ESTADO:")
+			console.log(state);	
+
+			console.log("municipalities del estado:")
+			console.log(this.get('cartography').get('municipalities'));
+
+			let stateCode = state.properties.state_code;
+			this.get('cartography').getMunicipality("Tecomán", stateCode).then((municipality) => {
+				console.log("Municipio:")
+				console.log(municipality);	
+
+				console.log("sections del municipio:")
+				console.log(this.get('cartography').get('sections'));
 			});
 		});
 	},
@@ -167,8 +173,6 @@ export default Ember.Component.extend({
 
 		this.drawStates();
 	},
-
-
 
 	// Function that calculates zoom and the required translation to a given Bounding Box
 	calculateZoomToBBox(d, path) {
