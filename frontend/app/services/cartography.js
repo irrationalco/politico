@@ -77,6 +77,7 @@ export default Ember.Service.extend({
     return new Promise((resolve, reject) => {
       // If sections data is store in var, then don't make request
       if (this.get('sections')) {
+        
         let section = this.get('sections').filterBy('properties.section_code', sectionCode);
         // If section code is wrong and couldn't find it
         if (Ember.isEmpty(section)) {
