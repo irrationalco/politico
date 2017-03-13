@@ -6,9 +6,6 @@ export default Ember.Controller.extend({
 	municipality: "",
 	section: "",
 
-	stateCode: null,
-	muniCode: null,
-
 	level: Ember.computed('state', 'municipality', 'section', function() {
 		if (Ember.isEmpty(this.get('state'))) {
 			return "country";
@@ -22,14 +19,12 @@ export default Ember.Controller.extend({
 	}),
 
 	actions: {
-		setState(stateCode, stateName) {
+		setState(stateName) {
 			this.set('state', stateName);
-			this.set('stateCode', stateCode);
 		},
 
-		setMunicipality(muniCode, muniName) {
+		setMunicipality(muniName) {
 			this.set('municipality', muniName);
-			this.set('muniCode', muniCode)
 		},
 
 		setSection(sectionCode) {

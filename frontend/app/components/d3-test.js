@@ -57,8 +57,8 @@ export default Ember.Component.extend({
 	currMuni: null,
 	currSection: null,
 
-	testStateCode: null,
-	testMuniCode: null,
+	stateCode: null,
+	muniCode: null,
 
 	// Overriding init
 	init() {
@@ -107,8 +107,8 @@ export default Ember.Component.extend({
 			this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
 			this.get('cartography').getState(this.get('state')).then((state) => {
 				this.zoomToObject(state);
-				this.set('testStateCode', state.properties.state_code);
-				this.drawMunicipalities(this.get('testStateCode'));	
+				this.set('stateCode', state.properties.state_code);
+				this.drawMunicipalities(this.get('stateCode'));	
 			});
 
 		} else if (this.get('level') === 'municipality') {
@@ -118,12 +118,12 @@ export default Ember.Component.extend({
 			this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
 			this.get('cartography').getState(this.get('state')).then((state) => {
 				this.zoomToObject(state);
-				this.set('testStateCode', state.properties.state_code);
-				this.drawMunicipalities(this.get('testStateCode'));
+				this.set('stateCode', state.properties.state_code);
+				this.drawMunicipalities(this.get('stateCode'));
 
-				this.get('cartography').getMunicipality(this.get('municipality'), this.get('testStateCode')).then((municipality) => {
+				this.get('cartography').getMunicipality(this.get('municipality'), this.get('stateCode')).then((municipality) => {
 					this.zoomToObject(municipality);
-					this.set('testMuniCode', municipality.properties.mun_code);
+					this.set('muniCode', municipality.properties.mun_code);
 					this.drawSections();
 				});
 			});
@@ -285,9 +285,9 @@ export default Ember.Component.extend({
 		if (d.properties.section_code) {
 			this.sendAction('setSection', d.properties.section_code);
 		} else if(d.properties.mun_code) {
-			this.sendAction('setMunicipality',d.properties.mun_code, d.properties.mun_name);
+			this.sendAction('setMunicipality', d.properties.mun_name);
 		} else {
-			this.sendAction('setState',d.properties.state_code, d.properties.state_name);
+			this.sendAction('setState', d.properties.state_name);
 		}
 
 		// if (active.node() === this) {
@@ -386,7 +386,7 @@ export default Ember.Component.extend({
 	drawSections() {
 
 		if (Ember.isEmpty(this.get('sections'))) {
-			this.get('cartography').loadSectionsData(this.get('testStateCode'), this.get('testMuniCode')).then(() => {
+			this.get('cartography').loadSectionsData(this.get('stateCode'), this.get('muniCode')).then(() => {
 				this.renderSections();
 			});
 		} else {
