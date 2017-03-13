@@ -117,7 +117,6 @@ export default Ember.Component.extend({
 
 			this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
 			this.get('cartography').getState(this.get('state')).then((state) => {
-				this.zoomToObject(state);
 				this.set('stateCode', state.properties.state_code);
 				this.drawMunicipalities(this.get('stateCode'));
 
@@ -166,10 +165,6 @@ export default Ember.Component.extend({
  			// else
  				// center on newSection
 		}	
-
-		this.set('currState', this.get('state'));
-		this.set('currMuni', this.get('municipality'));
-		this.set('currSection', this.get('section'));
 	},
 
 	didUpdateAttrs() {
@@ -178,12 +173,6 @@ export default Ember.Component.extend({
 		console.log("UPDATE ATTRS");
 
 		this.renderMap();
-
-		// console.log("PARAMS CHANGED");
-		// console.log(this.get('level'));
-		// console.log(this.get('state'));
-		// console.log(this.get('municipality'));
-		// console.log(this.get('section'));
 	},
 
 	didInsertElement() {
@@ -317,7 +306,8 @@ export default Ember.Component.extend({
 		Ember.run.later(this, () => {
 			this.get('svg').transition()
 				.duration(950)
-				.call(this.get('zoom').transform, transform);
+				.call(this.get('zoom').transform, transform)
+				.on("end", this.updateCurrData());
 		}, 50);
 	},
 
@@ -349,40 +339,6 @@ export default Ember.Component.extend({
 			.translate(-this.get('center')[0], -this.get('center')[1]));
 	},
 
-	// Function to decide which layer to draw based on url params
-	draw(d) {
-		if (this.get('state') && this.get('municipality')) {
-			this.drawSections(d);
-		} else {
-			this.drawMunicipalities(d);
-		}
-	},
-
-	// Drawing sections
-	// drawSections(d) {
-	// 	let emberScope = this;
-	// 	let munCode = d.properties.mun_code;
-	// 	let stateCode = d.properties.state_code;
-
-	// 	d3.json("../assets/secciones.json", (error, data) => {
-
-	// 		let sections = topojson.feature(data, data.objects.secciones).features
-	// 			.filterBy('properties.state_code', stateCode)
-	// 			.filterBy('properties.mun_code', munCode);
-
-	// 		this.get('sectionsLayer').selectAll("*").remove();
-
-	// 		this.get('sectionsLayer').selectAll("path")
-	// 			.data(sections)
-	// 			.enter().append("path")
-	// 			.attr("d", this.get('path'))
-	// 			.attr("class", "section")
-	// 			.on("click", function(d) {
-	// 				emberScope.clicked(this, d);
-	// 			});
-	// 	});
-	// },
-
 	drawSections() {
 
 		if (Ember.isEmpty(this.get('sections'))) {
@@ -406,37 +362,6 @@ export default Ember.Component.extend({
 				emberScope.clicked(this, d);
 			});
 	},
-
-	// Drawing municipalities
-	// drawMunicipalities(d) {
-	// 	let emberScope = this;
-	// 	let stateCode = d.properties.state_code;
-
-	// 	d3.json("../assets/mx_tj.json", (error, data) => {
-	// 		let municipalities = topojson.feature(data, data.objects.municipalities).features
-	// 			.filterBy("properties.state_code", stateCode);
-
-	// 		Ember.run.later(this, () => {
-	// 			this.get('muniLayer').selectAll("path")
-	// 			.data(municipalities)
-	// 			.enter().append("path")
-	// 			.attr("d", this.get('path'))
-	// 			.attr("class", "feature")
-	// 			.on("click", function(d) {
-	// 				emberScope.clicked(this, d);
-	// 			});
-
-	// 			this.get('muniLayer').append("path")
-	// 			.datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
-	// 				if (a.properties.state_code == stateCode) {
-	// 					return a !== b; 	
-	// 				}
-	// 			}))
-	// 			.attr("class", "mesh")
-	// 			.attr("d", this.get('path'));
-	// 		}, 300);
-	// 	});
-	// },
 
 	drawMunicipalities(stateCode) {
 		if (Ember.isEmpty(this.get('municipalities'))) {
@@ -495,5 +420,12 @@ export default Ember.Component.extend({
 					emberContext.clicked(this, d);
 				});
 			});
+	},
+
+	updateCurrData() {
+		console.log("UPDATE CURRENT ATTRS");
+		this.set('currState', this.get('state'));
+		this.set('currMuni', this.get('municipality'));
+		this.set('currSection', this.get('section'));
 	}
 });
