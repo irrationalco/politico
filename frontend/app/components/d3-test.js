@@ -19,6 +19,8 @@ export default Ember.Component.extend({
 
 	centerCoords: [-102, 23],
 
+	fill: d3.scaleLog().domain([10, 50]).range(["green", "steelblue"]),
+
 	width: null,
 
 	height: null,
@@ -330,6 +332,12 @@ export default Ember.Component.extend({
 			.enter().append("path")
 			.attr("d", this.get('path'))
 			.attr("class", "section")
+			.style("fill", function(d) {
+				let randomNum = Math.floor(Math.random() * 50) + 10;
+
+				console.log(randomNum);
+				return emberContext.get('fill')(randomNum);
+			})
 			.on("click", function(d) {
 				emberContext.clicked(this, d);
 			});
