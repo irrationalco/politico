@@ -3,6 +3,8 @@ import d3 from "npm:d3";
 import d3Tile from "npm:d3-tile";
 import topojson from "npm:topojson";
 
+const { isEmpty } = Ember;
+
 export default Ember.Component.extend({
 
 	cartography: Ember.inject.service(),
@@ -67,42 +69,32 @@ export default Ember.Component.extend({
 
 	didReceiveAttrs() {
 		this._super(...arguments);
-
-		// this.get('cartography').getState("Colima").then((state) => {
-
-		// 	console.log("ESTADO:")
-		// 	console.log(state);	
-
-		// 	console.log("municipalities del estado:")
-		// 	console.log(this.get('cartography').get('municipalities'));
-
-		// 	let stateCode = state.properties.state_code;
-		// 	this.get('cartography').getMunicipality("Tecomán", stateCode).then((municipality) => {
-		// 		console.log("Municipio:")
-		// 		console.log(municipality);	
-
-		// 		console.log("sections del municipio:")
-		// 		console.log(this.get('cartography').get('sections'));
-
-		// 		let muniCode = municipality.properties.mun_code;
-
-		// 		this.get('cartography').getSection(stateCode, muniCode, 280).then((section) => {
-		// 			console.log("Seccion:");
-		// 			console.log(section);
-		// 		});
-		// 	});
-		// });
 	},
 
 	renderMap() {
-		if (this.get('level') === 'country') {
 
-			console.log('Drawing COUNTRY LEVEL');
+		console.log("Current State: " + this.get('currState'));
+		console.log("Current Municipality: " + this.get('currMuni'));
+		console.log("Current Section: " + this.get('currSection'));
+
+		console.log("New State: " + this.get('state'));
+		console.log("New Municipality: " + this.get('municipality'));
+		console.log("New Section: " + this.get('section'));
+
+		let currState = this.get('currState');
+		let newState = this.get('state');
+
+
+		if (this.get('level') === 'country') {
+			//remove everything
 			this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
 			this.drawStates();
 
 		} else if (this.get('level') === 'state') {
-			console.log("DRAWING STATE LEVEL");
+			// remove sections
+			if (currState === newState) {
+				this.get('cartography')
+			}
 
 			this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
 			this.get('cartography').getState(this.get('state')).then((state) => {
@@ -112,8 +104,6 @@ export default Ember.Component.extend({
 			});
 
 		} else if (this.get('level') === 'municipality') {
-
-			console.log("DRAWING MUNICIPALITY LEVEL");
 
 			this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
 			this.get('cartography').getState(this.get('state')).then((state) => {
@@ -341,7 +331,7 @@ export default Ember.Component.extend({
 
 	drawSections() {
 
-		if (Ember.isEmpty(this.get('sections'))) {
+		if (isEmpty(this.get('sections'))) {
 			this.get('cartography').loadSectionsData(this.get('stateCode'), this.get('muniCode')).then(() => {
 				this.renderSections();
 			});
@@ -364,7 +354,7 @@ export default Ember.Component.extend({
 	},
 
 	drawMunicipalities(stateCode) {
-		if (Ember.isEmpty(this.get('municipalities'))) {
+		if (isEmpty(this.get('municipalities'))) {
 			this.get('cartography').loadMunicipalitiesData(stateCode).then(() => {
 				this.renderMunicipalities();
 			});
@@ -398,7 +388,7 @@ export default Ember.Component.extend({
 	},
 
 	drawStates() {
-		if (Ember.isEmpty(this.get('states'))) {
+		if (isEmpty(this.get('states'))) {
 			this.get('cartography').loadStatesData().then(() => {
 				this.renderStates();
 			});

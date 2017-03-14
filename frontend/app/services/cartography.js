@@ -2,6 +2,8 @@ import Ember from 'ember';
 import d3 from "npm:d3";
 import topojson from "npm:topojson";
 
+const { isEmpty } = Ember;
+
 export default Ember.Service.extend({
 
   states: null,
@@ -16,7 +18,7 @@ export default Ember.Service.extend({
       // If states data is stored in var, then don't make request
       if (this.get('states')) {
         let state = this.get('states').filterBy('properties.state_name', stateName);
-        if (Ember.isEmpty(state)) {
+        if (isEmpty(state)) {
             reject(new Error("El código del estado es incorrecto."));
           } else {
             let stateCode = state[0].properties.state_code;
@@ -28,7 +30,7 @@ export default Ember.Service.extend({
         this.loadStatesData().then(() => {
           let state = this.get('states').filterBy('properties.state_name', stateName);
           //If state name is wrong and couldnt find this state
-          if (Ember.isEmpty(state)) {
+          if (isEmpty(state)) {
             reject(new Error("El nombre del estado es incorrecto. Debe llevar acentos."));
           } else {
             let stateCode = state[0].properties.state_code;
@@ -48,7 +50,7 @@ export default Ember.Service.extend({
       if (this.get('municipalities')) {
         let muni = this.get('municipalities').filterBy('properties.mun_name', muniName);
         // If municipality name is wrong and couldnt find it
-        if (Ember.isEmpty(muni)) {
+        if (isEmpty(muni)) {
           reject(new Error("El nombre del municipio es incorrecto. Debe llevar acentos."));
         } else {
           let muniCode = muni[0].properties.mun_code;
@@ -60,7 +62,7 @@ export default Ember.Service.extend({
         this.loadData().then(() => {
           let muni = this.get('municipalities').filterBy('properties.mun_name', muniName);
           // If municipality name is wrong and couldnt find it
-          if (Ember.isEmpty(muni)) {
+          if (isEmpty(muni)) {
             reject(new Error("El nombre del municipio es incorrecto. Debe llevar acentos."));
           } else {
             let muniCode = muni[0].properties.mun_code;
@@ -77,10 +79,10 @@ export default Ember.Service.extend({
     return new Promise((resolve, reject) => {
       // If sections data is store in var, then don't make request
       if (this.get('sections')) {
-        
+
         let section = this.get('sections').filterBy('properties.section_code', sectionCode);
         // If section code is wrong and couldn't find it
-        if (Ember.isEmpty(section)) {
+        if (isEmpty(section)) {
           reject(new Error("El código de la sección es incorrecto."));
         } else {
           resolve(section[0]);
@@ -89,7 +91,7 @@ export default Ember.Service.extend({
         this.loadSectionsData(stateCode, muniCode).then(() => {
           let section = this.get('sections').filterBy('properties.section_code', sectionCode);
           // If section code is wrong and couldn't find it
-          if (Ember.isEmpty(section)) {
+          if (isEmpty(section)) {
             reject(new Error("El código de la sección es incorrecto."));
           } else {
             resolve(section[0]);
