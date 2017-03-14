@@ -3,23 +3,23 @@
 	<div class="map-breadcrumbs">
 	
 		<ul class="map-links">
-			<li class="map-link">
+			<li class="map-link" {{action 'setCountry'}}>
 				México
 			</li>
 			{{#if state}}
-			<li class="map-link">
+			<li class="map-link" {{action 'setState'}}>
 				> {{state}}			
 			</li>
 			{{/if}}
 
 			{{#if municipality}}
-			<li class="map-link">
+			<li class="map-link" {{action 'setMunicipality'}}>
 				> {{municipality}}			
 			</li>
 			{{/if}}
 
 			{{#if section}}
-			<li class="map-link">
+			<li class="map-link" {{action 'setSection'}}>
 				> Sección: {{section}}			
 			</li>
 			{{/if}}

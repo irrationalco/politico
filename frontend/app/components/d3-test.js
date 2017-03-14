@@ -93,6 +93,10 @@ export default Ember.Component.extend({
 		// COUNTRY
 		if (this.get('level') === 'country') {
 			this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
+			if (!isEmpty(currState)) {
+				this.removeSections();
+				this.removeMunicipalities();
+			}
 		// STATE
 		} else if (this.get('level') === 'state') {
 			
@@ -334,8 +338,6 @@ export default Ember.Component.extend({
 			.attr("class", "section")
 			.style("fill", function(d) {
 				let randomNum = Math.floor(Math.random() * 50) + 10;
-
-				console.log(randomNum);
 				return emberContext.get('fill')(randomNum);
 			})
 			.on("click", function(d) {
