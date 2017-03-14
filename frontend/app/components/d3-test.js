@@ -83,29 +83,41 @@ export default Ember.Component.extend({
 
 		let currState = this.get('currState');
 		let newState = this.get('state');
+		let currMuni = this.get('currMuni');
+		let newMuni = this.get('municipality');
 
-
+		// COUNTRY
 		if (this.get('level') === 'country') {
-			//remove everything
-			this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
-			this.drawStates();
-
+			if (isEmpty(currState)) {
+				this.drawStates();
+			} else {
+				//remove everything
+				this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
+				this.drawStates();
+			}
+		// STATE
 		} else if (this.get('level') === 'state') {
-			// remove sections
+			
 			if (currState === newState) {
-				this.get('cartography')
+				this.get('cartography').getState(newState).then((state) => {
+					this.removeSections();
+					this.zoomToObject(state)
+					this.set('stateCode', state.properties.state_code);
+				});
+			} else {
+				this.get('cartography').getState(newState).then((state) => {
+					this.removeSections();
+					this.removeMunicipalities();
+					this.zoomToObject(state)
+					this.set('stateCode', state.properties.state_code);
+					this.drawMunicipalities(this.get('stateCode'));
+				});
 			}
 
-			this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
-			this.get('cartography').getState(this.get('state')).then((state) => {
-				this.zoomToObject(state);
-				this.set('stateCode', state.properties.state_code);
-				this.drawMunicipalities(this.get('stateCode'));	
-			});
-
+		// MUNICIPALITY
 		} else if (this.get('level') === 'municipality') {
 
-			this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
+
 			this.get('cartography').getState(this.get('state')).then((state) => {
 				this.set('stateCode', state.properties.state_code);
 				this.drawMunicipalities(this.get('stateCode'));
@@ -116,7 +128,6 @@ export default Ember.Component.extend({
 					this.drawSections();
 				});
 			});
-
 		}
 
 		if (this.get('level') === 'country') {
@@ -193,6 +204,7 @@ export default Ember.Component.extend({
 		this.set('muniLayer', this.get('svg').append('g'));
 		this.set('sectionsLayer', this.get('svg').append('g'));
 
+		this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
 		this.renderMap();
 
 		// Apply zoom behaviour to svg, and make an initial transform to center
@@ -327,6 +339,14 @@ export default Ember.Component.extend({
 			.translate(this.get('width') / 2, this.get('height') / 2)
 			.scale(1 << 13)
 			.translate(-this.get('center')[0], -this.get('center')[1]));
+	},
+
+	removeMunicipalities() {
+		this.get('muniLayer').selectAll('*').remove();
+	},
+
+	removeSections() {
+		this.get('sectionsLayer').selectAll('*').remove();
 	},
 
 	drawSections() {
