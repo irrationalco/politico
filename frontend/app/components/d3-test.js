@@ -69,7 +69,6 @@ export default Ember.Component.extend({
 
 	didReceiveAttrs() {
 		this._super(...arguments);
-		console.log("didReceiveAttrs");
 	},
 
 	renderMap() {
@@ -86,6 +85,8 @@ export default Ember.Component.extend({
 		let newState = this.get('state');
 		let currMuni = this.get('currMuni');
 		let newMuni = this.get('municipality');
+		let currSection = this.get('currSection');
+		let newSection = this.get('section');
 
 		// COUNTRY
 		if (this.get('level') === 'country') {
@@ -136,44 +137,28 @@ export default Ember.Component.extend({
 					});
 				});
 			}
-		}
-
-		if (this.get('level') === 'country') {
-			// remove sections
-			// remove municipalities
-			// center map on mexico
-		} else if(this.get('level') === 'state') {
-			// remove sections
-
-			// if (currState == newState)
-				// center map on newState
-			// else
-				// remove municipalities
-				// center map on newState
-				// draw municipalities of newState
-
-		} else if(this.get('level') === 'municipality') {
-			//if (currMuni == newMuni)
-				// center map on newMuni
-			//else 
-				//remove municipalities
-				//center map on newMuni
-				// draw sections of newMuni
-
+		// SECTION
 		} else if(this.get('level') === 'section') {
- 			// if (currState != newState)
- 				// remove sections
- 				// remove municipalities
- 				// draw municipalities
- 				// draw sections
- 				// center on newSection
- 			// else if (currState == newState && currMuni != newMuni)
- 				// remove sections
- 				// draw sections
- 				// center on newSection
- 			// else
- 				// center on newSection
-		}	
+			if (currState === newState && currMuni === currMuni) {
+				this.get('cartography').getSection(this.get('stateCode'), this.get('muniCode'), newSection).then((section) => {
+					this.zoomToObject(section);
+				});
+			} else {
+				this.get('cartography').getState(newState).then((state) => {
+					this.set('stateCode', state.properties.state_code);
+					this.drawMunicipalities(this.get('stateCode'));
+
+					this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
+						this.set('muniCode', municipality.properties.mun_code);
+
+						this.get('cartography').getSection(this.get('stateCode'), this.get('muniCode'), newSection).then((section) => {
+							this.drawSections();
+							this.zoomToObject(section);
+						});
+					});
+				});
+			}
+		}
 	},
 
 	didUpdateAttrs() {
@@ -277,9 +262,6 @@ export default Ember.Component.extend({
 
 	// Handling actions when element is clicked
 	clicked(element, d) {
-
-		console.log("element clicked");
-
 		if (d.properties.section_code) {
 			this.sendAction('setSection', d.properties.section_code);
 		} else if(d.properties.mun_code) {
@@ -349,7 +331,7 @@ export default Ember.Component.extend({
 			.attr("d", this.get('path'))
 			.attr("class", "section")
 			.on("click", function(d) {
-				emberScope.clicked(this, d);
+				emberContext.clicked(this, d);
 			});
 	},
 

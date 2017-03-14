@@ -76,11 +76,12 @@ export default Ember.Service.extend({
   },
 
   getSection(stateCode, muniCode, sectionCode) {
+
     return new Promise((resolve, reject) => {
       // If sections data is store in var, then don't make request
       if (this.get('sections')) {
 
-        let section = this.get('sections').filterBy('properties.section_code', sectionCode);
+        let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
         // If section code is wrong and couldn't find it
         if (isEmpty(section)) {
           reject(new Error("El código de la sección es incorrecto."));
@@ -89,7 +90,7 @@ export default Ember.Service.extend({
         }
       } else {
         this.loadSectionsData(stateCode, muniCode).then(() => {
-          let section = this.get('sections').filterBy('properties.section_code', sectionCode);
+          let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
           // If section code is wrong and couldn't find it
           if (isEmpty(section)) {
             reject(new Error("El código de la sección es incorrecto."));
