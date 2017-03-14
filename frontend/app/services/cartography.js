@@ -135,7 +135,6 @@ export default Ember.Service.extend({
             .filterBy('properties.mun_code', muniCode);
 
           this.set('sections', sections);
-
           resolve(sections);
         }
       });

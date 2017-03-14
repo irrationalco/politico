@@ -69,17 +69,18 @@ export default Ember.Component.extend({
 
 	didReceiveAttrs() {
 		this._super(...arguments);
+		console.log("didReceiveAttrs");
 	},
 
 	renderMap() {
 
-		console.log("Current State: " + this.get('currState'));
-		console.log("Current Municipality: " + this.get('currMuni'));
-		console.log("Current Section: " + this.get('currSection'));
+		// console.log("Current State: " + this.get('currState'));
+		// console.log("Current Municipality: " + this.get('currMuni'));
+		// console.log("Current Section: " + this.get('currSection'));
 
-		console.log("New State: " + this.get('state'));
-		console.log("New Municipality: " + this.get('municipality'));
-		console.log("New Section: " + this.get('section'));
+		// console.log("New State: " + this.get('state'));
+		// console.log("New Municipality: " + this.get('municipality'));
+		// console.log("New Section: " + this.get('section'));
 
 		let currState = this.get('currState');
 		let newState = this.get('state');
@@ -88,13 +89,7 @@ export default Ember.Component.extend({
 
 		// COUNTRY
 		if (this.get('level') === 'country') {
-			if (isEmpty(currState)) {
-				this.drawStates();
-			} else {
-				//remove everything
-				this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
-				this.drawStates();
-			}
+			this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
 		// STATE
 		} else if (this.get('level') === 'state') {
 			
@@ -116,18 +111,31 @@ export default Ember.Component.extend({
 
 		// MUNICIPALITY
 		} else if (this.get('level') === 'municipality') {
+			if (currMuni === newMuni) {
+				console.log("CURR MUNI");
 
-
-			this.get('cartography').getState(this.get('state')).then((state) => {
-				this.set('stateCode', state.properties.state_code);
-				this.drawMunicipalities(this.get('stateCode'));
-
-				this.get('cartography').getMunicipality(this.get('municipality'), this.get('stateCode')).then((municipality) => {
+				this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
 					this.zoomToObject(municipality);
-					this.set('muniCode', municipality.properties.mun_code);
+				});
+			} else if(currState === newState) {
+
+				this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
+					this.removeSections();
+					this.zoomToObject(municipality);
 					this.drawSections();
 				});
-			});
+			} else {
+				this.get('cartography').getState(newState).then((state) => {
+					this.set('stateCode', state.properties.state_code);
+					this.drawMunicipalities(this.get('stateCode'));
+
+					this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
+						this.zoomToObject(municipality);
+						this.set('muniCode', municipality.properties.mun_code);
+						this.drawSections();
+					});
+				});
+			}
 		}
 
 		if (this.get('level') === 'country') {
@@ -170,16 +178,11 @@ export default Ember.Component.extend({
 
 	didUpdateAttrs() {
 		this._super(...arguments);
-
-		console.log("UPDATE ATTRS");
-
 		this.renderMap();
 	},
 
 	didInsertElement() {
 		this._super(...arguments);
-
-		console.log("didInsertElement");
 
 		// Setting width and height of map container
 		let active = d3.select(null);
@@ -204,8 +207,10 @@ export default Ember.Component.extend({
 		this.set('muniLayer', this.get('svg').append('g'));
 		this.set('sectionsLayer', this.get('svg').append('g'));
 
+		this.drawStates();
 		this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
 		this.renderMap();
+
 
 		// Apply zoom behaviour to svg, and make an initial transform to center
 		this.get('svg')
@@ -273,12 +278,17 @@ export default Ember.Component.extend({
 	// Handling actions when element is clicked
 	clicked(element, d) {
 
+		console.log("element clicked");
+
 		if (d.properties.section_code) {
 			this.sendAction('setSection', d.properties.section_code);
 		} else if(d.properties.mun_code) {
 			this.sendAction('setMunicipality', d.properties.mun_name);
+			this.sendAction('setSection', '');
 		} else {
 			this.sendAction('setState', d.properties.state_name);
+			this.sendAction('setMunicipality', '');
+			this.sendAction('setSection', '');
 		}
 
 		// if (active.node() === this) {
@@ -299,11 +309,7 @@ export default Ember.Component.extend({
 	},
 
 	zoomToObject(d) {
-
-		console.log("ZOOM TO OBJECT");
-
 		let transform = this.calculateZoomToBBox(d, this.get('path'));
-		console.log(transform);
 
 		Ember.run.later(this, () => {
 			this.get('svg').transition()
@@ -321,32 +327,6 @@ export default Ember.Component.extend({
 			.translate(this.get('width') / 2, this.get('height') / 2)
 			.scale(zoomValue)
 			.translate(-center[0], -center[1]));
-	},
-
-	// Reset zoom and remove cities
-	reset() {
-		active.classed("active", false);
-		active = d3.select(null);
-
-		this.get('muniLayer').selectAll("*").remove();
-
-		this.sendAction('setMunicipality', "");
-		this.sendAction('setState', "");
-
-		svg.transition()
-			.duration(750)
-			.call(this.get('zoom').transform, d3.zoomIdentity
-			.translate(this.get('width') / 2, this.get('height') / 2)
-			.scale(1 << 13)
-			.translate(-this.get('center')[0], -this.get('center')[1]));
-	},
-
-	removeMunicipalities() {
-		this.get('muniLayer').selectAll('*').remove();
-	},
-
-	removeSections() {
-		this.get('sectionsLayer').selectAll('*').remove();
 	},
 
 	drawSections() {
@@ -432,8 +412,33 @@ export default Ember.Component.extend({
 			});
 	},
 
+	// Reset zoom and remove cities
+	reset() {
+		active.classed("active", false);
+		active = d3.select(null);
+
+		this.get('muniLayer').selectAll("*").remove();
+
+		this.sendAction('setMunicipality', "");
+		this.sendAction('setState', "");
+
+		svg.transition()
+			.duration(750)
+			.call(this.get('zoom').transform, d3.zoomIdentity
+			.translate(this.get('width') / 2, this.get('height') / 2)
+			.scale(1 << 13)
+			.translate(-this.get('center')[0], -this.get('center')[1]));
+	},
+
+	removeMunicipalities() {
+		this.get('muniLayer').selectAll('*').remove();
+	},
+
+	removeSections() {
+		this.get('sectionsLayer').selectAll('*').remove();
+	},
+
 	updateCurrData() {
-		console.log("UPDATE CURRENT ATTRS");
 		this.set('currState', this.get('state'));
 		this.set('currMuni', this.get('municipality'));
 		this.set('currSection', this.get('section'));
