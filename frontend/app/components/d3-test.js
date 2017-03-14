@@ -13,6 +13,8 @@ export default Ember.Component.extend({
 
 	municipalities: Ember.computed.oneWay('cartography.municipalities'),
 
+	municipalitiesBorders: Ember.computed.oneWay('cartography.municipalitiesBorders'),
+
 	sections: Ember.computed.oneWay('cartography.sections'),
 
 	scaleExtent: [1 << 11, 1 << 26],
@@ -74,15 +76,6 @@ export default Ember.Component.extend({
 	},
 
 	renderMap() {
-
-		// console.log("Current State: " + this.get('currState'));
-		// console.log("Current Municipality: " + this.get('currMuni'));
-		// console.log("Current Section: " + this.get('currSection'));
-
-		// console.log("New State: " + this.get('state'));
-		// console.log("New Municipality: " + this.get('municipality'));
-		// console.log("New Section: " + this.get('section'));
-
 		let currState = this.get('currState');
 		let newState = this.get('state');
 		let currMuni = this.get('currMuni');
@@ -244,11 +237,11 @@ export default Ember.Component.extend({
 
 		this.get('sectionsLayer')
 			.attr("transform", transform)
-			.style("stroke-width", 1.3 / transform.k);
+			.style("stroke-width", 2 / transform.k);
 
 		this.get('muniLayer')
 			.attr("transform", transform)
-			.style("stroke-width", 6.0041e-06);
+			.style("stroke-width", 1.5 /transform.k);
 
 		var image = this.get('imageLayer')
 			.attr("transform", this.stringify(tiles.scale, tiles.translate))
@@ -368,14 +361,10 @@ export default Ember.Component.extend({
 				emberContext.clicked(this, d);
 			});
 
-			// this.get('muniLayer').append("path")
-			// .datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
-			// 	if (a.properties.state_code == stateCode) {
-			// 		return a !== b; 	
-			// 	}
-			// }))
-			// .attr("class", "mesh")
-			// .attr("d", this.get('path'));
+			this.get('muniLayer').append("path")
+				.datum(this.get('municipalitiesBorders'))
+				.attr("class", "mesh")
+				.attr("d", this.get('path'));
 		}, 300);
 	},
 

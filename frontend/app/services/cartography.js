@@ -10,6 +10,8 @@ export default Ember.Service.extend({
 
   municipalities: null,
 
+  municipalitiesBorders: null,
+
   sections: null,
 
   // Function that gets a specific state object by name and loads its municipalities
@@ -76,7 +78,6 @@ export default Ember.Service.extend({
   },
 
   getSection(stateCode, muniCode, sectionCode) {
-
     return new Promise((resolve, reject) => {
       // If sections data is store in var, then don't make request
       if (this.get('sections')) {
@@ -114,12 +115,18 @@ export default Ember.Service.extend({
     });
   },
 
-  loadMunicipalitiesData(stateCode){
+  loadMunicipalitiesData(stateCode) {
     return new Promise((resolve, reject) => {
       d3.json("../assets/mx_tj.json", (error, data) => {
         if (error) { reject(error); }
         if (data) {
-          this.set('municipalities', topojson.feature(data, data.objects.municipalities).features.filterBy('properties.state_code',stateCode));
+          this.set('municipalities', topojson.feature(data, data.objects.municipalities).features.filterBy('properties.state_code', stateCode));
+
+          this.set('municipalitiesBorders', topojson.mesh(data, data.objects.municipalities, function(a, b) {
+            if (a.properties.state_code === stateCode) { return a !== b; }
+          }));
+          console.log(this.get('municipalitiesBorders'));
+
           resolve("municipalities data loaded succesfully.");
         }
       });
