@@ -21,7 +21,7 @@ export default Ember.Component.extend({
 
 	centerCoords: [-102, 23],
 
-	fill: d3.scaleLog().domain([10, 50]).range(["green", "steelblue"]),
+	fill: d3.scaleLog().domain([10, 50]).range(["brown", "steelblue"]),
 
 	width: null,
 
