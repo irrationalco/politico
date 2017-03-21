@@ -41,6 +41,7 @@ export default Ember.Component.extend({
 	zoom: Ember.computed('scaleExtent', function() {
 		return d3.zoom().scaleExtent(this.get('scaleExtent'))
 			.on('zoom', () => {
+				this.get('tooltip').style('display', 'none');
 				this.zoomed();
 			});
 	}),
@@ -114,7 +115,6 @@ export default Ember.Component.extend({
 		// MUNICIPALITY
 		} else if (this.get('level') === 'municipality') {
 			if (currMuni === newMuni) {
-				console.log("CURR MUNI");
 
 				this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
 					this.zoomToObject(municipality);
@@ -209,23 +209,19 @@ export default Ember.Component.extend({
 		
 		// Calculating scale by getting path bounds
 		let dx = bounds[1][0] - bounds[0][0],
-		dy = bounds[1][1] - bounds[0][1],
-		x = (bounds[0][0] + bounds[1][0]) / 2,
-		y = (bounds[0][1] + bounds[1][1]) / 2;
+			dy = bounds[1][1] - bounds[0][1],
+			x = (bounds[0][0] + bounds[1][0]) / 2,
+			y = (bounds[0][1] + bounds[1][1]) / 2;
 
 		return d3.zoomIdentity
-		.translate(this.get('width') / 2, this.get('height') / 2)
-		.scale(.9 / Math.max(dx / this.get('width'), dy / this.get('height')))
-		.translate(-x, -y);
+			.translate(this.get('width') / 2, this.get('height') / 2)
+			.scale(.9 / Math.max(dx / this.get('width'), dy / this.get('height')))
+			.translate(-x, -y);
 	},
 
 	stringify(scale, translate) {
 		var k = scale / 256, r = scale % 1 ? Number : Math.round;
 		return "translate(" + r(translate[0] * scale) + "," + r(translate[1] * scale) + ") scale(" + k + ")";
-	},
-
-	showTooltip() {
-		console.log("adsfadsf");
 	},
 
 	zoomed() {
@@ -325,6 +321,20 @@ export default Ember.Component.extend({
 		}
 	},
 
+	showTooltip(d, path) {
+
+		let bounds = path.bounds(d);
+
+		let width = bounds[1][0] - bounds[0][0];
+		let height = bounds[1][1] - bounds[0][1];
+
+		this.get('tooltip')
+			.text("Something")
+			.style("display", "inline")
+			.style("left", (d3.event.pageX - 34) + "px")
+			.style("top", (d3.event.pageY - 12) + "px");
+	},
+
 	renderSections() {
 		let emberContext = this;
 
@@ -341,15 +351,19 @@ export default Ember.Component.extend({
 				emberContext.clicked(this, d);
 			})
 			.on("mouseover", function(d) {
-				console.log(d3.event.pageX);
-
-				console.log(emberContext.get('tooltip'));
-
 				emberContext.get('tooltip')
-					.text("SOMETHING")
-					.style("display", "inline")
+					.style('display', "inline")
+					.text("Something");
+				console.log(d3.event);
+			})
+			.on("mousemove", function(d) {
+				emberContext.get('tooltip')
 					.style("left", (d3.event.pageX - 34) + "px")
 					.style("top", (d3.event.pageY - 12) + "px");
+			})
+			.on("mouseout", function(d) {
+				emberContext.get('tooltip')
+					.style('display', 'none');
 			});
 	},
 
