@@ -66,6 +66,8 @@ export default Ember.Component.extend({
 	stateCode: null,
 	muniCode: null,
 
+	tooltip: d3.select('body').append("div").attr('class', 'tooltip-map').style('display', 'none'),
+
 	// Overriding init
 	init() {
 		this._super(...arguments);
@@ -195,12 +197,10 @@ export default Ember.Component.extend({
 		this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
 		this.renderMap();
 
-
 		// Apply zoom behaviour to svg, and make an initial transform to center
 		this.get('svg')
 			.call(this.get('zoom'));
 
-		
 	},
 
 	// Function that calculates zoom and the required translation to a given Bounding Box
@@ -224,6 +224,10 @@ export default Ember.Component.extend({
 		return "translate(" + r(translate[0] * scale) + "," + r(translate[1] * scale) + ") scale(" + k + ")";
 	},
 
+	showTooltip() {
+		console.log("adsfadsf");
+	},
+
 	zoomed() {
 		let transform = d3.event.transform;
 
@@ -233,15 +237,15 @@ export default Ember.Component.extend({
 
 		this.get('statesLayer')
 			.attr("transform", transform)
-			.style("stroke-width", 1 / transform.k);
-
-		this.get('sectionsLayer')
-			.attr("transform", transform)
-			.style("stroke-width", 2 / transform.k);
+			.style("stroke-width", 1.2 / transform.k);
 
 		this.get('muniLayer')
 			.attr("transform", transform)
-			.style("stroke-width", 1.5 /transform.k);
+			.style("stroke-width", .8 /transform.k);
+
+		this.get('sectionsLayer')
+			.attr("transform", transform)
+			.style("stroke-width", 3 / transform.k);
 
 		var image = this.get('imageLayer')
 			.attr("transform", this.stringify(tiles.scale, tiles.translate))
@@ -335,6 +339,17 @@ export default Ember.Component.extend({
 			})
 			.on("click", function(d) {
 				emberContext.clicked(this, d);
+			})
+			.on("mouseover", function(d) {
+				console.log(d3.event.pageX);
+
+				console.log(emberContext.get('tooltip'));
+
+				emberContext.get('tooltip')
+					.text("SOMETHING")
+					.style("display", "inline")
+					.style("left", (d3.event.pageX - 34) + "px")
+					.style("top", (d3.event.pageY - 12) + "px");
 			});
 	},
 

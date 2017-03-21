@@ -125,7 +125,6 @@ export default Ember.Service.extend({
           this.set('municipalitiesBorders', topojson.mesh(data, data.objects.municipalities, function(a, b) {
             if (a.properties.state_code === stateCode) { return a !== b; }
           }));
-          console.log(this.get('municipalitiesBorders'));
 
           resolve("municipalities data loaded succesfully.");
         }
