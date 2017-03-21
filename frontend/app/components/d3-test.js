@@ -67,7 +67,7 @@ export default Ember.Component.extend({
 	stateCode: null,
 	muniCode: null,
 
-	tooltip: d3.select('body').append("div").attr('class', 'tooltip-map').style('display', 'none'),
+	tooltip: null,
 
 	// Overriding init
 	init() {
@@ -186,6 +186,8 @@ export default Ember.Component.extend({
 			.attr("class", "map-background")
 			.attr("width", this.get('width'))
 			.attr("height", this.get('height'));
+
+		this.set('tooltip', d3.select('#tooltip-map'));
 
 		// Defining layers
 		this.set('imageLayer', this.get('svg').append('g'));
@@ -321,20 +323,6 @@ export default Ember.Component.extend({
 		}
 	},
 
-	showTooltip(d, path) {
-
-		let bounds = path.bounds(d);
-
-		let width = bounds[1][0] - bounds[0][0];
-		let height = bounds[1][1] - bounds[0][1];
-
-		this.get('tooltip')
-			.text("Something")
-			.style("display", "inline")
-			.style("left", (d3.event.pageX - 34) + "px")
-			.style("top", (d3.event.pageY - 12) + "px");
-	},
-
 	renderSections() {
 		let emberContext = this;
 
@@ -352,14 +340,12 @@ export default Ember.Component.extend({
 			})
 			.on("mouseover", function(d) {
 				emberContext.get('tooltip')
-					.style('display', "inline")
-					.text("Something");
-				console.log(d3.event);
+					.style('display', "inline");
 			})
 			.on("mousemove", function(d) {
 				emberContext.get('tooltip')
-					.style("left", (d3.event.pageX - 34) + "px")
-					.style("top", (d3.event.pageY - 12) + "px");
+					.style("left", (d3.event.pageX - 170) + "px")
+					.style("top", (d3.event.pageY - 100) + "px");
 			})
 			.on("mouseout", function(d) {
 				emberContext.get('tooltip')
