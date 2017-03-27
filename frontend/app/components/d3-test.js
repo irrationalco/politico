@@ -208,9 +208,10 @@ export default Ember.Component.extend({
 		this.set('muniLayer', this.get('svg').append('g'));
 		this.set('sectionsLayer', this.get('svg').append('g'));
 
-		this.drawStates();
+		// this.drawStates();
+		this.renderDistricts();
 		this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
-		this.renderMap();
+		// this.renderMap();
 
 		// Apply zoom behaviour to svg, and make an initial transform to center
 		this.get('svg')
@@ -419,6 +420,18 @@ export default Ember.Component.extend({
 					emberContext.clicked(this, d);
 				});
 			});
+	},
+
+	renderDistricts() {
+		d3.json("../assets/distritos.json", (error, data) => {
+			if (error) { reject(error); }
+
+			this.get('statesLayer').selectAll("path")
+				.data(topojson.feature(data, data.objects.mx_distrito).features)
+				.enter().append("path")
+				.attr("d", this.get('path'))
+				.attr("class", "feature");
+		});
 	},
 
 	// Reset zoom and remove cities

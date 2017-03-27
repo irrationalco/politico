@@ -50,6 +50,7 @@ module.exports = function(defaults) {
 
   app.import('vendor/MX_NL.json', { destDir: 'assets' });
   app.import('vendor/MX_NLe5.json', { destDir: 'assets' });
+  app.import('vendor/distritos.json', { destDir: 'assets' });
 
   app.import('vendor/nuevoleon_secciones.json', {
     destDir: 'assets'
