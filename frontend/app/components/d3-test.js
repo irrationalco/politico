@@ -17,7 +17,7 @@ export default Ember.Component.extend({
 
 	sections: Ember.computed.oneWay('cartography.sections'),
 
-	scaleExtent: [1 << 11, 1 << 26],
+	scaleExtent: [1 << 11, 1 << 26.5],
 
 	centerCoords: [-102, 23],
 
