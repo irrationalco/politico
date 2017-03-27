@@ -3,10 +3,12 @@ import Ember from 'ember';
 const { isEmpty } = Ember;
 
 export default Ember.Controller.extend({
-	queryParams: ['state', 'municipality', 'section'],
+	queryParams: ['state', 'municipality', 'section', 'federalDistrict', 'typeOfMap'],
 	state: "",
 	municipality: "",
 	section: "",
+	federalDistrict: "",
+	typeOfMap: "",
 
 	level: Ember.computed('state', 'municipality', 'section', function() {
 		if (Ember.isEmpty(this.get('state'))) {
