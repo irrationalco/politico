@@ -79,6 +79,9 @@ export default Ember.Component.extend({
 	},
 
 	renderMap() {
+
+		console.log("RENDER MAP");
+
 		let currState = this.get('currState');
 		let newState = this.get('state');
 		let currMuni = this.get('currMuni');
@@ -86,15 +89,25 @@ export default Ember.Component.extend({
 		let currSection = this.get('currSection');
 		let newSection = this.get('section');
 
+		console.log(this.get('level'));
+
 		// COUNTRY
 		if (this.get('level') === 'country') {
+
+			console.log("Current State " + currState);
+			console.log("New State " + newState);
+
 			this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
 			if (!isEmpty(currState)) {
 				this.removeSections();
 				this.removeMunicipalities();
 			}
+			this.updateCurrData();
 		// STATE
 		} else if (this.get('level') === 'state') {
+
+			console.log("Current State " + currState);
+			console.log("New State " + newState);
 			
 			if (currState === newState) {
 				this.get('cartography').getState(newState).then((state) => {

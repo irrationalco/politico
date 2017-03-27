@@ -17,7 +17,7 @@ export default Ember.Service.extend({
   // Function that gets a specific state object by name and loads its municipalities
   getState(stateName) {
     return new Promise((resolve, reject) => {
-      // If states data is stored in var, then don't make request
+      // If all states data is stored in var, then don't make request
       if (this.get('states')) {
         let state = this.get('states').filterBy('properties.state_name', stateName);
         if (isEmpty(state)) {
@@ -48,7 +48,7 @@ export default Ember.Service.extend({
   // Function that gets a specific municipality object by name name and loads its sections
   getMunicipality(muniName, stateCode) {
     return new Promise((resolve, reject) => {
-      // If municipalities data is stored in var, then don't make request
+      // If all municipalities data is stored in var, then don't make request
       if (this.get('municipalities')) {
         let muni = this.get('municipalities').filterBy('properties.mun_name', muniName);
         // If municipality name is wrong and couldnt find it
@@ -79,7 +79,7 @@ export default Ember.Service.extend({
 
   getSection(stateCode, muniCode, sectionCode) {
     return new Promise((resolve, reject) => {
-      // If sections data is store in var, then don't make request
+      // If all sections data is store in var, then don't make request
       if (this.get('sections')) {
 
         let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
