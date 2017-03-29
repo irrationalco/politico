@@ -42,6 +42,15 @@ export default Ember.Controller.extend({
 			}
 		},
 
+		setFederalDistrict(districtCode) {
+			if (districtCode === this.get('federalDistrict')) {
+				this.set('federalDistrict', null);
+				this.set('federalDistrict', districtCode);
+			} else {
+				this.set('federalDistrict', districtCode);	
+			}
+		},
+
 		setSection(sectionCode) {
 			if (sectionCode === this.get('section')) {
 				this.set('section', null);

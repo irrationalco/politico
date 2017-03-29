@@ -86,6 +86,13 @@ export default Ember.Component.extend({
 		this.get('cartography').getState('Nuevo León').then((state) => {
 			this.set('stateCode', state.properties.state_code);
 			this.drawFederalDistricts(this.get('stateCode'));
+
+			this.get('cartography').getFederalDistrict(1, this.get('stateCode')).then((municipality) => {
+				this.zoomToObject(municipality);
+				// this.set('muniCode', municipality.properties.mun_code);
+				this.drawSections();
+			});
+
 		});
 
 
@@ -301,6 +308,9 @@ export default Ember.Component.extend({
 			this.sendAction('setSection', d.properties.section_code);
 		} else if(d.properties.mun_code) {
 			this.sendAction('setMunicipality', d.properties.mun_name);
+			this.sendAction('setSection', '');
+		} else if (d.properties.district_code) {
+			this.sendAction('setFederalDistrict', d.properties.district_code);
 			this.sendAction('setSection', '');
 		} else {
 			this.sendAction('setState', d.properties.state_name);
