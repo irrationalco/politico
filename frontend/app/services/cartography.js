@@ -27,7 +27,9 @@ export default Ember.Service.extend({
           } else {
             let stateCode = state[0].properties.state_code;
             this.loadMunicipalitiesData(stateCode).then(() => {
-              resolve(state[0]);
+              this.loadFederalDistrictsData(stateCode).then(() => {
+                resolve(state[0]);
+              });
             });
           }
       } else {
@@ -39,7 +41,9 @@ export default Ember.Service.extend({
           } else {
             let stateCode = state[0].properties.state_code;
             this.loadMunicipalitiesData(stateCode).then(() => {
-              resolve(state[0]);
+              this.loadFederalDistrictsData(stateCode).then(() => {
+                resolve(state[0]);
+              });
             });
           }
         });
@@ -49,25 +53,31 @@ export default Ember.Service.extend({
 
   // Function that gets a specific district object by code and loads its sections
   getFederalDistrict(districtCode, stateCode) {
+
+    console.log(districtCode);
+    console.log(stateCode);
+
     return new Promise((resolve,reject) => {
       if (this.get('federalDistricts')) {
-        let district = this.get('federalDistricts').filterBy('properties.district_code', districtCode);
+        console.log('DATA IS THERE');
+        let district = this.get('federalDistricts').filterBy('properties.district_code', parseInt(districtCode));
 
         if (isEmpty(district)) {
           reject(new Error("No hay ese codigo de distrito para ese estado."));
         } else {
-          this.loadSectionsData(stateCode, districtCode, 'district_code').then(() => {
+          this.loadSectionsData(stateCode, parseInt(districtCode), 'district_code').then(() => {
             resolve(district[0]);
           });
         }
       } else {
+        console.log('NO DATA IS THERE');
         this.loadFederalDistrictsData(stateCode).then(() => {
-          let district = this.get('federalDistricts').filterBy('properties.district_code', districtCode);
+          let district = this.get('federalDistricts').filterBy('properties.district_code', parseInt(districtCode));
 
           if (isEmpty(district)) {
             reject(new Error("No hay ese codigo de distrito para ese estado."));
           } else {
-            this.loadSectionsData(stateCode, districtCode, 'district_code').then(() => {
+            this.loadSectionsData(stateCode, parseInt(districtCode), 'district_code').then(() => {
               resolve(district[0]);
             });
           }
@@ -182,6 +192,7 @@ export default Ember.Service.extend({
   },
 
   loadSectionsData(stateCode, code, property) {
+    console.log("loading sections data");
     return new Promise((resolve, reject) => {
       d3.json("../assets/secciones.json", (error, data) => {
         if (error) { reject(error); }

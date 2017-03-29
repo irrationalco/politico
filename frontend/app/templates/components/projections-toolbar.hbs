@@ -12,10 +12,18 @@
 			</li>
 			{{/if}}
 
-			{{#if municipality}}
-			<li class="map-link" {{action 'setMunicipality'}}>
-				> {{municipality}}			
-			</li>
+			{{#if municipalityDivision}}
+				{{#if municipality}}
+				<li class="map-link" {{action 'setMunicipality'}}>
+					> {{municipality}}			
+				</li>
+				{{/if}}
+			{{else}}
+				{{#if federalDistrict}}
+				<li class="map-link" {{action 'setFederalDistrict'}}>
+					> Distrito Federal {{federalDistrict}}			
+				</li>
+				{{/if}}
 			{{/if}}
 
 			{{#if section}}

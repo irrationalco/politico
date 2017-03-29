@@ -3,19 +3,19 @@ import Ember from 'ember';
 const { isEmpty } = Ember;
 
 export default Ember.Controller.extend({
-	queryParams: ['state', 'municipality', 'section', 'federalDistrict', 'typeOfMap'],
+	queryParams: ['state', 'municipality', 'section', 'federalDistrict', 'mapDivision'],
 	state: "",
 	municipality: "",
 	section: "",
 	federalDistrict: "",
-	typeOfMap: "",
+	mapDivision: "municipal",
 
-	level: Ember.computed('state', 'municipality', 'section', function() {
+	level: Ember.computed('state', 'municipality', 'section', 'federalDistrict', function() {
 		if (Ember.isEmpty(this.get('state'))) {
 			return "country";
-		} else if(this.get('state') && isEmpty(this.get('municipality')) && isEmpty(this.get('section'))) {
+		} else if(this.get('state') && isEmpty(this.get('municipality')) && isEmpty(this.get('federalDistrict')) && isEmpty(this.get('section'))) {
 			return "state";
-		} else if(this.get('state') && this.get('municipality') && isEmpty(this.get('section'))) {
+		} else if(this.get('state') && (this.get('municipality') || this.get('federalDistrict')) && isEmpty(this.get('section'))) {
 			return "municipality";
 		} else {
 			return "section";
@@ -58,6 +58,13 @@ export default Ember.Controller.extend({
 			} else {
 				this.set('section', sectionCode);	
 			}
-		}
+		},
+
+		setMapDivision(type) {
+			this.set('mapDivision', type);
+			this.set('section', "");
+			this.set('federalDistrict', "");
+			this.set('municipality', "");
+		},
 	}
 });
