@@ -9,10 +9,12 @@ export default Ember.Service.extend({
   states: null,
 
   municipalities: null,
-
   municipalitiesBorders: null,
 
   sections: null,
+
+  federalDistricts: null,
+  federalDistrictsBorders: null,
 
   // Function that gets a specific state object by name and loads its municipalities
   getState(stateName) {
@@ -45,7 +47,36 @@ export default Ember.Service.extend({
     });
   },
 
-  // Function that gets a specific municipality object by name name and loads its sections
+  // Function that gets a specific district object by code and loads its sections
+  getFederalDistrict(districtCode, stateCode) {
+    return new Promise((resolve,reject) => {
+      if (this.get('federalDistricts')) {
+        let district = this.get('federalDistricts').filterBy('properties.district_code', districtCode);
+
+        if (isEmpty(district)) {
+          reject(new Error("No hay ese codigo de distrito para ese estado."));
+        } else {
+          this.loadSectionsData(stateCode, districtCode, 'district_code').then(() => {
+            resolve(district[0]);
+          });
+        }
+      } else {
+        this.loadFederalDistrictsData(stateCode).then(() => {
+          let district = this.get('federalDistricts').filterBy('properties.district_code', districtCode);
+
+          if (isEmpty(district)) {
+            reject(new Error("No hay ese codigo de distrito para ese estado."));
+          } else {
+            this.loadSectionsData(stateCode, districtCode, 'district_code').then(() => {
+              resolve(district[0]);
+            });
+          }
+        });
+      }
+    });
+  },
+
+  // Function that gets a specific municipality object by name and loads its sections
   getMunicipality(muniName, stateCode) {
     return new Promise((resolve, reject) => {
       // If all municipalities data is stored in var, then don't make request
@@ -56,19 +87,19 @@ export default Ember.Service.extend({
           reject(new Error("El nombre del municipio es incorrecto. Debe llevar acentos."));
         } else {
           let muniCode = muni[0].properties.mun_code;
-          this.loadSectionsData(stateCode, muniCode).then(() => {
+          this.loadSectionsData(stateCode, muniCode, 'mun_code').then(() => {
             resolve(muni[0]);
           });
         }
       } else {
-        this.loadData().then(() => {
+        this.loadMunicipalitiesData(stateCode).then(() => {
           let muni = this.get('municipalities').filterBy('properties.mun_name', muniName);
           // If municipality name is wrong and couldnt find it
           if (isEmpty(muni)) {
             reject(new Error("El nombre del municipio es incorrecto. Debe llevar acentos."));
           } else {
             let muniCode = muni[0].properties.mun_code;
-            this.loadSectionsData(stateCode, muniCode).then(() => {
+            this.loadSectionsData(stateCode, muniCode, 'mun_code').then(() => {
               resolve(muni[0]);
             });
           }
@@ -90,7 +121,8 @@ export default Ember.Service.extend({
           resolve(section[0]);
         }
       } else {
-        this.loadSectionsData(stateCode, muniCode).then(() => {
+        // CHANGE THIS FOR DISTRICTS LOGIC
+        this.loadSectionsData(stateCode, muniCode, 'mun_code').then(() => {
           let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
           // If section code is wrong and couldn't find it
           if (isEmpty(section)) {
@@ -132,14 +164,31 @@ export default Ember.Service.extend({
     });
   },
 
-  loadSectionsData(stateCode, muniCode) {
+  loadFederalDistrictsData(stateCode) {
+    return new Promise((resolve, reject) => {
+      d3.json("../assets/distritos.json", (error, data) => {
+        if (error) { reject(error); }
+
+        if (data) {
+          this.set('federalDistricts', topojson.feature(data, data.objects.mx_distrito).features.filterBy('properties.state_code',stateCode));
+
+          this.set('federalDistrictsBorders', topojson.mesh(data, data.objects.mx_distrito, function(a, b) {
+            if (a.properties.state_code === stateCode) { return a !== b; }
+          }));
+          resolve("Federal districts loaded succesfully");
+        }
+      });
+    })
+  },
+
+  loadSectionsData(stateCode, code, property) {
     return new Promise((resolve, reject) => {
       d3.json("../assets/secciones.json", (error, data) => {
         if (error) { reject(error); }
         if (data) {
           let sections = topojson.feature(data, data.objects.secciones).features
             .filterBy('properties.state_code', stateCode)
-            .filterBy('properties.mun_code', muniCode);
+            .filterBy('properties.' + property, code);
 
           this.set('sections', sections);
           resolve(sections);

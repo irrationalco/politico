@@ -12,8 +12,10 @@ export default Ember.Component.extend({
 	states: Ember.computed.oneWay('cartography.states'),
 
 	municipalities: Ember.computed.oneWay('cartography.municipalities'),
-
 	municipalitiesBorders: Ember.computed.oneWay('cartography.municipalitiesBorders'),
+
+	federalDistricts: Ember.computed.oneWay('cartography.federalDistricts'),
+	federalDistrictsBorders: Ember.computed.oneWay('cartography.federalDistrictsBorders'),
 
 	sections: Ember.computed.oneWay('cartography.sections'),
 
@@ -80,99 +82,117 @@ export default Ember.Component.extend({
 
 	renderMap() {
 
-		console.log("RENDER MAP");
 
-		let currState = this.get('currState');
-		let newState = this.get('state');
-		let currMuni = this.get('currMuni');
-		let newMuni = this.get('municipality');
-		let currSection = this.get('currSection');
-		let newSection = this.get('section');
+		this.get('cartography').getState('Nuevo León').then((state) => {
+			this.set('stateCode', state.properties.state_code);
+			this.drawFederalDistricts(this.get('stateCode'));
+		});
 
-		console.log(this.get('level'));
 
-		// COUNTRY
-		if (this.get('level') === 'country') {
+		// this.get('cartography').getState(newState).then((state) => {
+		// 	this.set('stateCode', state.properties.state_code);
+		// 	this.drawMunicipalities(this.get('stateCode'));
 
-			console.log("Current State " + currState);
-			console.log("New State " + newState);
+		// 	this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
+		// 		this.zoomToObject(municipality);
+		// 		this.set('muniCode', municipality.properties.mun_code);
+		// 		this.drawSections();
+		// 	});
+		// });
 
-			this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
-			if (!isEmpty(currState)) {
-				this.removeSections();
-				this.removeMunicipalities();
-			}
-			this.updateCurrData();
-		// STATE
-		} else if (this.get('level') === 'state') {
+		// console.log("RENDER MAP");
 
-			console.log("Current State " + currState);
-			console.log("New State " + newState);
+		// let currState = this.get('currState');
+		// let newState = this.get('state');
+		// let currMuni = this.get('currMuni');
+		// let newMuni = this.get('municipality');
+		// let currSection = this.get('currSection');
+		// let newSection = this.get('section');
+
+		// console.log(this.get('level'));
+
+		// // COUNTRY
+		// if (this.get('level') === 'country') {
+
+		// 	console.log("Current State " + currState);
+		// 	console.log("New State " + newState);
+
+		// 	this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
+		// 	if (!isEmpty(currState)) {
+		// 		this.removeSections();
+		// 		this.removeMunicipalities();
+		// 	}
+		// 	this.updateCurrData();
+		// // STATE
+		// } else if (this.get('level') === 'state') {
+
+		// 	console.log("Current State " + currState);
+		// 	console.log("New State " + newState);
 			
-			if (currState === newState) {
-				this.get('cartography').getState(newState).then((state) => {
-					this.removeSections();
-					this.zoomToObject(state)
-					this.set('stateCode', state.properties.state_code);
-				});
-			} else {
-				this.get('cartography').getState(newState).then((state) => {
-					this.removeSections();
-					this.removeMunicipalities();
-					this.zoomToObject(state)
-					this.set('stateCode', state.properties.state_code);
-					this.drawMunicipalities(this.get('stateCode'));
-				});
-			}
+		// 	if (currState === newState) {
+		// 		this.get('cartography').getState(newState).then((state) => {
+		// 			this.removeSections();
+		// 			this.zoomToObject(state)
+		// 			this.set('stateCode', state.properties.state_code);
+		// 		});
+		// 	} else {
+		// 		this.get('cartography').getState(newState).then((state) => {
+		// 			this.removeSections();
+		// 			this.removeMunicipalities();
+		// 			this.zoomToObject(state)
+		// 			this.set('stateCode', state.properties.state_code);
+		// 			this.drawMunicipalities(this.get('stateCode'));
+		// 		});
+		// 	}
 
-		// MUNICIPALITY
-		} else if (this.get('level') === 'municipality') {
-			if (currMuni === newMuni) {
+		// // MUNICIPALITY
+		// } else if (this.get('level') === 'municipality') {
+		// 	if (currMuni === newMuni) {
 
-				this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
-					this.zoomToObject(municipality);
-				});
-			} else if(currState === newState) {
+		// 		this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
+		// 			this.zoomToObject(municipality);
+		// 		});
+		// 	} else if(currState === newState) {
 
-				this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
-					this.removeSections();
-					this.zoomToObject(municipality);
-					this.drawSections();
-				});
-			} else {
-				this.get('cartography').getState(newState).then((state) => {
-					this.set('stateCode', state.properties.state_code);
-					this.drawMunicipalities(this.get('stateCode'));
+		// 		this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
+		// 			this.removeSections();
+		// 			this.zoomToObject(municipality);
+		// 			this.drawSections();
+		// 		});
+		// 	} else {
+		// 		this.get('cartography').getState(newState).then((state) => {
+		// 			this.set('stateCode', state.properties.state_code);
+		// 			this.drawMunicipalities(this.get('stateCode'));
 
-					this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
-						this.zoomToObject(municipality);
-						this.set('muniCode', municipality.properties.mun_code);
-						this.drawSections();
-					});
-				});
-			}
-		// SECTION
-		} else if(this.get('level') === 'section') {
-			if (currState === newState && currMuni === currMuni) {
-				this.get('cartography').getSection(this.get('stateCode'), this.get('muniCode'), newSection).then((section) => {
-					this.zoomToObject(section);
-				});
-			} else {
-				this.get('cartography').getState(newState).then((state) => {
-					this.set('stateCode', state.properties.state_code);
-					this.drawMunicipalities(this.get('stateCode'));
+		// 			this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
+		// 				this.zoomToObject(municipality);
+		// 				this.set('muniCode', municipality.properties.mun_code);
+		// 				this.drawSections();
+		// 			});
+		// 		});
+		// 	}
+		// // SECTION
+		// } else if(this.get('level') === 'section') {
+		// 	if (currState === newState && currMuni === currMuni) {
+		// 		this.get('cartography').getSection(this.get('stateCode'), this.get('muniCode'), newSection).then((section) => {
+		// 			this.zoomToObject(section);
+		// 		});
+		// 	} else {
+		// 		this.get('cartography').getState(newState).then((state) => {
+		// 			this.set('stateCode', state.properties.state_code);
+		// 			this.drawMunicipalities(this.get('stateCode'));
 
-					this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
-						this.set('muniCode', municipality.properties.mun_code);
+		// 			this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
+		// 				this.set('muniCode', municipality.properties.mun_code);
 
-						this.get('cartography').getSection(this.get('stateCode'), this.get('muniCode'), newSection).then((section) => {
-							this.drawSections();
-							this.zoomToObject(section);
-						});
-					});
-				});
-			}
-		}
+		// 				this.get('cartography').getSection(this.get('stateCode'), this.get('muniCode'), newSection).then((section) => {
+		// 					this.drawSections();
+		// 					this.zoomToObject(section);
+		// 				});
+		// 			});
+		// 		});
+		// 	}
+		// }
 	},
 
 	didUpdateAttrs() {
@@ -208,10 +228,10 @@ export default Ember.Component.extend({
 		this.set('muniLayer', this.get('svg').append('g'));
 		this.set('sectionsLayer', this.get('svg').append('g'));
 
-		// this.drawStates();
-		this.renderDistricts();
+		this.drawStates();
+		// this.renderDistricts();
 		this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
-		// this.renderMap();
+		this.renderMap();
 
 		// Apply zoom behaviour to svg, and make an initial transform to center
 		this.get('svg')
@@ -397,6 +417,36 @@ export default Ember.Component.extend({
 		}, 300);
 	},
 
+	drawFederalDistricts(stateCode) {
+		if (isEmpty(this.get('federalDistricts'))) {
+			this.get('cartography').loadFederalDistrictsData(stateCode).then(() => {
+				this.renderFederalDistricts();
+			});
+		} else {
+			this.renderFederalDistricts();
+		}
+	},
+
+	renderFederalDistricts() {
+		let emberContext = this;
+
+		Ember.run.later(this, () => {
+			this.get('muniLayer').selectAll("path")
+			.data(this.get('federalDistricts'))
+			.enter().append("path")
+			.attr("d", this.get('path'))
+			.attr("class", "feature")
+			.on("click", function(d) {
+				emberContext.clicked(this, d);
+			});
+
+			this.get('muniLayer').append("path")
+				.datum(this.get('federalDistrictsBorders'))
+				.attr("class", "mesh")
+				.attr("d", this.get('path'));
+		}, 300);
+	},
+
 	drawStates() {
 		if (isEmpty(this.get('states'))) {
 			this.get('cartography').loadStatesData().then(() => {
@@ -420,18 +470,6 @@ export default Ember.Component.extend({
 					emberContext.clicked(this, d);
 				});
 			});
-	},
-
-	renderDistricts() {
-		d3.json("../assets/distritos.json", (error, data) => {
-			if (error) { reject(error); }
-
-			this.get('statesLayer').selectAll("path")
-				.data(topojson.feature(data, data.objects.mx_distrito).features)
-				.enter().append("path")
-				.attr("d", this.get('path'))
-				.attr("class", "feature");
-		});
 	},
 
 	// Reset zoom and remove cities
