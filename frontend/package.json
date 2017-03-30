@@ -35,6 +35,7 @@
     "ember-data": "^2.10.0",
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
+    "ember-power-select": "1.6.1",
     "ember-resolver": "^2.0.3",
     "ember-welcome-page": "^1.0.3",
     "liquid-fire": "0.27.0",
