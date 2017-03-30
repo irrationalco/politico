@@ -1,9 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-
-	cartography: Ember.inject.service(),
-
 	queryParams: {
 		state: {
 			refreshModel: true
@@ -11,13 +8,5 @@ export default Ember.Route.extend({
 		municipality: {
 			refreshModel: true
 		}
-	},
-
-	model() {
-		return;
-	},
-
-	init() {
-		this._super(...arguments);
 	}
 });

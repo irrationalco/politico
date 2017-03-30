@@ -11,6 +11,11 @@ Router.map(function() {
 	// 	this.route("map", { path: ':map_id'});
 	// });
 	this.route('projections', { path: '/projections'});
+
+	this.route('maps', function() {
+		this.route('projections', { path: '/projections'});
+		this.route('population', { path: '/population'});
+	});
 });
 
 export default Router;
