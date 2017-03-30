@@ -35,8 +35,17 @@
 	</div>
 
 	<div class="searchbar-container">
-		{{input type='search' class='searchbar' key-down='setSearchValue' value=searchValue placeholder="Search"}}
-		<i class="fa fa-search ticket-table-search-icon"></i>
+		{{!-- {{input type='search' class='searchbar' key-down='setSearchValue' value=searchValue placeholder="Search"}}
+		<i class="fa fa-search ticket-table-search-icon"></i> --}}
+
+		{{#power-select-multiple
+		selected=selectedCities
+		options=cities
+		onchange=(action "chooseSelection")
+		as |name|
+		}}
+			{{name}}
+		{{/power-select-multiple}}
 	</div>
 </div>
 

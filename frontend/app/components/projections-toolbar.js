@@ -2,6 +2,9 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
+  	cities: ['Jalisco', 'Nuevo León', 'Nayarit', 'Tamaulipas', 'Coahuila de Zaragoza', 'Sinaloa', 'Zacatecas', 'Puebla', 'Campeche', 'Durango'],
+  	selectedCities: Ember.A(),
+
 	municipalityDivision: Ember.computed('mapDivision', function() {
 		if (this.get('mapDivision') === 'federal') {
 			return false;
@@ -17,8 +20,14 @@ export default Ember.Component.extend({
 			this.sendAction('setSection', '');
 		},
 
-		setState() {
-			this.sendAction('setState', this.get('state'));
+		setState(state) {
+
+			if (state) {
+				this.sendAction('setState', state);
+			} else {
+				this.sendAction('setState', this.get('state'));	
+			}
+			
 			this.sendAction('setMunicipality', '');
 			this.sendAction('setSection', '');
 			this.sendAction('setFederalDistrict', '');
@@ -40,7 +49,11 @@ export default Ember.Component.extend({
 
 		setSearchValue() {
 			console.log(this.get('searchValue'));
-		}
+		},
+
+		chooseSelection(sel) {
+			this.send('setState', sel[0]);
+    	}
 	}
 });
 
