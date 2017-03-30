@@ -3,6 +3,10 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
   	cities: ['Jalisco', 'Nuevo León', 'Nayarit', 'Tamaulipas', 'Coahuila de Zaragoza', 'Sinaloa', 'Zacatecas', 'Puebla', 'Campeche', 'Durango'],
+
+
+  	// cities: [{name: '1', type:'Estado'}, {name: '2', type:'Estado'}, {name: 'Sinaloa', type:'Estado'}],
+
   	selectedCities: Ember.A(),
 
 	municipalityDivision: Ember.computed('mapDivision', function() {

@@ -41,10 +41,12 @@
 		{{#power-select-multiple
 		selected=selectedCities
 		options=cities
+		placeholder='Busca un estado'
+		searchField='name'
 		onchange=(action "chooseSelection")
-		as |name|
+		as |obj|
 		}}
-			{{name}}
+			{{obj}}
 		{{/power-select-multiple}}
 	</div>
 </div>
