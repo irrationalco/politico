@@ -54,12 +54,8 @@ export default Ember.Service.extend({
   // Function that gets a specific district object by code and loads its sections
   getFederalDistrict(districtCode, stateCode) {
 
-    console.log(districtCode);
-    console.log(stateCode);
-
     return new Promise((resolve,reject) => {
       if (this.get('federalDistricts')) {
-        console.log('DATA IS THERE');
         let district = this.get('federalDistricts').filterBy('properties.district_code', parseInt(districtCode));
 
         if (isEmpty(district)) {
@@ -70,7 +66,6 @@ export default Ember.Service.extend({
           });
         }
       } else {
-        console.log('NO DATA IS THERE');
         this.loadFederalDistrictsData(stateCode).then(() => {
           let district = this.get('federalDistricts').filterBy('properties.district_code', parseInt(districtCode));
 
@@ -133,6 +128,33 @@ export default Ember.Service.extend({
       } else {
         // CHANGE THIS FOR DISTRICTS LOGIC
         this.loadSectionsData(stateCode, muniCode, 'mun_code').then(() => {
+          let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
+          // If section code is wrong and couldn't find it
+          if (isEmpty(section)) {
+            reject(new Error("El código de la sección es incorrecto."));
+          } else {
+            resolve(section[0]);
+          }
+        });
+      }
+    });
+  },
+
+  getSectionByDistrict(stateCode, districtCode, sectionCode) {
+    return new Promise((resolve, reject) => {
+      // If all sections data is store in var, then don't make request
+      if (this.get('sections')) {
+
+        let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
+        // If section code is wrong and couldn't find it
+        if (isEmpty(section)) {
+          reject(new Error("El código de la sección es incorrecto."));
+        } else {
+          resolve(section[0]);
+        }
+      } else {
+        // CHANGE THIS FOR DISTRICTS LOGIC
+        this.loadSectionsData(stateCode, districtCode, 'district_code').then(() => {
           let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
           // If section code is wrong and couldn't find it
           if (isEmpty(section)) {
