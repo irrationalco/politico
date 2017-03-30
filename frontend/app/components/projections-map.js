@@ -24,7 +24,11 @@ export default Ember.Component.extend({
 
 	centerCoords: [-102, 23],
 
-	fill: d3.scaleLog().domain([10, 50]).range(["brown", "steelblue"]),
+	// fill: d3.scaleLog().domain([10, 50]).range(["brown", "steelblue"]),
+
+	fill: d3.scaleThreshold()
+			.domain([1, 100, 200, 500, 1000, 2000, 3000, 4000, 6000, 8000])
+			.range(d3ScaleChromatic.schemeOrRd[9]),
 
 	width: null,
 
@@ -249,6 +253,9 @@ export default Ember.Component.extend({
 	didInsertElement() {
 		this._super(...arguments);
 
+		console.log(d3ScaleChromatic);
+
+
 		// Setting width and height of map container
 		let active = d3.select(null);
 
@@ -342,6 +349,7 @@ export default Ember.Component.extend({
 
 	// Handling actions when element is clicked
 	clicked(element, d) {
+		console.log(d.properties.population);
 		if (d.properties.section_code) {
 			this.sendAction('setSection', d.properties.section_code);
 		} else if(d.properties.mun_code) {
@@ -416,8 +424,9 @@ export default Ember.Component.extend({
 			.attr("d", this.get('path'))
 			.attr("class", "section")
 			.style("fill", function(d) {
-				let randomNum = Math.floor(Math.random() * 50) + 10;
-				return emberContext.get('fill')(randomNum);
+				// console.log(d);
+				// let randomNum = Math.floor(Math.random() * 50) + 10;
+				return emberContext.get('fill')(d.properties.population);
 			})
 			.on("click", function(d) {
 				emberContext.clicked(this, d);
