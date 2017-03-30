@@ -1,5 +1,7 @@
 <div class="projections-sidebar">
 <p class="sidebar-text-title">Division estatal por:</p>
-<p class="sidebar-text-left" {{action 'setMapDivision' "municipal"}}>Municipios</p>
-<p class="sidebar-text-right" {{action 'setMapDivision' "federal"}}>Distritos Federales</p>
+<p class="sidebar-text-left {{if isMunicipal "sidebar-selected"}}" {{action 'setMapDivision' "municipal"}}>Municipios</p>
+<p class="sidebar-text-right {{if isFederal "sidebar-selected"}}" {{action 'setMapDivision' "federal"}}>Distritos Federales</p>
 </div>
+
+{{if isFast "zoooom" "putt-putt-putt"}}

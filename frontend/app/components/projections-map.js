@@ -318,7 +318,7 @@ export default Ember.Component.extend({
 
 		this.get('muniLayer')
 			.attr("transform", transform)
-			.style("stroke-width", 2 /transform.k);
+			.style("stroke-width", 2.5 /transform.k);
 
 		this.get('sectionsLayer')
 			.attr("transform", transform)
