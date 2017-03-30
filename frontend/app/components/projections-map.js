@@ -90,10 +90,6 @@ export default Ember.Component.extend({
 
 	renderMap() {
 
-		console.log("Nivel: ");
-
-		console.log(this.get('level'));
-
 		let currState = this.get('currState');
 		let newState = this.get('state');
 		let currMuni = this.get('currMuni');
@@ -253,9 +249,6 @@ export default Ember.Component.extend({
 	didInsertElement() {
 		this._super(...arguments);
 
-		console.log(d3ScaleChromatic);
-
-
 		// Setting width and height of map container
 		let active = d3.select(null);
 
@@ -321,11 +314,11 @@ export default Ember.Component.extend({
 
 		this.get('statesLayer')
 			.attr("transform", transform)
-			.style("stroke-width", 1.2 / transform.k);
+			.style("stroke-width", .7 / transform.k);
 
 		this.get('muniLayer')
 			.attr("transform", transform)
-			.style("stroke-width", .8 /transform.k);
+			.style("stroke-width", 2 /transform.k);
 
 		this.get('sectionsLayer')
 			.attr("transform", transform)
