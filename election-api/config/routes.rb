@@ -5,9 +5,8 @@ Rails.application.routes.draw do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: :true) do
       resources :users
       resources :organizations
-      resources :proyections
+      resources :projections
       resources :favorites
-      resources :maps
     end
   end
 end

@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe "Proyections", type: :request do
-  describe "GET /proyections" do
+RSpec.describe "Projections", type: :request do
+  describe "GET /projections" do
     it "works! (now write some real specs)" do
-      get proyections_path
+      get projections_path
       expect(response).to have_http_status(200)
     end
   end

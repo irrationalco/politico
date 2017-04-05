@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :proyection do
+  factory :projection do
     type ""
   end
 end

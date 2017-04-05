@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20170128002503) do
     t.integer  "admin_id"
   end
 
-  create_table "proyections", force: :cascade do |t|
+  create_table "projections", force: :cascade do |t|
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.integer  "organization_id"
