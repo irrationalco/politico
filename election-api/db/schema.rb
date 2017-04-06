@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170128002503) do
+ActiveRecord::Schema.define(version: 20170127163242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,22 +20,9 @@ ActiveRecord::Schema.define(version: 20170128002503) do
 
   create_table "favorites", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "proyection_id"
+    t.integer  "projection_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-  end
-
-  create_table "maps", force: :cascade do |t|
-    t.string   "type"
-    t.string   "name"
-    t.string   "map_scope"
-    t.integer  "map_key"
-    t.string   "url"
-    t.float    "lat"
-    t.float    "long"
-    t.integer  "scale"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -49,7 +36,6 @@ ActiveRecord::Schema.define(version: 20170128002503) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.integer  "organization_id"
-    t.integer  "map_id"
   end
 
   create_table "users", force: :cascade do |t|
