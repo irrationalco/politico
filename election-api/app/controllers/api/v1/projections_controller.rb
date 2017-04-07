@@ -3,6 +3,7 @@ class Api::V1::ProjectionsController < ApplicationController
 
   # GET /projections
   def index
+    puts "Getting projections"
     @projections = Projection.all
 
     render json: @projections
