@@ -8,6 +8,7 @@ const { isEmpty } = Ember;
 
 export default Ember.Component.extend({
 
+	store: Ember.inject.service(),
 	cartography: Ember.inject.service(),
 
 	states: Ember.computed.oneWay('cartography.states'),

@@ -1,3 +1,4 @@
 class ProjectionSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :section_code, :muni_code, :state_code,
+             :PRI, :PAN, :PRD, :Morena
 end

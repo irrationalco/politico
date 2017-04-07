@@ -8,5 +8,10 @@ export default Ember.Route.extend({
 		municipality: {
 			refreshModel: true
 		}
+	},
+
+	model(params) {
+		console.log(params);
+		return this.store.query('projection',params);
 	}
 });

@@ -3,7 +3,7 @@ class CreateProjections < ActiveRecord::Migration[5.0]
     create_table :projections do |t|
       t.timestamps
       t.integer :section_code
-      t.integer :city_code
+      t.integer :muni_code
       t.integer :state_code
       t.integer :district_code
 

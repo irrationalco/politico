@@ -4,7 +4,7 @@ export default DS.Model.extend({
 	sectionCode: DS.attr('number'),
 	muniCode: DS.attr('number'),
 	stateCode: DS.attr('number'),
-	districtCode: DS.atrr('number'),
+	districtCode: DS.attr('number'),
 
 	PRI: DS.attr('number'),
 	PAN: DS.attr('number'),

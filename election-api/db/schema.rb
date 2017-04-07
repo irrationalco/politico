@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20170127163242) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.integer  "section_code"
-    t.integer  "city_code"
+    t.integer  "muni_code"
     t.integer  "state_code"
     t.integer  "district_code"
     t.integer  "PRI"
