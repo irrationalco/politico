@@ -6,7 +6,6 @@ class CreateProjections < ActiveRecord::Migration[5.0]
       t.integer :city_code
       t.integer :state_code
       t.integer :district_code
-      
 
       t.integer :PRI
       t.integer :PAN
@@ -18,6 +17,8 @@ class CreateProjections < ActiveRecord::Migration[5.0]
 
       # Foreign Keys
       t.integer :organization_id
+
+      t.timestamps
     end
   end
 end

@@ -342,7 +342,9 @@ export default Ember.Component.extend({
 
 	// Handling actions when element is clicked
 	clicked(element, d) {
-		console.log(d.properties.population);
+
+		console.log(d.properties);
+
 		if (d.properties.section_code) {
 			this.sendAction('setSection', d.properties.section_code);
 		} else if(d.properties.mun_code) {

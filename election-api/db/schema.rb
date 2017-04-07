@@ -35,6 +35,17 @@ ActiveRecord::Schema.define(version: 20170127163242) do
   create_table "projections", force: :cascade do |t|
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.integer  "section_code"
+    t.integer  "city_code"
+    t.integer  "state_code"
+    t.integer  "district_code"
+    t.integer  "PRI"
+    t.integer  "PAN"
+    t.integer  "PRD"
+    t.integer  "PV"
+    t.integer  "PT"
+    t.integer  "Morena"
+    t.integer  "MC"
     t.integer  "organization_id"
   end
 
