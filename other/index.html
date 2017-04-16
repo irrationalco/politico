@@ -12,103 +12,153 @@
 
     <link rel="stylesheet" type="text/css" href="index.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="vendor/jquery-1.8.3.min.js"></script>
+    <script src="vendor/bootstrap.min.js"></script>
 </head>
 
 <body>
     <div id="container" class="{{unless sidebarOpen "sidebar-closed"}}">
 
-  <header class="header black-bg">
-    <div class="sidebar-toggle-box">
-      <div class="fa fa-bars tooltips" {{action "toggleSidebar"}}></div>
+      <header class="header black-bg">
+        <div class="sidebar-toggle-box">
+          <div class="fa fa-bars tooltips"></div>
+      </div>
+
+      <a href="index.html" class="logo"><b>Irrational</b></a>
+
+      <div class="top-menu">
+          <ul class="nav pull-right top-menu">
+            <li></li>
+        </ul>
     </div>
+</header>
 
-    <a href="index.html" class="logo"><b>Irrational</b></a>
-    
-    <div class="top-menu">
-      <ul class="nav pull-right top-menu">
-        <li></li>
-      </ul>
-    </div>
-  </header>
-
-    <div id="sidebar" class="sidebar-box nav-collapse">
-      <ul class="sidebar-menu" id="nav-accordion">
-
-        <li class="sub-menu mt">
-          <a>
-            <i class="fa fa-map-o"></i>
+<div id="sidebar"  class="nav-collapse ">
+  <!-- sidebar menu start-->
+  <ul class="sidebar-menu" id="nav-accordion">
+      <li class="mt">
+          <a href="index.html">
+              <i class="fa fa-dashboard"></i>
+              <span>Mapas</span>
           </a>
-        </li>
+      </li>
 
-        <li class="sub-menu">
-          <a>
-            <i class="fa fa-bar-chart-o"></i>
+      <li class="sub-menu">
+          <a class="active" href="javascript:;" >
+              <i class="fa fa-desktop"></i>
+              <span>Media</span>
           </a>
-        </li>
+      </li>
 
-        <li class="sub-menu">
-          <a>
-            <i class="fa fa-file-o"></i>
+      <li class="sub-menu">
+          <a href="javascript:;" >
+              <i class="fa fa-cogs"></i>
+              <span>MicroTargeting</span>
           </a>
-        </li>
-        
-      </ul>
-    </div>
+      </li>
+      <li class="sub-menu">
+          <a href="javascript:;" >
+              <i class="fa fa-book"></i>
+              <span>Encuestas</span>
+          </a>
+      </li>
+      <li class="sub-menu">
+          <a href="javascript:;" >
+              <i class=" fa fa-bar-chart-o"></i>
+              <span>Graficas</span>
+          </a>
+      </li>
 
-  <section id="main-content">
+  </ul>
+  <!-- sidebar menu end-->
+</div>
+
+<section id="main-content">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3">
-                <div style="text-align: center;">
-                    <input type="text" id="domain-url" name="domain" value="eluniversal.com.mx">
-                    <input type="button" name="changeDomain" onclick="createNewsFrame()" value="Change">    
+
+        <div class="card showback">
+            <div class="row">
+                <div class="col-md-3">
+                    <h3>
+                        Noticias relevantes
+                    </h3>
+                    <div class="input-group">
+                      <input id="domain-url" type="text" class="form-control" placeholder="Dominio" aria-describedby="basic-addon2" value="eluniversal.com.mx">
+                      <span class="input-group-addon" id="basic-addon2" onclick="createNewsFrame()" >Cambiar</span>
+                  </div>
+
+                  <div class="dropdown">
+                      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Sort
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="#" onclick="createNewsFrame('toneasc')">Negative</a></li>
+                        <li><a href="#" onclick="createNewsFrame('tonedesc')" >Positive</a></li>
+                        <li><a href="#" onclick="createNewsFrame('date')" >Date</a></li>
+                    </ul>
                 </div>
 
             </div>
             <div id="domain-content" class="col-md-9">
             </div>
         </div>
-
     </div>
+        
+    <div class="card showback">
+        <div class="row">
+            <div class="col-md-3">
+                <h3>
+                    Probabilidad de protestas en Coahuila
+                </h3>
+                <div class="dropdown">
+                  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Variable a mostrar
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#" onclick="createGraph('instability')">Instability</a></li>
+                    <li><a href="#" onclick="createGraph('conflict')" >Conflict</a></li>
+                    <li><a href="#" onclick="createGraph('protest')" >Protest</a></li>
+                    <li><a href="#" onclick="createGraph('tone')" >Sentiment</a></li>
+                    <li><a href="#" onclick="createGraph('artvolnorm')" >artvolnorm</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="graph-content" class="col-md-9">
+
+        </div>
+    </div>
+</div>
     
-  </section>
+
+<div class="card showback">
+    <div class="row">
+        <div class="col-md-3">
+            <h3>
+                Buscar palabras en medios mexicanos
+            </h3>
+
+            <div class="input-group">
+              <input id="word-search" type="text" class="form-control" placeholder="Palabra a buscar" aria-describedby="basic-addon2" value="presidente">
+              <span class="input-group-addon" id="basic-addon2" onclick="createWordcloud()" >Buscar</span>
+          </div>
+      </div>
+
+      <div id="wordcloud-content" class="col-md-6">
+
+      </div>
+  </div>
+</div>
+
+
+</div>
+
+</section>
 </div>
 
 <script src="index.js"></script>
 
 </body>
-
-<!-- <body>
-    <h3>
-        Artículos en "El Universal" más negativos
-    </h3>
-
-    <iframe src="http://api.gdeltproject.org/api/v1/search_ftxtsearch/search_ftxtsearch?query=domain:eluniversal.com.mx&sortby:toneasc&output=artlist&dropdup=true" style="width: 500px; height: 500px;"></iframe>
-
-    <h3>
-        Probabilidad de protestas en Coahuila
-    </h3>
-
-    <iframe src="http://api.gdeltproject.org/api/v1/dash_stabilitytimeline/dash_stabilitytimeline?LOC=MX07&VAR=protest&OUTPUT=viz&TIMERES=day&SMOOTH=5" style="width:100%; height: 500px;"></iframe>
-
-    <h3>
-        Palabras mencionadas en los medios mexicanos
-    </h3>
-
-    <iframe src="http://api.gdeltproject.org/api/v1/search_ftxtsearch/search_ftxtsearch?query=sourcecountry:mexico&searchlang:spanish&output=wordcloud&outputtype=native" style="width: 500px; height: 500px;"></iframe>
-
-    <h3>
-        Buscar palabras en medios mexicanos
-    </h3>
-
-    <form method="POST" name="form" id="viewWordCloud">
-      <p>
-        <label for="myKey">Buscar: </LABEL><INPUT type="text" name="myKey">
-            <br>
-            <br>
-            <input type="button" value="Mostrar" onclick="makeFrame()">
-        </p>
-    </form>
-</body> -->
 </html>

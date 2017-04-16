@@ -363,7 +363,7 @@ ul.sidebar-menu li a{
 }
 
 ul.sidebar-menu li a.active, ul.sidebar-menu li a:hover, ul.sidebar-menu li a:focus {
-    background: #68dff0;
+    background: #707d9c;
     color: #fff;
     display: block;
 
@@ -2547,6 +2547,12 @@ label {
   font-size: 16px;
   text-align: center;
   line-height: 41px;
+}
+
+.card {
+  padding: 10px;
+  height: auto;
+  margin-top: 10px
 }
 
 
