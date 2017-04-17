@@ -10,6 +10,8 @@ export default Ember.Controller.extend({
 	federalDistrict: "",
 	mapDivision: "municipal",
 
+	hoveredSection: null,
+
 	level: Ember.computed('state', 'municipality', 'section', 'federalDistrict', function() {
 		if (Ember.isEmpty(this.get('state'))) {
 			return "country";
@@ -66,5 +68,9 @@ export default Ember.Controller.extend({
 			this.set('federalDistrict', "");
 			this.set('municipality', "");
 		},
+
+		setHoveredSection(sec) {
+			this.set('hoveredSection', sec);
+		}
 	}
 });
