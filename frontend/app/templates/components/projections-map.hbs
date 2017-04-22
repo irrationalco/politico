@@ -17,6 +17,30 @@
 	</div>
 </div>
 
+{{#if isPopulation}}
+<div class="map-key">
+	<div class="key-row-header">
+		<div class="key-left-label">
+			Baja Población
+		</div>
+		<span class="small-vertical-line vertical-line-left-pos"></span>
+		<div class="key-right-label">
+			Alta población
+		</div>
+		<span class="small-vertical-line vertical-line-right-pos"></span>
+	</div>
+
+	<div class="key-row">
+		<div class="key-row-label"></div>
+		<div class="colors-row">
+			<div class="color-box population-25"></div>
+			<div class="color-box population-50"></div>
+			<div class="color-box population-75"></div>
+			<div class="color-box population-100"></div>
+		</div>
+	</div>
+</div>
+{{else}}
 <div class="map-key">
 	<div class="key-row-header">
 		<div class="key-left-label">
@@ -59,3 +83,4 @@
 		</div>
 	</div>
 </div>
+{{/if}}

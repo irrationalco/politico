@@ -8,38 +8,6 @@ export default Ember.Component.extend({
 		return sec[0];
 	}),
 
-	isMunicipal: Ember.computed('mapDivision', function() {
-		if (this.get('mapDivision') === 'municipal') {
-			return true;
-		} else {
-			return false;
-		}
-	}),
-
-	isFederal: Ember.computed('mapDivision', function() {
-		if (this.get('mapDivision') === 'federal') {
-			return true;
-		} else {
-			return false;
-		}
-	}),
-
-	isPopulation: Ember.computed('dataType', function() {
-		if (this.get('dataType') === 'population') {
-			return true;
-		} else {
-			return false;
-		}
-	}),
-
-	isVotes: Ember.computed('dataType', function() {
-		if (this.get('dataType') === 'votes') {
-			return true;
-		} else {
-			return false;
-		}
-	}),
-
 	didReceiveAttrs() {
 		console.log(this.get('sectionData'));
 	},
