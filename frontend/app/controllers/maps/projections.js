@@ -71,9 +71,8 @@ export default Ember.Controller.extend({
 		},
 
 		setDataType(type) {
-			if (type !== this.get('dataType')) {
-				this.set('dataType', type);
-			}
+			this.set('dataType', type);
+			this.set('section', "");
 		},
 
 		setHoveredSection(sec) {

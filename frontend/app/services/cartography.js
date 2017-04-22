@@ -214,7 +214,6 @@ export default Ember.Service.extend({
   },
 
   loadSectionsData(stateCode, code, property) {
-    console.log("loading sections data");
     return new Promise((resolve, reject) => {
       d3.json("../assets/secciones.json", (error, data) => {
         if (error) { reject(error); }

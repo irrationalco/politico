@@ -72,6 +72,7 @@ export default Ember.Component.extend({
 	currMuni: null,
 	currFedDistrict: null,
 	currSection: null,
+	currDataType: "votes",
 
 	stateCode: null,
 	muniCode: null,
@@ -135,10 +136,27 @@ export default Ember.Component.extend({
 		// MUNICIPALITY
 		if (this.get('level') === 'municipality') {
 
+			console.log("MUNICIPALITY");
+
 			if (this.get('mapDivision') === 'federal') {
+
 				if (currFedDistrict === newFedDistrict) {
+					console.log("asdl;fja;lskfjasdkl;")
 					this.get('cartography').getFederalDistrict(newFedDistrict, this.get('stateCode')).then((district) => {
-						this.zoomToObject(district);
+						// If currDataType changed, then redraw sections
+
+						console.log(this.get('currDataType'));
+						console.log(this.get('dataType'));
+
+
+						if (this.get('currDataType') !== this.get('dataType')) {
+							this.zoomToObject(district);
+							this.removeSections();
+							this.drawSections();	
+						} else {
+							this.zoomToObject(district);
+						}
+						
 					});
 				} else if(currState === newState) {
 
@@ -162,10 +180,17 @@ export default Ember.Component.extend({
 				}
 
 			} else {
+
 				if (currMuni === newMuni) {
 
 					this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
-						this.zoomToObject(municipality);
+						if (this.get('currDataType') !== this.get('dataType')) {
+							this.zoomToObject(municipality);
+							this.removeSections();
+							this.drawSections();	
+						} else {
+							this.zoomToObject(municipality);
+						}
 					});
 				} else if(currState === newState) {
 
@@ -191,7 +216,6 @@ export default Ember.Component.extend({
 		
 		// SECTION
 		if(this.get('level') === 'section') {
-
 			if (this.get('mapDivision') === 'federal') {
 
 				if (currState === newState && currFedDistrict === newFedDistrict) {
@@ -218,6 +242,7 @@ export default Ember.Component.extend({
 
 				if (currState === newState && currMuni === currMuni) {
 					this.get('cartography').getSection(this.get('stateCode'), this.get('muniCode'), newSection).then((section) => {
+
 						this.zoomToObject(section);
 					});
 				} else {
@@ -419,10 +444,13 @@ export default Ember.Component.extend({
 			.attr("d", this.get('path'))
 			.attr("class", "section")
 			.style("fill", function(d) {
-				// console.log(d);
-				// let randomNum = Math.floor(Math.random() * 50) + 10;
-				// return emberContext.get('fillVotes')(randomNum);
-				return emberContext.get('fillPopulation')(d.properties.population);
+				console.log("RENDERING SECTIONS");
+				if (emberContext.get('dataType') === 'votes') {
+					let randomNum = Math.floor(Math.random() * 50) + 10;
+					return emberContext.get('fillVotes')(randomNum);
+				} else {
+					return emberContext.get('fillPopulation')(d.properties.population);
+				}
 			})
 			.on("click", function(d) {
 				emberContext.clicked(this, d);
@@ -558,5 +586,6 @@ export default Ember.Component.extend({
 		this.set('currMuni', this.get('municipality'));
 		this.set('currSection', this.get('section'));
 		this.set('currFedDistrict', this.get('federalDistrict'));
+		this.set('currDataType', this.get('dataType'));
 	}
 });
