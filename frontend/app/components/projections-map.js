@@ -25,9 +25,9 @@ export default Ember.Component.extend({
 
 	centerCoords: [-102, 23],
 
-	// fill: d3.scaleLog().domain([10, 50]).range(["brown", "steelblue"]),
+	fillVotes: d3.scaleLog().domain([10, 50]).range(["brown", "steelblue"]),
 
-	fill: d3.scaleThreshold()
+	fillPopulation: d3.scaleThreshold()
 			.domain([1, 100, 200, 500, 1000, 2000, 3000, 4000, 6000, 8000])
 			.range(d3ScaleChromatic.schemeOrRd[9]),
 
@@ -72,7 +72,6 @@ export default Ember.Component.extend({
 	currMuni: null,
 	currFedDistrict: null,
 	currSection: null,
-
 
 	stateCode: null,
 	muniCode: null,
@@ -422,8 +421,8 @@ export default Ember.Component.extend({
 			.style("fill", function(d) {
 				// console.log(d);
 				// let randomNum = Math.floor(Math.random() * 50) + 10;
-				// return emberContext.get('fill')(randomNum);
-				return emberContext.get('fill')(d.properties.population);
+				// return emberContext.get('fillVotes')(randomNum);
+				return emberContext.get('fillPopulation')(d.properties.population);
 			})
 			.on("click", function(d) {
 				emberContext.clicked(this, d);

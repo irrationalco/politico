@@ -3,12 +3,13 @@ import Ember from 'ember';
 const { isEmpty } = Ember;
 
 export default Ember.Controller.extend({
-	queryParams: ['state', 'municipality', 'section', 'federalDistrict', 'mapDivision'],
+	queryParams: ['state', 'municipality', 'section', 'federalDistrict', 'mapDivision', 'dataType'],
 	state: "",
 	municipality: "",
 	section: "",
 	federalDistrict: "",
 	mapDivision: "municipal",
+	dataType: "votes",
 
 	hoveredSection: null,
 
@@ -67,6 +68,12 @@ export default Ember.Controller.extend({
 			this.set('section', "");
 			this.set('federalDistrict', "");
 			this.set('municipality', "");
+		},
+
+		setDataType(type) {
+			if (type !== this.get('dataType')) {
+				this.set('dataType', type);
+			}
 		},
 
 		setHoveredSection(sec) {

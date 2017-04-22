@@ -66,6 +66,7 @@ export default Ember.Component.extend({
 	currMuni: null,
 	currFedDistrict: null,
 	currSection: null,
+	currDataType: null,
 
 
 	stateCode: null,

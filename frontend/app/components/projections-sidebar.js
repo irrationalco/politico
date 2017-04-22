@@ -24,6 +24,22 @@ export default Ember.Component.extend({
 		}
 	}),
 
+	isPopulation: Ember.computed('dataType', function() {
+		if (this.get('dataType') === 'population') {
+			return true;
+		} else {
+			return false;
+		}
+	}),
+
+	isVotes: Ember.computed('dataType', function() {
+		if (this.get('dataType') === 'votes') {
+			return true;
+		} else {
+			return false;
+		}
+	}),
+
 	didReceiveAttrs() {
 		console.log(this.get('sectionData'));
 	},
@@ -31,6 +47,10 @@ export default Ember.Component.extend({
 	actions: {
 		setMapDivision(type) {
 			this.sendAction('setMapDivision', type);
+		},
+
+		setDataType(type) {
+			this.sendAction('setDataType', type);
 		}
 	}
 });
