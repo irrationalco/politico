@@ -74,6 +74,8 @@ export default Ember.Component.extend({
 	currSection: null,
 	currDataType: "votes",
 
+	hoveredSection: null,
+
 	stateCode: null,
 	muniCode: null,
 	fedDistrictCode: null,
@@ -367,9 +369,6 @@ export default Ember.Component.extend({
 
 	// Handling actions when element is clicked
 	clicked(element, d) {
-
-		console.log(d.properties);
-
 		if (d.properties.section_code) {
 			this.sendAction('setSection', d.properties.section_code);
 		} else if(d.properties.mun_code) {
@@ -438,13 +437,16 @@ export default Ember.Component.extend({
 	renderSections() {
 		let emberContext = this;
 
+		this.set('tooltip', d3.select('#tooltip-map'));
+
 		this.get('sectionsLayer').selectAll("path")
 			.data(this.get('sections'))
 			.enter().append("path")
 			.attr("d", this.get('path'))
 			.attr("class", "section")
 			.style("fill", function(d) {
-				console.log("RENDERING SECTIONS");
+				console.log(d);
+
 				if (emberContext.get('dataType') === 'votes') {
 					let randomNum = Math.floor(Math.random() * 50) + 10;
 					return emberContext.get('fillVotes')(randomNum);
@@ -454,6 +456,9 @@ export default Ember.Component.extend({
 			})
 			.on("click", function(d) {
 				emberContext.clicked(this, d);
+			})
+			.on("mouseenter", function(d) {
+				emberContext.set('hoveredSection', d.properties);
 			})
 			.on("mouseover", function(d) {
 				emberContext.get('tooltip')

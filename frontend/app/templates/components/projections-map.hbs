@@ -2,22 +2,23 @@
 	<div id="tiles"></div>
 </div>
 
+
+
+{{#if isPopulation}}
+
 <div id="tooltip-map">
+
 	<div class="tooltip-row">
-		<span class="tooltip-color-box pan"></span>
-		<span class="tooltip-party">PAN</span>
-		<span class="tooltip-votes-pan">633 votos</span>
-		<span class="tooltip-percent">65%</span>
+		<h6 style="text-align: center;">Sección : {{hoveredSection.section_code}}</h6>
 	</div>
+
 	<div class="tooltip-row">
 		<span class="tooltip-color-box pri"></span>
-		<span class="tooltip-party"> PRI</span>
-		<span class="tooltip-votes">353 votos</span>
-		<span class="tooltip-percent">35%</span>
+		<span class="tooltip-party"> Población</span>
+		<span class="tooltip-votes" style="font-weight: bold;">{{hoveredSection.population}}</span>
 	</div>
 </div>
 
-{{#if isPopulation}}
 <div class="map-key">
 	<div class="key-row-header">
 		<div class="key-left-label">
@@ -41,6 +42,22 @@
 	</div>
 </div>
 {{else}}
+
+<div id="tooltip-map">
+	<div class="tooltip-row">
+		<span class="tooltip-color-box pan"></span>
+		<span class="tooltip-party">PAN</span>
+		<span class="tooltip-votes-pan">633 votos</span>
+		<span class="tooltip-percent">65%</span>
+	</div>
+	<div class="tooltip-row">
+		<span class="tooltip-color-box pri"></span>
+		<span class="tooltip-party"> PRI</span>
+		<span class="tooltip-votes">353 votos</span>
+		<span class="tooltip-percent">35%</span>
+	</div>
+</div>
+
 <div class="map-key">
 	<div class="key-row-header">
 		<div class="key-left-label">
