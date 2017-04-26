@@ -11,6 +11,7 @@ export default Ember.Route.extend({
 	},
 
 	model(params) {
+		console.log("PARAMS");
 		console.log(params);
 		return this.store.query('projection',params);
 	}

@@ -4,7 +4,11 @@ class Api::V1::ProjectionsController < ApplicationController
   # GET /projections
   def index
     puts "Getting projections"
+    # @projections = Projection.all
+
+    puts params
     @projections = Projection.all
+    @projections = @projections.where(id: [2, 3, 5])
 
     render json: @projections
   end
