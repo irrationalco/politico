@@ -445,8 +445,6 @@ export default Ember.Component.extend({
 			.attr("d", this.get('path'))
 			.attr("class", "section")
 			.style("fill", function(d) {
-				console.log(d);
-
 				if (emberContext.get('dataType') === 'votes') {
 					let randomNum = Math.floor(Math.random() * 50) + 10;
 					return emberContext.get('fillVotes')(randomNum);
