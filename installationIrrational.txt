@@ -1,0 +1,31 @@
+- Requisitos:
+
+-- Tener instalado postgres
+-- Estar corriendo postgres
+
+PASOS:
+
+En la terminal
+1.- Moverte al folder de la app: election-api
+
+2.- Poner en terminal: bundle install 
+
+3.- Poner en terminal: rake db:create db:migrate db:seed
+
+4.- rails s
+
+En una nueva pestaña de la terminal
+
+1.- Moverte al folder de la app: frontend
+
+2.- Poner en terminal: bower install
+
+3.- Poner en terminal: npm install
+
+4.- ember s -proxy http://localhost:3000
+
+
+Si los dos estan corriendo exitosamente:
+
+Ir en chrome a: localhost:4200/maps/projections
+
