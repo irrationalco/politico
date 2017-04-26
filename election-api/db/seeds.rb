@@ -7,9 +7,32 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 # Monterrey
-for i in 975..1686
-  Projection.create(:state_code => 19, :muni_code => 39, :section_code => i,
-    :PRI => Random.rand(1500), :PAN => Random.rand(1500), :PRD => Random.rand(1000),
-    :Morena => Random.rand(1000), :PV => Random.rand(300), :PT => Random.rand(300), 
-    :MC => Random.rand(300))
-end
+require 'csv'
+
+CSV.foreach("../secciones_simple.csv") { |row|
+  panVotos = Random.rand(1500)
+  priVotos = Random.rand(1500)
+  prdVotos = Random.rand(500)
+  morenaVotos = Random.rand(1000)
+  pvVotos = Random.rand(100)
+  ptVotos = Random.rand(100)
+  mcVotos = Random.rand(100)
+
+  total = panVotos + priVotos;
+
+  Projection.create(:state_code => row[0], :muni_code => row[4], 
+                    :section_code => row[2], :district_code => row[1],
+                    :PRI => priVotos, :PAN => panVotos, :PRD => prdVotos,
+                    :Morena => morenaVotos, :PV => pvVotos, :PT => ptVotos,
+                    :MC => mcVotos)
+}
+
+
+# for i in 975..1686
+#   Projection.create(:state_code => 19, :muni_code => 39, :section_code => i,
+#     :PRI => Random.rand(1500), :PAN => Random.rand(1500), :PRD => Random.rand(1000),
+#     :Morena => Random.rand(1000), :PV => Random.rand(300), :PT => Random.rand(300), 
+#     :MC => Random.rand(300))
+# end
+
+# entidad, distrito, seccion, pobtat, muni

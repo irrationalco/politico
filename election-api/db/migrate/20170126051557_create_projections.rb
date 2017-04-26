@@ -15,6 +15,8 @@ class CreateProjections < ActiveRecord::Migration[5.0]
       t.integer :Morena
       t.integer :MC
 
+      t.integer :total_votes
+
       # Foreign Keys
       t.integer :organization_id
 

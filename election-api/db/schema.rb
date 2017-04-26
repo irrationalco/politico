@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20170127163242) do
     t.integer  "PT"
     t.integer  "Morena"
     t.integer  "MC"
+    t.integer  "total_votes"
     t.integer  "organization_id"
   end
 

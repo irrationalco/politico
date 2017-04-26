@@ -445,7 +445,8 @@ export default Ember.Component.extend({
 		}
 	},
 
-	renderSections() { let emberContext = this;
+	renderSections() { 
+		let emberContext = this;
 
 		this.set('tooltip', d3.select('#tooltip-map'));
 
@@ -458,6 +459,18 @@ export default Ember.Component.extend({
 
 				if (emberContext.get('dataType') === 'votes') {
 					// let randomNum = Math.floor(Math.random() * 50) + 10;
+					// let PAN = Math.floor(Math.random() * 1000) + 1;
+					// let PRI = Math.floor(Math.random() * 1000) + 1;
+
+
+					// 	if (PAN > PRI) {
+					// 		// return emberContext.get('fillBlues')(d.properties.population);
+					// 		return "#21416c"
+					// 	} else {
+					// 		// return emberContext.get('fillReds')(d.properties.population);
+					// 		return "#ad3537";
+					// 	}
+
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
 
@@ -527,7 +540,7 @@ export default Ember.Component.extend({
 			})
 			.on("mouseenter", function(d) {
 				emberContext.set('hoveredSection', d.properties);
-				d3.select(this).style("stroke-width", 7 / emberContext.get('transform').k);
+				d3.select(this).style("stroke-width", 4 / emberContext.get('transform').k);
 			})
 			.on("mouseover", function(d) {
 				emberContext.get('tooltip')
