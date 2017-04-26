@@ -25,6 +25,8 @@ export default Ember.Component.extend({
 
 	centerCoords: [-102, 23],
 
+	transform: null,
+
 	fillVotes: d3.scaleLog().domain([10, 50]).range(["brown", "steelblue"]),
 
 	fillPopulation: d3.scaleThreshold()
@@ -342,6 +344,7 @@ export default Ember.Component.extend({
 
 	zoomed() {
 		let transform = d3.event.transform;
+		this.set('transform', transform);
 
 		let tiles = this.get('tile')
 			.scale(transform.k)
@@ -442,8 +445,7 @@ export default Ember.Component.extend({
 		}
 	},
 
-	renderSections() {
-		let emberContext = this;
+	renderSections() { let emberContext = this;
 
 		this.set('tooltip', d3.select('#tooltip-map'));
 
@@ -519,11 +521,13 @@ export default Ember.Component.extend({
 
 				return opacity;
 			})
+			.classed("hovered-section", true)
 			.on("click", function(d) {
 				emberContext.clicked(this, d);
 			})
 			.on("mouseenter", function(d) {
 				emberContext.set('hoveredSection', d.properties);
+				d3.select(this).style("stroke-width", 7 / emberContext.get('transform').k);
 			})
 			.on("mouseover", function(d) {
 				emberContext.get('tooltip')
@@ -537,6 +541,7 @@ export default Ember.Component.extend({
 			.on("mouseout", function(d) {
 				emberContext.get('tooltip')
 					.style('display', 'none');
+				d3.select(this).style("stroke-width", 1 / emberContext.get('transform').k);
 			});
 	},
 
