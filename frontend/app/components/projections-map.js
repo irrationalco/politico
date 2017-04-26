@@ -31,6 +31,14 @@ export default Ember.Component.extend({
 			.domain([1, 100, 200, 500, 1000, 2000, 3000, 4000, 6000, 8000])
 			.range(d3ScaleChromatic.schemeOrRd[9]),
 
+	fillBlues: d3.scaleThreshold()
+			.domain([100, 1000, 2000, 3000])
+			.range(d3ScaleChromatic.schemeBlues[5]),
+
+	fillReds: d3.scaleThreshold()
+			.domain([100, 1000, 2000, 3000])
+			.range(d3ScaleChromatic.schemeReds[5]),
+
 	width: null,
 
 	height: null,
@@ -349,7 +357,7 @@ export default Ember.Component.extend({
 
 		this.get('sectionsLayer')
 			.attr("transform", transform)
-			.style("stroke-width", 3 / transform.k);
+			.style("stroke-width", 1 / transform.k);
 
 		var image = this.get('imageLayer')
 			.attr("transform", this.stringify(tiles.scale, tiles.translate))
@@ -445,12 +453,71 @@ export default Ember.Component.extend({
 			.attr("d", this.get('path'))
 			.attr("class", "section")
 			.style("fill", function(d) {
+
 				if (emberContext.get('dataType') === 'votes') {
-					let randomNum = Math.floor(Math.random() * 50) + 10;
-					return emberContext.get('fillVotes')(randomNum);
+					// let randomNum = Math.floor(Math.random() * 50) + 10;
+					let s = emberContext.get('sectionsData')
+							.findBy('sectionCode', d.properties.section_code);
+
+					if (!isEmpty(s)) {
+						if (s.get('PAN') > s.get('PRI')) {
+							// return emberContext.get('fillBlues')(d.properties.population);
+							return "#21416c"
+						} else {
+							// return emberContext.get('fillReds')(d.properties.population);
+							return "#ad3537";
+						}
+					}
+
 				} else {
 					return emberContext.get('fillPopulation')(d.properties.population);
 				}
+			})
+			.style("stroke", function(d) {
+
+				if (emberContext.get('dataType') === 'votes') {
+					// let randomNum = Math.floor(Math.random() * 50) + 10;
+					let s = emberContext.get('sectionsData')
+							.findBy('sectionCode', d.properties.section_code);
+
+					if (!isEmpty(s)) {
+						if (s.get('PAN') > s.get('PRI')) {
+							// return emberContext.get('fillBlues')(d.properties.population);
+							return "#21416c"
+						} else {
+							// return emberContext.get('fillReds')(d.properties.population);
+							return "#ad3537";
+						}
+					}
+
+				} else {
+					return emberContext.get('fillPopulation')(d.properties.population);
+				}
+			})
+			.style("opacity", function(d) {
+				let opacity = 1;
+
+				if (d.properties.population > 0) {
+					opacity = ".5";
+				}
+
+				if (d.properties.population > 400) {
+					opacity = ".6";
+				}
+
+				if (d.properties.population > 800) {
+					opacity = ".7";
+				}
+
+				if (d.properties.population > 1600) {
+					opacity = ".8";
+				}
+
+				if (d.properties.population > 3000) {
+					opacity = ".9";
+				}
+
+				return opacity;
 			})
 			.on("click", function(d) {
 				emberContext.clicked(this, d);

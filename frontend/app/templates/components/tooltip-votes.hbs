@@ -1,5 +1,6 @@
 
 <div id="tooltip-map">
+	{{#if sectionData}}
 	<div class="tooltip-row">
 		<span class="tooltip-color-box pan"></span>
 		<span class="tooltip-party">PAN</span>
@@ -12,6 +13,12 @@
 		<span class="tooltip-votes">{{sectionData.PRI}}</span>
 		<span class="tooltip-percent">35%</span>
 	</div>
+	{{else}}
+		<div class="tooltip-row">
+			<h4 style="text-align:center;">No Data</h4>
+		</div>
+	{{/if}}
+	
 </div>
 
 <div class="map-key">

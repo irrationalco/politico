@@ -4,7 +4,6 @@ export default Ember.Component.extend({
 
 	something: Ember.computed('sectionData', function() {
 		let sec = this.get('sectionData').filterBy('sectionCode', 975);
-		console.log(sec);
 		return sec[0];
 	}),
 
