@@ -16,11 +16,4 @@ class Projection < ApplicationRecord
     )
   }
 
-  # scope :followed, -> (user_id) {
-  #   where([
-  #     'followers.user_id = ?', user_id
-  #     ]
-  #   )
-  # }
-
 end

@@ -7,12 +7,15 @@ export default Ember.Route.extend({
 		},
 		municipality: {
 			refreshModel: true
+		},
+		federalDistrict: {
+			refreshModel: true
 		}
 	},
 
 	model(params) {
-		console.log("PARAMS");
-		console.log(params);
+
+		console.log("QUERYING DATABASE");
 		return this.store.query('projection',params);
 	}
 });

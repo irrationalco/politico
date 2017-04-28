@@ -10,11 +10,6 @@ export default Ember.Component.extend({
 		let sec = this.get('sectionData').filterBy('sectionCode', 975);
 		return sec[0];
 	}),
-
-	didReceiveAttrs() {
-		console.log(this.get('sectionData'));
-	},
-
 	// init() {
 
 	// 	// var txtFile = "/tmp/test.txt";

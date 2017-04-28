@@ -417,7 +417,7 @@ export default Ember.Component.extend({
 
 		Ember.run.later(this, () => {
 			this.get('svg').transition()
-				.duration(950)
+				.duration(1300)
 				.call(this.get('zoom').transform, transform)
 				.on("end", this.updateCurrData());
 		}, 50);
