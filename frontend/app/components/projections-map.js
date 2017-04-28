@@ -101,7 +101,18 @@ export default Ember.Component.extend({
 		this._super(...arguments);
 	},
 
+	sectionsDataChanged() {
+
+	},
+
+	didUpdateAttrs() {
+		this._super(...arguments);
+
+		Ember.run.debounce(this,this.renderMap, 500);
+	},
+
 	renderMap() {
+		console.log("RENDER MAP");
 
 		let currState = this.get('currState');
 		let newState = this.get('state');
@@ -147,19 +158,11 @@ export default Ember.Component.extend({
 
 		// MUNICIPALITY
 		if (this.get('level') === 'municipality') {
-
-			console.log("MUNICIPALITY");
-
 			if (this.get('mapDivision') === 'federal') {
 
 				if (currFedDistrict === newFedDistrict) {
-					console.log("asdl;fja;lskfjasdkl;")
 					this.get('cartography').getFederalDistrict(newFedDistrict, this.get('stateCode')).then((district) => {
 						// If currDataType changed, then redraw sections
-
-						console.log(this.get('currDataType'));
-						console.log(this.get('dataType'));
-
 
 						if (this.get('currDataType') !== this.get('dataType')) {
 							this.zoomToObject(district);
@@ -278,12 +281,8 @@ export default Ember.Component.extend({
 		}
 	},
 
-	didUpdateAttrs() {
-		this._super(...arguments);
-		this.renderMap();
-	},
-
 	didInsertElement() {
+		console.log("Did didInsertElement");
 		this._super(...arguments);
 
 		// Setting width and height of map container
@@ -458,18 +457,7 @@ export default Ember.Component.extend({
 			.style("fill", function(d) {
 
 				if (emberContext.get('dataType') === 'votes') {
-					// let randomNum = Math.floor(Math.random() * 50) + 10;
-					// let PAN = Math.floor(Math.random() * 1000) + 1;
-					// let PRI = Math.floor(Math.random() * 1000) + 1;
-
-
-					// 	if (PAN > PRI) {
-					// 		// return emberContext.get('fillBlues')(d.properties.population);
-					// 		return "#21416c"
-					// 	} else {
-					// 		// return emberContext.get('fillReds')(d.properties.population);
-					// 		return "#ad3537";
-					// 	}
+					
 
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
@@ -677,3 +665,16 @@ export default Ember.Component.extend({
 		this.set('currDataType', this.get('dataType'));
 	}
 });
+
+// let randomNum = Math.floor(Math.random() * 50) + 10;
+// let PAN = Math.floor(Math.random() * 1000) + 1;
+// let PRI = Math.floor(Math.random() * 1000) + 1;
+
+
+// 	if (PAN > PRI) {
+// 		// return emberContext.get('fillBlues')(d.properties.population);
+// 		return "#21416c"
+// 	} else {
+// 		// return emberContext.get('fillReds')(d.properties.population);
+// 		return "#ad3537";
+// 	}

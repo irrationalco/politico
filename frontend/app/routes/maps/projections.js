@@ -14,8 +14,6 @@ export default Ember.Route.extend({
 	},
 
 	model(params) {
-
-		console.log("QUERYING DATABASE");
 		return this.store.query('projection',params);
 	}
 });
