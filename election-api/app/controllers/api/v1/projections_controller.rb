@@ -3,14 +3,37 @@ class Api::V1::ProjectionsController < ApplicationController
 
   # GET /projections
   def index
-    puts "Getting projections"
-    # @projections = Projection.all
+    file = File.join(Rails.root, 'muniCodes.json')
+    filedata = File.read(file)
+    munis = JSON.parse(filedata)
 
-    puts params
-    @projections = Projection.all
-    @projections = @projections.where(id: [2, 3, 5])
+    file = File.join(Rails.root, 'stateCodes.json')
+    filedata = File.read(file)
+    states = JSON.parse(filedata)
 
-    render json: @projections
+    if params["dataType"] == 'votes'
+      if params["state"].present? && params["municipality"].present?
+
+        state_code = states[params["state"]]
+        muni_code = munis[params["municipality"]]
+
+        @projections = Projection.all
+        @projections = @projections.municipal(state_code, muni_code)
+      elsif params["state"].present? && params["federalDistrict"].present?
+
+        state_code = states[params["state"]]
+
+        @projections = Projection.all
+        @projections = @projections.distrital(state_code, params["federalDistrict"])
+      end
+    end
+
+    if @projections.present?
+      render json: @projections
+    else
+      @projections = Projection.where(id: 1)
+      render json: @projections
+    end
   end
 
   # GET /projections/1
