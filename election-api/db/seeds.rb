@@ -12,19 +12,19 @@ require 'csv'
 CSV.foreach("../secciones_simple.csv") { |row|
   panVotos = Random.rand(1500)
   priVotos = Random.rand(1500)
-  prdVotos = Random.rand(500)
-  morenaVotos = Random.rand(1000)
-  pvVotos = Random.rand(100)
-  ptVotos = Random.rand(100)
-  mcVotos = Random.rand(100)
+  prdVotos = Random.rand(300)
+  morenaVotos = Random.rand(800)
+  pvVotos = Random.rand(50)
+  ptVotos = Random.rand(50)
+  mcVotos = Random.rand(50)
 
-  total = panVotos + priVotos;
+  total = panVotos + priVotos + prdVotos + morenaVotos + pvVotos + ptVotos + mcVotos;
 
   Projection.create(:state_code => row[0], :muni_code => row[4], 
                     :section_code => row[2], :district_code => row[1],
                     :PRI => priVotos, :PAN => panVotos, :PRD => prdVotos,
                     :Morena => morenaVotos, :PV => pvVotos, :PT => ptVotos,
-                    :MC => mcVotos)
+                    :MC => mcVotos, :total_votes => total)
 }
 
 
