@@ -6,6 +6,7 @@ export default DS.Model.extend({
 	stateCode: DS.attr('number'),
 	districtCode: DS.attr('number'),
 
+	totalVotes: DS.attr('number'),
 	PRI: DS.attr('number'),
 	PAN: DS.attr('number'),
 	PRD: DS.attr('number'),

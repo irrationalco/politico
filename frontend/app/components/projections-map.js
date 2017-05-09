@@ -112,8 +112,6 @@ export default Ember.Component.extend({
 	},
 
 	renderMap() {
-		console.log("RENDER MAP");
-
 		let currState = this.get('currState');
 		let newState = this.get('state');
 		let currMuni = this.get('currMuni');
@@ -282,7 +280,6 @@ export default Ember.Component.extend({
 	},
 
 	didInsertElement() {
-		console.log("Did didInsertElement");
 		this._super(...arguments);
 
 		// Setting width and height of map container
@@ -433,8 +430,6 @@ export default Ember.Component.extend({
 	},
 
 	drawSections() {
-		console.log("drawing sections");
-
 		if (isEmpty(this.get('sections'))) {
 			this.get('cartography').loadSectionsData(this.get('stateCode'), this.get('muniCode')).then(() => {
 				this.renderSections();

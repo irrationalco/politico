@@ -8,18 +8,24 @@
 
 	<div class="tooltip-row">
 		<span class="tooltip-color-box pan"></span>
-		<span class="tooltip-party">PAN</span>
-		<span class="tooltip-votes-pan">{{sectionData.PAN}}</span>
-		<span class="tooltip-percent">65%</span>
+		<span class="tooltip-party">{{firstParty.name}}</span>
+		<span class="tooltip-votes-pan">{{firstParty.votes}}</span>
+		<span class="tooltip-percent">{{firstParty.percentage}}%</span>
 	</div>
 	<div class="tooltip-row">
 		<span class="tooltip-color-box pri"></span>
-		<span class="tooltip-party"> PRI</span>
-		<span class="tooltip-votes">{{sectionData.PRI}}</span>
-		<span class="tooltip-percent">35%</span>
-		<span class="tooltip-percent">{{firstParty}}</span>
-
+		<span class="tooltip-party">{{secondParty.name}}</span>
+		<span class="tooltip-votes">{{secondParty.votes}}</span>
+		<span class="tooltip-percent">{{secondParty.percentage}}%</span>
 	</div>
+
+	<div class="tooltip-row">
+		<span class="tooltip-color-box pri"></span>
+		<span class="tooltip-party">{{others.name}}</span>
+		<span class="tooltip-votes">{{others.votes}}</span>
+		<span class="tooltip-percent">{{others.percentage}}%</span>
+	</div>
+
 	{{else}}
 		<div class="tooltip-row">
 			<h4 style="text-align:center;">No Data</h4>
