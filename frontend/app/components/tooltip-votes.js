@@ -4,13 +4,9 @@ const { isEmpty } = Ember;
 
 export default Ember.Component.extend({
 
-	color: "Red",
+	colors: { PRI: "#ce3a3a", PAN: "#446093", others: "#647329", Morena: "#f36916", PRD: "#e8c230"},
 
 	parties: ["PRI", "PAN", "PRD", "Morena"],
-
-	sectionData: Ember.computed('hoveredSection', function() {
-
-	}),
 
 	firstParty:  null,
 	secondParty: null,
@@ -25,6 +21,14 @@ export default Ember.Component.extend({
 		} else {
 			return null;
 		}
+	}),
+
+	firstPartyColor: Ember.computed('firstParty', function() {
+		return this.get('colors')[this.get('firstParty.name')];
+	}),
+
+	secondPartyColor: Ember.computed('secondParty', function() {
+		return this.get('colors')[this.get('secondParty.name')];
 	}),
 
 	computeTopParties: task(function * (section) {
@@ -75,9 +79,6 @@ export default Ember.Component.extend({
 		this.set('secondParty', secondParty);
 		this.set('thirdParty', thirdParty);
 		this.set('others', others);
-
-
-		console.log(this.get('firstParty.percentage'));
 	
 	}).restartable(),
 
