@@ -8,6 +8,7 @@ const { isEmpty } = Ember;
 
 export default Ember.Component.extend({
 
+	parties: Ember.inject.service(),
 	store: Ember.inject.service(),
 	cartography: Ember.inject.service(),
 
@@ -427,16 +428,7 @@ export default Ember.Component.extend({
 
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
-
-					if (!isEmpty(s)) {
-						if (s.get('PAN') > s.get('PRI')) {
-							// return emberContext.get('fillBlues')(d.properties.population);
-							return "#21416c";
-						} else {
-							// return emberContext.get('fillReds')(d.properties.population);
-							return "#ad3537";
-						}
-					}
+					return emberContext.get('parties').getColor(s);
 
 				} else {
 					return emberContext.get('fillPopulation')(d.properties.population);
@@ -449,15 +441,7 @@ export default Ember.Component.extend({
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
 
-					if (!isEmpty(s)) {
-						if (s.get('PAN') > s.get('PRI')) {
-							// return emberContext.get('fillBlues')(d.properties.population);
-							return "#21416c"
-						} else {
-							// return emberContext.get('fillReds')(d.properties.population);
-							return "#ad3537";
-						}
-					}
+					return emberContext.get('parties').getColor(s);
 
 				} else {
 					return emberContext.get('fillPopulation')(d.properties.population);

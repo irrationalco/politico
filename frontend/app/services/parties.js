@@ -19,5 +19,10 @@ export default Ember.Service.extend({
       }
     });
     return max;
+  },
+
+  getColor(section) {
+    let party = this.getMaxParty(this.get('partiesNames'), section);
+    return this.get('colors')[party];
   }
 });
