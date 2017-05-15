@@ -24,11 +24,13 @@ export default Ember.Component.extend({
 	}),
 
 	firstPartyColor: Ember.computed('firstParty', function() {
-		return this.get('colors')[this.get('firstParty.name')];
+		return Ember.String.htmlSafe("background-color: " + 
+			this.get('colors')[this.get('firstParty.name')] + ";");
 	}),
 
 	secondPartyColor: Ember.computed('secondParty', function() {
-		return this.get('colors')[this.get('secondParty.name')];
+		return Ember.String.htmlSafe("background-color: " + 
+			this.get('colors')[this.get('secondParty.name')] + ";");
 	}),
 
 	computeTopParties: task(function * (section) {
