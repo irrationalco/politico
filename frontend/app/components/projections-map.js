@@ -439,6 +439,108 @@ export default Ember.Component.extend({
 		}
 	},
 
+	paintSections() {
+		let emberContext = this;
+
+		this.set('tooltip', d3.select('#tooltip-map'));
+
+		this.get('sectionsLayer').selectAll("path")
+			.data(this.get('sections'))
+			.enter().append("path")
+			.attr("d", this.get('path'))
+			.attr("class", "section")
+			.style("fill", function(d) {
+
+				if (emberContext.get('dataType') === 'votes') {
+					
+
+					let s = emberContext.get('sectionsData')
+							.findBy('sectionCode', d.properties.section_code);
+
+					if (!isEmpty(s)) {
+						if (s.get('PAN') > s.get('PRI')) {
+							// return emberContext.get('fillBlues')(d.properties.population);
+							return "#21416c"
+						} else {
+							// return emberContext.get('fillReds')(d.properties.population);
+							return "#ad3537";
+						}
+					}
+
+				} else {
+					return emberContext.get('fillPopulation')(d.properties.population);
+				}
+			})
+			.style("stroke", function(d) {
+
+				if (emberContext.get('dataType') === 'votes') {
+					// let randomNum = Math.floor(Math.random() * 50) + 10;
+					let s = emberContext.get('sectionsData')
+							.findBy('sectionCode', d.properties.section_code);
+
+					if (!isEmpty(s)) {
+						if (s.get('PAN') > s.get('PRI')) {
+							// return emberContext.get('fillBlues')(d.properties.population);
+							return "#21416c"
+						} else {
+							// return emberContext.get('fillReds')(d.properties.population);
+							return "#ad3537";
+						}
+					}
+
+				} else {
+					return emberContext.get('fillPopulation')(d.properties.population);
+				}
+			})
+			.style("opacity", function(d) {
+				let opacity = 1;
+
+				if (d.properties.population > 0) {
+					opacity = ".5";
+				}
+
+				if (d.properties.population > 400) {
+					opacity = ".6";
+				}
+
+				if (d.properties.population > 800) {
+					opacity = ".7";
+				}
+
+				if (d.properties.population > 1600) {
+					opacity = ".8";
+				}
+
+				if (d.properties.population > 3000) {
+					opacity = ".9";
+				}
+
+				return opacity;
+			})
+			.classed("hovered-section", true)
+			.on("click", function(d) {
+				emberContext.clicked(this, d);
+			})
+			.on("mouseenter", function(d) {
+				emberContext.set('hoveredSection', d.properties);
+				d3.select(this).style("stroke-width", 4 / emberContext.get('transform').k);
+			})
+			.on("mouseover", function(d) {
+				emberContext.get('tooltip')
+					.style('display', "inline");
+			})
+			.on("mousemove", function(d) {
+				emberContext.get('tooltip')
+					.style("left", (d3.event.pageX - 170) + "px")
+					.style("top", (d3.event.pageY - 100) + "px");
+			})
+			.on("mouseout", function(d) {
+				emberContext.get('tooltip')
+					.style('display', 'none');
+				d3.select(this).style("stroke-width", 1 / emberContext.get('transform').k);
+			});
+	},
+
 	renderSections() { 
 		let emberContext = this;
 
