@@ -11,22 +11,22 @@ class Api::V1::ProjectionsController < ApplicationController
     filedata = File.read(file)
     states = JSON.parse(filedata)
 
-    if params["dataType"] == 'votes'
-      if params["state"].present? && params["municipality"].present?
+    
+    if params["state"].present? && params["municipality"].present?
 
-        state_code = states[params["state"]]
-        muni_code = munis[params["municipality"]]
+      state_code = states[params["state"]]
+      muni_code = munis[params["municipality"]]
 
-        @projections = Projection.all
-        @projections = @projections.municipal(state_code, muni_code)
-      elsif params["state"].present? && params["federalDistrict"].present?
+      @projections = Projection.all
+      @projections = @projections.municipal(state_code, muni_code)
+    elsif params["state"].present? && params["federalDistrict"].present?
 
-        state_code = states[params["state"]]
+      state_code = states[params["state"]]
 
-        @projections = Projection.all
-        @projections = @projections.distrital(state_code, params["federalDistrict"])
-      end
+      @projections = Projection.all
+      @projections = @projections.distrital(state_code, params["federalDistrict"])
     end
+    
 
     if @projections.present?
       render json: @projections
