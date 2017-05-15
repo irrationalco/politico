@@ -203,7 +203,6 @@ export default Ember.Service.extend({
 
         if (data) {
           this.set('federalDistricts', topojson.feature(data, data.objects.mx_distrito).features.filterBy('properties.state_code',stateCode));
-
           this.set('federalDistrictsBorders', topojson.mesh(data, data.objects.mx_distrito, function(a, b) {
             if (a.properties.state_code === stateCode) { return a !== b; }
           }));

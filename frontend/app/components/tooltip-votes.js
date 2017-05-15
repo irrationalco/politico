@@ -3,10 +3,7 @@ import { task, timeout } from 'ember-concurrency';
 const { isEmpty } = Ember;
 
 export default Ember.Component.extend({
-
-	colors: { PRI: "#ce3a3a", PAN: "#446093", others: "#647329", Morena: "#f36916", PRD: "#e8c230"},
-
-	parties: ["PRI", "PAN", "PRD", "Morena"],
+	parties: Ember.inject.service(),
 
 	firstParty:  null,
 	secondParty: null,
@@ -25,19 +22,19 @@ export default Ember.Component.extend({
 
 	firstPartyColor: Ember.computed('firstParty', function() {
 		return Ember.String.htmlSafe("background-color: " + 
-			this.get('colors')[this.get('firstParty.name')] + ";");
+			this.get('parties').get('colors')[this.get('firstParty.name')] + ";");
 	}),
 
 	secondPartyColor: Ember.computed('secondParty', function() {
 		return Ember.String.htmlSafe("background-color: " + 
-			this.get('colors')[this.get('secondParty.name')] + ";");
+			this.get('parties').get('colors')[this.get('secondParty.name')] + ";");
 	}),
 
 	computeTopParties: task(function * (section) {
 
 		yield timeout(150);
 
-		let currParties = this.get('parties');
+		let currParties = this.get('parties').get('partiesNames');
 		let totalVotes = section.get('totalVotes');
 
 		let firstParty = { name: null, votes: null, percentage: null };
@@ -46,7 +43,7 @@ export default Ember.Component.extend({
 		let others = { name: "Otros", votes: null, percentage: null };
 
 		// Getting top party
-		let firstName = this.getMaxParty(currParties, section);
+		let firstName = this.get('parties').getMaxParty(currParties, section);
 		currParties = currParties.filter(function(el) {
 			return el !== firstName;
 		});
@@ -55,7 +52,7 @@ export default Ember.Component.extend({
 		firstParty.percentage = Math.round(firstParty.votes / totalVotes * 100);
 
 		// Getting second place party
-		let secondName = this.getMaxParty(currParties, section);
+		let secondName = this.get('parties').getMaxParty(currParties, section);
 		currParties = currParties.filter(function(el) {
 			return el !== secondName;
 		});
@@ -64,7 +61,7 @@ export default Ember.Component.extend({
 		secondParty.percentage = Math.round(secondParty.votes / totalVotes * 100);
 
 		// Getting third place party
-		let thirdName = this.getMaxParty(currParties, section);
+		let thirdName = this.get('parties').getMaxParty(currParties, section);
 		currParties = currParties.filter(function(el) {
 			return el !== thirdName;
 		});
@@ -84,18 +81,7 @@ export default Ember.Component.extend({
 	
 	}).restartable(),
 
-	getMaxParty(parties, section) {
-		let max = null;
-		parties.forEach(party => {
-			if (max === null) { 
-				max = party; 
-			} else if (section.get(party) > section.get(max)) {
-				max = party
-			}
-		});
-		return max;
-	},
-
+	
 	calculateOthersTotalVotes(parties, section) {
 		let total = 0;
 		parties.forEach(party => {
