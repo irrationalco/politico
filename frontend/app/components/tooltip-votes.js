@@ -31,9 +31,9 @@ export default Ember.Component.extend({
 	}),
 
 	computeTopParties: task(function * (section) {
-
 		yield timeout(150);
 
+		let totalVotesParties = 0;
 		let currParties = this.get('parties').get('partiesNames');
 		let totalVotes = section.get('totalVotes');
 
@@ -49,6 +49,7 @@ export default Ember.Component.extend({
 		});
 		firstParty.name = firstName;
 		firstParty.votes = section.get(firstName);
+		totalVotesParties += firstParty.votes
 		firstParty.percentage = Math.round(firstParty.votes / totalVotes * 100);
 
 		// Getting second place party
@@ -58,6 +59,7 @@ export default Ember.Component.extend({
 		});
 		secondParty.name = secondName;
 		secondParty.votes = section.get(secondName);
+		totalVotesParties += secondParty.votes
 		secondParty.percentage = Math.round(secondParty.votes / totalVotes * 100);
 
 		// Getting third place party
@@ -67,10 +69,13 @@ export default Ember.Component.extend({
 		});
 		thirdParty.name = thirdName;
 		thirdParty.votes = section.get(thirdName);
+		totalVotesParties += thirdParty.votes
 		thirdParty.percentage = Math.round(thirdParty.votes / totalVotes * 100);
 
+		console.log(totalVotes);
+
 		// Calculating other parties votes and percent
-		others.votes = this.calculateOthersTotalVotes(currParties, section);
+		others.votes = totalVotes - totalVotesParties;
 		others.percentage = Math.round(others.votes / totalVotes * 100);
 
 		// Setting computed vars
@@ -79,14 +84,5 @@ export default Ember.Component.extend({
 		this.set('thirdParty', thirdParty);
 		this.set('others', others);
 	
-	}).restartable(),
-
-	
-	calculateOthersTotalVotes(parties, section) {
-		let total = 0;
-		parties.forEach(party => {
-			total = total + section.get(party);
-		});
-		return total;
-	}
+	}).restartable()
 });

@@ -7,7 +7,7 @@ export default Ember.Service.extend({
   colors: { PRI: "#b71c1c", PAN: "#377eb8", others: "#4daf4a", 
             Morena: "#ff7f00", PRD: "#ffff33"},
 
-  partiesNames: ["PRI", "PAN", "PRD", "Morena"],
+  partiesNames: ["PRI", "PRD", "Morena"],
 
   getMaxParty(parties, section) {
     let max = null;
