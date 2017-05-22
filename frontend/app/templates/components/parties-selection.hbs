@@ -1,0 +1,14 @@
+<div class="ticket-textfield-container">
+	{{ember-selectize
+	open=true
+	content=parties
+	multiple=true
+	optionValuePath="content.email"
+	optionLabelPath="content.name"
+	selection=selectedParties
+	create-item='addEmail'
+	add-item='addItem'
+	remove-item='removeItem'
+	on-blur='saveNewFollowers'
+	placeholder="Escoge un partido."}}
+</div> 
