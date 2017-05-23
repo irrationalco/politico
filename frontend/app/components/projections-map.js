@@ -8,7 +8,7 @@ const { isEmpty } = Ember;
 
 export default Ember.Component.extend({
 
-	parties: Ember.inject.service(),
+	partiesManager: Ember.inject.service("parties"),
 	store: Ember.inject.service(),
 	cartography: Ember.inject.service(),
 
@@ -428,7 +428,7 @@ export default Ember.Component.extend({
 
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
-					return emberContext.get('parties').getColor(s);
+					return emberContext.get('partiesManager').getColor(s);
 
 				} else {
 					return emberContext.get('fillPopulation')(d.properties.population);
@@ -441,7 +441,7 @@ export default Ember.Component.extend({
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
 
-					return emberContext.get('parties').getColor(s);
+					return emberContext.get('partiesManager').getColor(s);
 
 				} else {
 					return emberContext.get('fillPopulation')(d.properties.population);

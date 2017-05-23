@@ -7,7 +7,9 @@ export default Ember.Service.extend({
   colors: { PRI: "#b71c1c", PAN: "#377eb8", others: "#4daf4a", 
             Morena: "#ff7f00", PRD: "#ffff33"},
 
-  partiesNames: ["PRI", "PRD", "Morena"],
+  parties: ["PRI", "PAN","PRD", "Morena"],
+
+  selectedParties: ["PRI", "PAN", "PRD", "Morena"],
 
   getMaxParty(parties, section) {
     let max = null;
@@ -22,7 +24,7 @@ export default Ember.Service.extend({
   },
 
   getColor(section) {
-    let party = this.getMaxParty(this.get('partiesNames'), section);
+    let party = this.getMaxParty(this.get('selectedParties'), section);
     return this.get('colors')[party];
   }
 });
