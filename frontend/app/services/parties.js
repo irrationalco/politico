@@ -26,5 +26,29 @@ export default Ember.Service.extend({
   getColor(section) {
     let party = this.getMaxParty(this.get('selectedParties'), section);
     return this.get('colors')[party];
+  },
+
+  getGradientColor(color1, color2) {
+
+    if (color1[0] === "#") {
+      color1 = color1.substring(1);
+    }
+
+    if (color2[0] == "#") {
+      color2 = color2.substring(1);
+    }
+
+    let ratio = 0.5;
+
+    let r = Math.ceil(parseInt(color1.substring(0,2), 16) * ratio + parseInt(color2.substring(0,2), 16) * (1-ratio));
+    let g = Math.ceil(parseInt(color1.substring(2,4), 16) * ratio + parseInt(color2.substring(2,4), 16) * (1-ratio));
+    let b = Math.ceil(parseInt(color1.substring(4,6), 16) * ratio + parseInt(color2.substring(4,6), 16) * (1-ratio));
+
+    let middle = this.hex(r) + this.hex(g) + this.hex(b);
+  },
+
+  hex(x){
+    x = x.toString(16);
+    return (x.length == 1) ? '0' + x : x;
   }
 });

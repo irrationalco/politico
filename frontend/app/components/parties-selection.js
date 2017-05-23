@@ -7,7 +7,7 @@ export default Ember.Component.extend({
 	selectedParties: Ember.computed.alias('partiesManager.selectedParties'),
 
 	selectedPartiesChanged: Ember.observer("selectedParties.[]", function() {
-		console.log("selectedParties changed");
+		console.log("parties changed");
 	}),
 
 	actions: {
