@@ -72,8 +72,6 @@ export default Ember.Component.extend({
 		totalVotesParties += thirdParty.votes
 		thirdParty.percentage = Math.round(thirdParty.votes / totalVotes * 100);
 
-		console.log(totalVotes);
-
 		// Calculating other parties votes and percent
 		others.votes = totalVotes - totalVotesParties;
 		others.percentage = Math.round(others.votes / totalVotes * 100);

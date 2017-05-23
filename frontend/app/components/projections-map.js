@@ -109,7 +109,6 @@ export default Ember.Component.extend({
 	},
 
 	didUpdateAttrs() {
-		console.log("DID didUpdateAttrs");
 		this._super(...arguments);
 		// this.renderMap();
 		Ember.run.debounce(this,this.renderMap, 500);
@@ -422,7 +421,6 @@ export default Ember.Component.extend({
 	},
 
 	paintSections() {
-		console.log("Paint Sections");
 		let emberContext = this;
 
 		this.set('tooltip', d3.select('#tooltip-map'));
