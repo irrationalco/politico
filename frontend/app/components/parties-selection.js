@@ -10,19 +10,11 @@ export default Ember.Component.extend({
 		console.log("selectedParties changed");
 	}),
 
-	init(){
-		this._super(...arguments);
-		console.log("init");
-	},
-
 	actions: {
 		addParty(item) {
-			console.log("adding item");
-			console.log(this.get('selectedParties'));
 		},
 
 		removeParty(item) {
-			console.log("removing item");
 		}
 	} 
 });

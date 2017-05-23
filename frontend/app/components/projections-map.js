@@ -12,6 +12,12 @@ export default Ember.Component.extend({
 	store: Ember.inject.service(),
 	cartography: Ember.inject.service(),
 
+	selectedParties: Ember.computed.oneWay("partiesManager.selectedParties"),
+
+	partiesChanged: Ember.observer("selectedParties.[]", function() {
+		this.paintSections();
+	}),
+
 	states: Ember.computed.oneWay('cartography.states'),
 
 	municipalities: Ember.computed.oneWay('cartography.municipalities'),
