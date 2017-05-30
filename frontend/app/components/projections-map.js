@@ -420,6 +420,19 @@ export default Ember.Component.extend({
 		}
 	},
 
+	paintComparison() {
+		let emberContext = this;
+		this.set('tooltip', d3.select('#tooltip-map'));
+
+		this.get('sectionsLayer').selectAll("path")
+			.style("fill", function(d) {
+				let s = emberContext.get('sectionsData')
+						.findBy('sectionCode', d.properties.section_code);
+			})
+
+
+	},
+
 	paintSections() {
 		let emberContext = this;
 

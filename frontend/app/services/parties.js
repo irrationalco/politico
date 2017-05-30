@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { task } from 'ember-concurrency';
 
 const { isEmpty } = Ember;
 
@@ -27,6 +28,10 @@ export default Ember.Service.extend({
     let party = this.getMaxParty(this.get('selectedParties'), section);
     return this.get('colors')[party];
   },
+
+  computeComparison: task(function * (section) {
+
+  }),
 
   getGradientColor(color1, color2) {
 

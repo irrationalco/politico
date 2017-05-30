@@ -3,15 +3,33 @@ import Ember from 'ember';
 const { isEmpty } = Ember;
 
 export default Ember.Controller.extend({
-	queryParams: ['state', 'municipality', 'section', 'federalDistrict', 'mapDivision', 'dataType'],
+
+	partiesManager: Ember.inject.service('parties'),
+
+	queryParams: ['state', 'municipality', 'section', 'federalDistrict', 'mapDivision',
+				  'dataType', 'visualization', 'parties'],
 	state: "",
 	municipality: "",
 	section: "",
 	federalDistrict: "",
 	mapDivision: "municipal",
 	dataType: "votes",
+	visualization: "normal",
 
+
+	selectedParties: Ember.computed.oneWay('partiesManager.selectedParties'),
 	hoveredSection: null,
+
+	partiesChanged: Ember.observer('selectedParties.[]', function() {
+		let selParties = this.get('selectedParties');
+		if (selParties.length >= 3) {
+			this.send('setVisualization', "normal");
+		} else if(selParties.length === 2) {
+			this.send('setVisualization', "comparison");
+		} else {
+			this.send('setVisualization', "single");
+		}
+	}),
 
 	level: Ember.computed('state', 'municipality', 'section', 'federalDistrict', function() {
 		if (Ember.isEmpty(this.get('state'))) {
@@ -24,6 +42,7 @@ export default Ember.Controller.extend({
 			return "section";
 		}
 	}),
+
 
 	isMunicipal: Ember.computed('mapDivision', function() {
 		if (this.get('mapDivision') === 'municipal') {
@@ -105,6 +124,10 @@ export default Ember.Controller.extend({
 		setDataType(type) {
 			this.set('dataType', type);
 			this.set('section', "");
+		},
+
+		setVisualization(vis) {
+			this.set('visualization', vis);
 		},
 
 		setHoveredSection(sec) {
