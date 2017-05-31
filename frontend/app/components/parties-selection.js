@@ -7,11 +7,9 @@ export default Ember.Component.extend({
 	selectedParties: Ember.computed.alias('partiesManager.selectedParties'),
 
 	actions: {
-		addParty(item) {
-		},
+		addParty(item) {},
 
-		removeParty(item) {
-		}
+		removeParty(item) {}
 	} 
 });
 

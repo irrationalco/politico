@@ -8,6 +8,7 @@ export default Ember.Controller.extend({
 
 	queryParams: ['state', 'municipality', 'section', 'federalDistrict', 'mapDivision',
 				  'dataType', 'visualization', 'parties'],
+
 	state: "",
 	municipality: "",
 	section: "",
@@ -16,12 +17,13 @@ export default Ember.Controller.extend({
 	dataType: "votes",
 	visualization: "normal",
 
-
 	selectedParties: Ember.computed.oneWay('partiesManager.selectedParties'),
+
 	hoveredSection: null,
 
 	partiesChanged: Ember.observer('selectedParties.[]', function() {
 		let selParties = this.get('selectedParties');
+		
 		if (selParties.length >= 3) {
 			this.send('setVisualization', "normal");
 		} else if(selParties.length === 2) {

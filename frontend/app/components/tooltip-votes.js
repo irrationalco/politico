@@ -14,6 +14,7 @@ export default Ember.Component.extend({
 		if (this.get('hoveredSection') !== null) {
 			let section = this.get('sectionsData').findBy('sectionCode', this.get('hoveredSection').section_code);
 			this.get('computeTopParties').perform(section);
+			console.log("RETURNED THE SECTION");
 			return section;
 		} else {
 			return null;
@@ -32,6 +33,9 @@ export default Ember.Component.extend({
 
 	computeTopParties: task(function * (section) {
 		yield timeout(150);
+
+		let word = yield this.get('waitShit').perform();
+		console.log(word);
 
 		let totalVotesParties = 0;
 		let currParties = this.get('partiesManager').get('parties');
@@ -82,5 +86,10 @@ export default Ember.Component.extend({
 		this.set('thirdParty', thirdParty);
 		this.set('others', others);
 	
-	}).restartable()
+	}).restartable(),
+
+	waitShit: task(function * () {
+		yield timeout(1000);
+		return "MY SHIT";
+	})
 });
