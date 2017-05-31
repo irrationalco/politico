@@ -22,59 +22,64 @@ export default Ember.Service.extend({
     console.log(x)
   }),
 
-  // Function that gets a specific state object by name and loads its municipalities
-  getState(stateName) {
-    // this.get('loadStatesData').perform();
-    this.get('getS').perform();
-    // console.log(this.get('federalDistricts'));
-    return new Promise((resolve, reject) => {
-      // If all states data is stored in var, then don't make request
-      if (this.get('states')) {
-        let state = this.get('states').filterBy('properties.state_name', stateName);
-        if (isEmpty(state)) {
-            reject(new Error("El código del estado es incorrecto."));
-          } else {
-            let stateCode = state[0].properties.state_code;
-            this.loadMunicipalitiesData(stateCode).then(() => {
-              this.loadFederalDistrictsData(stateCode).then(() => {
-                resolve(state[0]);
-              });
-            });
-          }
-      } else {
+  getState: task(function * () {
+    try {
 
-        // this.get('loadStatesData').perform();
-        // let state = this.get('states').filterBy('properties.state_name', stateName);
-        // //If state name is wrong and couldnt find this state
-        // if (isEmpty(state)) {
-        //   reject(new Error("El nombre del estado es incorrecto. Debe llevar acentos."));
-        // } else {
-        //   let stateCode = state[0].properties.state_code;
-        //   this.loadMunicipalitiesData(stateCode).then(() => {
-        //     this.loadFederalDistrictsData(stateCode).then(() => {
-        //       resolve(state[0]);
-        //     });
-        //   });
-        // }
-
-
-        this.loadStatesData().then(() => {
-          let state = this.get('states').filterBy('properties.state_name', stateName);
-          //If state name is wrong and couldnt find this state
-          if (isEmpty(state)) {
-            reject(new Error("El nombre del estado es incorrecto. Debe llevar acentos."));
-          } else {
-            let stateCode = state[0].properties.state_code;
-            this.loadMunicipalitiesData(stateCode).then(() => {
-              this.loadFederalDistrictsData(stateCode).then(() => {
-                resolve(state[0]);
-              });
-            });
-          }
-        });
+      if (!this.get('states')) {
+        let states = yield this.get('loadSData').perform();
       }
-    });
-  },
+
+      let state = this.get('states').filterBy('properties.state_name', stateName);
+
+      if (isEmpty(state)) {
+        throw new Error("El código del estado es incorrecto.");
+      } else {
+        let stateCode = state[0].properties.state_code;
+        let munis = yield this.get('loadMData').perform(stateCode);
+        let fedDistricts = yield this.get('loadFData').perform(stateCode);
+        return state[0];
+      }
+      
+    } catch(e) {
+      console.log(e);
+    }
+  }),
+
+  // Function that gets a specific state object by name and loads its municipalities
+  // getState(stateName) {
+
+  //   return new Promise((resolve, reject) => {
+  //     // If all states data is stored in var, then don't make request
+  //     if (this.get('states')) {
+  //       let state = this.get('states').filterBy('properties.state_name', stateName);
+  //       if (isEmpty(state)) {
+  //           reject(new Error("El código del estado es incorrecto."));
+  //         } else {
+  //           let stateCode = state[0].properties.state_code;
+  //           this.loadMunicipalitiesData(stateCode).then(() => {
+  //             this.loadFederalDistrictsData(stateCode).then(() => {
+  //               resolve(state[0]);
+  //             });
+  //           });
+  //         }
+  //     } else {
+  //       this.loadStatesData().then(() => {
+  //         let state = this.get('states').filterBy('properties.state_name', stateName);
+  //         //If state name is wrong and couldnt find this state
+  //         if (isEmpty(state)) {
+  //           reject(new Error("El nombre del estado es incorrecto. Debe llevar acentos."));
+  //         } else {
+  //           let stateCode = state[0].properties.state_code;
+  //           this.loadMunicipalitiesData(stateCode).then(() => {
+  //             this.loadFederalDistrictsData(stateCode).then(() => {
+  //               resolve(state[0]);
+  //             });
+  //           });
+  //         }
+  //       });
+  //     }
+  //   });
+  // },
 
   // Function that gets a specific district object by code and loads its sections
   getFederalDistrict(districtCode, stateCode) {
@@ -217,6 +222,24 @@ export default Ember.Service.extend({
     });
   },
 
+  loadMData: task(function * (stateCode) {
+    let xhr;
+    try {
+      xhr = Ember.$.getJSON("../assets/mx_tj.json");
+      let res = yield xhr.promise();
+
+      yield this.set('municipalities', topojson.feature(res, res.objects.municipalities).features.filterBy('properties.state_code', stateCode));
+      yield this.set('municipalitiesBorders', topojson.mesh(data, data.objects.municipalities, function(a, b) {
+        if (a.properties.state_code === stateCode) { return a !== b; }
+      }));
+
+      return res;
+
+    } finally {
+      xhr.abort();
+    }
+  }),
+
   loadMunicipalitiesData(stateCode) {
     return new Promise((resolve, reject) => {
       d3.json("../assets/mx_tj.json", (error, data) => {
@@ -249,6 +272,24 @@ export default Ember.Service.extend({
       });
     })
   },
+
+  loadFData: task(function * (stateCode) {
+    let xhr;
+    try {
+      xhr = Ember.$.getJSON("../assets/distritos.json");
+      let res = yield xhr.promise();
+
+      yield this.set('federalDistricts', topojson.feature(res, res.objects.mx_distrito).features.filterBy('properties.state_code',stateCode));
+      yield this.set('federalDistrictsBorders', topojson.mesh(res, res.objects.mx_distrito, function(a, b) {
+        if (a.properties.state_code === stateCode) { return a !== b; }
+      }));
+
+      return res;
+
+    } finally {
+      xhr.abort();
+    }
+  }),
 
   loadSectionsData(stateCode, code, property) {
     return new Promise((resolve, reject) => {

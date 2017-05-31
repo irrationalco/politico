@@ -144,9 +144,10 @@ export default Ember.Component.extend({
 		this.set('muniLayer', this.get('svg').append('g'));
 		this.set('sectionsLayer', this.get('svg').append('g'));
 
-		this.drawStates();
+		// this.drawStates();
+		this.get('drawStates').perform();
 		this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
-		this.get('renderMap').perform();
+		// this.get('renderMap').perform();
 
 		// Apply zoom behaviour to svg, and make an initial transform to center
 		this.get('svg')
@@ -488,15 +489,21 @@ export default Ember.Component.extend({
 		}, 300);
 	},
 
-	drawStates() {
-		if (isEmpty(this.get('states'))) {
-			this.get('cartography').loadStatesData().then(() => {
-				this.renderStates();
-			});
-		} else {
-			this.renderStates();
-		}
-	},
+	drawStates: task(function * () {
+		let states = yield this.get('cartography.loadSData').perform();
+		this.renderStates();
+	}),
+
+	// drawStates() {
+	// 	if (isEmpty(this.get('states'))) {
+	// 		this.get('cartography.loadSData').perform
+	// 		this.get('cartography').loadStatesData().then(() => {
+	// 			this.renderStates();
+	// 		});
+	// 	} else {
+	// 		this.renderStates();
+	// 	}
+	// },
 
 	renderStates() {
 		let emberContext = this;
