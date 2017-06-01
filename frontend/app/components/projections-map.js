@@ -16,7 +16,6 @@ export default Ember.Component.extend({
 	selectedParties: Ember.computed.oneWay("partiesManager.selectedParties"),
 
 	partiesChanged: Ember.observer("selectedParties.[]", function() {
-		console.log("Repainting sections");
 		this.paintSections();
 	}),
 
@@ -147,7 +146,7 @@ export default Ember.Component.extend({
 		// this.drawStates();
 		this.get('drawStates').perform();
 		this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
-		// this.get('renderMap').perform();
+		this.get('renderMap').perform();
 
 		// Apply zoom behaviour to svg, and make an initial transform to center
 		this.get('svg')
@@ -178,25 +177,44 @@ export default Ember.Component.extend({
 
 		// STATE
 		if (this.get('level') === 'state') {
+			console.log("ENTERED STATE LEVEl");
+			let state = yield this.get('cartography.getState').perform(newState);
+			this.removeSections();
+			this.removeMunicipalities();
+			console.log(state);
+			this.get('zoomToObject').perform(state);
+			this.set('stateCode', state.properties.state_code);
+
 			if (this.get('mapDivision') === 'federal') {
-				this.get('cartography').getState(newState).then((state) => {
-					this.removeSections();
-					this.removeMunicipalities();
-					// this.zoomToObject(state)
-					this.get('zoomToObject').perform(state);
-					this.set('stateCode', state.properties.state_code);
-					this.drawFederalDistricts(this.get('stateCode'));
-				});	
+				this.renderFederalDistricts();
 			} else {
-				this.get('cartography').getState(newState).then((state) => {
-					this.removeSections();
-					this.removeMunicipalities();
-					// this.zoomToObject(state);
-					this.get('zoomToObject').perform(state);
-					this.set('stateCode', state.properties.state_code);
-					this.drawMunicipalities(this.get('stateCode'));
-				});	
+				this.renderMunicipalities();
 			}
+			// if (this.get('mapDivision') === 'federal') {
+				
+			// 	this.renderFederalDistricts();
+
+			// 	this.get('cartography').getState(newState).then((state) => {
+			// 		this.removeSections();
+			// 		this.removeMunicipalities();
+			// 		// this.zoomToObject(state)
+			// 		this.get('zoomToObject').perform(state);
+			// 		this.set('stateCode', state.properties.state_code);
+			// 		this.drawFederalDistricts(this.get('stateCode'));
+			// 	});	
+			// } else {
+
+
+
+			// 	this.get('cartography').getState(newState).then((state) => {
+			// 		this.removeSections();
+			// 		this.removeMunicipalities();
+			// 		// this.zoomToObject(state);
+			// 		this.get('zoomToObject').perform(state);
+			// 		this.set('stateCode', state.properties.state_code);
+			// 		this.drawMunicipalities(this.get('stateCode'));
+			// 	});	
+			// }
 			
 		} 
 
@@ -309,7 +327,6 @@ export default Ember.Component.extend({
 				}
 			}
 		}
-		console.log("RENDERED MAP");
 	}).enqueue(),
 
 	drawSections() {
@@ -429,16 +446,6 @@ export default Ember.Component.extend({
 		this.paintSections();
 	},
 
-	drawMunicipalities(stateCode) {
-		if (isEmpty(this.get('municipalities'))) {
-			this.get('cartography').loadMunicipalitiesData(stateCode).then(() => {
-				this.renderMunicipalities();
-			});
-		} else {
-			this.renderMunicipalities();
-		}
-	},
-
 	renderMunicipalities() {
 		let emberContext = this;
 
@@ -458,17 +465,7 @@ export default Ember.Component.extend({
 				.attr("d", this.get('path'));
 		}, 300);
 	},
-
-	drawFederalDistricts(stateCode) {
-		if (isEmpty(this.get('federalDistricts'))) {
-			this.get('cartography').loadFederalDistrictsData(stateCode).then(() => {
-				this.renderFederalDistricts();
-			});
-		} else {
-			this.renderFederalDistricts();
-		}
-	},
-
+	
 	renderFederalDistricts() {
 		let emberContext = this;
 

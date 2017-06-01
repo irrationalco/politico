@@ -18,12 +18,9 @@ export default Ember.Service.extend({
   federalDistrictsBorders: null,
 
   // Function that gets a specific state object by name and loads it municipalities
-  getState: task(function * () {
+  getState: task(function * (stateName) {
     try {
-
-      if (!this.get('states')) {
-        let states = yield this.get('loadSData').perform();
-      }
+      if (isEmpty(this.get('states'))) { let states = yield this.get('loadSData').perform(); }
 
       let state = this.get('states').filterBy('properties.state_name', stateName);
 
@@ -41,34 +38,22 @@ export default Ember.Service.extend({
   }),
 
   // Function that gets a specific district object by code and loads its sections
-  getFederalDistrict(districtCode, stateCode) {
+  getFederalDistrict: task(function * (districtCode, stateCode) {
+    try {
+      if (isEmpty(this.get('federalDistricts'))) { let fedDistrictsData = yield this.get('loadFData').perform(stateCode); }
 
-    return new Promise((resolve,reject) => {
-      if (this.get('federalDistricts')) {
-        let district = this.get('federalDistricts').filterBy('properties.district_code', parseInt(districtCode));
+      let district = this.get('federalDistricts').filterBy('properties.district_code', parseInt(districtCode));
 
-        if (isEmpty(district)) {
-          reject(new Error("No hay ese codigo de distrito para ese estado."));
-        } else {
-          this.loadSectionsData(stateCode, parseInt(districtCode), 'district_code').then(() => {
-            resolve(district[0]);
-          });
-        }
+      if (isEmpty(district)) {
+        throw new Error("No existe ese código de distrito para ese estado.");
       } else {
-        this.loadFederalDistrictsData(stateCode).then(() => {
-          let district = this.get('federalDistricts').filterBy('properties.district_code', parseInt(districtCode));
-
-          if (isEmpty(district)) {
-            reject(new Error("No hay ese codigo de distrito para ese estado."));
-          } else {
-            this.loadSectionsData(stateCode, parseInt(districtCode), 'district_code').then(() => {
-              resolve(district[0]);
-            });
-          }
-        });
+        let sectionsData = yield this.get('loadSecData').perform(stateCode, parseInt(districtCode), 'district_code');
+        return district[0];
       }
-    });
-  },
+    } catch(e) {
+      console.log(e);
+    }
+  }),
 
   // Function that gets a specific municipality object by name and loads its sections
   getMunicipality(muniName, stateCode) {
@@ -162,7 +147,7 @@ export default Ember.Service.extend({
       xhr = Ember.$.getJSON("../assets/mx_tj.json");
       let res = yield xhr.promise();
       this.set('states', topojson.feature(res, res.objects.states).features);
-      return res;
+      return true;
 
     } finally {
       xhr.abort();
@@ -188,11 +173,10 @@ export default Ember.Service.extend({
       let res = yield xhr.promise();
 
       yield this.set('municipalities', topojson.feature(res, res.objects.municipalities).features.filterBy('properties.state_code', stateCode));
-      yield this.set('municipalitiesBorders', topojson.mesh(data, data.objects.municipalities, function(a, b) {
+      yield this.set('municipalitiesBorders', topojson.mesh(res, res.objects.municipalities, function(a, b) {
         if (a.properties.state_code === stateCode) { return a !== b; }
       }));
-
-      return res;
+      return true;
 
     } finally {
       xhr.abort();
@@ -243,7 +227,7 @@ export default Ember.Service.extend({
         if (a.properties.state_code === stateCode) { return a !== b; }
       }));
 
-      return res;
+      return true;
 
     } finally {
       xhr.abort();
