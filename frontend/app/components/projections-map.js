@@ -154,7 +154,7 @@ export default Ember.Component.extend({
 	},
 
 	renderMap: task(function * () {
-
+		console.log("STARTED RENDER");
 		let currState = this.get('currState');
 		let newState = this.get('state');
 		let currMuni = this.get('currMuni');
@@ -177,45 +177,18 @@ export default Ember.Component.extend({
 
 		// STATE
 		if (this.get('level') === 'state') {
-			console.log("ENTERED STATE LEVEl");
 			let state = yield this.get('cartography.getState').perform(newState);
 			this.removeSections();
 			this.removeMunicipalities();
-			console.log(state);
-			this.get('zoomToObject').perform(state);
 			this.set('stateCode', state.properties.state_code);
-
+			this.updateCurrData();
+			let zoomed = yield this.get('zoomToObject').perform(state);
+			
 			if (this.get('mapDivision') === 'federal') {
 				this.renderFederalDistricts();
 			} else {
 				this.renderMunicipalities();
 			}
-			// if (this.get('mapDivision') === 'federal') {
-				
-			// 	this.renderFederalDistricts();
-
-			// 	this.get('cartography').getState(newState).then((state) => {
-			// 		this.removeSections();
-			// 		this.removeMunicipalities();
-			// 		// this.zoomToObject(state)
-			// 		this.get('zoomToObject').perform(state);
-			// 		this.set('stateCode', state.properties.state_code);
-			// 		this.drawFederalDistricts(this.get('stateCode'));
-			// 	});	
-			// } else {
-
-
-
-			// 	this.get('cartography').getState(newState).then((state) => {
-			// 		this.removeSections();
-			// 		this.removeMunicipalities();
-			// 		// this.zoomToObject(state);
-			// 		this.get('zoomToObject').perform(state);
-			// 		this.set('stateCode', state.properties.state_code);
-			// 		this.drawMunicipalities(this.get('stateCode'));
-			// 	});	
-			// }
-			
 		} 
 
 		// MUNICIPALITY
@@ -224,28 +197,47 @@ export default Ember.Component.extend({
 
 				if (currFedDistrict === newFedDistrict) {
 					this.paintSections();
-				} else if(currState === newState) {
-
-					this.get('cartography').getFederalDistrict(newFedDistrict, this.get('stateCode')).then((district) => {
-						this.removeSections();
-						// this.zoomToObject(district);
-						this.get('zoomToObject').perform(district);
-						this.drawSections();
-					});
+				} else if (currState === newState) {
+					let district = yield this.get('cartography.getFederalDistrict').perform(newFedDistrict, this.get('stateCode'));
+					this.removeSections();
+					this.updateCurrData();
+					let zoomed = yield this.get('zoomToObject').perform(district);
+					this.renderSections();
 				} else {
-					this.get('cartography').getState(newState).then((state) => {
-						this.set('stateCode', state.properties.state_code);
+					let state = yield this.get('cartography.getState').perform(newState);
+					this.set('stateCode', state.properties.state_code);
+					this.renderFederalDistricts(this.get('stateCode'));
 
-						this.drawFederalDistricts(this.get('stateCode'));
-
-						this.get('cartography').getFederalDistrict(newFedDistrict, this.get('stateCode')).then((district) => {
-							// this.zoomToObject(district);
-							this.get('zoomToObject').perform(district);
-							this.set('fedDistrictCode', district.properties.district_code);
-							this.drawSections();
-						});
-					});
+					let district = yield this.get('cartography.getFederalDistrict').perform(newFedDistrict, this.get('stateCode'));
+					this.set('fedDistrictCode', district.properties.district_code);
+					this.updateCurrData();
+					let zoomed = yield this.get('zoomToObject').perform(district);
+					this.renderSections();
 				}
+				// if (currFedDistrict === newFedDistrict) {
+				// 	this.paintSections();
+				// } else if(currState === newState) {
+
+				// 	this.get('cartography').getFederalDistrict(newFedDistrict, this.get('stateCode')).then((district) => {
+				// 		this.removeSections();
+				// 		// this.zoomToObject(district);
+				// 		this.get('zoomToObject').perform(district);
+				// 		this.drawSections();
+				// 	});
+				// } else {
+				// 	this.get('cartography').getState(newState).then((state) => {
+				// 		this.set('stateCode', state.properties.state_code);
+
+				// 		this.drawFederalDistricts(this.get('stateCode'));
+
+				// 		this.get('cartography').getFederalDistrict(newFedDistrict, this.get('stateCode')).then((district) => {
+				// 			// this.zoomToObject(district);
+				// 			this.get('zoomToObject').perform(district);
+				// 			this.set('fedDistrictCode', district.properties.district_code);
+				// 			this.drawSections();
+				// 		});
+				// 	});
+				// }
 
 			} else {
 
@@ -260,16 +252,16 @@ export default Ember.Component.extend({
 						this.drawSections();
 					});
 				} else {
-					this.get('cartography').getState(newState).then((state) => {
-						this.set('stateCode', state.properties.state_code);
-						this.drawMunicipalities(this.get('stateCode'));
+					let state = yield this.get('cartography.getState').perform(newState);
 
-						this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
-							// this.zoomToObject(municipality);
-							this.get('zoomToObject').perform(municipality);
-							this.set('muniCode', municipality.properties.mun_code);
-							this.drawSections();
-						});
+					this.set('stateCode', state.properties.state_code);
+					this.renderMunicipalities();
+
+					this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
+						// this.zoomToObject(municipality);
+						this.get('zoomToObject').perform(municipality);
+						this.set('muniCode', municipality.properties.mun_code);
+						this.renderSections();
 					});
 				}
 			}
@@ -327,6 +319,7 @@ export default Ember.Component.extend({
 				}
 			}
 		}
+		console.log("RENDERED");
 	}).enqueue(),
 
 	drawSections() {
@@ -465,7 +458,7 @@ export default Ember.Component.extend({
 				.attr("d", this.get('path'));
 		}, 300);
 	},
-	
+
 	renderFederalDistricts() {
 		let emberContext = this;
 
@@ -630,10 +623,10 @@ export default Ember.Component.extend({
 		Ember.run.later(this, () => {
 			this.get('svg').transition()
 				.duration(1300)
-				.call(this.get('zoom').transform, transform)
-				.on("end", this.updateCurrData());
+				.call(this.get('zoom').transform, transform);
 		}, 50);
 		yield timeout(1300);
+		return true;
 	}),
 
 	// zoomToObject(d) {
