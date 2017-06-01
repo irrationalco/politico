@@ -201,8 +201,9 @@ export default Ember.Component.extend({
 					let district = yield this.get('cartography.getFederalDistrict').perform(newFedDistrict, this.get('stateCode'));
 					this.removeSections();
 					this.updateCurrData();
-					let zoomed = yield this.get('zoomToObject').perform(district);
 					this.renderSections();
+					let zoomed = yield this.get('zoomToObject').perform(district);
+					
 				} else {
 					let state = yield this.get('cartography.getState').perform(newState);
 					this.set('stateCode', state.properties.state_code);
@@ -211,33 +212,10 @@ export default Ember.Component.extend({
 					let district = yield this.get('cartography.getFederalDistrict').perform(newFedDistrict, this.get('stateCode'));
 					this.set('fedDistrictCode', district.properties.district_code);
 					this.updateCurrData();
-					let zoomed = yield this.get('zoomToObject').perform(district);
 					this.renderSections();
+					let zoomed = yield this.get('zoomToObject').perform(district);
+					
 				}
-				// if (currFedDistrict === newFedDistrict) {
-				// 	this.paintSections();
-				// } else if(currState === newState) {
-
-				// 	this.get('cartography').getFederalDistrict(newFedDistrict, this.get('stateCode')).then((district) => {
-				// 		this.removeSections();
-				// 		// this.zoomToObject(district);
-				// 		this.get('zoomToObject').perform(district);
-				// 		this.drawSections();
-				// 	});
-				// } else {
-				// 	this.get('cartography').getState(newState).then((state) => {
-				// 		this.set('stateCode', state.properties.state_code);
-
-				// 		this.drawFederalDistricts(this.get('stateCode'));
-
-				// 		this.get('cartography').getFederalDistrict(newFedDistrict, this.get('stateCode')).then((district) => {
-				// 			// this.zoomToObject(district);
-				// 			this.get('zoomToObject').perform(district);
-				// 			this.set('fedDistrictCode', district.properties.district_code);
-				// 			this.drawSections();
-				// 		});
-				// 	});
-				// }
 
 			} else {
 
