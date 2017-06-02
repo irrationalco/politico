@@ -56,90 +56,54 @@ export default Ember.Service.extend({
   }),
 
   // Function that gets a specific municipality object by name and loads its sections
-  getMunicipality(muniName, stateCode) {
-    return new Promise((resolve, reject) => {
-      // If all municipalities data is stored in var, then don't make request
-      if (this.get('municipalities')) {
-        let muni = this.get('municipalities').filterBy('properties.mun_name', muniName);
-        // If municipality name is wrong and couldnt find it
-        if (isEmpty(muni)) {
-          reject(new Error("El nombre del municipio es incorrecto. Debe llevar acentos."));
-        } else {
-          let muniCode = muni[0].properties.mun_code;
-          this.loadSectionsData(stateCode, muniCode, 'mun_code').then(() => {
-            resolve(muni[0]);
-          });
-        }
+  getMunicipality: task(function * (muniName, stateCode) {
+    try { 
+      if (isEmpty(this.get('municipalities'))) { let munisData = yield this.get('loadMData').perform(stateCode); }
+
+      let muni = this.get('municipalities').filterBy('properties.mun_name', muniName);
+
+      if (isEmpty(muni)) {
+        throw new Error("El nombre del municipio es incorrecto. Asegurate que tenga acentos.");
       } else {
-        this.loadMunicipalitiesData(stateCode).then(() => {
-          let muni = this.get('municipalities').filterBy('properties.mun_name', muniName);
-          // If municipality name is wrong and couldnt find it
-          if (isEmpty(muni)) {
-            reject(new Error("El nombre del municipio es incorrecto. Debe llevar acentos."));
-          } else {
-            let muniCode = muni[0].properties.mun_code;
-            this.loadSectionsData(stateCode, muniCode, 'mun_code').then(() => {
-              resolve(muni[0]);
-            });
-          }
-        });
+        let sectionsData = yield this.get('loadSecData').perform(stateCode, muni[0].properties.mun_code, 'mun_code');
+        return muni[0];
       }
-    });
-  },
+    } catch(e) {
+      console.log(e);  
+    }
+  }),
 
-  getSection(stateCode, muniCode, sectionCode) {
-    return new Promise((resolve, reject) => {
-      // If all sections data is store in var, then don't make request
-      if (this.get('sections')) {
+  getSection: task(function * (stateCode, muniCode, sectionCode) {
+    try {
+      if (isEmpty(this.get('sections'))) { let sectionsData = yield this.get('loadSecData').perform(stateCode, muniCode, 'mun_code'); }
 
-        let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
-        // If section code is wrong and couldn't find it
-        if (isEmpty(section)) {
-          reject(new Error("El código de la sección es incorrecto."));
-        } else {
-          resolve(section[0]);
-        }
+      let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
+
+      if (isEmpty(section)) {
+        throw new Error("El código de la sección seleccionada es incorrecto.");
       } else {
-        // CHANGE THIS FOR DISTRICTS LOGIC
-        this.loadSectionsData(stateCode, muniCode, 'mun_code').then(() => {
-          let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
-          // If section code is wrong and couldn't find it
-          if (isEmpty(section)) {
-            reject(new Error("El código de la sección es incorrecto."));
-          } else {
-            resolve(section[0]);
-          }
-        });
+        return section[0];
       }
-    });
-  },
+    } catch(e) {
+      console.log(e);
+    }
+  }),
 
-  getSectionByDistrict(stateCode, districtCode, sectionCode) {
-    return new Promise((resolve, reject) => {
-      // If all sections data is store in var, then don't make request
-      if (this.get('sections')) {
+  getSectionByDistrict: task(function * (stateCode, districtCode, sectionCode) {
+    try {
+      if (isEmpty(this.get('sections'))) { let sectionsData = yield this.get('loadSecData').perform(stateCode, districtCode, 'district_code'); }
 
-        let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
-        // If section code is wrong and couldn't find it
-        if (isEmpty(section)) {
-          reject(new Error("El código de la sección es incorrecto."));
-        } else {
-          resolve(section[0]);
-        }
+      let section = this.get('sections').filterBy('properties.sectionCode', parseInt(sectionCode));
+
+      if (isEmpty(section)) {
+        throw new Error("El código de las ección seleccionada es incorrecto.");
       } else {
-        // CHANGE THIS FOR DISTRICTS LOGIC
-        this.loadSectionsData(stateCode, districtCode, 'district_code').then(() => {
-          let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
-          // If section code is wrong and couldn't find it
-          if (isEmpty(section)) {
-            reject(new Error("El código de la sección es incorrecto."));
-          } else {
-            resolve(section[0]);
-          }
-        });
+        return section[0];
       }
-    });
-  },
+    } catch(e) {
+      console.log(e);
+    }
+  }),
 
   loadSData: task(function * () {
     let xhr;
