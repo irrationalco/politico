@@ -201,8 +201,8 @@ export default Ember.Component.extend({
 					let district = yield this.get('cartography.getFederalDistrict').perform(newFedDistrict, this.get('stateCode'));
 					this.removeSections();
 					this.updateCurrData();
-					this.renderSections();
 					let zoomed = yield this.get('zoomToObject').perform(district);
+					this.renderSections();
 					
 				} else {
 					let state = yield this.get('cartography.getState').perform(newState);
@@ -212,35 +212,30 @@ export default Ember.Component.extend({
 					let district = yield this.get('cartography.getFederalDistrict').perform(newFedDistrict, this.get('stateCode'));
 					this.set('fedDistrictCode', district.properties.district_code);
 					this.updateCurrData();
-					this.renderSections();
 					let zoomed = yield this.get('zoomToObject').perform(district);
+					this.renderSections();
 					
 				}
 
 			} else {
-
 				if (currMuni === newMuni) {
 					this.paintSections();
 				} else if(currState === newState) {
+					let municipality = yield this.get("cartography.getMunicipality").perform(newMuni, this.get('stateCode'));
+					this.removeSections();
+					this.updateCurrData();
+					let zoomed = yield this.get('zoomToObject').perform(municipality);
+					this.renderSections();
 
-					this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
-						this.removeSections();
-						// this.zoomToObject(municipality);
-						this.get('zoomToObject').perform(municipality);
-						this.drawSections();
-					});
 				} else {
 					let state = yield this.get('cartography.getState').perform(newState);
-
 					this.set('stateCode', state.properties.state_code);
 					this.renderMunicipalities();
-
-					this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
-						// this.zoomToObject(municipality);
-						this.get('zoomToObject').perform(municipality);
-						this.set('muniCode', municipality.properties.mun_code);
-						this.renderSections();
-					});
+					let municipality = yield this.get('cartography.getMunicipality').perform(newMuni, this.get('stateCode'));
+					let zoomed = yield this.get('zoomToObject').perform(municipality);
+					this.set('muniCode', municipality.properties.mun_code);
+					this.updateCurrData();
+					this.renderSections();
 				}
 			}
 		}
@@ -335,6 +330,7 @@ export default Ember.Component.extend({
 
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
+
 					return emberContext.get('partiesManager').getColor(s);
 
 				} else {
@@ -562,6 +558,7 @@ export default Ember.Component.extend({
 	},
 
 	// Handling actions when element is clicked
+	// Setting new objects 
 	clicked(element, d) {
 		if (d.properties.section_code) {
 			this.sendAction('setSection', d.properties.section_code);
