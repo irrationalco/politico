@@ -155,6 +155,8 @@ export default Ember.Component.extend({
 
 	renderMap: task(function * () {
 		console.log("STARTED RENDER");
+
+		console.log(this.get('level'));
 		let currState = this.get('currState');
 		let newState = this.get('state');
 		let currMuni = this.get('currMuni');
@@ -197,6 +199,7 @@ export default Ember.Component.extend({
 
 				if (currFedDistrict === newFedDistrict) {
 					this.paintSections();
+
 				} else if (currState === newState) {
 					let district = yield this.get('cartography.getFederalDistrict').perform(newFedDistrict, this.get('stateCode'));
 					this.removeSections();
@@ -239,60 +242,54 @@ export default Ember.Component.extend({
 				}
 			}
 		}
+
+
 		
 		// SECTION
 		if(this.get('level') === 'section') {
 			if (this.get('mapDivision') === 'federal') {
 
 				if (currState === newState && currFedDistrict === newFedDistrict) {
-					this.get('cartography').getSectionByDistrict(this.get('stateCode'), this.get('fedDistrictCode'), newSection).then((section) => {
-						// this.zoomToObject(section);
-						this.get('zoomToObject').perform(section);
-					});
+					let section = yield this.get('cartography.getSectionByDistrict').perform(this.get('stateCode'),
+										this.get('fedDistrictCode'), newSection);
+					this.updateCurrData();
+					let zoomed = yield this.get('zoomToObject').perform(section);
+
 				} else {
-					this.get('cartography').getState(newState).then((state) => {
-						this.set('stateCode', state.properties.state_code);
-						this.drawFederalDistricts(this.get('stateCode'));
+					let state = yield this.get('cartography.getState').perform(newState);
+					this.set('stateCode', state.properties.state_code);
+					this.renderFederalDistricts(this.get('stateCode'));
 
-						this.get('cartography').getFederalDistrict(newFedDistrict, this.get('stateCode')).then((district) => {
-							this.set('fedDistrictCode', district.properties.district_code);
+					let district = yield this.get('cartography.getFederalDistrict').perform(newFedDistrict, this.get('stateCode'));
+					this.set('fedDistrictCode', district.properties.district_code);
 
-							this.get('cartography').getSection(this.get('stateCode'), this.get('fedDistrictCode'), newSection).then((section) => {
-								this.drawSections();
-								// this.zoomToObject(section);
-								this.get('zoomToObject').perform(section);
-							});
-						});
-					});
+					let section = yield this.get('cartography.getSectionByDistrict').perform(this.get('stateCode'), this.get('fedDistrictCode'), newSection);
+					this.updateCurrData();
+					let zoomed = yield this.get('zoomToObject').perform(section);
+					this.renderSections();
 				}
-
 			} else {
 
 				if (currState === newState && currMuni === currMuni) {
-					this.get('cartography').getSection(this.get('stateCode'), this.get('muniCode'), newSection).then((section) => {
 
-						// this.zoomToObject(section);
-						this.get('zoomToObject').perform(section);
-					});
+					let section = yield this.get('cartography.getSection').perform(this.get('stateCode'), this.get('muniCode'), newSection);
+					let zoomed = this.get('zoomToObject').perform(section);
+					
 				} else {
-					this.get('cartography').getState(newState).then((state) => {
-						this.set('stateCode', state.properties.state_code);
-						this.drawMunicipalities(this.get('stateCode'));
+					let state = yield this.get('cartography.getState').perform(newState);
+					this.set('stateCode', state.properties.state_code);
+					this.renderMunicipalities();
 
-						this.get('cartography').getMunicipality(newMuni, this.get('stateCode')).then((municipality) => {
-							this.set('muniCode', municipality.properties.mun_code);
+					let municipality = yield this.get('cartography.getMunicipality').perform(newMuni, this.get('stateCode'));
+					this.set('muniCode', municipality.properties.mun_code);
 
-							this.get('cartography').getSection(this.get('stateCode'), this.get('muniCode'), newSection).then((section) => {
-								this.drawSections();
-								// this.zoomToObject(section);
-								this.get('zoomToObject').perform(section);
-							});
-						});
-					});
+					let section = yield this.get('cartography.getSection').perform(this.get('stateCode'), this.get('muniCode'), newSection);
+					this.updateCurrData();
+					let zoomed = this.get('zoomToObject').perform(section);
+					this.renderSections();
 				}
 			}
 		}
-		console.log("RENDERED");
 	}).enqueue(),
 
 	drawSections() {
@@ -593,7 +590,12 @@ export default Ember.Component.extend({
 	},
 
 	zoomToObject: task(function * (d) {
+		this.get('zoom').transform
 		let transform = this.calculateZoomToBBox(d, this.get('path'));
+
+		let currTransform = this.get('zoom').transform;
+
+		if (transform === currTransform) {}
 
 		Ember.run.later(this, () => {
 			this.get('svg').transition()

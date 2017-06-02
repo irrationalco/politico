@@ -93,7 +93,7 @@ export default Ember.Service.extend({
     try {
       if (isEmpty(this.get('sections'))) { let sectionsData = yield this.get('loadSecData').perform(stateCode, districtCode, 'district_code'); }
 
-      let section = this.get('sections').filterBy('properties.sectionCode', parseInt(sectionCode));
+      let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
 
       if (isEmpty(section)) {
         throw new Error("El código de las ección seleccionada es incorrecto.");

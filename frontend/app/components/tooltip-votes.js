@@ -33,8 +33,6 @@ export default Ember.Component.extend({
 	computeTopParties: task(function * (section) {
 		yield timeout(150);
 
-		let word = yield this.get('waitShit').perform();
-
 		let totalVotesParties = 0;
 		let currParties = this.get('partiesManager').get('parties');
 		let totalVotes = section.get('totalVotes');
