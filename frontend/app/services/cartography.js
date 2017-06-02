@@ -20,7 +20,7 @@ export default Ember.Service.extend({
   // Function that gets a specific state object by name and loads it municipalities
   getState: task(function * (stateName) {
     try {
-      if (isEmpty(this.get('states'))) { let states = yield this.get('loadSData').perform(); }
+      if (isEmpty(this.get('states'))) { let states = yield this.get('loadStatesData').perform(); }
 
       let state = this.get('states').filterBy('properties.state_name', stateName);
 
@@ -28,8 +28,8 @@ export default Ember.Service.extend({
         throw new Error("El código del estado es incorrecto.");
       } else {
         let stateCode = state[0].properties.state_code;
-        let munis = yield this.get('loadMData').perform(stateCode);
-        let fedDistricts = yield this.get('loadFData').perform(stateCode);
+        let munis = yield this.get('loadMunicipalitiesData').perform(stateCode);
+        let fedDistricts = yield this.get('loadFederalDistrictsData').perform(stateCode);
         return state[0];
       }
     } catch(e) {
@@ -40,14 +40,14 @@ export default Ember.Service.extend({
   // Function that gets a specific district object by code and loads its sections
   getFederalDistrict: task(function * (districtCode, stateCode) {
     try {
-      if (isEmpty(this.get('federalDistricts'))) { let fedDistrictsData = yield this.get('loadFData').perform(stateCode); }
+      if (isEmpty(this.get('federalDistricts'))) { let fedDistrictsData = yield this.get('loadFederalDistrictsData').perform(stateCode); }
 
       let district = this.get('federalDistricts').filterBy('properties.district_code', parseInt(districtCode));
 
       if (isEmpty(district)) {
         throw new Error("No existe ese código de distrito para ese estado.");
       } else {
-        let sectionsData = yield this.get('loadSecData').perform(stateCode, parseInt(districtCode), 'district_code');
+        let sectionsData = yield this.get('loadSectionsData').perform(stateCode, parseInt(districtCode), 'district_code');
         return district[0];
       }
     } catch(e) {
@@ -58,14 +58,14 @@ export default Ember.Service.extend({
   // Function that gets a specific municipality object by name and loads its sections
   getMunicipality: task(function * (muniName, stateCode) {
     try { 
-      if (isEmpty(this.get('municipalities'))) { let munisData = yield this.get('loadMData').perform(stateCode); }
+      if (isEmpty(this.get('municipalities'))) { let munisData = yield this.get('loadMunicipalitiesData').perform(stateCode); }
 
       let muni = this.get('municipalities').filterBy('properties.mun_name', muniName);
 
       if (isEmpty(muni)) {
         throw new Error("El nombre del municipio es incorrecto. Asegurate que tenga acentos.");
       } else {
-        let sectionsData = yield this.get('loadSecData').perform(stateCode, muni[0].properties.mun_code, 'mun_code');
+        let sectionsData = yield this.get('loadSectionsData').perform(stateCode, muni[0].properties.mun_code, 'mun_code');
         return muni[0];
       }
     } catch(e) {
@@ -73,9 +73,10 @@ export default Ember.Service.extend({
     }
   }),
 
+  // Function that gets a specific section object by section code and municipality code
   getSection: task(function * (stateCode, muniCode, sectionCode) {
     try {
-      if (isEmpty(this.get('sections'))) { let sectionsData = yield this.get('loadSecData').perform(stateCode, muniCode, 'mun_code'); }
+      if (isEmpty(this.get('sections'))) { let sectionsData = yield this.get('loadSectionsData').perform(stateCode, muniCode, 'mun_code'); }
 
       let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
 
@@ -89,9 +90,10 @@ export default Ember.Service.extend({
     }
   }),
 
+  // Function that gets a specific section object by section code and federal district code
   getSectionByDistrict: task(function * (stateCode, districtCode, sectionCode) {
     try {
-      if (isEmpty(this.get('sections'))) { let sectionsData = yield this.get('loadSecData').perform(stateCode, districtCode, 'district_code'); }
+      if (isEmpty(this.get('sections'))) { let sectionsData = yield this.get('loadSectionsData').perform(stateCode, districtCode, 'district_code'); }
 
       let section = this.get('sections').filterBy('properties.section_code', parseInt(sectionCode));
 
@@ -105,7 +107,8 @@ export default Ember.Service.extend({
     }
   }),
 
-  loadSData: task(function * () {
+  // Loads all states data and saves it in the 'states' var of this service
+  loadStatesData: task(function * () {
     let xhr;
     try {
       xhr = Ember.$.getJSON("../assets/mx_tj.json");
@@ -118,19 +121,8 @@ export default Ember.Service.extend({
     }
   }),
 
-  loadStatesData() {
-    return new Promise((resolve, reject) => {
-      d3.json("../assets/mx_tj.json", (error, data) => {
-        if (error) { reject(error); }
-        if (data) {
-          this.set('states', topojson.feature(data, data.objects.states).features);
-          resolve("States data loaded succesfully.");
-        }
-      });
-    });
-  },
-
-  loadMData: task(function * (stateCode) {
+  // Loads municipalities of an specific state, saves them in 'municipalities' var, calculates its borders and saves them in 'municipalitiesBorders'
+  loadMunicipalitiesData: task(function * (stateCode) {
     let xhr;
     try {
       xhr = Ember.$.getJSON("../assets/mx_tj.json");
@@ -147,40 +139,8 @@ export default Ember.Service.extend({
     }
   }),
 
-  loadMunicipalitiesData(stateCode) {
-    return new Promise((resolve, reject) => {
-      d3.json("../assets/mx_tj.json", (error, data) => {
-        if (error) { reject(error); }
-        if (data) {
-          this.set('municipalities', topojson.feature(data, data.objects.municipalities).features.filterBy('properties.state_code', stateCode));
-
-          this.set('municipalitiesBorders', topojson.mesh(data, data.objects.municipalities, function(a, b) {
-            if (a.properties.state_code === stateCode) { return a !== b; }
-          }));
-
-          resolve("municipalities data loaded succesfully.");
-        }
-      });
-    });
-  },
-
-  loadFederalDistrictsData(stateCode) {
-    return new Promise((resolve, reject) => {
-      d3.json("../assets/distritos.json", (error, data) => {
-        if (error) { reject(error); }
-
-        if (data) {
-          this.set('federalDistricts', topojson.feature(data, data.objects.mx_distrito).features.filterBy('properties.state_code',stateCode));
-          this.set('federalDistrictsBorders', topojson.mesh(data, data.objects.mx_distrito, function(a, b) {
-            if (a.properties.state_code === stateCode) { return a !== b; }
-          }));
-          resolve("Federal districts loaded succesfully");
-        }
-      });
-    })
-  },
-
-  loadFData: task(function * (stateCode) {
+  // Loads federal districts of an specific state, saves them in 'federalDistricts' var, calculates its borders and saves them in 'federalDistrictsBorders'
+  loadFederalDistrictsData: task(function * (stateCode) {
     let xhr;
     try {
       xhr = Ember.$.getJSON("../assets/distritos.json");
@@ -198,23 +158,8 @@ export default Ember.Service.extend({
     }
   }),  
 
-  loadSectionsData(stateCode, code, property) {
-    return new Promise((resolve, reject) => {
-      d3.json("../assets/secciones.json", (error, data) => {
-        if (error) { reject(error); }
-        if (data) {
-          let sections = topojson.feature(data, data.objects.secciones).features
-            .filterBy('properties.state_code', stateCode)
-            .filterBy('properties.' + property, code);
-
-          this.set('sections', sections);
-          resolve(sections);
-        }
-      });
-    });
-  },
-
-  loadSecData: task(function * (stateCode, code, property) {
+  // Loads all sections data of municipality or a federal district | property is either: mun_code or district_code 
+  loadSectionsData: task(function * (stateCode, code, property) {
     let xhr;
     try {
       xhr = Ember.$.getJSON("../assets/secciones.json");
@@ -232,7 +177,6 @@ export default Ember.Service.extend({
     }
   })
 });
-
 
 // d3.json("../assets/mx_tj.json", (error, data) => {
 //       let municipalities = topojson.feature(data, data.objects.municipalities).features

@@ -112,7 +112,6 @@ export default Ember.Component.extend({
 	didUpdateAttrs() {
 		this._super(...arguments);
 		this.get('renderMap').perform();
-		// Ember.run.debounce(this,this.renderMap, 500);
 	},
 
 	didInsertElement() {
@@ -154,9 +153,7 @@ export default Ember.Component.extend({
 	},
 
 	renderMap: task(function * () {
-		console.log("STARTED RENDER");
 
-		console.log(this.get('level'));
 		let currState = this.get('currState');
 		let newState = this.get('state');
 		let currMuni = this.get('currMuni');
@@ -241,10 +238,8 @@ export default Ember.Component.extend({
 					this.renderSections();
 				}
 			}
-		}
+		}		
 
-
-		
 		// SECTION
 		if(this.get('level') === 'section') {
 			if (this.get('mapDivision') === 'federal') {
@@ -274,7 +269,7 @@ export default Ember.Component.extend({
 
 					let section = yield this.get('cartography.getSection').perform(this.get('stateCode'), this.get('muniCode'), newSection);
 					let zoomed = this.get('zoomToObject').perform(section);
-					
+
 				} else {
 					let state = yield this.get('cartography.getState').perform(newState);
 					this.set('stateCode', state.properties.state_code);
@@ -451,20 +446,9 @@ export default Ember.Component.extend({
 	},
 
 	drawStates: task(function * () {
-		let states = yield this.get('cartography.loadSData').perform();
+		let states = yield this.get('cartography.loadStatesData').perform();
 		this.renderStates();
 	}),
-
-	// drawStates() {
-	// 	if (isEmpty(this.get('states'))) {
-	// 		this.get('cartography.loadSData').perform
-	// 		this.get('cartography').loadStatesData().then(() => {
-	// 			this.renderStates();
-	// 		});
-	// 	} else {
-	// 		this.renderStates();
-	// 	}
-	// },
 
 	renderStates() {
 		let emberContext = this;
@@ -590,7 +574,7 @@ export default Ember.Component.extend({
 	},
 
 	zoomToObject: task(function * (d) {
-		this.get('zoom').transform
+		this.get('zoom').transform;
 		let transform = this.calculateZoomToBBox(d, this.get('path'));
 
 		let currTransform = this.get('zoom').transform;
@@ -605,17 +589,6 @@ export default Ember.Component.extend({
 		yield timeout(1300);
 		return true;
 	}),
-
-	// zoomToObject(d) {
-	// 	let transform = this.calculateZoomToBBox(d, this.get('path'));
-
-	// 	Ember.run.later(this, () => {
-	// 		this.get('svg').transition()
-	// 			.duration(1300)
-	// 			.call(this.get('zoom').transform, transform)
-	// 			.on("end", this.updateCurrData());
-	// 	}, 50);
-	// },
 
 	zoomToCoordinates(coordinates, zoomValue, element) {
 		let projection = this.get('projection');
