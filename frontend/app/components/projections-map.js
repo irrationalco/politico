@@ -143,7 +143,7 @@ export default Ember.Component.extend({
 		this.set('sectionsLayer', this.get('svg').append('g'));
 
 		// this.drawStates();
-		this.get('drawStates').perform();
+		this.get('renderStates').perform();
 		this.zoomToCoordinates(this.get('centerCoords'), 1 << 13.5, this.get('svg'));
 		this.get('renderMap').perform();
 
@@ -445,25 +445,19 @@ export default Ember.Component.extend({
 		}, 300);
 	},
 
-	drawStates: task(function * () {
-		let states = yield this.get('cartography.loadStatesData').perform();
-		this.renderStates();
-	}),
-
-	renderStates() {
+	renderStates: task(function * () {
+		if (isEmpty(this.get('states'))) { let statesData = yield this.get('cartography.loadStatesData').perform(); }
 		let emberContext = this;
 
-		this.get('cartography').loadStatesData().then(() => {
-				this.get('statesLayer').selectAll("path")
-				.data(this.get('states'))
-				.enter().append("path")
-				.attr("d", this.get('path'))
-				.attr("class", "feature")
-				.on("click", function(d) {
-					emberContext.clicked(this, d);
-				});
+		this.get('statesLayer').selectAll("path")
+			.data(this.get('states'))
+			.enter().append("path")
+			.attr("d", this.get('path'))
+			.attr("class", "feature")
+			.on("click", function(d) {
+				emberContext.clicked(this, d);
 			});
-	},
+	}),
 
 	removeMunicipalities() {
 		this.get('muniLayer').selectAll('*').remove();
@@ -481,7 +475,7 @@ export default Ember.Component.extend({
 		this.set('currDataType', this.get('dataType'));
 	},
 
-		// Function that calculates zoom and the required translation to a given Bounding Box
+	// Function that calculates zoom and the required translation to a given Bounding Box
 	calculateZoomToBBox(d, path) {
 		let bounds = Array.isArray(d) ? d : path.bounds(d);
 		
