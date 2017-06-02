@@ -297,20 +297,36 @@ export default Ember.Component.extend({
 		}
 	},
 
+	paintSections() {
+		let vis = this.get('visualization');
+
+		if (vis === "single") {
+			this.paintNormally();
+		} else if (vis === "comparison") {
+			this.paintComparison();
+		} else {
+			this.paintNormally();
+		}
+	},
+
 	paintComparison() {
 		let emberContext = this;
 		this.set('tooltip', d3.select('#tooltip-map'));
 
 		this.get('sectionsLayer').selectAll("path")
 			.style("fill", function(d) {
+
 				let s = emberContext.get('sectionsData')
 						.findBy('sectionCode', d.properties.section_code);
+
+				let p = this.get('partiesManager').computeComparison(s);
+				console.log(p);
 			})
 
 
 	},
 
-	paintSections() {
+	paintNormally() {
 		let emberContext = this;
 
 		this.set('tooltip', d3.select('#tooltip-map'));
