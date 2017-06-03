@@ -15,10 +15,6 @@ export default Ember.Component.extend({
 
 	selectedParties: Ember.computed.oneWay("partiesManager.selectedParties"),
 
-	partiesChanged: Ember.observer("selectedParties.[]", function() {
-		this.paintSections();
-	}),
-
 	states: Ember.computed.oneWay('cartography.states'),
 
 	municipalities: Ember.computed.oneWay('cartography.municipalities'),
@@ -153,7 +149,6 @@ export default Ember.Component.extend({
 	},
 
 	renderMap: task(function * () {
-
 		let currState = this.get('currState');
 		let newState = this.get('state');
 		let currMuni = this.get('currMuni');
@@ -316,14 +311,57 @@ export default Ember.Component.extend({
 		this.get('sectionsLayer').selectAll("path")
 			.style("fill", function(d) {
 
-				let s = emberContext.get('sectionsData')
-						.findBy('sectionCode', d.properties.section_code);
+				if (emberContext.get('dataType') === 'votes') {
+					let s = emberContext.get('sectionsData')
+							.findBy('sectionCode', d.properties.section_code);
 
-				let p = this.get('partiesManager').computeComparison(s);
-				console.log(p);
+					let parties = emberContext.get('partiesManager').computeComparison(s);
+					let color = emberContext.get('partiesManager').getComparisonColor(parties, s);
+					return color[0];
+
+				} else {
+					return emberContext.get('fillPopulation')(d.properties.population);
+				}
 			})
+			.style("stroke", function(d) {
 
+				if (emberContext.get('dataType') === 'votes') {
+					let s = emberContext.get('sectionsData')
+							.findBy('sectionCode', d.properties.section_code);
 
+					let parties = emberContext.get('partiesManager').computeComparison(s);
+					let color = emberContext.get('partiesManager').getComparisonColor(parties, s);
+					return color;
+				} else {
+					return emberContext.get('fillPopulation')(d.properties.population);
+				}
+			})
+			.style("opacity", function(d) {
+				// let opacity = 1;
+				return ".9";
+
+				// if (d.properties.population > 0) {
+				// 	opacity = ".5";
+				// }
+
+				// if (d.properties.population > 400) {
+				// 	opacity = ".6";
+				// }
+
+				// if (d.properties.population > 800) {
+				// 	opacity = ".7";
+				// }
+
+				// if (d.properties.population > 1600) {
+				// 	opacity = ".8";
+				// }
+
+				// if (d.properties.population > 3000) {
+				// 	opacity = ".9";
+				// }
+
+				// return opacity;
+			});
 	},
 
 	paintNormally() {

@@ -34,7 +34,7 @@ export default Ember.Component.extend({
 		yield timeout(150);
 
 		let totalVotesParties = 0;
-		let currParties = this.get('partiesManager').get('parties');
+		let parties = this.get('partiesManager').get('parties');
 		let totalVotes = section.get('totalVotes');
 
 		let firstParty = { name: null, votes: null, percentage: null };
@@ -43,8 +43,8 @@ export default Ember.Component.extend({
 		let others = { name: "Otros", votes: null, percentage: null };
 
 		// Getting top party
-		let firstName = this.get('partiesManager').getMaxParty(currParties, section);
-		currParties = currParties.filter(function(el) {
+		let firstName = this.get('partiesManager').getMaxParty(parties, section);
+		parties = parties.filter(function(el) {
 			return el !== firstName;
 		});
 		firstParty.name = firstName;
@@ -53,8 +53,8 @@ export default Ember.Component.extend({
 		firstParty.percentage = Math.round(firstParty.votes / totalVotes * 100);
 
 		// Getting second place party
-		let secondName = this.get('partiesManager').getMaxParty(currParties, section);
-		currParties = currParties.filter(function(el) {
+		let secondName = this.get('partiesManager').getMaxParty(parties, section);
+		parties = parties.filter(function(el) {
 			return el !== secondName;
 		});
 		secondParty.name = secondName;
@@ -63,8 +63,8 @@ export default Ember.Component.extend({
 		secondParty.percentage = Math.round(secondParty.votes / totalVotes * 100);
 
 		// Getting third place party
-		let thirdName = this.get('partiesManager').getMaxParty(currParties, section);
-		currParties = currParties.filter(function(el) {
+		let thirdName = this.get('partiesManager').getMaxParty(parties, section);
+		parties = parties.filter(function(el) {
 			return el !== thirdName;
 		});
 		thirdParty.name = thirdName;
@@ -82,10 +82,5 @@ export default Ember.Component.extend({
 		this.set('thirdParty', thirdParty);
 		this.set('others', others);
 	
-	}).restartable(),
-
-	waitShit: task(function * () {
-		yield timeout(1000);
-		return "MY SHIT";
-	})
+	}).restartable()
 });
