@@ -30,14 +30,18 @@ export default Ember.Service.extend({
   },
 
   getComparisonColor(parties, section) {
+    let color = { hex: "", isGradient: false };
     let totalVotes = section.get(parties[0]) + section.get(parties[1]);
     let percentOne = Math.round(section.get(parties[0]) / totalVotes * 100);
     let percentTwo = Math. round(section.get(parties[1]) / totalVotes * 100);
     let diff = percentOne - percentTwo;
     if (diff < 10) {
-      return [this.getGradientColor(this.get('colors')[parties[0]], this.get('colors')[parties[1]]), true];
+      color["hex"] = this.getGradientColor(this.get('colors')[parties[0]], this.get('colors')[parties[1]]);
+      color["isGradient"] = true;
+      return color;
     } else {
-      return [this.get('colors')[parties[0]], false];
+      color["hex"] = this.get('colors')[parties[0]]
+      return color;
     }
   },
 

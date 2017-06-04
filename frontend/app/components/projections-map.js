@@ -114,7 +114,7 @@ export default Ember.Component.extend({
 		this._super(...arguments);
 
 		// Setting width and height of map container
-		let active = d3.select(null);
+		// let active = d3.select(null);
 
 		this.set('width', Ember.$("#map").width());
 		this.set('height', Ember.$("#map").height());
@@ -317,7 +317,7 @@ export default Ember.Component.extend({
 
 					let parties = emberContext.get('partiesManager').computeComparison(s);
 					let color = emberContext.get('partiesManager').getComparisonColor(parties, s);
-					return color[0];
+					return color["hex"];
 
 				} else {
 					return emberContext.get('fillPopulation')(d.properties.population);
@@ -331,36 +331,42 @@ export default Ember.Component.extend({
 
 					let parties = emberContext.get('partiesManager').computeComparison(s);
 					let color = emberContext.get('partiesManager').getComparisonColor(parties, s);
-					return color;
+					return color["hex"];
+
+					// if (color["isGradient"]) {
+					// 	d3.select(this).style("stroke-width", 3 / emberContext.get('transform').k + " !important");
+					// 	return "black";
+					// } else {
+					// 	return color["hex"];
+					// }
 				} else {
 					return emberContext.get('fillPopulation')(d.properties.population);
 				}
 			})
 			.style("opacity", function(d) {
-				// let opacity = 1;
-				return ".9";
+				let opacity = ".1";
 
-				// if (d.properties.population > 0) {
-				// 	opacity = ".5";
-				// }
+				if (d.properties.population > 0) {
+					opacity = ".5";
+				}
 
-				// if (d.properties.population > 400) {
-				// 	opacity = ".6";
-				// }
+				if (d.properties.population > 400) {
+					opacity = ".6";
+				}
 
-				// if (d.properties.population > 800) {
-				// 	opacity = ".7";
-				// }
+				if (d.properties.population > 800) {
+					opacity = ".7";
+				}
 
-				// if (d.properties.population > 1600) {
-				// 	opacity = ".8";
-				// }
+				if (d.properties.population > 1600) {
+					opacity = ".8";
+				}
 
-				// if (d.properties.population > 3000) {
-				// 	opacity = ".9";
-				// }
+				if (d.properties.population > 3000) {
+					opacity = ".9";
+				}
 
-				// return opacity;
+				return opacity;
 			});
 	},
 
