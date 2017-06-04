@@ -445,7 +445,7 @@ export default Ember.Component.extend({
 			})
 			.on("mouseenter", function(d) {
 				emberContext.set('hoveredSection', d.properties);
-				d3.select(this).style("stroke-width", 4 / emberContext.get('transform').k);
+				d3.select(this).style("stroke-width", 3 / emberContext.get('transform').k);
 			})
 			.on("mouseover", function(d) {
 				emberContext.get('tooltip')
