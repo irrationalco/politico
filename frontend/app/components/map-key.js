@@ -10,8 +10,8 @@ export default Ember.Component.extend({
 		let colors = this.get('partiesManager').get('colors');
 		let arrParties = [];
 
-		if (selParties.length >= 3) {
-			for (var i = 0; i < 3; i++) {
+		if (selParties.length >= 4) {
+			for (var i = 0; i < 4; i++) {
 				let party = { name: selParties[i], color: colors[selParties[i]] };
 				arrParties.push(party);
 			}
