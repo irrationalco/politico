@@ -238,8 +238,9 @@ export default Ember.Component.extend({
 		// SECTION
 		if(this.get('level') === 'section') {
 			if (this.get('mapDivision') === 'federal') {
-
-				if (currState === newState && currFedDistrict === newFedDistrict) {
+				if (currSection === newSection) {
+					this.paintSections();
+				} else if (currState === newState && currFedDistrict === newFedDistrict) {
 					let section = yield this.get('cartography.getSectionByDistrict').perform(this.get('stateCode'),
 										this.get('fedDistrictCode'), newSection);
 					this.updateCurrData();
@@ -260,7 +261,9 @@ export default Ember.Component.extend({
 				}
 			} else {
 
-				if (currState === newState && currMuni === currMuni) {
+				if (currSection === newSection) {
+					this.paintSections();
+				} else if (currState === newState && currMuni === currMuni) {
 
 					let section = yield this.get('cartography.getSection').perform(this.get('stateCode'), this.get('muniCode'), newSection);
 					let zoomed = this.get('zoomToObject').perform(section);
