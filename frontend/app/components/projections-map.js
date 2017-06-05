@@ -458,12 +458,12 @@ export default Ember.Component.extend({
 				emberContext.get('tooltip')
 					.style("left", (d3.event.pageX - 200) + "px")
 					.style("top", (d3.event.pageY - 190) + "px");
+			})
+			.on("mouseout", function(d) {
+				emberContext.get('tooltip')
+					.style('display', 'none');
+				d3.select(this).style("stroke-width", 1 / emberContext.get('transform').k);
 			});
-			// .on("mouseout", function(d) {
-			// 	emberContext.get('tooltip')
-			// 		.style('display', 'none');
-			// 	d3.select(this).style("stroke-width", 1 / emberContext.get('transform').k);
-			// });
 
 		this.paintSections();
 	},

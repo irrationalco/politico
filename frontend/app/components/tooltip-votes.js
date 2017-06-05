@@ -78,12 +78,7 @@ export default Ember.Component.extend({
 		return Ember.String.htmlSafe("background-color: " + 
 			this.get('partiesManager').get('colors')[this.get('secondParty.name')] + ";");
 	}),
-
-	thirdPartyColor: Ember.computed('thirdParty', function() {
-		return Ember.String.htmlSafe("background-color: " + 
-			this.get('partiesManager').get('colors')[this.get('thirdParty.name')] + ";");
-	}),
-
+	
 	computeTopParties: task(function * (section) {
 		yield timeout(150);
 
