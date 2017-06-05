@@ -1,13 +1,32 @@
 <div id="tooltip-map">
 {{#if isPopulation}}
 	<div class="tooltip-row">
-		<h6 style="text-align: center;">Sección : {{hoveredSection.section_code}}</h6>
+		<h6 class="tooltip-header">Sección: {{hoveredSection.section_code}} <span class="small-text">{{hoveredSection.population}} Pob. total</span></h6>
 	</div>
 
 	<div class="tooltip-row">
-		<span class="tooltip-color-box pri"></span>
-		<span class="tooltip-party"> Población</span>
-		<span class="tooltip-votes" style="font-weight: bold;">{{hoveredSection.population}}</span>
+		<table class="table votes-table">
+			<thead class="votes-table-header">
+				<tr>
+					<th>Pob.</th>
+					<th> &lt; 30</th>
+					<th> > 30</th>
+					<th> Fem.</th>
+					<th> Masc.</th>
+				</tr>
+			</thead>
+			<tbody class="votes-table-content">
+				<tr>
+					<td>
+						<span class="tooltip-party">{{hoveredSection.population}}</span>
+					</td>
+					<td class="tooltip-pct">{{less30}}%</td>
+					<td class="tooltip-pct">{{more30}}%</td>
+					<td class="tooltip-pct">{{fem}}%</td>
+					<td class="tooltip-pct">{{masc}}%</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 {{else}}
 	{{#if isNormal}}
@@ -106,6 +125,39 @@
 	{{#if isSingle}}
 	<div class="tooltip-row">
 		<h6 class="tooltip-header">Sección: {{hoveredSection.section_code}} <span class="small-text">{{totalVotes}} Total de votos</span></h6>
+	</div>
+
+
+	<div class="tooltip-row pct-bar-labels">
+		<p>{{firstParty.name}} {{firstParty.percentage}}%</p>
+		<p style="float: right;">Switchers: 120</p>
+	</div>
+	<div class="tooltip-row">
+		<div class="switcher-bar-first"></div><div class="switcher-bar-sec"></div>
+	</div>
+
+	<div class="tooltip-row">
+		<table class="table votes-table">
+			<thead class="votes-table-header">
+				<tr>
+					<th>PARTIDO</th>
+					<th>VOTOS</th>
+					<th>PCT. %</th>
+					<th>Switch</th>
+				</tr>
+			</thead>
+			<tbody class="votes-table-content">
+				<tr>
+					<td>
+						<span class="tooltip-color-box" style="background-color: #179ee0;"></span>
+						<span class="tooltip-party">PAN</span>
+					</td>
+					<td>{{firstParty.votes}}</td>
+					<td class="tooltip-pct">{{firstParty.percentage}} %</td>
+					<td class="tooltip-pct">15 %</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 	{{/if}}
 
