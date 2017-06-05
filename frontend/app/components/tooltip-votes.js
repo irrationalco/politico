@@ -10,6 +10,49 @@ export default Ember.Component.extend({
 	thirdParty:  null,
 	others: 	 null,
 
+	isSingle: Ember.computed('visualization', function() {
+		if (this.get('visualization') === "single") {
+			return true;
+		} else {
+			return false;
+		}
+	}),
+
+	isComparison: Ember.computed('visualization', function() {
+		if (this.get('visualization') === "comparison") {
+			return true;
+		} else {
+			return false;
+		}
+	}),
+
+	comparisonBar: Ember.computed('others', function() {
+		let fpColor = this.get('partiesManager').get('colors')[this.get('firstParty.name')];
+		let spColor = this.get('partiesManager').get('colors')[this.get('secondParty.name')];
+		let othersColor = this.get('partiesManager').get('colors')["others"];
+
+		let othersPct = this.get('others.percentage') + this.get('thirdParty.percentage');
+		let firstPart = [fpColor + " " + 0 + "%,", fpColor + " " + this.get('firstParty.percentage') + "%," ];
+
+		let movement = this.get('firstParty.percentage') + othersPct;
+
+		let secondPart = [othersColor + " " + this.get('firstParty.percentage') + "%,", 
+						  othersColor + " " + movement + "%," ];
+
+		let thirdPart = [spColor + " " + movement + "%,", 
+						  spColor + " " + 100 + "%);" ];
+		return Ember.String.htmlSafe("background: linear-gradient(to right, " + firstPart[0] + firstPart[1] 
+									+ secondPart[0] + secondPart[1] + thirdPart[0] +thirdPart[1]);
+	}),
+
+	isNormal: Ember.computed('visualization', function() {
+		if (this.get("visualization") === "normal") {
+			return true;
+		} else {
+			return false;
+		}
+	}),
+
 	sectionData: Ember.computed('hoveredSection', function() {
 		if (this.get('hoveredSection') !== null) {
 			let section = this.get('sectionsData').findBy('sectionCode', this.get('hoveredSection').section_code);
@@ -36,12 +79,18 @@ export default Ember.Component.extend({
 			this.get('partiesManager').get('colors')[this.get('secondParty.name')] + ";");
 	}),
 
+	thirdPartyColor: Ember.computed('thirdParty', function() {
+		return Ember.String.htmlSafe("background-color: " + 
+			this.get('partiesManager').get('colors')[this.get('thirdParty.name')] + ";");
+	}),
+
 	computeTopParties: task(function * (section) {
 		yield timeout(150);
 
 		let totalVotesParties = 0;
 		let parties = this.get('partiesManager').get('parties');
 		let totalVotes = section.get('totalVotes');
+		let pct;
 
 		let firstParty = { name: null, votes: null, percentage: null };
 		let secondParty = { name: null, votes: null, percentage: null };
@@ -56,7 +105,8 @@ export default Ember.Component.extend({
 		firstParty.name = firstName;
 		firstParty.votes = section.get(firstName);
 		totalVotesParties += firstParty.votes
-		firstParty.percentage = Math.round(firstParty.votes / totalVotes * 100);
+		pct = firstParty.votes / totalVotes * 100;
+		firstParty.percentage = Math.round(pct * 10) / 10;
 
 		// Getting second place party
 		let secondName = this.get('partiesManager').getMaxParty(parties, section);
@@ -65,8 +115,9 @@ export default Ember.Component.extend({
 		});
 		secondParty.name = secondName;
 		secondParty.votes = section.get(secondName);
-		totalVotesParties += secondParty.votes
-		secondParty.percentage = Math.round(secondParty.votes / totalVotes * 100);
+		totalVotesParties += secondParty.votes;
+		pct = secondParty.votes / totalVotes * 100;
+		secondParty.percentage = Math.round(pct * 10) / 10;
 
 		// Getting third place party
 		let thirdName = this.get('partiesManager').getMaxParty(parties, section);
@@ -76,11 +127,13 @@ export default Ember.Component.extend({
 		thirdParty.name = thirdName;
 		thirdParty.votes = section.get(thirdName);
 		totalVotesParties += thirdParty.votes
-		thirdParty.percentage = Math.round(thirdParty.votes / totalVotes * 100);
+		pct = thirdParty.votes / totalVotes * 100;
+		thirdParty.percentage = Math.round(pct * 10) / 10;
 
 		// Calculating other parties votes and percent
 		others.votes = totalVotes - totalVotesParties;
-		others.percentage = Math.round(others.votes / totalVotes * 100);
+		pct = others.votes / totalVotes * 100;
+		others.percentage = Math.round(pct * 10) / 10;
 
 		// Setting computed vars
 		this.set('firstParty', firstParty);
