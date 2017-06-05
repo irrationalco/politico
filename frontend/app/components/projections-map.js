@@ -456,13 +456,8 @@ export default Ember.Component.extend({
 			})
 			.on("mousemove", function(d) {
 				emberContext.get('tooltip')
-					.style("left", (d3.event.pageX - 170) + "px")
-					.style("top", (d3.event.pageY - 100) + "px");
-			})
-			.on("mouseout", function(d) {
-				emberContext.get('tooltip')
-					.style('display', 'none');
-				d3.select(this).style("stroke-width", 1 / emberContext.get('transform').k);
+					.style("left", (d3.event.pageX - 200) + "px")
+					.style("top", (d3.event.pageY - 150) + "px");
 			});
 
 		this.paintSections();

@@ -20,6 +20,12 @@ export default Ember.Component.extend({
 		}
 	}),
 
+	totalVotes: Ember.computed('sectionData', function() {
+		if (this.get('sectionData') !== null) {
+			return this.get('sectionData').get('totalVotes');
+		}
+	}),
+
 	firstPartyColor: Ember.computed('firstParty', function() {
 		return Ember.String.htmlSafe("background-color: " + 
 			this.get('partiesManager').get('colors')[this.get('firstParty.name')] + ";");
