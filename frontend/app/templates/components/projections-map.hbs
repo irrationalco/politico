@@ -2,8 +2,5 @@
 	<div id="tiles"></div>
 </div>
 
-{{#if isPopulation}}
-	{{tooltip-population hoveredSection=hoveredSection}}
-{{else}}
-	{{tooltip-votes sectionsData=sectionsData hoveredSection=hoveredSection}}
-{{/if}}
+{{tooltip-votes sectionsData=sectionsData hoveredSection=hoveredSection isPopulation=isPopulation}}
+
