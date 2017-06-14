@@ -24,10 +24,6 @@ module.exports = function(defaults) {
     destDir: 'fonts'
   });
 
-  // NoUISlider
-  app.import(app.bowerDirectory + '/nouislider/distribute/nouislider.min.css');
-  app.import(app.bowerDirectory + '/nouislider/distribute/nouislider.min.js');
-
   // Topojson FILES VENDOR 
   app.import('vendor/mx_states.json', {
     destDir: 'assets'

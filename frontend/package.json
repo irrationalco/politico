@@ -51,6 +51,7 @@
     "d3": "4.5.0",
     "d3-tile": "0.0.3",
     "ember-cli-chartjs": "2.4.0",
+    "nouislider": "^10.0.0",
     "topojson": "2.2.0"
   }
 }
