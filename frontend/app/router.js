@@ -12,7 +12,7 @@ Router.map(function() {
   // });
   this.route('projections', { path: '/projections'});
 
-  this.route('polls,' { path: '/polls'});
+  this.route('polls', { path: '/polls'});
 
   this.route('maps', function() {
       this.route('projections', { path: '/projections'});
