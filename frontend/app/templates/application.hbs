@@ -22,18 +22,22 @@
     <div id="sidebar" class="sidebar-box nav-collapse">
       <ul class="sidebar-menu" id="nav-accordion">
 
+        {{!-- Maps --}}
         <li class="sub-menu mt">
-          <a>
+
+          {{#link-to "maps.projections"}}
             <i class="fa fa-map-o"></i>
-          </a>
+          {{/link-to}}
         </li>
 
+        {{!-- Polls --}}
         <li class="sub-menu">
-          <a>
+          {{#link-to "polls"}}
             <i class="fa fa-bar-chart-o"></i>
-          </a>
+          {{/link-to}}
         </li>
 
+        {{!-- Another section --}}
         <li class="sub-menu">
           <a>
             <i class="fa fa-file-o"></i>
@@ -46,10 +50,6 @@
 
   {{!-- Content --}}
   <section id="main-content">
-      {{!-- <h3> Testing Radar Chart </h3> --}}
       {{outlet}}
-      {{!-- {{radar-chart}}
-      {{line-chart}}
-      {{doughnut-chart}} --}}
   </section>
 </div>
