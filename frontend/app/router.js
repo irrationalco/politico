@@ -7,15 +7,16 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-	// this.route('predi', function() {
-	// 	this.route("map", { path: ':map_id'});
-	// });
-	this.route('projections', { path: '/projections'});
+  // this.route('predi', function() {
+  // 	this.route("map", { path: ':map_id'});
+  // });
+  this.route('projections', { path: '/projections'});
 
-	this.route('maps', function() {
-		this.route('projections', { path: '/projections'});
-		this.route('population', { path: '/population'});
-	});
+  this.route('maps', function() {
+      this.route('projections', { path: '/projections'});
+      this.route('population', { path: '/population'});
+  });
+  this.route('polls');
 });
 
 export default Router;
