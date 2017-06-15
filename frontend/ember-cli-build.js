@@ -16,10 +16,13 @@ module.exports = function(defaults) {
   });
 
   // FontAwesome
-  app.import('bower_components/font-awesome/css/font-awesome.css');
-  app.import('bower_components/font-awesome/css/font-awesome.css.map');
+  app.import(app.bowerDirectory + '/font-awesome/css/font-awesome.css');
+  app.import(app.bowerDirectory + '/font-awesome/css/font-awesome.css.map');
 
-  var fontawesome = new Funnel('bower_components/font-awesome/fonts', {
+  // NoUISlider css
+  app.import(app.bowerDirectory + '/nouislider/distribute/nouislider.min.css');
+
+  var fontawesome = new Funnel(app.bowerDirectory +'/font-awesome/fonts', {
     srcDir: '/',
     destDir: 'fonts'
   });
