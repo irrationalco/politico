@@ -33,24 +33,58 @@
 
 .poll-block
 	padding: 5px
-	background: white
 
 .noUi-handle
 	outline: none
+	&:before
+		content: none
+	&:after
+		content: none
+
 
 .myslider
 	position: relative
+	margin-top: 55px
 
 .slider-mid
 	z-index: 10
 	pointer-events: none
 	position: absolute
-	left: 49%
+	left: 49.5%
 	top: -11px
 	width: 4px
 	height: 38px
 	border-radius: 10px
 	background: gray
+
+.slider-value
+	z-index: 20
+	// pointer-events: none
+	position: absolute
+	left: 55%
+	top: -53px
+	font-size: 20px
+	color: #659c44
+	p
+		margin: 0px
+
+.left-slider-icon
+	float: left
+	text-align: center
+	color: black
+	font-size: 10px
+	i
+		font-size: 22px
+		color: #8e1a1a
+
+.right-slider-icon
+	float: right
+	text-align: center
+	color: black
+	font-size: 10px
+	i
+		font-size: 22px
+		color: #659c44
 
 // .profile-circle
 //   height: 40px
