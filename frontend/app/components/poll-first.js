@@ -7,11 +7,15 @@ export default Ember.Component.extend({
 		let slider = document.getElementById('myslider');
 
 		nouislider.create(slider, {
-			start: [10,30],
-			connect: true,
+			start: 0,
 			range: {
-				'min': -20,
-				'max': 40
+				'min': -100,
+				'max': 100
+			},
+			pips: {
+				mode: 'values',
+				values: [],
+				density: 4
 			}
 		});
 	}
