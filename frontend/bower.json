@@ -6,7 +6,6 @@
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.6.3",
     "chartjs": "2.1.6",
-    "selectize": "miguelcobain/selectize.js#master",
-    "nouislider": "^10.0.0"
+    "selectize": "miguelcobain/selectize.js#master"
   }
 }

@@ -19,9 +19,6 @@ module.exports = function(defaults) {
   app.import(app.bowerDirectory + '/font-awesome/css/font-awesome.css');
   app.import(app.bowerDirectory + '/font-awesome/css/font-awesome.css.map');
 
-  // NoUISlider css
-  app.import(app.bowerDirectory + '/nouislider/distribute/nouislider.min.css');
-
   var fontawesome = new Funnel(app.bowerDirectory +'/font-awesome/fonts', {
     srcDir: '/',
     destDir: 'fonts'
