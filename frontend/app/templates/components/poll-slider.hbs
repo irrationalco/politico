@@ -1,8 +1,8 @@
 <div class="myslider">
-	{{range-slider start=0 min=-100 max=100 on-update="setSecond"}}
+	{{range-slider start=0 min=-100 max=100 on-update="setValue"}}
 	<div class="slider-mid"></div>
 	<div class="slider-value" style="left: 47%;">
-		<p>35%</p>
+		<p>{{value}}%</p>
 		<i class="fa fa-arrow-up"></i>
 	</div>
 </div>
