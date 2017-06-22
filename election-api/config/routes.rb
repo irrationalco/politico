@@ -8,6 +8,9 @@ Rails.application.routes.draw do
       resources :projections
       resources :favorites
       resources :parties
+      resources :polls do
+        resources :questions
+      end
     end
   end
 end

@@ -1,4 +1,4 @@
-class PartiesController < ApplicationController
+class Api::V1::PartiesController < ApplicationController
   before_action :set_party, only: [:show, :update, :destroy]
 
   # GET /parties
@@ -18,7 +18,7 @@ class PartiesController < ApplicationController
     @party = Party.new(party_params)
 
     if @party.save
-      render json: @party, status: :created, location: @party
+      render json: @party, status: :created
     else
       render json: @party.errors, status: :unprocessable_entity
     end
