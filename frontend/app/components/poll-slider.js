@@ -11,8 +11,7 @@ export default Ember.Component.extend({
 
 	actions: {
 		setSecond: function(val) {
-			let leftValue = this.get('handle').style.left.substring(0,4);
-			leftValue = parseFloat(leftValue) - 2.5;
+			let leftValue = parseFloat(this.get('handle').style.left.substring(0,4)) - 2.5;
 			this.get('sliderValue').style.left = leftValue + "%";
 		}
 	}
