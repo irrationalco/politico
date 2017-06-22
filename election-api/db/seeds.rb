@@ -36,3 +36,12 @@ CSV.foreach("../secciones_simple.csv") { |row|
 # end
 
 # entidad, distrito, seccion, pobtat, muni
+
+#parties
+Party.create(:name => 'PRI', :image => "https://commons.wikimedia.org/wiki/File:PRI_Party_(Mexico).svg")
+Party.create(:name => 'PAN', :image => "https://commons.wikimedia.org/wiki/File:PAN_Party_(Mexico).svg")
+Party.create(:name => 'PRD', :image => "https://commons.wikimedia.org/wiki/File:PRD_logo_(Mexico).svg")
+Party.create(:name => 'Morena', :image => "https://commons.wikimedia.org/wiki/File:Morena_Party_(Mexico).png")
+Party.create(:name => 'PV', :image => "https://commons.wikimedia.org/wiki/File:Mexican_Green_Party.svg")
+Party.create(:name => 'PT', :image => "https://commons.wikimedia.org/wiki/File:PT_Party_(Mexico).svg")
+Party.create(:name => 'MC', :image => "https://commons.wikimedia.org/wiki/File:PMC_Party_(Mexico).svg")

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :organizations
       resources :projections
       resources :favorites
+      resources :parties
     end
   end
 end
