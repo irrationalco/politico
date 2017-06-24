@@ -10,10 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170622192501) do
+ActiveRecord::Schema.define(version: 20170623233621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "candidates", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "party_id"
+    t.string   "photo"
+    t.string   "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["party_id"], name: "index_candidates_on_party_id", using: :btree
+  end
+
+  create_table "candidates_sections", id: false, force: :cascade do |t|
+    t.integer "section_id"
+    t.integer "candidate_id"
+    t.index ["candidate_id"], name: "index_candidates_sections_on_candidate_id", using: :btree
+    t.index ["section_id"], name: "index_candidates_sections_on_section_id", using: :btree
+  end
 
   create_table "favorites", force: :cascade do |t|
     t.integer  "user_id"
@@ -64,12 +81,21 @@ ActiveRecord::Schema.define(version: 20170622192501) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.integer  "poll_id"
     t.string   "text"
     t.integer  "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["poll_id"], name: "index_questions_on_poll_id", using: :btree
+    t.integer  "section_id"
+    t.index ["section_id"], name: "index_questions_on_section_id", using: :btree
+  end
+
+  create_table "sections", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "poll_id"
+    t.integer  "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["poll_id"], name: "index_sections_on_poll_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -80,6 +106,10 @@ ActiveRecord::Schema.define(version: 20170622192501) do
     t.integer  "organization_id"
   end
 
+  add_foreign_key "candidates", "parties"
+  add_foreign_key "candidates_sections", "candidates"
+  add_foreign_key "candidates_sections", "sections"
   add_foreign_key "polls", "organizations"
-  add_foreign_key "questions", "polls"
+  add_foreign_key "questions", "sections"
+  add_foreign_key "sections", "polls"
 end

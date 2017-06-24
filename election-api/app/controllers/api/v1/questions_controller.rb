@@ -46,6 +46,6 @@ class Api::V1::QuestionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def question_params
-      params.require(:question).permit(:poll_id, :text, :position)
+      params.require(:question).permit(:section_id, :text, :position)
     end
 end

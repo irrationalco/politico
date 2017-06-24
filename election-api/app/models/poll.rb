@@ -1,4 +1,4 @@
 class Poll < ApplicationRecord
   belongs_to :organization
-  has_many :questions, -> {order(position: :asc)}
+  has_many :sections, -> {order(position: :asc)}
 end

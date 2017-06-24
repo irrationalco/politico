@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :parties
       resources :candidates
       resources :polls do
+        resources :sections
         resources :questions
       end
     end
