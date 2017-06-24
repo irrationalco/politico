@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170623233621) do
+ActiveRecord::Schema.define(version: 20170624010154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "answers", force: :cascade do |t|
+    t.integer  "person_id"
+    t.integer  "question_id"
+    t.text     "answer"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["person_id"], name: "index_answers_on_person_id", using: :btree
+    t.index ["question_id"], name: "index_answers_on_question_id", using: :btree
+  end
 
   create_table "candidates", force: :cascade do |t|
     t.string   "name"
@@ -54,6 +64,18 @@ ActiveRecord::Schema.define(version: 20170623233621) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "people", force: :cascade do |t|
+    t.date     "birthDate"
+    t.string   "gender"
+    t.string   "city"
+    t.string   "email"
+    t.string   "phone"
+    t.string   "postalCode"
+    t.string   "electoralSection"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
   create_table "polls", force: :cascade do |t|
     t.integer  "organization_id"
     t.string   "name"
@@ -86,6 +108,8 @@ ActiveRecord::Schema.define(version: 20170623233621) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "section_id"
+    t.string   "type"
+    t.jsonb    "parameters"
     t.index ["section_id"], name: "index_questions_on_section_id", using: :btree
   end
 
@@ -106,6 +130,8 @@ ActiveRecord::Schema.define(version: 20170623233621) do
     t.integer  "organization_id"
   end
 
+  add_foreign_key "answers", "people"
+  add_foreign_key "answers", "questions"
   add_foreign_key "candidates", "parties"
   add_foreign_key "candidates_sections", "candidates"
   add_foreign_key "candidates_sections", "sections"

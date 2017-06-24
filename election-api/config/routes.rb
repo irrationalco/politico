@@ -9,9 +9,11 @@ Rails.application.routes.draw do
       resources :favorites
       resources :parties
       resources :candidates
+      resources :people
       resources :polls do
         resources :sections
         resources :questions
+        resources :answers
       end
     end
   end
