@@ -65,15 +65,15 @@ ActiveRecord::Schema.define(version: 20170624010154) do
   end
 
   create_table "people", force: :cascade do |t|
-    t.date     "birthDate"
+    t.date     "birth_date"
     t.string   "gender"
     t.string   "city"
     t.string   "email"
     t.string   "phone"
-    t.string   "postalCode"
-    t.string   "electoralSection"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.string   "zip_code"
+    t.string   "electoral_section"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "polls", force: :cascade do |t|

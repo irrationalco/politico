@@ -1,3 +1,3 @@
 class PersonSerializer < ActiveModel::Serializer
-  attributes :id, :birthDate, :gender, :city, :email, :phone, :postalCode, :electoralSection
+  attributes :id, :birth_date, :gender, :city, :email, :phone, :zip_code, :electoral_section
 end
