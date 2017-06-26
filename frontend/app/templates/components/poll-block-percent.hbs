@@ -1,1 +1,27 @@
-{{yield}}
+<div class="col-xs-6 col-sm-6 col-md-4" style="height: 500px;">
+	<div class="poll-block">
+		{{!-- <div class="row centered">
+			<p style="color:black; font-weight:700;">Rodrigo Duterte</p>
+		</div> --}}
+
+		<div class="row candidate-profile-row">
+			<div class="col-xs-5">
+				<div class="candidate-profile-small">
+					<div class="party-image-small pri-image"></div>
+				</div>
+			</div>
+
+			<div class="col-xs-7">
+				<div class="poll-percent-title">Andres Manuel Lopez Obrador</div>
+				<div class="poll-percent-subtitle">10% / 100%</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-10 col-xs-offset-2">
+				{{range-slider start=0 min=0 max=100}}
+			</div>
+		</div>
+		
+		{{!-- {{range-slider start=0 min=-100 max=100 on-update="setValuePosition" on-change="setPollValue"}} --}}
+	</div>
+</div>
