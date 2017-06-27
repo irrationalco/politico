@@ -9,6 +9,14 @@ export default Ember.Component.extend({
 		return this.get('totalPercent');
 	}),
 
+	isOver100: Ember.computed('totalPercent', function() {
+		return this.get('percent') > 100 ?  true : false; 
+	}),
+
+	is100: Ember.computed('totalPercent', function() {
+		return this.get('percent') == 100 ?  true : false; 
+	}),
+
 	didInsertElement() {
 		this._super(...arguments);
 		let line = new ProgressBar.Line("#poll-progress", {

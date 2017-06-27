@@ -8,7 +8,7 @@
 		<div id="poll-progress"></div>
 	</div>
 	<div class="col-xs-3">
-		<div class="poll-progress-number">{{percent}}%</div>
+		<div class="poll-progress-number {{if is100 "percent-100"}} {{if isOver100 "percent-over"}}">{{percent}}%</div>
 		{{!-- <div style="position: absolute; left: 50%;">
 			<div style="position: relative; left: -50%;">This is some text that I want it to be center</div>
 		</div> --}}
