@@ -2,7 +2,6 @@ import Ember from 'ember';
 import d3 from "npm:d3";
 import d3Tile from "npm:d3-tile";
 import d3ScaleChromatic from "npm:d3-scale-chromatic";
-import topojson from "npm:topojson";
 import { task, timeout } from 'ember-concurrency';
 
 const { isEmpty } = Ember;
