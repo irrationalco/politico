@@ -10,6 +10,6 @@ export default Ember.Component.extend({
 			easing: 'easeOut',
 			strokeWidth: 1
 		});
-		line.animate(1);
+		line.animate(0.3);
 	}
 });
