@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-	currValue: null,
+	currValue: 0,
 
 	actions: {
 		sendValue: function(val) {
