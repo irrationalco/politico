@@ -10,11 +10,9 @@ Router.map(function() {
 
   this.route('projections', { path: '/projections'});
 
-  this.route('poll', { path: '/polls'});
-
-  // this.route('poll', { path: 'poll/:id' }, function() {
-  //   this.route('section', { path: 'section/:id' });
-  // });
+  this.route('poll', { path: 'poll/:id' }, function() {
+    this.route('section', { path: 'section/:id' });
+  });
 
   this.route('maps', function() {
       this.route('projections', { path: '/projections'});
