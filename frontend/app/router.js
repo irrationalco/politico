@@ -7,12 +7,14 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  // this.route('predi', function() {
-  // 	this.route("map", { path: ':map_id'});
-  // });
+
   this.route('projections', { path: '/projections'});
 
-  this.route('polls', { path: '/polls'});
+  this.route('poll', { path: '/polls'});
+
+  // this.route('poll', { path: 'poll/:id' }, function() {
+  //   this.route('section', { path: 'section/:id' });
+  // });
 
   this.route('maps', function() {
       this.route('projections', { path: '/projections'});
