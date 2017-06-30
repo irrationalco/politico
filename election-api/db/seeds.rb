@@ -9,23 +9,15 @@
 # Monterrey
 require 'csv'
 
-CSV.foreach("../secciones_simple.csv") { |row|
-  panVotos = Random.rand(1500)
-  priVotos = Random.rand(1500)
-  prdVotos = Random.rand(300)
-  morenaVotos = Random.rand(800)
-  pvVotos = Random.rand(50)
-  ptVotos = Random.rand(50)
-  mcVotos = Random.rand(50)
+poll = Poll.create(name: "Primer Encuesta", total_sections: 5)
+poll2 = Poll.create(name: "Segunda Encuesta", total_sections: 4)
 
-  total = panVotos + priVotos + prdVotos + morenaVotos + pvVotos + ptVotos + mcVotos;
+section1 = Section.create(title: "¿Cómo te sientes sobre...?", poll: poll)
+section2 = Section.create(title: "¿Si hoy tuvieras que votar por el presidente, qué tan probable sería que eligieras a...?", poll: poll)
+section3 = Section.create(title: "¿Si hoy tuvieras que votar por Alcalde de Monterrey, qué tan probable sería que eligieras a...?", poll: poll)
+section4 = Section.create(title: "¿Cómo crees que sea su caracter como persona?", poll: poll)
+section5 = Section.create(title: "Un poco sobre ti: ", poll: poll)
 
-  Projection.create(:state_code => row[0], :muni_code => row[4], 
-                    :section_code => row[2], :district_code => row[1],
-                    :PRI => priVotos, :PAN => panVotos, :PRD => prdVotos,
-                    :Morena => morenaVotos, :PV => pvVotos, :PT => ptVotos,
-                    :MC => mcVotos, :total_votes => total)
-}
 
 
 # for i in 975..1686
