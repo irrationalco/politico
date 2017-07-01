@@ -2,9 +2,6 @@ import Ember from 'ember';
 import ProgressBar from "npm:progressbar.js";
 
 export default Ember.Controller.extend({
-	totalSections: 7,
-
-	currentSection: 1,
 
 	didInsertElement() {
 		this._super(...arguments);

@@ -10,7 +10,7 @@ class Api::V1::PollsController < ApplicationController
 
   # GET /polls/1
   def show
-    render json: @poll
+    render json: @poll, include: ['sections']
   end
 
   # POST /polls
