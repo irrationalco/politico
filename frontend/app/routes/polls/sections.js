@@ -7,13 +7,16 @@ export default Ember.Route.extend({
 	prevSection: null,
 
 	model(params) {
-		console.log("section");
-		console.log(params);
-		return
+		return this.store.peekRecord('section', params.section_id);
 	},
 
-	afterModel(model, transition) {
+	redirect(model, transition) {
 		// guardar next-sectin y prev section id del arreglo de ids
-		transition.send('testAction');
-	}
+		console.log(model.get('id'));
+		if (model.get('id') == 1) {
+			this.transitionTo('polls.sections.approval');	
+		} else {
+			this.transitionTo('polls.sections.vote');
+		}
+  }
 });
