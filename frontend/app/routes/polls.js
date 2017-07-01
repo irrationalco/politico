@@ -21,7 +21,7 @@ export default Ember.Route.extend({
 
 	redirect(model, transition) {
 		let firstSection = model.get('sections').objectAt(0);
-    this.transitionTo('poll.section', firstSection);
+    this.transitionTo('polls.sections', firstSection);
   },
 
 	actions: {
