@@ -3,6 +3,8 @@ import ProgressBar from "npm:progressbar.js";
 
 export default Ember.Controller.extend({
 
+	someValue: "jajaja",
+
 	didInsertElement() {
 		this._super(...arguments);
 		

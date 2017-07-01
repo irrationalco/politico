@@ -11,6 +11,7 @@ export default Ember.Route.extend({
 	},
 
 	redirect(model, transition) {
+		console.log(this.get('someValue'));
 		// guardar next-sectin y prev section id del arreglo de ids
 		console.log(model.get('id'));
 		if (model.get('id') == 1) {

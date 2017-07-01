@@ -3,11 +3,8 @@ import Ember from 'ember';
 // Todo: Catch error when poll has no sections
 
 export default Ember.Route.extend({
-	totalSections: null,
 
-	currentSection: null,
-
-	sectionIds: null,
+	pollManager: Ember.inject.service("poll"),
 
 	model(params) {
 		return this.store.findRecord('poll', params.poll_id);
@@ -20,6 +17,7 @@ export default Ember.Route.extend({
 	},
 
 	redirect(model, transition) {
+		console.log(this.get('totalSections'));
 		let firstSection = model.get('sections').objectAt(0);
     this.transitionTo('polls.sections', firstSection);
   },
