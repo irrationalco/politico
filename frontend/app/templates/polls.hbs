@@ -1,21 +1,10 @@
 {{poll-progress-bar}}
 <div class="poll-toolbar">
 	<ul class="poll-sections">
-		<li {{action 'setCurrentSection' 1}}>
-			1
-		</li>
-		<li {{action 'setCurrentSection' 1}}>
-			> 2
-		</li>
-		<li {{action 'setCurrentSection' 1}}>
-			> 3
-		</li>
-		<li {{action 'setCurrentSection' 1}}>
-			> 4
-		</li>
-		<li {{action 'setCurrentSection' 1}}>
-			> 5
-		</li>
+		{{#each sectionIds as |sectionId|}}
+
+			<li> {{#link-to "polls.sections" sectionId}} {{sectionId}}{{/link-to}}</li>
+		{{/each}}
 	</ul>
 </div>
 

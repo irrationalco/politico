@@ -2,6 +2,10 @@ import Ember from 'ember';
 import ProgressBar from "npm:progressbar.js";
 
 export default Ember.Controller.extend({
+	
+	pollManager: Ember.inject.service("poll"),
+
+	sectionIds: Ember.computed.oneWay('pollManager.sectionIds'),
 
 	someValue: "jajaja",
 
