@@ -1,17 +1,11 @@
 import Ember from "ember";
 
 export default function() {
-    let durationSidebar = 2000;
+    let duration = 600;
     this.transition(
-        this.hasClass('sidebar-box'),
-
-        // this makes our rule apply when the liquid-if transitions to the
-        // true state.
-        this.toValue(true),
-        this.use('toLeft', {durationSidebar}),
-
-        // which means we can also apply a reverse rule for transitions to
-        // the false state.
-        this.reverse('toRight', {durationSidebar})
+        this.fromRoute('polls.sections.approval'),
+        this.toRoute('polls.sections.vote'),
+        this.use('toRight', {duration: duration }),
+        this.reverse('toLeft', { duration: duration })
     );
 };
