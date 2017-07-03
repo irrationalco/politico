@@ -2,6 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
+    host: 'https://desolate-eyrie-44443.herokuapp.com',
     modulePrefix: 'frontend',
     environment: environment,
     rootURL: '/',
