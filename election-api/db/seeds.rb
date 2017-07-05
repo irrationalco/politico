@@ -31,7 +31,6 @@ csv_contents = CSV.read("tbl_ine.csv")
 csv_contents.shift
 
 csv_contents.each do |row|
-  total = 0
   state_code    = row[2].to_i
   muni_code     = row[4] .to_i
   section_code  = row[8].to_i
@@ -42,7 +41,6 @@ csv_contents.each do |row|
 
   pan    = row[10].to_i
   pconv  = row[11].to_i
-  pdsppn = row[12].to_i
   pes  = row[13].to_i
   ph   = row[14].to_i
   pmc  = row[15].to_i
@@ -53,16 +51,15 @@ csv_contents.each do |row|
   pri  = row[20].to_i
   psd  = row[21].to_i
   psm  = row[22].to_i
-  psn  = row[23].to_i
   pt   = row[24].to_i
   pvem = row[25].to_i
 
-  total = pan + pconv + pdsppn + pes + ph + pmc + pmor + pna + ppm + prd + pri + psd + psm + psn + pt + pvem
+  total = pan + pconv + pes + ph + pmc + pmor + pna + ppm + prd + pri + psd + psm + pt + pvem
 
   Projection.create(state_code: state_code, muni_code: muni_code, section_code: section_code, district_code: district_code,
                     nominal_list: nominal_list, year: year, election_type: election_type, 
-                    PAN: pan, PCONV: pconv, PDSPPN: pdsppn, PES: pes, PH: ph, PMC: pmc, PMOR: pmor, PNA: pna, PPM: ppm, PRD: prd,
-                    PRI: pri, PSD: psd, PSM: psm, PSN: psn, PT: pt, PVEM: pvem, total_votes: total)
+                    PAN: pan, PCONV: pconv, PES: pes, PH: ph, PMC: pmc, PMOR: pmor, PNA: pna, PPM: ppm, PRD: prd,
+                    PRI: pri, PSD: psd, PSM: psm, PT: pt, PVEM: pvem, total_votes: total)
 
 end
 

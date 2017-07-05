@@ -12,7 +12,6 @@ class CreateProjections < ActiveRecord::Migration[5.0]
 
       t.integer :PAN
       t.integer :PCONV
-      t.integer :PDSPPN
       t.integer :PES
       t.integer :PH
       t.integer :PMC
@@ -23,7 +22,6 @@ class CreateProjections < ActiveRecord::Migration[5.0]
       t.integer :PRI
       t.integer :PSD
       t.integer :PSM
-      t.integer :PSN
       t.integer :PT
       t.integer :PVEM
 
