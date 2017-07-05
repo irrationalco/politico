@@ -27,31 +27,35 @@ require 'csv'
 #     :MC => Random.rand(300))
 # end
 
-CSV.foreach("tbl_ine.csv") do |row|
-  state_code    = row[2]
-  muni_code     = row[4] 
-  section_code  = row[8]
-  district_code = row[7]
-  nominal_list  = row[9]
-  year          = row[0]
+csv_contents = CSV.read("tbl_ine.csv")
+csv_contents.shift
+
+csv_contents.each do |row|
+  total = 0
+  state_code    = row[2].to_i
+  muni_code     = row[4] .to_i
+  section_code  = row[8].to_i
+  district_code = row[7].to_i
+  nominal_list  = row[9].to_i
+  year          = row[0].to_i
   election_type = row[1]
 
-  pan    = row[10]
-  pconv  = row[11]
-  pdsppn = row[12]
-  pes  = row[13]
-  ph   = row[14]
-  pmc  = row[15]
-  pmor = row[16]
-  pna  = row[17]
-  ppm  = row[18]
-  prd  = row[19]
-  pri  = row[20]
-  psd  = row[21]
-  psm  = row[22]
-  psn  = row[23]
-  pt   = row[24]
-  pvem = row[25]
+  pan    = row[10].to_i
+  pconv  = row[11].to_i
+  pdsppn = row[12].to_i
+  pes  = row[13].to_i
+  ph   = row[14].to_i
+  pmc  = row[15].to_i
+  pmor = row[16].to_i
+  pna  = row[17].to_i
+  ppm  = row[18].to_i
+  prd  = row[19].to_i
+  pri  = row[20].to_i
+  psd  = row[21].to_i
+  psm  = row[22].to_i
+  psn  = row[23].to_i
+  pt   = row[24].to_i
+  pvem = row[25].to_i
 
   total = pan + pconv + pdsppn + pes + ph + pmc + pmor + pna + ppm + prd + pri + psd + psm + psn + pt + pvem
 
@@ -59,6 +63,7 @@ CSV.foreach("tbl_ine.csv") do |row|
                     nominal_list: nominal_list, year: year, election_type: election_type, 
                     PAN: pan, PCONV: pconv, PDSPPN: pdsppn, PES: pes, PH: ph, PMC: pmc, PMOR: pmor, PNA: pna, PPM: ppm, PRD: prd,
                     PRI: pri, PSD: psd, PSM: psm, PSN: psn, PT: pt, PVEM: pvem, total_votes: total)
+
 end
 
 # entidad, distrito, seccion, pobtat, muni
