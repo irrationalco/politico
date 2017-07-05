@@ -53,12 +53,12 @@ CSV.foreach("tbl_ine.csv") do |row|
   pt   = row[24]
   pvem = row[25]
 
-
+  total = pan + pconv + pdsppn + pes + ph + pmc + pmor + pna + ppm + prd + pri + psd + psm + psn + pt + pvem
 
   Projection.create(state_code: state_code, muni_code: muni_code, section_code: section_code, district_code: district_code,
                     nominal_list: nominal_list, year: year, election_type: election_type, 
                     PAN: pan, PCONV: pconv, PDSPPN: pdsppn, PES: pes, PH: ph, PMC: pmc, PMOR: pmor, PNA: pna, PPM: ppm, PRD: prd,
-                    PRI: pri, PSD: psd, PSM: psm, PSN: psn, PT: pt, PVEM: pvem)
+                    PRI: pri, PSD: psd, PSM: psm, PSN: psn, PT: pt, PVEM: pvem, total_votes: total)
 end
 
 # entidad, distrito, seccion, pobtat, muni
