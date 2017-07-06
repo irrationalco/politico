@@ -20,7 +20,7 @@ export default Ember.Component.extend({
   }).property(),
 
   chartData: Ember.computed('queryData.content', function(){
-    if(!this.get('queryData').get('content')){
+    if(!this.get('queryData') || !this.get('queryData').get('content')){
       return null;
     }
     if(this.get("level") === "section"){
