@@ -317,9 +317,13 @@ export default Ember.Component.extend({
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
 
-					let parties = emberContext.get('partiesManager').computeComparison(s);
-					let color = emberContext.get('partiesManager').getComparisonColor(parties, s);
-					return color["hex"];
+					if (isEmpty(s)) {
+						return "transparent";
+					} else {
+						let parties = emberContext.get('partiesManager').computeComparison(s);
+						let color = emberContext.get('partiesManager').getComparisonColor(parties, s);
+						return color["hex"];
+					}
 
 				} else {
 					return emberContext.get('fillPopulation')(d.properties.population);
@@ -331,9 +335,13 @@ export default Ember.Component.extend({
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
 
-					let parties = emberContext.get('partiesManager').computeComparison(s);
-					let color = emberContext.get('partiesManager').getComparisonColor(parties, s);
-					return color["hex"];
+					if (isEmpty(s)) {
+						return "transparent";
+					} else {
+						let parties = emberContext.get('partiesManager').computeComparison(s);
+						let color = emberContext.get('partiesManager').getComparisonColor(parties, s);
+						return color["hex"];
+					}
 
 					// if (color["isGradient"]) {
 					// 	d3.select(this).style("stroke-width", 3 / emberContext.get('transform').k + " !important");
@@ -381,11 +389,14 @@ export default Ember.Component.extend({
 			.style("fill", function(d) {
 
 				if (emberContext.get('dataType') === 'votes') {
-
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
 
-					return emberContext.get('partiesManager').getColor(s);
+					if (isEmpty(s)) {
+						return "transparent";
+					} else {
+						return emberContext.get('partiesManager').getColor(s);
+					}
 
 				} else {
 					return emberContext.get('fillPopulation')(d.properties.population);
@@ -398,7 +409,11 @@ export default Ember.Component.extend({
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
 
-					return emberContext.get('partiesManager').getColor(s);
+					if (isEmpty(s)) {
+						return "transparent";
+					} else {
+						return emberContext.get('partiesManager').getColor(s);
+					}
 
 				} else {
 					return emberContext.get('fillPopulation')(d.properties.population);
