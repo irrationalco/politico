@@ -81,7 +81,7 @@ export default Ember.Component.extend({
 	}),
 
 	totalVotes: Ember.computed('sectionData', function() {
-		if (this.get('sectionData') !== null) {
+		if (!isEmpty(this.get('sectionData'))) {
 			return this.get('sectionData').get('totalVotes');
 		}
 	}),
@@ -102,6 +102,7 @@ export default Ember.Component.extend({
 		let totalVotesParties = 0;
 		let parties = this.get('partiesManager').get('parties');
 		let totalVotes = section.get('totalVotes');
+		
 		let pct;
 
 		let firstParty = { name: null, votes: null, percentage: null };
