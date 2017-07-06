@@ -58,6 +58,10 @@ export default Ember.Service.extend({
     }
   },
 
+  setSelectedParties(selectedParties) {
+    this.set('selectedParties', selectedParties);
+  },
+
   getGradientColor(color1, color2) {
     if (color1.charAt(0) === "#") { color1 = color1.substring(1); }
 
