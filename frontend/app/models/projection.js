@@ -6,12 +6,24 @@ export default DS.Model.extend({
 	stateCode: DS.attr('number'),
 	districtCode: DS.attr('number'),
 
+  year: DS.attr('number'),
+  electionType: DS.attr('string'),
+
+  nominalList: DS.attr('number'),
 	totalVotes: DS.attr('number'),
-	PRI: DS.attr('number'),
+
 	PAN: DS.attr('number'),
-	PRD: DS.attr('number'),
-	PV: DS.attr('number'),
-	PT: DS.attr('number'),
-	Morena: DS.attr('number'),
-	MC: DS.attr('number')
+  PCONV: DS.attr('number'),
+	PES: DS.attr('number'),
+	PH: DS.attr('number'),
+	PMC: DS.attr('number'),
+	PMOR: DS.attr('number'),
+	PNA: DS.attr('number'),
+  PPM: DS.attr('number'),
+  PRD: DS.attr('number'),
+  PRI: DS.attr('number'),
+  PSD: DS.attr('number'),
+  PSM: DS.attr('number'),
+  PT: DS.attr('number'),
+  PVEM: DS.attr('number')
 });

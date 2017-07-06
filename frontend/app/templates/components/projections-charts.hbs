@@ -1,4 +1,15 @@
 <div id="charts-panel" class="projections-sidebar">
   <div class="toggle-button fa fa-bars tooltips" {{action "toggle"}}></div>
-
+  {{#if presidentChartType}}
+    <h5>Elecciones Presidenciales</h5>
+    {{ember-chart type=presidentChartType data=presidentChart width=200 height=400}}
+  {{/if}}
+  {{#if senatorsChartType}}
+    <h5>Elecciones para Senadores</h5>
+    {{ember-chart type=senatorsChartType data=senatorsChart width=200 height=400}}
+  {{/if}}
+  {{#if deputiesChartType}}
+    <h5>Elecciones para Diputados Federales</h5>
+    {{ember-chart type=deputiesChartType data=deputiesChart width=200 height=400}}
+  {{/if}}
 </div>

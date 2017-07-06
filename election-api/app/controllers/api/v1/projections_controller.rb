@@ -11,8 +11,11 @@ class Api::V1::ProjectionsController < ApplicationController
     filedata = File.read(file)
     states = JSON.parse(filedata)
 
-    
-    if params["state"].present? && params["municipality"].present?
+    if params["history"].present?
+      if params["section"].present? && params["state"].present?
+        @projections = Projection.where(section_code: params['section'], state_code: states[params["state"]])
+      end
+    elsif params["state"].present? && params["municipality"].present?
 
       state_code = states[params["state"]]
       muni_code = munis[params["municipality"]]

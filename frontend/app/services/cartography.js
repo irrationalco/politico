@@ -57,7 +57,7 @@ export default Ember.Service.extend({
 
   // Function that gets a specific municipality object by name and loads its sections
   getMunicipality: task(function * (muniName, stateCode) {
-    try { 
+    try {
       if (isEmpty(this.get('municipalities'))) { let munisData = yield this.get('loadMunicipalitiesData').perform(stateCode); }
 
       let muni = this.get('municipalities').filterBy('properties.mun_name', muniName);
@@ -69,7 +69,7 @@ export default Ember.Service.extend({
         return muni[0];
       }
     } catch(e) {
-      console.log(e);  
+      console.log(e);
     }
   }),
 
@@ -156,9 +156,9 @@ export default Ember.Service.extend({
     } finally {
       xhr.abort();
     }
-  }),  
+  }),
 
-  // Loads all sections data of municipality or a federal district | property is either: mun_code or district_code 
+  // Loads all sections data of municipality or a federal district | property is either: mun_code or district_code
   loadSectionsData: task(function * (stateCode, code, property) {
     let xhr;
     try {
@@ -193,9 +193,9 @@ export default Ember.Service.extend({
 //         });
 
 //         this.get('muniLayer').append("path")
-//         .datum(topojson.mesh(data, data.objects.municipalities, function(a, b) { 
+//         .datum(topojson.mesh(data, data.objects.municipalities, function(a, b) {
 //           if (a.properties.state_code == stateCode) {
-//             return a !== b;   
+//             return a !== b;
 //           }
 //         }))
 //         .attr("class", "mesh")
