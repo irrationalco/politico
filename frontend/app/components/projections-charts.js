@@ -47,19 +47,23 @@ export default Ember.Component.extend({
   formatChartData: task(function * (raw){
     let result = null;
     if(raw.length === 1){
+      let activeParties = this.parties.filter((x)=>raw[0].get(x)>0);
       result = {
-        labels: this.parties,
+        labels: activeParties,
         datasets: [{
           label: "Votos",
-          data: this.parties.map((x)=>raw[0].get(x)),
-          backgroundColor: this.parties.map((x)=>this.colors[x])
+          data: activeParties.map((x)=>raw[0].get(x)),
+          backgroundColor: activeParties.map((x)=>this.colors[x])
         }]
       };
     }else{
       raw = raw.sort((a,b)=>a.get('year')-b.get('year'));
+      let activeParties = this.parties.filter((party)=>
+        raw.map((x)=>x.get(party)).reduce((s,v)=>{s+v},0)!==0);
+        // !raw.map((x)=>x.get(party)).some((v)=>v===0));
       result = {
         labels: raw.map((x)=>x.get('year')),
-        datasets: this.parties.map((x)=>this.formatDataset(x,raw))
+        datasets: activeParties.map((x)=>this.formatDataset(x,raw))
       };
     }
     return result;
