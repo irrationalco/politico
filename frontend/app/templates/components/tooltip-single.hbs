@@ -1,1 +1,36 @@
-{{yield}}
+<div class="tooltip-row">
+	<h6 class="tooltip-header">Sección: {{hoveredSection.section_code}} <span class="small-text">{{totalVotes}} Total de votos</span></h6>
+</div>
+
+
+<div class="tooltip-row pct-bar-labels">
+	<p>{{firstParty.name}} {{firstParty.percentage}}%</p>
+	<p style="float: right;">Switchers: 120</p>
+</div>
+<div class="tooltip-row">
+	<div class="switcher-bar-first"></div><div class="switcher-bar-sec"></div>
+</div>
+
+<div class="tooltip-row">
+	<table class="table votes-table">
+		<thead class="votes-table-header">
+			<tr>
+				<th>PARTIDO</th>
+				<th>VOTOS</th>
+				<th>PCT. %</th>
+				<th>Switch</th>
+			</tr>
+		</thead>
+		<tbody class="votes-table-content">
+			<tr>
+				<td>
+					<span class="tooltip-color-box" style="background-color: #179ee0;"></span>
+					<span class="tooltip-party">PAN</span>
+				</td>
+				<td>{{firstParty.votes}}</td>
+				<td class="tooltip-pct">{{firstParty.percentage}} %</td>
+				<td class="tooltip-pct">15 %</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

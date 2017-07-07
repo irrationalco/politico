@@ -1,164 +1,20 @@
 <div id="tooltip-map">
 {{#if isPopulation}}
-	<div class="tooltip-row">
-		<h6 class="tooltip-header">Sección: {{hoveredSection.section_code}} <span class="small-text">{{hoveredSection.population}} Pob. total</span></h6>
-	</div>
 
-	<div class="tooltip-row">
-		<table class="table votes-table">
-			<thead class="votes-table-header">
-				<tr>
-					<th>Pob.</th>
-					<th> &lt; 30</th>
-					<th> > 30</th>
-					<th> Fem.</th>
-					<th> Masc.</th>
-				</tr>
-			</thead>
-			<tbody class="votes-table-content">
-				<tr>
-					<td>
-						<span class="tooltip-party">{{hoveredSection.population}}</span>
-					</td>
-					<td class="tooltip-pct">{{less30}}%</td>
-					<td class="tooltip-pct">{{more30}}%</td>
-					<td class="tooltip-pct">{{fem}}%</td>
-					<td class="tooltip-pct">{{masc}}%</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+	{{tooltip-population hoveredSection=hoveredSection less30=less30 more30=more3 fem=fem masc=masc}}
+	
 {{else}}
+
 	{{#if isNormal}}
-	<div class="tooltip-row">
-		<h6 class="tooltip-header">Sección: {{hoveredSection.section_code}} <span class="small-text">{{totalVotes}} Total de votos</span></h6>
-	</div>
-
-	<div class="tooltip-row">
-		<table class="table votes-table">
-			<thead class="votes-table-header">
-				<tr>
-					<th>PARTIDO</th>
-					<th>VOTOS</th>
-					<th>PCT. %</th>
-				</tr>
-			</thead>
-			<tbody class="votes-table-content">
-				<tr>
-					<td>
-						<span class="tooltip-color-box" style="{{firstPartyColor}}"></span>
-						<span class="tooltip-party">{{firstParty.name}}</span>
-					</td>
-					<td>{{firstParty.votes}}</td>
-					<td class="tooltip-pct">{{firstParty.percentage}} %</td>
-				</tr>
-
-				<tr>
-					<td>
-						<span class="tooltip-color-box" style="{{secondPartyColor}}"></span>
-						<span class="tooltip-party">{{secondParty.name}}</span>
-					</td>
-					<td>{{secondParty.votes}}</td>
-					<td class="tooltip-pct">{{secondParty.percentage}} %</td>
-				</tr>
-
-				<tr>
-					<td>
-						<span class="tooltip-color-box otros"></span>
-						<span class="tooltip-party">{{others.name}}</span>
-					</td>
-					<td>{{others.votes}}</td>
-					<td class="tooltip-pct">{{others.percentage}} %</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+		{{tooltip-normal hoveredSection=hoveredSection totalVotes=totalVotes firstPartyColor=firstPartyColor firstParty=firstParty secondPartyColor=secondPartyColor secondParty=secondParty others=others }}
 	{{/if}}
 
 	{{#if isComparison}}
-	<div class="tooltip-row">
-		<h6 class="tooltip-header">Sección: {{hoveredSection.section_code}} <span class="small-text">{{totalVotes}} Total de votos</span></h6>
-	</div>
-
-
-	<div class="tooltip-row pct-bar-labels">
-		<p>{{firstParty.name}} {{firstParty.percentage}}%</p>
-		<p style="float: right;">{{secondParty.name}} {{secondParty.percentage}}%</p>
-	</div>
-	<div class="tooltip-row">
-		<div class="pct-bar" style={{comparisonBar}}></div>
-	</div>
-
-	<div class="tooltip-row">
-		<table class="table votes-table">
-			<thead class="votes-table-header">
-				<tr>
-					<th>PARTIDO</th>
-					<th>VOTOS</th>
-					<th>PCT. %</th>
-				</tr>
-			</thead>
-			<tbody class="votes-table-content">
-				<tr>
-					<td>
-						<span class="tooltip-color-box" style="{{firstPartyColor}}"></span>
-						<span class="tooltip-party">{{firstParty.name}}</span>
-					</td>
-					<td>{{firstParty.votes}}</td>
-					<td class="tooltip-pct">{{firstParty.percentage}} %</td>
-				</tr>
-
-				<tr>
-					<td>
-						<span class="tooltip-color-box" style="{{secondPartyColor}}"></span>
-						<span class="tooltip-party">{{secondParty.name}}</span>
-					</td>
-					<td>{{secondParty.votes}}</td>
-					<td class="tooltip-pct">{{secondParty.percentage}} %</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-
+		{{tooltip-comparison hoveredSection=hoveredSection totalVotes=totalVotes firstParty=firstParty firstPartyColor=firstPartyColor secondPartyColor=secondPartyColor secondParty=secondParty comparisonBar=comparisonBar }}
 	{{/if}}
 
 	{{#if isSingle}}
-	<div class="tooltip-row">
-		<h6 class="tooltip-header">Sección: {{hoveredSection.section_code}} <span class="small-text">{{totalVotes}} Total de votos</span></h6>
-	</div>
-
-
-	<div class="tooltip-row pct-bar-labels">
-		<p>{{firstParty.name}} {{firstParty.percentage}}%</p>
-		<p style="float: right;">Switchers: 120</p>
-	</div>
-	<div class="tooltip-row">
-		<div class="switcher-bar-first"></div><div class="switcher-bar-sec"></div>
-	</div>
-
-	<div class="tooltip-row">
-		<table class="table votes-table">
-			<thead class="votes-table-header">
-				<tr>
-					<th>PARTIDO</th>
-					<th>VOTOS</th>
-					<th>PCT. %</th>
-					<th>Switch</th>
-				</tr>
-			</thead>
-			<tbody class="votes-table-content">
-				<tr>
-					<td>
-						<span class="tooltip-color-box" style="background-color: #179ee0;"></span>
-						<span class="tooltip-party">PAN</span>
-					</td>
-					<td>{{firstParty.votes}}</td>
-					<td class="tooltip-pct">{{firstParty.percentage}} %</td>
-					<td class="tooltip-pct">15 %</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+		{{tooltip-single hoveredSection=hoveredSection totalVotes=totalVotes firstParty=firstParty}}
 	{{/if}}
 
 {{/if}}
@@ -166,28 +22,7 @@
 
 	
 {{#if isPopulation}}
-<div class="map-key">
-	<div class="key-row-header">
-		<div class="key-left-label">
-			Baja Población
-		</div>
-		<span class="small-vertical-line vertical-line-left-pos"></span>
-		<div class="key-right-label">
-			Alta población
-		</div>
-		<span class="small-vertical-line vertical-line-right-pos"></span>
-	</div>
-
-	<div class="key-row">
-		<div class="key-row-label"></div>
-		<div class="colors-row">
-			<div class="color-box population-25"></div>
-			<div class="color-box population-50"></div>
-			<div class="color-box population-75"></div>
-			<div class="color-box population-100"></div>
-		</div>
-	</div>
-</div>
+	{{map-key-population}}
 {{else}}
 	{{map-key}}
 {{/if}}
