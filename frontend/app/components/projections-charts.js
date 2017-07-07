@@ -1,52 +1,25 @@
 import Ember from 'ember';
+import { task } from 'ember-concurrency';
 
 export default Ember.Component.extend({
 
   actions: {
       toggle: function(){
-          var pane = $("#charts-panel");
-          if(parseInt(pane.css("right"))===0){
-            pane.animate({right: "-250"});
-          }else{
-            pane.animate({right: "0"});
-          }
+          $("#charts-panel").animate({right: (this.isOpen?"-250":"0")},()=>this.set('isStatic', true));
+          this.set('isStatic', false);
+          this.set('isOpen', !this.isOpen);
+          this.get('loadChartData').perform();
       }
   },
-  queryData: Ember.computed('level','section','state','municipality','federalDistrict', function(){
-    if(this.get("level") === "section"){
-      return this.get('store').query('projection',{history: 1, state: this.get('state'), section: this.get('section')});
-    }
-    return null;
-  }).property(),
 
-  chartData: Ember.computed('queryData.content', function(){
-    if(!this.get('queryData') || !this.get('queryData').get('content')){
-      return null;
-    }
-    if(this.get("level") === "section"){
-      let types = ["dif", "prs", "sen"];
-      let result = [[],[],[]];
-      this.get('queryData').forEach(function(item){
-        let idx = types.indexOf(item.get('electionType'));
-        if(idx === -1){
-          types.push(item.get('electionType'));
-          result.push([item]);
-        }else{
-          result[idx].push(item);
-        }
-      });
-      return result;
-    }
-    return null;
-  }),
+  isOpen: false,
 
-  parties: Ember.computed(function(){
-    return ["PAN","PCONV","PES","PH","PMC","PMOR","PNA",
-            "PPM","PRD","PRI","PSD","PSM","PT","PVEM"];
-  }),
+  isStatic: true,
 
-  colors: Ember.computed(function(){
-    return {
+  parties: ["PAN","PCONV","PES","PH","PMC","PMOR","PNA",
+            "PPM","PRD","PRI","PSD","PSM","PT","PVEM"],
+
+  colors: {
       PRI: "#00923f",
       PAN: "#06338e",
       PCONV: "#e38129",
@@ -60,118 +33,85 @@ export default Ember.Component.extend({
       PNA: "#00a4ac",
       PSD: "#ff0b06",
       PPM: "#00adef",
-      PSM: "#f50800"};
-  }),
+      PSM: "#f50800"},
 
   formatDataset(party, raw){
-    let tmp = {label: party,
-      backgroundColor: this.get('colors')[party],
+    return {label: party,
+      backgroundColor: this.colors[party],
       fill: false,
-      borderColor: this.get('colors')[party],
+      borderColor: this.colors[party],
       data: raw.map((x)=>x.get(party)),
-      pointBackgroundColor: this.get('colors')[party]};
-      return tmp;
+      pointBackgroundColor: this.colors[party]};
   },
 
-  formatChartData(raw){
-    let result = {};
+  formatChartData: task(function * (raw){
+    let result = null;
     if(raw.length === 1){
-      result = {labels: this.get('parties'),
-                    datasets: [{
-                      label: "Votos",
-                      data: this.get('parties').map((x)=>raw[0].get(x)),
-                      backgroundColor: this.get('parties').map((x)=>this.get('colors')[x])
-                    }]};
+      result = {
+        labels: this.parties,
+        datasets: [{
+          label: "Votos",
+          data: this.parties.map((x)=>raw[0].get(x)),
+          backgroundColor: this.parties.map((x)=>this.colors[x])
+        }]
+      };
     }else{
       raw = raw.sort((a,b)=>a.get('year')-b.get('year'));
-      let years = raw.map((x)=>x.get('year'));
       result = {
-        labels: years,
-        datasets: this.get('parties').map((x)=>this.formatDataset(x,raw))
+        labels: raw.map((x)=>x.get('year')),
+        datasets: this.parties.map((x)=>this.formatDataset(x,raw))
       };
     }
     return result;
-  },
-
-  presidentChart: Ember.computed('chartData.@each', function(){
-    if(!this.get('chartData') || !this.get('chartData')[1]){
-      return null;
-    }
-    return this.formatChartData(this.get('chartData')[1]);
   }),
 
-  presidentChartType: Ember.computed('presidentChart.dataset', function(){
-    if(!this.get('presidentChart')){
-      return null;
-    }
-    if(this.get('presidentChart').datasets.length===1){
-      return "doughnut";
-    }else{
-      return "line";
-    }
+  presidentChart: null,
+
+  presidentChartType: null,
+
+  senatorsChart: null,
+
+  senatorsChartType: null,
+
+  deputiesChart: null,
+
+  deputiesChartType: null,
+
+  electionTypes: {dif: 0, prs: 1, sen: 2},
+
+  chartNames: ['deputiesChart', 'presidentChart', 'senatorsChart'],
+
+  setChart: task(function * (chartName, data) {
+    this.set(chartName ,yield this.get('formatChartData').perform(data));
+    this.set(chartName+'Type', this.get(chartName).datasets.length===1?"doughnut":"line");
   }),
 
-  senatorsChart: Ember.computed('chartData.@each', function(){
-    if(!this.get('chartData') || !this.get('chartData')[2]){
-      return null;
+  loadChartData: task(function * () {
+    if(!this.isOpen){
+      return;
     }
-    return this.formatChartData(this.get('chartData')[2]);
-  }),
-
-  senatorsChartType: Ember.computed('senatorsChart.dataset', function(){
-    if(!this.get('senatorsChart')){
-      return null;
+    let data = null;
+    if(this.get("level") === "section"){
+      let result = yield this.get('store').query('projection', {
+        history: 1,
+        state: this.get('state'),
+        section: this.get('section')
+      });
+      data = [[],[],[]];
+      result.forEach((item) => {
+        data[this.electionTypes[item.get('electionType')]].push(item);
+      });
     }
-    if(this.get('senatorsChart').datasets.length===1){
-      return "doughnut";
-    }else{
-      return "line";
+    if(!data){
+      this.chartNames.forEach((name)=> this.set(name, null));
+      return;
     }
-  }),
-
-  deputiesChart: Ember.computed('chartData.@each', function(){
-    if(!this.get('chartData') || !this.get('chartData')[0]){
-      return null;
+    let charts = this.chartNames.map((item, index) =>
+      this.get('setChart').perform(item, data[index]));
+    for(let i=0;i<charts.length;i++){
+      charts[i] = yield charts[i];
     }
-    return this.formatChartData(this.get('chartData')[0]);
-  }),
-
-  deputiesChartType: Ember.computed('deputiesChart.dataset', function(){
-    if(!this.get('deputiesChart')){
-      return null;
-    }
-    if(this.get('deputiesChart').datasets.length===1){
-      return "doughnut";
-    }else{
-      return "line";
-    }
-  }),
-    // data: Ember.computed('level','section','state','municipality', function() {
-    //   if(this.get("level") === "section"){
-    //     var section = parseInt(this.get('section'));
-    //     var sectionData = this.get('sectionData').filter(function(item){
-    //       if(item.get('sectionCode')===section){
-    //         return true;
-    //       }
-    //       return false;
-    //     });
-    //     return sectionData;
-    //     // return sectionData.map(function(item){
-    //     //   return item.get('year')
-    //     // });
-    //   }
-    //   return null;
-    // }).property(),
-
-  // sectionData: Ember.computed('hoveredSection', function() {
-  //   if (this.get('hoveredSection') !== null) {
-  //     let section = this.get('sectionsData').findBy('sectionCode', this.get('hoveredSection').section_code);
-  //     this.get('computeTopParties').perform(section);
-  //     return section;
-  //   } else {
-  //     return null;
-  //   }
-  // }),
+  }).restartable(),
 
   init() {
     this._super(...arguments);
@@ -179,6 +119,7 @@ export default Ember.Component.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
+    this.get('loadChartData').perform();
   },
 
   didUpdateAttrs() {
@@ -187,6 +128,8 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
+    let div = $("#charts-panel");
+    div.outerHeight($(window).height() - div.position().top - parseInt(div.css('margin-top')));
   }
 
 });

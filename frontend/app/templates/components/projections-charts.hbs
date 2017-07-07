@@ -1,15 +1,23 @@
 <div id="charts-panel" class="projections-sidebar">
-  <div class="toggle-button fa fa-bars tooltips" {{action "toggle"}}></div>
-  {{#if presidentChartType}}
-    <h5>Elecciones Presidenciales</h5>
-    {{ember-chart type=presidentChartType data=presidentChart width=200 height=400}}
-  {{/if}}
-  {{#if senatorsChartType}}
-    <h5>Elecciones para Senadores</h5>
-    {{ember-chart type=senatorsChartType data=senatorsChart width=200 height=400}}
-  {{/if}}
-  {{#if deputiesChartType}}
-    <h5>Elecciones para Diputados Federales</h5>
-    {{ember-chart type=deputiesChartType data=deputiesChart width=200 height=400}}
+  <div class="toggle-button fa fa-bars" {{action "toggle"}}></div>
+  {{#if isOpen}}
+    {{#if presidentChart}}
+      <h5 class="chart-title">Elecciones Presidenciales</h5>
+      {{#if isStatic}}
+        {{ember-chart type=presidentChartType data=presidentChart width=200 height=400}}
+      {{/if}}
+    {{/if}}
+    {{#if senatorsChart}}
+      <h5 class="chart-title">Elecciones para Senadores</h5>
+      {{#if isStatic}}
+        {{ember-chart type=senatorsChartType data=senatorsChart width=200 height=400}}
+      {{/if}}
+    {{/if}}
+    {{#if deputiesChart}}
+      <h5 class="chart-title">Elecciones para Diputados Federales</h5>
+      {{#if isStatic}}
+        {{ember-chart type=deputiesChartType data=deputiesChart width=200 height=400}}
+      {{/if}}
+    {{/if}}
   {{/if}}
 </div>
