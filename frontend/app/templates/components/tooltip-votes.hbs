@@ -1,7 +1,7 @@
 <div id="tooltip-map">
 {{#if isPopulation}}
 
-	{{tooltip-population hoveredSection=hoveredSection less30=less30 more30=more3 fem=fem masc=masc}}
+	{{tooltip-population hoveredSection=hoveredSection}}
 	
 {{else}}
 
@@ -10,7 +10,7 @@
 	{{/if}}
 
 	{{#if isComparison}}
-		{{tooltip-comparison hoveredSection=hoveredSection totalVotes=totalVotes firstParty=firstParty firstPartyColor=firstPartyColor secondPartyColor=secondPartyColor secondParty=secondParty comparisonBar=comparisonBar }}
+		{{tooltip-comparison comparisonBar=comparisonBar hoveredSection=hoveredSection totalVotes=totalVotes firstPartyColor=firstPartyColor firstParty=firstParty secondPartyColor=secondPartyColor secondParty=secondParty others=others }}
 	{{/if}}
 
 	{{#if isSingle}}

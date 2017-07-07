@@ -10,11 +10,6 @@ export default Ember.Component.extend({
 	thirdParty:  null,
 	others: 	 null,
 
-	more30: null,
-	less30: null,
-	masc: null,
-	fem: null,
-
 	isSingle: Ember.computed('visualization', function() {
 		if (this.get('visualization') === "single") {
 			return true;
@@ -29,37 +24,6 @@ export default Ember.Component.extend({
 		} else {
 			return false;
 		}
-	}),
-
-	calculateShit: Ember.observer('hoveredSection', function() {
-		let less30 = Math.floor(Math.random() * 100) + 1;
-		let more30 = 100 - less30;
-		let fem = Math.floor(Math.random() * 100) + 1;
-		let masc = 100 - fem;
-
-		this.set('less30', less30);
-		this.set('more30', more30);
-		this.set('fem', fem);
-		this.set('masc', masc);
-	}),
-
-	comparisonBar: Ember.computed('others', function() {
-		let fpColor = this.get('partiesManager').get('colors')[this.get('firstParty.name')];
-		let spColor = this.get('partiesManager').get('colors')[this.get('secondParty.name')];
-		let othersColor = this.get('partiesManager').get('colors')["others"];
-
-		let othersPct = this.get('others.percentage') + this.get('thirdParty.percentage');
-		let firstPart = [fpColor + " " + 0 + "%,", fpColor + " " + this.get('firstParty.percentage') + "%," ];
-
-		let movement = this.get('firstParty.percentage') + othersPct;
-
-		let secondPart = [othersColor + " " + this.get('firstParty.percentage') + "%,", 
-						  othersColor + " " + movement + "%," ];
-
-		let thirdPart = [spColor + " " + movement + "%,", 
-						  spColor + " " + 100 + "%);" ];
-		return Ember.String.htmlSafe("background: linear-gradient(to right, " + firstPart[0] + firstPart[1] 
-									+ secondPart[0] + secondPart[1] + thirdPart[0] +thirdPart[1]);
 	}),
 
 	isNormal: Ember.computed('visualization', function() {
@@ -94,6 +58,30 @@ export default Ember.Component.extend({
 	secondPartyColor: Ember.computed('secondParty', function() {
 		return Ember.String.htmlSafe("background-color: " + 
 			this.get('partiesManager').get('colors')[this.get('secondParty.name')] + ";");
+	}),
+
+	comparisonBar: Ember.computed('others', function() {
+		console.log("Computing comparison bar");
+		let fpColor = this.get('partiesManager').get('colors')[this.get('firstParty.name')];
+		let spColor = this.get('partiesManager').get('colors')[this.get('secondParty.name')];
+		let othersColor = this.get('partiesManager').get('colors')["others"];
+
+		let othersPct = this.get('others.percentage') + this.get('thirdParty.percentage');
+		let firstPart = [fpColor + " " + 0 + "%,", fpColor + " " + this.get('firstParty.percentage') + "%," ];
+
+		let movement = this.get('firstParty.percentage') + othersPct;
+
+		let secondPart = [othersColor + " " + this.get('firstParty.percentage') + "%,", 
+						  othersColor + " " + movement + "%," ];
+
+		let thirdPart = [spColor + " " + movement + "%,", 
+						  spColor + " " + 100 + "%);" ];
+
+		console.log(Ember.String.htmlSafe("background: linear-gradient(to right, " + firstPart[0] + firstPart[1] 
+									+ secondPart[0] + secondPart[1] + thirdPart[0] +thirdPart[1]));
+
+		return Ember.String.htmlSafe("background: linear-gradient(to right, " + firstPart[0] + firstPart[1] 
+									+ secondPart[0] + secondPart[1] + thirdPart[0] +thirdPart[1]);
 	}),
 	
 	computeTopParties: task(function * (section) {
