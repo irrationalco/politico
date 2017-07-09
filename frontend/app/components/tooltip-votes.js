@@ -61,7 +61,6 @@ export default Ember.Component.extend({
 	}),
 
 	comparisonBar: Ember.computed('others', function() {
-		console.log("Computing comparison bar");
 		let fpColor = this.get('partiesManager').get('colors')[this.get('firstParty.name')];
 		let spColor = this.get('partiesManager').get('colors')[this.get('secondParty.name')];
 		let othersColor = this.get('partiesManager').get('colors')["others"];
@@ -76,9 +75,6 @@ export default Ember.Component.extend({
 
 		let thirdPart = [spColor + " " + movement + "%,", 
 						  spColor + " " + 100 + "%);" ];
-
-		console.log(Ember.String.htmlSafe("background: linear-gradient(to right, " + firstPart[0] + firstPart[1] 
-									+ secondPart[0] + secondPart[1] + thirdPart[0] +thirdPart[1]));
 
 		return Ember.String.htmlSafe("background: linear-gradient(to right, " + firstPart[0] + firstPart[1] 
 									+ secondPart[0] + secondPart[1] + thirdPart[0] +thirdPart[1]);
