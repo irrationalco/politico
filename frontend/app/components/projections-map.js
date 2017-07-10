@@ -476,6 +476,7 @@ export default Ember.Component.extend({
 			.on("mouseout", function(d) {
 				emberContext.get('tooltip')
 					.style('display', 'none');
+				emberContext.set('hoveredSection', null);
 				d3.select(this).style("stroke-width", 1 / emberContext.get('transform').k);
 			});
 
