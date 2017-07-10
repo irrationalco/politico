@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
+
 const { isEmpty } = Ember;
 
 export default Ember.Component.extend({
@@ -11,36 +12,22 @@ export default Ember.Component.extend({
 	others: 	 null,
 
 	isSingle: Ember.computed('visualization', function() {
-		if (this.get('visualization') === "single") {
-			return true;
-		} else {
-			return false;
-		}
+		return this.get('visualization') === 'single';
 	}),
 
 	isComparison: Ember.computed('visualization', function() {
-		if (this.get('visualization') === "comparison") {
-			return true;
-		} else {
-			return false;
-		}
+		return this.get('visualization') === "comparison";
 	}),
 
 	isNormal: Ember.computed('visualization', function() {
-		if (this.get("visualization") === "normal") {
-			return true;
-		} else {
-			return false;
-		}
+		return this.get('visualization') === "normal";
 	}),
 
 	sectionData: Ember.computed('hoveredSection', function() {
-		if (this.get('hoveredSection') !== null) {
+		if (!isEmpty(this.get('hoveredSection')) && !isEmpty(this.get('sectionsData'))) {
 			let section = this.get('sectionsData').findBy('sectionCode', this.get('hoveredSection').section_code);
 			this.get('computeTopParties').perform(section);
 			return section;
-		} else {
-			return null;
 		}
 	}),
 
