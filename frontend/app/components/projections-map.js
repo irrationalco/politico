@@ -690,16 +690,3 @@ export default Ember.Component.extend({
 			.translate(-this.get('center')[0], -this.get('center')[1]));
 	}
 });
-
-// let randomNum = Math.floor(Math.random() * 50) + 10;
-// let PAN = Math.floor(Math.random() * 1000) + 1;
-// let PRI = Math.floor(Math.random() * 1000) + 1;
-
-
-// 	if (PAN > PRI) {
-// 		// return emberContext.get('fillBlues')(d.properties.population);
-// 		return "#21416c"
-// 	} else {
-// 		// return emberContext.get('fillReds')(d.properties.population);
-// 		return "#ad3537";
-// 	}
