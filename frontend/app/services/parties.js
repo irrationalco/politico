@@ -5,7 +5,7 @@ const { isEmpty } = Ember;
 
 export default Ember.Service.extend({
 
-  colors: { PRI: "#4cf99", PAN: "#578eff", others: "#9a999a", 
+  colors: { PRI: "#4cff99", PAN: "#578eff", others: "#9a999a", 
             PMOR: "#ff4d59", PRD: "#ffdb4e", PCONV: "#ffb97b",
             PVEM: "#c6ff86", PT: "#ff756e", PMC: "#ff8e72", PES: "#a200ff",
             PH: "#ffabdd", PNA: "#00a3cc", PSD: "#ff5653", PPM: "#4dceff", PSM:"#802926" },
