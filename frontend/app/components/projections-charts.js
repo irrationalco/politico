@@ -181,26 +181,30 @@ export default Ember.Component.extend({
     if (!this.isOpen) {
       return;
     }
-    let data = null;
-    if (this.get("level") === "section") {
-      let result = yield this.get('store').query('projection', {
-        history: 1,
-        state: this.get('state'),
-        section: this.get('section')
-      });
-      data = [
-        [],
-        [],
-        []
-      ];
-      result.forEach((item) => {
-        data[this.electionTypes[item.get('electionType')]].push(item);
-      });
+    let resultLevel = this.get('level');
+    if(resultLevel === 'municipality' && this.get('mapDivision') === 'federal'){
+      resultLevel = 'district';
     }
-    if (!data) {
+    let result = yield this.get('store').query('projection', {
+        history: 1,
+        section: this.get('section'),
+        municipality: this.get('municipality'),
+        federalDistrict: this.get('federalDistrict'),
+        state: this.get('state'),
+        level: resultLevel
+      });
+    if (!result) {
       this.chartNames.forEach((name) => this.set(name, null));
       return;
     }
+    let data = [
+      [],
+      [],
+      []
+    ];
+    result.forEach((item) => {
+      data[this.electionTypes[item.get('electionType')]].push(item);
+    });
     let charts = this.chartNames.map((item, index) =>
       this.get('setChart').perform(item, data[index]));
     for (let i = 0; i < charts.length; i++) {
