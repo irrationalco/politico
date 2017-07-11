@@ -67,6 +67,19 @@ export default Ember.Component.extend({
       }, 0);
   },
 
+  formatOther(parties, raw) {
+    return {
+      label: "Otros",
+      backgroundColor: '#4d4d4d',
+      fill: false,
+      borderColor: '#4d4d4d',
+      data: raw.map((x) => parties.reduce((s, v) => {
+        return s + x.get(v)
+      }, 0)),
+      pointBackgroundColor: '#4d4d4d'
+    };
+  },
+
   filterPartiesDoughnut(raw) {
     let total = this.parties.reduce((s, v) => {
       return s + raw[0].get(v)
@@ -128,7 +141,7 @@ export default Ember.Component.extend({
     if (raw.length === 1) {
       let parties = this.filterPartiesDoughnut(raw);
       result = {
-        labels: parties.active.concat('otros'),
+        labels: parties.active.concat('Otros'),
         datasets: [{
           label: "Votos",
           data: parties.active.map((x) => raw[0].get(x)).concat(parties.other),
@@ -141,6 +154,7 @@ export default Ember.Component.extend({
       result = {
         labels: raw.map((x) => x.get('year')),
         datasets: parties.active.map((x) => this.formatDataset(x, raw))
+                                            .concat(this.formatOther(parties.other, raw))
       };
     }
     return result;
