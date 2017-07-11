@@ -154,7 +154,7 @@ export default Ember.Component.extend({
       result = {
         labels: raw.map((x) => x.get('year')),
         datasets: parties.active.map((x) => this.formatDataset(x, raw))
-                                            .concat(this.formatOther(parties.other, raw))
+          .concat(this.formatOther(parties.other, raw))
       };
     }
     return result;
@@ -182,17 +182,17 @@ export default Ember.Component.extend({
       return;
     }
     let resultLevel = this.get('level');
-    if(resultLevel === 'municipality' && this.get('mapDivision') === 'federal'){
+    if (resultLevel === 'municipality' && this.get('mapDivision') === 'federal') {
       resultLevel = 'district';
     }
     let result = yield this.get('store').query('projection', {
-        history: 1,
-        section: this.get('section'),
-        municipality: this.get('municipality'),
-        federalDistrict: this.get('federalDistrict'),
-        state: this.get('state'),
-        level: resultLevel
-      });
+      history: 1,
+      section: this.get('section'),
+      municipality: this.get('municipality'),
+      federalDistrict: this.get('federalDistrict'),
+      state: this.get('state'),
+      level: resultLevel
+    });
     if (!result) {
       this.chartNames.forEach((name) => this.set(name, null));
       return;
