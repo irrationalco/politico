@@ -30,6 +30,7 @@
     cursor: pointer
   .chart-title
     text-align: center
+    font-weight: 600
 
 .projections-container
   position: relative
@@ -43,11 +44,17 @@
   padding: 0
 
 .map-link
-  padding: 0 0 0 15px
+  padding: 0
   display: inline
-  font-size: 18px
+  font-size: 14px
   color: $darkblue
   cursor: pointer
+
+.map-link:first-child
+  padding: 0 0 0 15px
+
+.map-link:last-child
+  font-weight: 600
 
 .searchbar
   width: 93%

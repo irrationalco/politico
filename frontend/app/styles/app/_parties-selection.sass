@@ -18,9 +18,16 @@
 		cursor: pointer !important
 		margin: 0 !important
 		background: $aqua !important
-		// border: 1px solid #74d0d6 !important
-		color: #ffffff !important
+		color: $white !important
 		padding: 6px 8px !important
+		box-shadow: none !important
+		text-shadow: none !important
+
+.selectize-input:after
+	border-color: $white transparent transparent transparent !important
+
+.dropdown-active:after
+	border-color: transparent transparent $white transparent !important
 
 .selectize-control.multi .selectize-input
 	div
@@ -43,13 +50,8 @@
 		padding: 0px !important
 		width: 100% !important
 
-#select-party
-	input
-		display: initial !important
-		padding: 6px 8px !important
-
-.option
-	font-size: 10px !important
+.selectize-control.multi .selectize-input.has-items
+	cursor: initial !important
 
 .active
 	background-color: $mediumgray !important
@@ -57,3 +59,25 @@
 
 .input-active
 	cursor: pointer !important
+
+.option
+	font-size: 10px !important
+
+.remove
+	font-size: 10px !important
+	padding: 4px 0 0 0 !important
+
+// Sowwy
+
+#select-party
+	input
+		display: initial !important
+		padding: 6px 8px !important
+
+#select-party .input-active
+	cursor: initial !important
+
+#select-party .selectize-input
+	input
+		background-color: $white !important
+		border-radius: 4px !important
