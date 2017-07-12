@@ -24,7 +24,8 @@ def delete_dbs(*class_names)
   end
 end
 
-delete_dbs(State, Municipality, Projection, Organization, Poll, Section)
+
+# delete_dbs(State, Municipality, Projection, Organization, Poll, Section)
 
 # Creando estados y municipios
 muni_ids = CSV.read("tbl_ids.csv")

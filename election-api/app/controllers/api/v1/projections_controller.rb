@@ -3,6 +3,8 @@ class Api::V1::ProjectionsController < ApplicationController
 
   # GET /projections
   def index
+    ############################################################################
+    # Borrar esta parte cuando ya no la necesites, tambien borrar esos archivos
     file = File.join(Rails.root, 'muniCodes.json')
     filedata = File.read(file)
     munis = JSON.parse(filedata)
@@ -10,6 +12,7 @@ class Api::V1::ProjectionsController < ApplicationController
     file = File.join(Rails.root, 'stateCodes.json')
     filedata = File.read(file)
     states = JSON.parse(filedata)
+    ##############################################################################
 
     if params["history"].present?
       @projections = get_history(params['section'],
@@ -20,18 +23,12 @@ class Api::V1::ProjectionsController < ApplicationController
                                 states, munis).map.with_index {|p, i| p[:id] = i
                                                                       p}
     elsif needed_params_present?("state", "municipality")
-
-      state_code = states[params["state"]]
-      muni_code = munis[params["municipality"]]
-
-      @projections = Projection.all
-      @projections = @projections.municipal(state_code, muni_code)
+      state = State.find_state_by_name(params["state"])
+      muni = State.find_state_municipality(params["municipality"], state)
+      @projections = Projection.all.municipal(state.state_code, muni.muni_code)
     elsif needed_params_present?("state", "federalDistrict")
-
-      state_code = states[params["state"]]
-
-      @projections = Projection.all
-      @projections = @projections.distrital(state_code, params["federalDistrict"])
+      state = State.find_state_by_name(params["state"])
+      @projections = Projection.all.distrital(state.state_code, params["federalDistrict"])
     end
 
     if @projections.present?
@@ -40,6 +37,8 @@ class Api::V1::ProjectionsController < ApplicationController
       @projections = Projection.where(id: 1)
       render json: @projections
     end
+  rescue State::DataNotFound => e
+    puts e.message
   end
 
   # GET /projections/1
