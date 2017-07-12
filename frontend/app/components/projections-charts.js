@@ -20,26 +20,7 @@ export default Ember.Component.extend({
 
   isStatic: true,
 
-  parties: ["PAN", "PCONV", "PES", "PH", "PMC", "PMOR", "PNA",
-    "PPM", "PRD", "PRI", "PSD", "PSM", "PT", "PVEM"
-  ],
-
-  colors: {
-    PRI: "#00923f",
-    PAN: "#06338e",
-    PCONV: "#e38129",
-    PMOR: "#93000a",
-    PRD: "#ffcb01",
-    PVEM: "#95c065",
-    PT: "#da251d",
-    PMC: "#f04c23",
-    PES: "#490073",
-    PH: "#9f3b77",
-    PNA: "#00a4ac",
-    PSD: "#ff0b06",
-    PPM: "#00adef",
-    PSM: "#f50800"
-  },
+  partiesManager: Ember.inject.service("parties"),
 
   electionTypes: {
     dif: 0,
@@ -52,16 +33,16 @@ export default Ember.Component.extend({
   formatDataset(party, raw) {
     return {
       label: party,
-      backgroundColor: this.colors[party],
+      backgroundColor: this.get('partiesManager').colors[party],
       fill: false,
-      borderColor: this.colors[party],
+      borderColor: this.get('partiesManager').colors[party],
       data: raw.map((x) => x.get(party)),
-      pointBackgroundColor: this.colors[party]
+      pointBackgroundColor: this.get('partiesManager').colors[party]
     };
   },
 
   getOther(activeParties) {
-    return this.parties.filter((x) => activeParties.indexOf(x) === -1)
+    return this.get('partiesManager').parties.filter((x) => activeParties.indexOf(x) === -1)
       .reduce((s, v) => {
         return s + raw[0].get(v)
       }, 0);
@@ -70,22 +51,22 @@ export default Ember.Component.extend({
   formatOther(parties, raw) {
     return {
       label: "Otros",
-      backgroundColor: '#4d4d4d',
+      backgroundColor: this.get('partiesManager').colors['others'],
       fill: false,
-      borderColor: '#4d4d4d',
+      borderColor: this.get('partiesManager').colors['others'],
       data: raw.map((x) => parties.reduce((s, v) => {
         return s + x.get(v)
       }, 0)),
-      pointBackgroundColor: '#4d4d4d'
+      pointBackgroundColor: this.get('partiesManager').colors['others']
     };
   },
 
   filterPartiesDoughnut(raw) {
-    let total = this.parties.reduce((s, v) => {
+    let total = this.get('partiesManager').parties.reduce((s, v) => {
       return s + raw[0].get(v)
     }, 0);
     let minVal = total * 0.05;
-    let activeParties = this.parties.filter((x) => raw[0].get(x) >= minVal);
+    let activeParties = this.get('partiesManager').parties.filter((x) => raw[0].get(x) >= minVal);
     activeParties.sort((a, b) => raw[0].get(b) - raw[0].get(a));
     minVal = total * 0.95;
     activeParties = activeParties.filter((x) => {
@@ -95,7 +76,7 @@ export default Ember.Component.extend({
     });
     return {
       active: activeParties,
-      other: this.parties.filter((x) => activeParties.indexOf(x) === -1)
+      other: this.get('partiesManager').parties.filter((x) => activeParties.indexOf(x) === -1)
         .reduce((s, v) => {
           return s + raw[0].get(v)
         }, 0)
@@ -103,22 +84,22 @@ export default Ember.Component.extend({
   },
 
   filterPartiesLine(raw) {
-    // let activeParties = this.parties.filter((party)=>
+    // let activeParties = this.get('partiesManager').parties.filter((party)=>
     //   raw.map((x)=>x.get(party)).reduce((s,v)=>{s+v},0)!==0);
     //   !raw.map((x)=>x.get(party)).some((v)=>v===0));
-    let ratios = this.parties.map((s) => 0);
+    let ratios = this.get('partiesManager').parties.map((s) => 0);
     raw.forEach((year, idx) => {
-      let total = this.parties.reduce((s, v) => {
+      let total = this.get('partiesManager').parties.reduce((s, v) => {
         return s + year.get(v)
       }, 0);
-      this.parties.forEach((party, index) => ratios[index] += year.get(party) / total * (idx + 1));
+      this.get('partiesManager').parties.forEach((party, index) => ratios[index] += year.get(party) / total * (idx + 1));
     });
     let total = ratios.reduce((s, v) => {
       return s + v
     }, 0);
     ratios = ratios.map((x, idx) => {
       return {
-        party: this.parties[idx],
+        party: this.get('partiesManager').parties[idx],
         ratio: x / total
       };
     });
@@ -132,7 +113,7 @@ export default Ember.Component.extend({
     }).map((x) => x.party);
     return {
       active: activeParties,
-      other: this.parties.filter((x) => activeParties.indexOf(x) === -1)
+      other: this.get('partiesManager').parties.filter((x) => activeParties.indexOf(x) === -1)
     };
   },
 
@@ -145,7 +126,7 @@ export default Ember.Component.extend({
         datasets: [{
           label: "Votos",
           data: parties.active.map((x) => raw[0].get(x)).concat(parties.other),
-          backgroundColor: parties.active.map((x) => this.colors[x]).concat('#4d4d4d')
+          backgroundColor: parties.active.map((x) => this.get('partiesManager').colors[x]).concat(this.get('partiesManager').colors['others'])
         }]
       };
     } else {
@@ -218,6 +199,7 @@ export default Ember.Component.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
+    //todo maybe check to make sure something has actually changed
     this.get('loadChartData').perform();
   },
 
