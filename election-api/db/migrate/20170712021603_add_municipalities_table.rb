@@ -3,6 +3,7 @@ class AddMunicipalitiesTable < ActiveRecord::Migration[5.0]
     create_table :municipalities do |t|
       t.string  :name
       t.integer :muni_code
+      t.integer :state_code
 
       t.timestamps
 

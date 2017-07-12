@@ -3,8 +3,9 @@ class Api::V1::ProjectionsController < ApplicationController
 
   # GET /projections
   def index
-    ############################################################################
-    # Borrar esta parte cuando ya no la necesites, tambien borrar esos archivos
+    #############################################################################
+    # Borrar esta parte cuando ya no la necesites, tambien eliminar esos archivos
+    #############################################################################
     file = File.join(Rails.root, 'muniCodes.json')
     filedata = File.read(file)
     munis = JSON.parse(filedata)
@@ -24,7 +25,7 @@ class Api::V1::ProjectionsController < ApplicationController
                                                                       p}
     elsif needed_params_present?("state", "municipality")
       state = State.find_state_by_name(params["state"])
-      muni = State.find_state_municipality(params["municipality"], state)
+      muni = state.find_state_municipality(params["municipality"])
       @projections = Projection.all.municipal(state.state_code, muni.muni_code)
     elsif needed_params_present?("state", "federalDistrict")
       state = State.find_state_by_name(params["state"])

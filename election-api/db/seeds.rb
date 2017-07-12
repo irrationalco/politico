@@ -25,14 +25,13 @@ def delete_dbs(*class_names)
 end
 
 
-# delete_dbs(State, Municipality, Projection, Organization, Poll, Section)
+delete_dbs(State, Municipality, Projection, Organization, Poll, Section)
 
 # Creando estados y municipios
 muni_ids = CSV.read("tbl_ids.csv")
 muni_ids.shift
 
 muni_ids.each do |row|
-
   row[1] = "Veracruz de Ignacio de la Llave" if row[1] == "Veracruz"
   row[1] = "Michoacán de Ocampo" if row[1] == "Michoacán"
 
@@ -40,11 +39,18 @@ muni_ids.each do |row|
     a_state.state_code = row[0]
   end
 
-  muni = Municipality.find_or_create_by(name: row[3]) do |a_muni|
-    a_muni.muni_code = row[2]
+  muni = Municipality.where(name: row[3]).take
+  if muni == nil
+    muni = Municipality.create({ name: row[3], muni_code: row[2], state_code: row[0] })
+  else
+    if muni.state_code != state.state_code
+      muni = Municipality.create({ name: row[3], muni_code: row[2], state_code: row[0] })
+    else
+      muni = nil
+    end
   end
 
-  unless state.municipalities.exists?(id: muni.id)
+  unless muni == nil && state.municipalities.exists?(id: muni.id)
     state.municipalities << muni
   end
 end
@@ -89,15 +95,15 @@ ine_data.each do |row|
                     PRI: pri, PSD: psd, PSM: psm, PT: pt, PVEM: pvem, total_votes: total)
 end
 
-# Creando algunos polls y sections de prueba para las encuestas
-poll = Poll.create(name: "Primer Encuesta", total_sections: 5)
-poll2 = Poll.create(name: "Segunda Encuesta", total_sections: 4)
+# # Creando algunos polls y sections de prueba para las encuestas
+# poll = Poll.create(name: "Primer Encuesta", total_sections: 5)
+# poll2 = Poll.create(name: "Segunda Encuesta", total_sections: 4)
 
-section1 = Section.create(title: "¿Cómo te sientes sobre...?", poll: poll)
-section2 = Section.create(title: "¿Si hoy tuvieras que votar por el presidente, qué tan probable sería que eligieras a...?", poll: poll)
-section3 = Section.create(title: "¿Si hoy tuvieras que votar por Alcalde de Monterrey, qué tan probable sería que eligieras a...?", poll: poll)
-section4 = Section.create(title: "¿Cómo crees que sea su caracter como persona?", poll: poll)
-section5 = Section.create(title: "Un poco sobre ti: ", poll: poll)
+# section1 = Section.create(title: "¿Cómo te sientes sobre...?", poll: poll)
+# section2 = Section.create(title: "¿Si hoy tuvieras que votar por el presidente, qué tan probable sería que eligieras a...?", poll: poll)
+# section3 = Section.create(title: "¿Si hoy tuvieras que votar por Alcalde de Monterrey, qué tan probable sería que eligieras a...?", poll: poll)
+# section4 = Section.create(title: "¿Cómo crees que sea su caracter como persona?", poll: poll)
+# section5 = Section.create(title: "Un poco sobre ti: ", poll: poll)
 
 # tbl_ine.csv SCHEMA
 #  0      1          2          3          4            5          6            7          8       9

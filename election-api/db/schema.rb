@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20170712021603) do
   create_table "municipalities", force: :cascade do |t|
     t.string   "name"
     t.integer  "muni_code"
+    t.integer  "state_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "state_id"
