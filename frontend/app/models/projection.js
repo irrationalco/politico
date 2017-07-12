@@ -9,7 +9,6 @@ export default DS.Model.extend({
 	electionType: DS.attr('string'),
 	totalVotes: 	DS.attr('number'),
 	nominalList: 	DS.attr('number'),
-
 	PAN: 	 DS.attr('number'),
 	PCONV: DS.attr('number'),
 	PES: 	 DS.attr('number'),

@@ -1,0 +1,23 @@
+<div id="charts-panel" class="projections-sidebar">
+  <div class="toggle-button fa fa-bars" {{action "toggle"}}></div>
+  {{#if isOpen}}
+    {{#if presidentChart}}
+      <h5 class="chart-title">Elecciones Presidenciales</h5>
+      {{#if isStatic}}
+        {{ember-chart type=presidentChartType data=presidentChart width=200 height=350}}
+      {{/if}}
+    {{/if}}
+    {{#if senatorsChart}}
+      <h5 class="chart-title">Elecciones para Senadores</h5>
+      {{#if isStatic}}
+        {{ember-chart type=senatorsChartType data=senatorsChart width=200 height=350}}
+      {{/if}}
+    {{/if}}
+    {{#if deputiesChart}}
+      <h5 class="chart-title">Elecciones para Diputados Federales</h5>
+      {{#if isStatic}}
+        {{ember-chart type=deputiesChartType data=deputiesChart width=200 height=350}}
+      {{/if}}
+    {{/if}}
+  {{/if}}
+</div>
