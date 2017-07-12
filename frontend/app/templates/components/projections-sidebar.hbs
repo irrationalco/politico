@@ -1,29 +1,29 @@
 <div class="projections-sidebar">
 	<div class="sidebar-buttons-box">
-		<p class="sidebar-text-title">Division estatal por:</p>
+		<p class="sidebar-text-title">Región</p>
 		<p class="sidebar-text-left {{if isMunicipal "sidebar-selected"}}" {{action 'setMapDivision' "municipal"}}>Municipios</p>
 		<p class="sidebar-text-right {{if isFederal "sidebar-selected"}}" {{action 'setMapDivision' "federal"}}>Distritos</p>
 	</div>
 	
 	<div class="sidebar-buttons-box">
-		<p class="sidebar-text-title">Datos:</p>
+		<p class="sidebar-text-title">Datos</p>
 		<p class="sidebar-text-left {{if isVotes "sidebar-selected"}}" {{action 'setDataType' "votes"}}>Electorales</p>
 		<p class="sidebar-text-right {{if isPopulation "sidebar-selected"}}" {{action 'setDataType' "population"}}>Poblacionales</p>
 	</div>
 
 	<div class="sidebar-buttons-box">
-		<p class="sidebar-text-title">Eleccion:</p>
+		<p class="sidebar-text-title">Elección</p>
 		<p class="sidebar-text-left {{if isVotes "sidebar-selected"}}" {{action 'setDataType' "votes"}}>Presidente</p>
 		<p class="sidebar-text-right {{if isPopulation "sidebar-selected"}}" {{action 'setDataType' "population"}}>Dip. Fed</p>
 	</div>
 
 	<div class="sidebar-buttons-box election-selection">
-		<p class="sidebar-text-title">Elección:</p>
+		<p class="sidebar-text-title">Elección</p>
 		{{ember-selectize open=true content=elections optionValuePath="content.key" optionLabelPath="content.name" selection=selectedElection select-item="addElection"}}
 	</div>
 	
 	{{!-- <div class="sidebar-projections">
-		<p class="sidebar-text-title no-margin">Proyecciones:</p>
+		<p class="sidebar-text-title no-margin">Proyecciones</p>
 		<div class="sidebar-timeline">
 			<div class="timeline-item" date-is='Marzo - 2017'>
 			</div>

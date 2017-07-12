@@ -1,13 +1,16 @@
 // Import fonts
-@import url(http://fonts.googleapis.com/css?family=Ruda:400,700,900)
+// @import url(http://fonts.googleapis.com/css?family=Ruda:300,700,900)
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700,900)
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,900)
 
 body
-  color: #797979
+  color: $mediumblue
   background: $white
-  font-family: 'Ruda', sans-serif
+  font-family: 'Lato'
+  font-weight: 300
   padding: 0px !important
   margin: 0px !important
-  font-size: 13px
+  font-size: 12px
 
 ul li
   list-style: none
@@ -89,7 +92,7 @@ ul.top-menu > li > .logout
   width: $sidebar-width
   height: 100%
   position: fixed
-  background: #424a5d
+  background: $darkblue
   h5
     color: #f2f2f2
     font-weight: 700
@@ -131,16 +134,17 @@ ul.sidebar-menu
     display: block
 
 ul.sidebar-menu li
-  margin-bottom: 5px
-  margin-left: 10px
-  margin-right: 10px
+  // margin-bottom: 5px
+  // margin-left: 10px
+  // margin-right: 10px
+  margin: 0
   &.sub-menu
     line-height: 15px
     text-align: center
   a
     span
       display: inline-block
-    color: #aeb2b7
+    color: #687b8f
     text-decoration: none
     display: block
     padding: 15px 0 15px 0px
@@ -152,7 +156,7 @@ ul.sidebar-menu li
     -ms-transition: all 0.3s ease
     transition: all 0.3s ease
     &.active, &:hover, &:focus
-      background: #636f8c
+      background: transparent !important
       color: #fff
       display: block
       -webkit-transition: all 0.3s ease
@@ -190,7 +194,7 @@ ul.sidebar-menu li
   z-index: 1002
 
 .black-bg
-  background: #ffd777
+  background: $darkblue
   
 
 .wrapper
@@ -205,13 +209,14 @@ ul.sidebar-menu li
 
 // Logo
 a.logo
+  font-family: 'Open Sans'
   font-size: 20px
   color: #ffffff
   float: left
   margin-top: 15px
-  text-transform: uppercase
+  // text-transform: uppercase
   b
-    font-weight: 900
+    font-weight: 500 !important
   &:hover, &:focus
     text-decoration: none
     outline: none
@@ -225,9 +230,10 @@ a.logo
   padding-right: 15px
   margin-top: 20px
   .fa-bars
+    color: $white
     cursor: pointer
     display: inline-block
-    font-size: 20px
+    font-size: 16px
 
 // .sidebar-closed
 //   > #sidebar > ul
