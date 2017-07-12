@@ -317,9 +317,13 @@ export default Ember.Component.extend({
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
 
-					let parties = emberContext.get('partiesManager').computeComparison(s);
-					let color = emberContext.get('partiesManager').getComparisonColor(parties, s);
-					return color["hex"];
+					if (isEmpty(s)) {
+						return "transparent";
+					} else {
+						let parties = emberContext.get('partiesManager').computeComparison(s);
+						let color = emberContext.get('partiesManager').getComparisonColor(parties, s);
+						return color["hex"];
+					}
 
 				} else {
 					return emberContext.get('fillPopulation')(d.properties.population);
@@ -331,9 +335,13 @@ export default Ember.Component.extend({
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
 
-					let parties = emberContext.get('partiesManager').computeComparison(s);
-					let color = emberContext.get('partiesManager').getComparisonColor(parties, s);
-					return color["hex"];
+					if (isEmpty(s)) {
+						return "transparent";
+					} else {
+						let parties = emberContext.get('partiesManager').computeComparison(s);
+						let color = emberContext.get('partiesManager').getComparisonColor(parties, s);
+						return color["hex"];
+					}
 
 					// if (color["isGradient"]) {
 					// 	d3.select(this).style("stroke-width", 3 / emberContext.get('transform').k + " !important");
@@ -381,11 +389,14 @@ export default Ember.Component.extend({
 			.style("fill", function(d) {
 
 				if (emberContext.get('dataType') === 'votes') {
-
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
 
-					return emberContext.get('partiesManager').getColor(s);
+					if (isEmpty(s)) {
+						return "transparent";
+					} else {
+						return emberContext.get('partiesManager').getColor(s);
+					}
 
 				} else {
 					return emberContext.get('fillPopulation')(d.properties.population);
@@ -398,7 +409,11 @@ export default Ember.Component.extend({
 					let s = emberContext.get('sectionsData')
 							.findBy('sectionCode', d.properties.section_code);
 
-					return emberContext.get('partiesManager').getColor(s);
+					if (isEmpty(s)) {
+						return "transparent";
+					} else {
+						return emberContext.get('partiesManager').getColor(s);
+					}
 
 				} else {
 					return emberContext.get('fillPopulation')(d.properties.population);
@@ -461,6 +476,7 @@ export default Ember.Component.extend({
 			.on("mouseout", function(d) {
 				emberContext.get('tooltip')
 					.style('display', 'none');
+				emberContext.set('hoveredSection', null);
 				d3.select(this).style("stroke-width", 1 / emberContext.get('transform').k);
 			});
 
@@ -674,16 +690,3 @@ export default Ember.Component.extend({
 			.translate(-this.get('center')[0], -this.get('center')[1]));
 	}
 });
-
-// let randomNum = Math.floor(Math.random() * 50) + 10;
-// let PAN = Math.floor(Math.random() * 1000) + 1;
-// let PRI = Math.floor(Math.random() * 1000) + 1;
-
-
-// 	if (PAN > PRI) {
-// 		// return emberContext.get('fillBlues')(d.properties.population);
-// 		return "#21416c"
-// 	} else {
-// 		// return emberContext.get('fillReds')(d.properties.population);
-// 		return "#ad3537";
-// 	}

@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
+
 const { isEmpty } = Ember;
 
 export default Ember.Component.extend({
@@ -10,37 +11,40 @@ export default Ember.Component.extend({
 	thirdParty:  null,
 	others: 	 null,
 
-	more30: null,
-	less30: null,
-	masc: null,
-	fem: null,
-
 	isSingle: Ember.computed('visualization', function() {
-		if (this.get('visualization') === "single") {
-			return true;
-		} else {
-			return false;
-		}
+		return this.get('visualization') === 'single';
 	}),
 
 	isComparison: Ember.computed('visualization', function() {
-		if (this.get('visualization') === "comparison") {
-			return true;
-		} else {
-			return false;
+		return this.get('visualization') === "comparison";
+	}),
+
+	isNormal: Ember.computed('visualization', function() {
+		return this.get('visualization') === "normal";
+	}),
+
+	sectionData: Ember.computed('hoveredSection', function() {
+		if (!isEmpty(this.get('hoveredSection')) && !isEmpty(this.get('sectionsData'))) {
+			let section = this.get('sectionsData').findBy('sectionCode', this.get('hoveredSection').section_code);
+			this.get('computeTopParties').perform(section);
+			return section;
 		}
 	}),
 
-	calculateShit: Ember.observer('hoveredSection', function() {
-		let less30 = Math.floor(Math.random() * 100) + 1;
-		let more30 = 100 - less30;
-		let fem = Math.floor(Math.random() * 100) + 1;
-		let masc = 100 - fem;
+	totalVotes: Ember.computed('sectionData', function() {
+		if (!isEmpty(this.get('sectionData'))) {
+			return this.get('sectionData').get('totalVotes');
+		}
+	}),
 
-		this.set('less30', less30);
-		this.set('more30', more30);
-		this.set('fem', fem);
-		this.set('masc', masc);
+	firstPartyColor: Ember.computed('firstParty', function() {
+		return Ember.String.htmlSafe("background-color: " + 
+			this.get('partiesManager').get('colors')[this.get('firstParty.name')] + ";");
+	}),
+
+	secondPartyColor: Ember.computed('secondParty', function() {
+		return Ember.String.htmlSafe("background-color: " + 
+			this.get('partiesManager').get('colors')[this.get('secondParty.name')] + ";");
 	}),
 
 	comparisonBar: Ember.computed('others', function() {
@@ -58,42 +62,9 @@ export default Ember.Component.extend({
 
 		let thirdPart = [spColor + " " + movement + "%,", 
 						  spColor + " " + 100 + "%);" ];
+
 		return Ember.String.htmlSafe("background: linear-gradient(to right, " + firstPart[0] + firstPart[1] 
 									+ secondPart[0] + secondPart[1] + thirdPart[0] +thirdPart[1]);
-	}),
-
-	isNormal: Ember.computed('visualization', function() {
-		if (this.get("visualization") === "normal") {
-			return true;
-		} else {
-			return false;
-		}
-	}),
-
-	sectionData: Ember.computed('hoveredSection', function() {
-		if (this.get('hoveredSection') !== null) {
-			let section = this.get('sectionsData').findBy('sectionCode', this.get('hoveredSection').section_code);
-			this.get('computeTopParties').perform(section);
-			return section;
-		} else {
-			return null;
-		}
-	}),
-
-	totalVotes: Ember.computed('sectionData', function() {
-		if (this.get('sectionData') !== null) {
-			return this.get('sectionData').get('totalVotes');
-		}
-	}),
-
-	firstPartyColor: Ember.computed('firstParty', function() {
-		return Ember.String.htmlSafe("background-color: " + 
-			this.get('partiesManager').get('colors')[this.get('firstParty.name')] + ";");
-	}),
-
-	secondPartyColor: Ember.computed('secondParty', function() {
-		return Ember.String.htmlSafe("background-color: " + 
-			this.get('partiesManager').get('colors')[this.get('secondParty.name')] + ";");
 	}),
 	
 	computeTopParties: task(function * (section) {
@@ -102,6 +73,7 @@ export default Ember.Component.extend({
 		let totalVotesParties = 0;
 		let parties = this.get('partiesManager').get('parties');
 		let totalVotes = section.get('totalVotes');
+		
 		let pct;
 
 		let firstParty = { name: null, votes: null, percentage: null };

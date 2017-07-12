@@ -7,7 +7,7 @@ export default Ember.Controller.extend({
 	partiesManager: Ember.inject.service('parties'),
 
 	queryParams: ['state', 'municipality', 'section', 'federalDistrict', 'mapDivision',
-				  'dataType', 'parties'],
+				  'dataType', 'parties', 'election', 'year'],
 
 	state: "",
 	municipality: "",
@@ -15,6 +15,8 @@ export default Ember.Controller.extend({
 	federalDistrict: "",
 	mapDivision: "municipal",
 	dataType: "votes",
+	election: "prs",
+	year: 2012,
 
 	visualization: "normal",
 
@@ -128,6 +130,11 @@ export default Ember.Controller.extend({
 		setDataType(type) {
 			this.set('dataType', type);
 			this.set('section', "");
+		},
+
+		setElection(electionType, year) {
+			this.set('election', electionType);
+			this.set('year', year);
 		},
 
 		setHoveredSection(sec) {

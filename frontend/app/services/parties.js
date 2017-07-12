@@ -6,11 +6,14 @@ const { isEmpty } = Ember;
 export default Ember.Service.extend({
 
   colors: { PRI: "#b71c1c", PAN: "#377eb8", others: "#5a9658", 
-            Morena: "#ff7f00", PRD: "#ffff33"},
+            PMOR: "#ff7f00", PRD: "#ffcb01", PCONV: "#e38129",
+            PVEM: "#95c065", PT: "#da251d", PMC: "#f04c23", PES: "#490073",
+            PH: "#9f3b77", PNA: "#00a4ac", PSD: "#ff0b06", PPM: "#00adef", PSM:"#f50800" },
 
-  parties: ["PRI", "PAN","PRD", "Morena"],
+  parties: ["PAN", "PCONV", "PES", "PH", "PMC", "PMOR", "PNA",
+            "PPM", "PRD", "PRI", "PSD", "PSM", "PT", "PVEM"],
 
-  selectedParties: ["PRI", "PAN", "PRD", "Morena"],
+  selectedParties: ["PRI", "PAN", "PRD", "PMOR"],
 
   getMaxParty(parties, section) {
     let max = null;
@@ -53,6 +56,10 @@ export default Ember.Service.extend({
     } else {
       return sP;
     }
+  },
+
+  setSelectedParties(selectedParties) {
+    this.set('selectedParties', selectedParties);
   },
 
   getGradientColor(color1, color2) {
