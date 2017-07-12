@@ -11,12 +11,6 @@
 		<p class="sidebar-text-right {{if isPopulation "sidebar-selected"}}" {{action 'setDataType' "population"}}>Poblacionales</p>
 	</div>
 
-	<div class="sidebar-buttons-box">
-		<p class="sidebar-text-title">Eleccion:</p>
-		<p class="sidebar-text-left {{if isVotes "sidebar-selected"}}" {{action 'setDataType' "votes"}}>Presidente</p>
-		<p class="sidebar-text-right {{if isPopulation "sidebar-selected"}}" {{action 'setDataType' "population"}}>Dip. Fed</p>
-	</div>
-
 	<div class="sidebar-buttons-box election-selection">
 		<p class="sidebar-text-title">Elección:</p>
 		{{ember-selectize open=true content=elections optionValuePath="content.key" optionLabelPath="content.name" selection=selectedElection select-item="addElection"}}

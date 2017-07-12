@@ -12,21 +12,21 @@ class Api::V1::ProjectionsController < ApplicationController
     states = JSON.parse(filedata)
 
     if params["history"].present?
-      @projections = getHistory(params['section'],
+      @projections = get_history(params['section'],
                                 params["municipality"],
                                 params["state"],
                                 params["federalDistrict"],
                                 params['level'],
                                 states, munis).map.with_index {|p, i| p[:id] = i
                                                                       p}
-    elsif params["state"].present? && params["municipality"].present?
+    elsif needed_params_present?("state", "municipality")
 
       state_code = states[params["state"]]
       muni_code = munis[params["municipality"]]
 
       @projections = Projection.all
       @projections = @projections.municipal(state_code, muni_code)
-    elsif params["state"].present? && params["federalDistrict"].present?
+    elsif needed_params_present?("state", "federalDistrict")
 
       state_code = states[params["state"]]
 
@@ -82,8 +82,13 @@ class Api::V1::ProjectionsController < ApplicationController
     def projection_params
       params.require(:projection).permit(:type)
     end
+    
+    # Function to make params check more explicit
+    def needed_params_present?(*ar_params)
+      ar_params.flatten.all? { |e| params[e].present? }
+    end
 
-    def getHistory section, municipality, state, federalDistrict, level, states, munis
+    def get_history(section, municipality, state, federalDistrict, level, states, munis)
       parties = ["PAN","PCONV","PES","PH","PMC","PMOR","PNA","PPM","PRD","PRI","PSD","PSM","PT","PVEM"]
       result = nil
       case level
@@ -104,9 +109,9 @@ class Api::V1::ProjectionsController < ApplicationController
             result = Projection.where(state_code: states[state])
           end
       end
-      if !result
-        return nil
-      end
+
+      return nil if !result
+
       groups = Hash.new
       result.each do |p|
         if !groups[[p.election_type, p.year]]
