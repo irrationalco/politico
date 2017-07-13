@@ -15,6 +15,9 @@ class Api::V1::ProjectionsController < ApplicationController
     states = JSON.parse(filedata)
     ##############################################################################
 
+    year = params["year"].present? ? params["year"].to_i : 2012
+    election_type = params["election"].present? ? params["election"] : "prs"
+
     if params["history"].present?
       @projections = get_history(params['section'],
                                 params["municipality"],
@@ -26,10 +29,10 @@ class Api::V1::ProjectionsController < ApplicationController
     elsif needed_params_present?("state", "municipality")
       state = State.find_state_by_name(params["state"])
       muni = state.find_state_municipality(params["municipality"])
-      @projections = Projection.all.municipal(state.state_code, muni.muni_code)
+      @projections = Projection.all.municipal(state.state_code, muni.muni_code, year, election_type)
     elsif needed_params_present?("state", "federalDistrict")
       state = State.find_state_by_name(params["state"])
-      @projections = Projection.all.distrital(state.state_code, params["federalDistrict"])
+      @projections = Projection.all.distrital(state.state_code, params["federalDistrict"], year, election_type)
     end
 
     if @projections.present?
