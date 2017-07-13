@@ -2,12 +2,13 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  	cities: ['Jalisco', 'Nuevo León', 'Nayarit', 'Tamaulipas', 'Coahuila de Zaragoza', 'Sinaloa', 'Zacatecas', 'Puebla', 'Campeche', 'Durango'],
+  cities: ["Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Coahuila de Zaragoza", 
+  				 "Colima", "Chiapas", "Chihuahua", "Distrito Federal", "Durango", "Guanajuato", "Guerrero", "Hidalgo",
+  				 "Jalisco", "México", "Michoacán de Ocampo", "Morelos", "Nayarit", "Nuevo León", "Oaxaca", "Puebla", 
+  				 "Querétaro", "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala",
+  				 "Veracruz de Ignacio de la Llave", "Zacatecas"],
 
-
-  	// cities: [{name: '1', type:'Estado'}, {name: '2', type:'Estado'}, {name: 'Sinaloa', type:'Estado'}],
-
-  	selectedCities: Ember.A(),
+  selectedCities: Ember.A(),
 
 	municipalityDivision: Ember.computed('mapDivision', function() {
 		if (this.get('mapDivision') === 'federal') {
