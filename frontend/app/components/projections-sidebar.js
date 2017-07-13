@@ -13,12 +13,28 @@ export default Ember.Component.extend({
 
 	selectedElection: { name: "Presidente-2012", type: "prs", year: "2012", key: "prs-2012" },
 
+	types: { prs: "Presidente", dif: "Diputado Fed.", sen: "Senador" },
+
 	munis: null,
 
 	something: Ember.computed('sectionData', function() {
 		let sec = this.get('sectionData').filterBy('sectionCode', 975);
 		return sec[0];
 	}),
+
+	init() {
+		this._super(...arguments);
+		let year = this.get('year');
+		let electionType = this.get('election');
+		let election = this.get('types')[electionType];
+
+		let selectedElection = { name: election + "-" + year, 
+														 type: electionType, 
+														 year: year, 
+														 key: electionType + "-" + year};
+
+		this.set('selectedElection', selectedElection);
+	},
 
 	actions: {
 		setMapDivision(type) {
