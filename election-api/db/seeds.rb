@@ -24,7 +24,7 @@ def delete_dbs(*class_names)
   end
 end
 
-delete_dbs(State, Municipality)
+delete_dbs(State, Municipality,Projection,Poll,Section)
 
 # Creando estados y municipios
 muni_ids = CSV.read("tbl_ids.csv")
@@ -66,28 +66,28 @@ ine_data = CSV.read("tbl_ine.csv")
 ine_data.shift
 
 ine_data.each do |row|
-  state_code    = row[2].to_i
-  muni_code     = row[4] .to_i
-  section_code  = row[8].to_i
-  district_code = row[7].to_i
-  nominal_list  = row[9].to_i
   year          = row[0].to_i
   election_type = row[1]
+  state_code    = row[2].to_i
+  muni_code     = row[4] .to_i
+  district_code = row[6].to_i
+  section_code  = row[7].to_i
+  nominal_list  = row[8].to_i
 
-  pan    = row[10].to_i
-  pconv  = row[11].to_i
-  pes  = row[13].to_i
-  ph   = row[14].to_i
-  pmc  = row[15].to_i
-  pmor = row[16].to_i
-  pna  = row[17].to_i
-  ppm  = row[18].to_i
-  prd  = row[19].to_i
-  pri  = row[20].to_i
-  psd  = row[21].to_i
-  psm  = row[22].to_i
-  pt   = row[24].to_i
-  pvem = row[25].to_i
+  pan    = row[9].to_i
+  pconv  = row[10].to_i
+  pes  = row[12].to_i
+  ph   = row[13].to_i
+  pmc  = row[14].to_i
+  pmor = row[15].to_i
+  pna  = row[16].to_i
+  ppm  = row[17].to_i
+  prd  = row[18].to_i
+  pri  = row[19].to_i
+  psd  = row[20].to_i
+  psm  = row[21].to_i
+  pt   = row[23].to_i
+  pvem = row[24].to_i
 
   total = pan + pconv + pes + ph + pmc + pmor + pna + ppm + prd + pri + psd + psm + pt + pvem
 
@@ -98,10 +98,10 @@ ine_data.each do |row|
 end
 
 # tbl_ine.csv SCHEMA
-#  0      1          2          3          4            5          6            7          8       9
-# ANO, Eleccion, Id_entidad, Entidad, Id_municipio, Municipio, Municipio, id_distrito, seccion, nominal,
+#  0      1          2          3          4            5          6            7       8    
+# ANO, Eleccion, Id_entidad, Entidad, Id_municipio, Municipio, id_distrito, seccion, nominal,
 #
-# 10    11      12    13   14  15    16   17   18   19   20   21   22   23   24   25
+#  9    10      11    12   13  14    15   16   17   18   19   20   21   22   23   24
 # PAN, PCONV, PDSPPN, PES, PH, PMC, PMOR, PNA, PPM, PRD, PRI, PSD, PSM, PSN, PT, PVEM
 ########################################################################################################### 
 
