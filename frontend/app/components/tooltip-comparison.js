@@ -8,9 +8,9 @@ export default Ember.Component.extend({
 
 	selectedParties: Ember.computed.oneWay('partiesManager.selectedParties'),
 
-	firstParty: { name: null, votes: null, percentage: null },
-	secondParty: { name: null, votes: null, percentage: null },
-	others: { name: "Otros", votes: null, percentage: null },
+	firstParty: { name: null, votes: null, percentage: null, color: null },
+	secondParty: { name: null, votes: null, percentage: null, color: null },
+	others: { name: "Otros", votes: null, percentage: null, color: null },
 	percentageBar: null,
 
 	dataChanged: Ember.observer('sectionData', function() {
@@ -21,9 +21,9 @@ export default Ember.Component.extend({
 		yield timeout(150);
 
 		let parties = this.get('selectedParties');
-		let firstParty = { name: null, votes: null, percentage: null };
-		let secondParty = { name: null, votes: null, percentage: null };
-		let others = { name: "Otros", votes: null, percentage: null };
+		let firstParty = { name: null, votes: null, percentage: null, color: null };
+		let secondParty = { name: null, votes: null, percentage: null, color: null };
+		let others = { name: "Otros", votes: null, percentage: null,color: null };
 		let totalVotes = this.get('sectionData').get('totalVotes');
 		let pct, partiesVotes;
 
@@ -33,12 +33,14 @@ export default Ember.Component.extend({
 		partiesVotes += firstParty.votes;
 		pct = firstParty.votes / totalVotes * 100;
 		firstParty.percentage = Math.round(pct * 10) / 10;
+		firstParty.color = this.get('partiesManager').get('colors')[firstParty.name];
 
 		secondParty.name = parties[0];
 		secondParty.votes = section.get(secondParty.name);
 		partiesVotes += secondParty.votes;
 		pct = secondParty.votes / totalVotes * 100;
 		secondParty.percentage = Math.round(pct * 10) / 10;
+		secondParty.color = this.get('partiesManager').get('colors')[secondParty.name];
 
 		others.votes = totalVotes - partiesVotes;
 		pct = others.votes / totalVotes * 100;

@@ -71,7 +71,7 @@ export default Ember.Component.extend({
 		yield timeout(150);
 
 		let totalVotesParties = 0;
-		let parties = this.get('partiesManager').get('parties');
+		let parties = this.get('partiesManager').get('selectedParties');
 		let totalVotes = section.get('totalVotes');
 		
 		let pct;

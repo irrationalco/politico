@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('login', { path: '/login'});
 
   this.route('authenticated', {path: '/'}, function() {
+    
     this.route('polls', { path: 'polls/:poll_id' }, function() {
       this.route('sections', { path: 'sections/:section_id' }, function() {
         this.route('approval', { path: '/approval' });
