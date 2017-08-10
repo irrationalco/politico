@@ -1,5 +1,5 @@
 class Api::V1::FavoritesController < ApplicationController
-  acts_as_token_authentication_handler_for User
+  acts_as_token_authentication_handler_for User, fallback: :none
   before_action :set_favorite, only: [:show, :update, :destroy]
 
   # GET /favorites

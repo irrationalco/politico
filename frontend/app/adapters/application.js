@@ -6,5 +6,5 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
 	// host: config.host,
 	host: 'http://localhost:3000',
   namespace: 'api',
-  authorizer: 'authorizer:devise'
+  authorizer: 'authorizer:oauth2'
 });

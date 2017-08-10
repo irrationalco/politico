@@ -1,10 +1,10 @@
 class Api::V1::SessionsController < ApplicationController
   def create  
-    user = User.where(email: params[:user][:email]).first
+    user = User.where(email: params[:username]).first
 
-    if user&.valid_password?(params[:user][:password])
+    if user&.valid_password?(params[:password])
       data = {
-        token: user.authentication_token,
+        access_token: user.authentication_token,
         email: user.email
       }
       render json: data, status: 201 and return
