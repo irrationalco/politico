@@ -1,5 +1,9 @@
 <div id="charts-panel" class="projections-sidebar">
   <div class="toggle-button fa fa-bars" {{action "toggle"}}></div>
+  <div class="top">
+    <div class="toggle-button fa fa-bars" />
+    <div class="settings-button fa fa-cog"/>
+  </div>
   {{#if isOpen}}
     {{#if presidentChart}}
       <h5 class="chart-title">Elecciones Presidenciales</h5>

@@ -28,6 +28,8 @@ export default Ember.Component.extend({
     sen: 2
   },
 
+  minimumRatio: 0.05,
+
   chartNames: ['deputiesChart', 'presidentChart', 'senatorsChart'],
 
   formatDataset(party, raw) {
@@ -65,7 +67,7 @@ export default Ember.Component.extend({
     let total = this.get('partiesManager').parties.reduce((s, v) => {
       return s + raw[0].get(v)
     }, 0);
-    let minVal = total * 0.05;
+    let minVal = total * minimumRatio;
     let activeParties = this.get('partiesManager').parties.filter((x) => raw[0].get(x) >= minVal);
     activeParties.sort((a, b) => raw[0].get(b) - raw[0].get(a));
     minVal = total * 0.95;
@@ -103,7 +105,7 @@ export default Ember.Component.extend({
         ratio: x / total
       };
     });
-    let activeParties = ratios.filter((x) => x.ratio >= .05);
+    let activeParties = ratios.filter((x) => x.ratio >= minimumRatio);
     activeParties.sort((a, b) => b.ratio - a.ratio);
     let val = 0;
     activeParties = activeParties.filter((x) => {
