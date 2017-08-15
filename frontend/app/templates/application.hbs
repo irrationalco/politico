@@ -1,11 +1,4 @@
-{{#if session.isAuthenticated}}
-    <h1>is authenticated</h1>
-  {{else}}
-    <h1>not authenticated</h1>
-  {{/if}}
-
-
-  <div id="container" class="{{unless sidebarOpen "sidebar-closed"}}">
+<div id="container" class="{{unless sidebarOpen "sidebar-closed"}}">
   {{!-- Header --}}
   <header class="header black-bg">
     <div class="sidebar-toggle-box">

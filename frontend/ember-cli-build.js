@@ -24,6 +24,10 @@ module.exports = function(defaults) {
     destDir: 'fonts'
   });
 
+  // API Logo
+  app.import('vendor/API_logo.svg', { destDir: 'assets' });
+  app.import('vendor/apilogo.png', { destDir: 'assets' });
+
   // Topojson FILES VENDOR 
   app.import('vendor/mx_states.json', {
     destDir: 'assets'
