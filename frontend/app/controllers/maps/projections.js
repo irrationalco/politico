@@ -1,10 +1,11 @@
 import Ember from 'ember';
 
 const { isEmpty } = Ember;
+const { service } = Ember.inject;
 
 export default Ember.Controller.extend({
-
-	partiesManager: Ember.inject.service('parties'),
+	partiesManager: service('parties'),
+	session: service('session'),
 
 	queryParams: ['state', 'municipality', 'section', 'federalDistrict', 'mapDivision',
 				  'dataType', 'parties', 'election', 'year'],
