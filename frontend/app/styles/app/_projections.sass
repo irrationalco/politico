@@ -18,19 +18,36 @@
   background-color: #fbfbfb
 
 #charts-panel
+  $padding: 15px
   width: 300px
   border-right: none
   border-left: 1px solid #d4d7dc
   right: -250px
   overflow-y: auto
   margin-top: 60px
-  padding: 15px
+  padding: $padding
   .toggle-button
     font-size: 20px
     cursor: pointer
     display: inline-block
   .settings-button
     @extend .toggle-button
+    position: absolute
+    right: $padding
+  #settings-panel
+    margin: 0 -10px;
+    margin-top: 7px;
+    padding: 10px 15px;
+    background-color: white
+    border-radius: 4px;
+    border: 1px solid #E6EBEC;
+    .min-max p
+      display: inline-block
+    .min
+      margin-left: -5px
+    .max
+      position: absolute
+      right: 9px
   .chart-title
     text-align: center
     font-weight: 600
