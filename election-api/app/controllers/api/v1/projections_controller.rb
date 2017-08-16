@@ -1,35 +1,26 @@
 class Api::V1::ProjectionsController < ApplicationController
+  acts_as_token_authentication_handler_for User, fallback: :none
   before_action :set_projection, only: [:show, :update, :destroy]
 
   # GET /projections
   def index
-    #############################################################################
-    # Borrar esta parte cuando ya no la necesites, tambien eliminar esos archivos
-    #############################################################################
-    file = File.join(Rails.root, 'muniCodes.json')
-    filedata = File.read(file)
-    munis = JSON.parse(filedata)
+    year = params["year"].present? ? params["year"].to_i : 2012
+    election_type = params["election"].present? ? params["election"] : "prs"
 
-    file = File.join(Rails.root, 'stateCodes.json')
-    filedata = File.read(file)
-    states = JSON.parse(filedata)
-    ##############################################################################
-
-    if params["history"].present?
+    if params["history"].present? && params['level'] != 'country'
       @projections = get_history(params['section'],
                                 params["municipality"],
                                 params["state"],
                                 params["federalDistrict"],
-                                params['level'],
-                                states, munis).map.with_index {|p, i| p[:id] = i
+                                params['level']).map.with_index {|p, i| p[:id] = i
                                                                       p}
     elsif needed_params_present?("state", "municipality")
       state = State.find_state_by_name(params["state"])
       muni = state.find_state_municipality(params["municipality"])
-      @projections = Projection.all.municipal(state.state_code, muni.muni_code)
+      @projections = Projection.all.municipal(state.state_code, muni.muni_code, year, election_type)
     elsif needed_params_present?("state", "federalDistrict")
       state = State.find_state_by_name(params["state"])
-      @projections = Projection.all.distrital(state.state_code, params["federalDistrict"])
+      @projections = Projection.all.distrital(state.state_code, params["federalDistrict"], year, election_type)
     end
 
     if @projections.present?
@@ -82,31 +73,32 @@ class Api::V1::ProjectionsController < ApplicationController
     def projection_params
       params.require(:projection).permit(:type)
     end
-    
+
     # Function to make params check more explicit
     def needed_params_present?(*ar_params)
       ar_params.flatten.all? { |e| params[e].present? }
     end
 
-    def get_history(section, municipality, state, federalDistrict, level, states, munis)
+    def get_history(section, municipality, state, federalDistrict, level)
       parties = ["PAN","PCONV","PES","PH","PMC","PMOR","PNA","PPM","PRD","PRI","PSD","PSM","PT","PVEM"]
       result = nil
       case level
         when 'section'
           if section
-            return Projection.where(section_code: section, state_code: states[state])
+            return Projection.where(section_code: section, state_code: State.find_state_by_name(state).state_code)
           end
         when 'municipality'
           if municipality
-            result = Projection.where(muni_code: munis[municipality], state_code: states[state])
+            state = State.find_state_by_name(state)
+            result = Projection.where(muni_code: state.find_state_municipality(municipality).muni_code, state_code: state.state_code)
           end
         when 'district'
           if federalDistrict
-            result = Projection.where(district_code: federalDistrict, state_code: states[state])
+            result = Projection.where(district_code: federalDistrict, state_code: State.find_state_by_name(state).state_code)
           end
         when 'state'
           if state
-            result = Projection.where(state_code: states[state])
+            result = Projection.where(state_code: State.find_state_by_name(state).state_code)
           end
       end
 

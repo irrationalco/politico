@@ -10,6 +10,12 @@ export default Ember.Route.extend({
 		},
 		federalDistrict: {
 			refreshModel: true
+		},
+		year: {
+			refreshModel: true
+		},
+		election: {
+			refreshModel: true
 		}
 	},
 

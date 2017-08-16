@@ -1,4 +1,5 @@
 class Api::V1::SectionsController < ApplicationController
+  acts_as_token_authentication_handler_for User, fallback: :none
   before_action :set_section, only: [:show, :update, :destroy]
 
   # GET /sections

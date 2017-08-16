@@ -282,7 +282,7 @@ export default Ember.Component.extend({
 				}
 			}
 		}
-	}).enqueue(),
+	}).restartable(),
 
 	drawSections() {
 		if (isEmpty(this.get('sections'))) {

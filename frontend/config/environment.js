@@ -2,7 +2,8 @@
 
 module.exports = function(environment) {
   var ENV = {
-    host: 'https://desolate-eyrie-44443.herokuapp.com',
+    host: 'https://sleepy-meadow-37074.herokuapp.com',
+    localhost: 'http://localhost:3000',
     modulePrefix: 'frontend',
     environment: environment,
     rootURL: '/',
@@ -17,12 +18,16 @@ module.exports = function(environment) {
         Date: false
       }
     },
-
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
     }
   };
+
+  ENV['ember-simple-auth'] = {
+    routeAfterAuthentication: 'maps.projections',
+    routeIfAlreadyAuthenticated: 'maps.projections'
+  }
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;

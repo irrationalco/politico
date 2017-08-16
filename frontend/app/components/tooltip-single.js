@@ -8,8 +8,8 @@ export default Ember.Component.extend({
 
 	selectedParties: Ember.computed.oneWay('partiesManager.selectedParties'),
 
-	party: { name: null, votes: null, percentage: null },
-	others: { name: 'Otros', votes: null, percentage: null },
+	party: { name: null, votes: null, percentage: null, color: null },
+	others: { name: 'Otros', votes: null, percentage: null, color: null },
 	percentageBar: null,
 
 	dataChanged: Ember.observer('sectionData', function() {
@@ -27,6 +27,7 @@ export default Ember.Component.extend({
 		party.votes = section.get(party.name);
 		pct = party.votes / totalVotes * 100;
 		party.percentage = Math.round(pct * 10) / 10;
+		party.color = this.get('partiesManager').get('colors')[party.name];
 
 		others.votes = totalVotes - party.votes;
 		pct = others.votes / totalVotes * 100;

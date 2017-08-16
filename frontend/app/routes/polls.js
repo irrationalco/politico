@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 // Todo: Catch error when poll has no sections
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(AuthenticatedRouteMixin, {
 	
 	pollManager: Ember.inject.service("poll"),
 
