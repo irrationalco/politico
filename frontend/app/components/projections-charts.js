@@ -16,7 +16,9 @@ export default Ember.Component.extend({
     },
     settings: function () {
       $('#settings-panel').toggleClass('hide');
-      console.log(this.minimumPercentage);
+    },
+    minPercentageChanged: function (evt){
+      this.get('loadChartData').perform();
     }
   },
 
@@ -71,6 +73,7 @@ export default Ember.Component.extend({
     let total = this.get('partiesManager').parties.reduce((s, v) => {
       return s + raw[0].get(v)
     }, 0);
+    debugger;
     let minVal = total * (this.minimumPercentage / 100);
     let activeParties = this.get('partiesManager').parties.filter((x) => raw[0].get(x) >= minVal);
     activeParties.sort((a, b) => raw[0].get(b) - raw[0].get(a));
