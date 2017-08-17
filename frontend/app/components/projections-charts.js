@@ -15,7 +15,7 @@ export default Ember.Component.extend({
       this.get('loadChartData').perform();
     },
     settings: function () {
-      $('#settings-panel').toggleClass('hide');
+      $('#settings-panel').slideToggle();
     },
     minPercentageChanged: function (evt) {
       this.set('minimumPercentage', evt);

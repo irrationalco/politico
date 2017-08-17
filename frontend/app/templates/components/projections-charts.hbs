@@ -3,7 +3,7 @@
     <div class="toggle-button fa fa-bars" {{action "toggle"}}/>
     <div class="settings-button fa fa-cog" {{action "settings"}}/>
   </div>
-  <div id="settings-panel" class="hide">
+  <div id="settings-panel" style="display: none;">
     <p>Porcentage mínimo</p>
     {{ui-slider value=minimumPercentage min=0 max=20 ticks='0,20' changed='minPercentageChanged'}}
     <div class="min-max">
