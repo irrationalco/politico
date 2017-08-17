@@ -3,6 +3,7 @@
 module.exports = function(environment) {
   var ENV = {
     host: 'https://sleepy-meadow-37074.herokuapp.com',
+    localhost: 'http://localhost:3000',
     modulePrefix: 'frontend',
     environment: environment,
     rootURL: '/',
@@ -23,10 +24,10 @@ module.exports = function(environment) {
     }
   };
 
-  // ENV['ember-simple-auth'] = {
-  //   routeAfterAuthentication: 'maps.projections',
-  //   routeIfAlreadyAuthenticated: 'maps.projections'
-  // }
+  ENV['ember-simple-auth'] = {
+    routeAfterAuthentication: 'maps.projections',
+    routeIfAlreadyAuthenticated: 'maps.projections'
+  }
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;

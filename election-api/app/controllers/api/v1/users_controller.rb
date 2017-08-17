@@ -1,4 +1,5 @@
 class Api::V1::UsersController < ApplicationController
+  acts_as_token_authentication_handler_for User, fallback: :none
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
@@ -6,6 +7,35 @@ class Api::V1::UsersController < ApplicationController
     @users = User.all
 
     render json: @users
+  end
+
+  def user_by_email
+    @user = User.where(email: params["email"]).take if params["email"].present?
+
+    if @user
+      data = {
+        id: @user.id,
+        email: @user.email
+      }
+      render json: data, status: 201 and return
+    else 
+      render json: {}, status: 404 and return
+    end
+  end
+
+
+  def create  
+    user = User.where(email: params[:username]).first
+
+    if user&.valid_password?(params[:password])
+      data = {
+        access_token: user.authentication_token,
+        email: user.email
+      }
+      render json: data, status: 201 and return
+    else
+      head(:unauthorized)
+    end
   end
 
   # GET /users/1
