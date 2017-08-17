@@ -17,8 +17,9 @@ export default Ember.Component.extend({
     settings: function () {
       $('#settings-panel').toggleClass('hide');
     },
-    minPercentageChanged: function (evt){
-      this.get('loadChartData').perform();
+    minPercentageChanged: function (evt) {
+      this.set('minimumPercentage', evt);
+      this.get('resetCharts').perform();
     }
   },
 
@@ -73,7 +74,6 @@ export default Ember.Component.extend({
     let total = this.get('partiesManager').parties.reduce((s, v) => {
       return s + raw[0].get(v)
     }, 0);
-    debugger;
     let minVal = total * (this.minimumPercentage / 100);
     let activeParties = this.get('partiesManager').parties.filter((x) => raw[0].get(x) >= minVal);
     activeParties.sort((a, b) => raw[0].get(b) - raw[0].get(a));
@@ -150,6 +150,12 @@ export default Ember.Component.extend({
     return result;
   }),
 
+  presidentChartData: null,
+
+  senatorsChartData: null,
+
+  deputiesChartData: null,
+
   presidentChart: null,
 
   presidentChartType: null,
@@ -162,7 +168,17 @@ export default Ember.Component.extend({
 
   deputiesChartType: null,
 
+  resetCharts: task(function* () {
+    this.chartNames.forEach((name) => this.set(name, null));
+    let charts = this.chartNames.map((item, index) =>
+      this.get('setChart').perform(item, this.get(item + 'Data')));
+    for (let i = 0; i < charts.length; i++) {
+      charts[i] = yield charts[i];
+    }
+  }),
+
   setChart: task(function* (chartName, data) {
+    this.set(chartName + 'Data', data);
     this.set(chartName, yield this.get('formatChartData').perform(data));
     this.set(chartName + 'Type', this.get(chartName).datasets.length === 1 ? "doughnut" : "line");
   }),
