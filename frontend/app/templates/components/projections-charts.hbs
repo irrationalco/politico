@@ -1,5 +1,16 @@
 <div id="charts-panel" class="projections-sidebar">
-  <div class="toggle-button fa fa-bars" {{action "toggle"}}></div>
+  <div class="top">
+    <div class="toggle-button fa fa-bars" {{action "toggle"}}/>
+    <div class="settings-button fa fa-cog" {{action "settings"}}/>
+  </div>
+  <div id="settings-panel" style="display: none;">
+    <p>Porcentage mínimo</p>
+    {{ui-slider value=minimumPercentage min=0 max=20 ticks='0,20' changed='minPercentageChanged'}}
+    <div class="min-max">
+      <p class="min">0%</p>
+      <p class="max">20%</p>
+    </div>
+  </div>
   {{#if isOpen}}
     {{#if presidentChart}}
       <h5 class="chart-title">Elecciones Presidenciales</h5>
