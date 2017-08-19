@@ -64,41 +64,42 @@ end
 
 ##################################
 # Cargando datos historicos del INE
-# ine_data = CSV.read("tbl_ine.csv")
-# ine_data.shift
+ine_data = CSV.read("tbl_ine_chica.csv")
+ine_data.shift
 
-# ine_data.each do |row|
-#   year          = row[0].to_i
-#   election_type = row[1]
-#   state_code    = row[2].to_i
-#   muni_code     = row[4] .to_i
-#   district_code = row[6].to_i
-#   section_code  = row[7].to_i
-#   nominal_list  = row[8].to_i
+ine_data.each do |row|
+  year          = row[0].to_i
+  election_type = row[1]
+  state_code    = row[2].to_i
+  muni_code     = row[4] .to_i
+  district_code = row[6].to_i
+  section_code  = row[7].to_i
+  nominal_list  = row[8].to_i
 
-#   pan    = row[9].to_i
-#   pconv  = row[10].to_i
-#   pes  = row[12].to_i
-#   ph   = row[13].to_i
-#   pmc  = row[14].to_i
-#   pmor = row[15].to_i
-#   pna  = row[16].to_i
-#   ppm  = row[17].to_i
-#   prd  = row[18].to_i
-#   pri  = row[19].to_i
-#   psd  = row[20].to_i
-#   psm  = row[21].to_i
-#   pt   = row[23].to_i
-#   pvem = row[24].to_i
+  pan    = row[9].to_i
+  pconv  = row[10].to_i
+  pes  = row[12].to_i
+  ph   = row[13].to_i
+  pmc  = row[14].to_i
+  pmor = row[15].to_i
+  pna  = row[16].to_i
+  ppm  = row[17].to_i
+  prd  = row[18].to_i
+  pri  = row[19].to_i
+  psd  = row[20].to_i
+  psm  = row[21].to_i
+  pt   = row[23].to_i
+  pvem = row[24].to_i
 
-#   total = pan + pconv + pes + ph + pmc + pmor + pna + ppm + prd + pri + psd + psm + pt + pvem
+  total = pan + pconv + pes + ph + pmc + pmor + pna + ppm + prd + pri + psd + psm + pt + pvem
 
-#   Projection.create(state_code: state_code, muni_code: muni_code, section_code: section_code, district_code: district_code,
-#                     nominal_list: nominal_list, year: year, election_type: election_type, 
-#                     PAN: pan, PCONV: pconv, PES: pes, PH: ph, PMC: pmc, PMOR: pmor, PNA: pna, PPM: ppm, PRD: prd,
-#                     PRI: pri, PSD: psd, PSM: psm, PT: pt, PVEM: pvem, total_votes: total)
-# end
+  Projection.create(state_code: state_code, muni_code: muni_code, section_code: section_code, district_code: district_code,
+                    nominal_list: nominal_list, year: year, election_type: election_type, 
+                    PAN: pan, PCONV: pconv, PES: pes, PH: ph, PMC: pmc, PMOR: pmor, PNA: pna, PPM: ppm, PRD: prd,
+                    PRI: pri, PSD: psd, PSM: psm, PT: pt, PVEM: pvem, total_votes: total)
+end
 
+##########################################################################################################
 # tbl_ine.csv SCHEMA
 #  0      1          2          3          4            5          6            7       8    
 # ANO, Eleccion, Id_entidad, Entidad, Id_municipio, Municipio, id_distrito, seccion, nominal,
