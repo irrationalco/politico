@@ -105,6 +105,7 @@ end
 #                     PRI: pri, PSD: psd, PSM: psm, PT: pt, PVEM: pvem, total_votes: total)
 # end
 
+##########################################################################################################
 # tbl_ine.csv SCHEMA
 #  0      1          2          3          4            5          6            7       8
 # ANO, Eleccion, Id_entidad, Entidad, Id_municipio, Municipio, id_distrito, seccion, nominal,

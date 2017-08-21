@@ -16,6 +16,10 @@ Router.map(function() {
     });
   });
 
+  this.route('admin', function() {
+    this.route('users', { path: '/users'});
+  });
+
   this.route('maps', function() {
     this.route('projections', { path: '/projections'});
     this.route('population', { path: '/population'});
