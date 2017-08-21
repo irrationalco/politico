@@ -1,0 +1,2 @@
+class StateCache < ApplicationRecord
+end
