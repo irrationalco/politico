@@ -63,6 +63,22 @@ muni_ids.each do |row|
   end
 end
 
+############################################################################################
+# Creando cache de datos por estado
+
+state_data = Projection.select('SUM("PAN") as "PAN", SUM("PCONV") as "PCONV", SUM("PES") as "PES",
+                                SUM("PH") as "PH", SUM("PMC") as "PMC", SUM("PMOR") as "PMOR", SUM("PNA") as "PNA",
+                                SUM("PPM") as "PPM", SUM("PRD") as "PRD", SUM("PRI") as "PRI", SUM("PSD") as "PSD",
+                                SUM("PSM") as "PSM", SUM("PT") as "PT", SUM("PVEM") as "PVEM", SUM("total_votes") as "total_votes",
+                                state_code, year, election_type').group(:state_code,:year,:election_type)
+
+state_data.each do |data|
+  StateCache.create(state_code: data.state_code, year: data.year, election_type: data.election_type,
+                    PAN: data.PAN, PCONV: data.PCONV, PES: data.PES, PH: data.PH, PMC: data.PMC,
+                    PMOR: data.PMOR, PNA: data.PNA, PPM: data.PPM, PRD: data.PRD, PRI: data.PRI,
+                    PSD: data.PSD, PSM: data.PSM, PT: data.PT, PVEM: data.PVEM, total_votes: data.total_votes)
+end
+
 # tbl_ids.csv schema
 #     0            1          2            3
 # codigo_edo, nombre_edo, codigo_muni, nombre_muni
