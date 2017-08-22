@@ -12,11 +12,11 @@
                     <form {{action "create" on="submit"}} accept-charset="UTF-8" role="form" class="form-signin">
                         <fieldset>
                         	<label>Email:</label>
-                            {{input value=identification placeholder="Usuario" class="form-control"}}
+                            {{input value=email placeholder="Usuario" class="form-control"}}
                             <label>Password:</label>
                             {{input value=password type="password" placeholder="Contraseña" class="form-control"}}
                             <label>Confirma Password:</label>
-                            {{input value=password type="password" placeholder="Confirmación" class="form-control"}}
+                            {{input value=passwordConfirmation type="password" placeholder="Confirmación" class="form-control"}}
                             {{input type="submit" value="Crear" class="btn btn-lg btn-success btn-block login-btn"}}
                         </fieldset>
                     </form>
