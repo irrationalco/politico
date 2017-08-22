@@ -6,9 +6,11 @@ const { service } = Ember.inject;
 export default Ember.Controller.extend({
 	session: service('session'),
 	ajax: 	 service('ajax'),
+	notify:  service('notify'),
 
 	actions: {
 		create() {
+			this.get('notify').info("Creating User!");
 			let { email, password } = this.getProperties('email', 'password');
 			console.log("Have to create a new user and save it;");
 			this.get('ajax').post(config.localhost + '/api/users', {
@@ -26,8 +28,8 @@ export default Ember.Controller.extend({
 
 		}
 	}
-
 });
+
 
 
 // export default Ember.Route.extend({

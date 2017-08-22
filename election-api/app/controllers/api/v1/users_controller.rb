@@ -23,21 +23,6 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-
-  # def create  
-  #   user = User.where(email: params[:username]).first
-
-  #   if user&.valid_password?(params[:password])
-  #     data = {
-  #       access_token: user.authentication_token,
-  #       email: user.email
-  #     }
-  #     render json: data, status: 201 and return
-  #   else
-  #     head(:unauthorized)
-  #   end
-  # end
-
   # GET /users/1
   def show
     render json: @user
