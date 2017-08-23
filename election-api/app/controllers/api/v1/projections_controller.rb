@@ -99,9 +99,11 @@ class Api::V1::ProjectionsController < ApplicationController
         when 'state'
           if state
             result = StateCache.where(state_code: State.find_state_by_name(state).state_code)
+            result = result.map { |r| r.to_projection }
           end
         when 'country'
-          StateCache.all
+          result = StateCache.all
+          result = result.map { |r| r.to_projection }
       end
 
       return nil if !result
