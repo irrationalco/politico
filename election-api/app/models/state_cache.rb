@@ -1,5 +1,9 @@
 class StateCache < ApplicationRecord
 
+  def self.as_projection
+    all.map { |r| r.to_projection }
+  end
+
   def to_projection
     p self.PAN
     Projection.new do |r|
