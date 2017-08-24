@@ -5,7 +5,6 @@ class StateCache < ApplicationRecord
   end
 
   def to_projection
-    p self.PAN
     Projection.new do |r|
       r.PAN = self.PAN
       r.PCONV = self.PCONV
