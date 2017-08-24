@@ -10,20 +10,17 @@ export default Ember.Controller.extend({
 
 	actions: {
 		create() {
-			this.get('notify').info("Creating User!");
 			let { email, password } = this.getProperties('email', 'password');
-			console.log("Have to create a new user and save it;");
 			this.get('ajax').post(config.localhost + '/api/users', {
 				data: {
 					user: { email: email, password: password }
 				}
 			})
 			.then(response => {
-				console.log(response);
+				this.send('transitionToUsers');
 			})
 			.catch(error => {
-				console.log("Hubo error;");
-				console.log(error);
+				this.get('notify').info("Problem creating user.");
 			});
 
 		}
@@ -39,23 +36,23 @@ export default Ember.Controller.extend({
 
 //     return ajax.request('/user/doesnotexist')
 //       .catch(function(error) {
-//         if (isNotFoundError(error)) {
-//           // handle 404 errors here
-//           return;
-//         }
+        // if (isNotFoundError(error)) {
+        //   // handle 404 errors here
+        //   return;
+        // }
 
-//         if (isForbiddenError(error)) {
-//           // handle 403 errors here
-//           return;
-//         }
+        // if (isForbiddenError(error)) {
+        //   // handle 403 errors here
+        //   return;
+        // }
 
-//         if(isAjaxError(error)) {
-//           // handle all other AjaxErrors here
-//           return;
-//         }
+        // if(isAjaxError(error)) {
+        //   // handle all other AjaxErrors here
+        //   return;
+        // }
 
-//         // other errors are handled elsewhere
-//         throw error;
+        // // other errors are handled elsewhere
+        // throw error;
 //       });
 //   }
 // });
