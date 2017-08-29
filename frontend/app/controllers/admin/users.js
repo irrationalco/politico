@@ -13,29 +13,11 @@ export default Ember.Controller.extend({
 		deleteUser(userId) {
 			this.get('store').findRecord('user', userId, { backgroundReload: false }).then( user => {
 				user.destroyRecord().then(() => {
-					this.get('notify').alert("Success", { closeAfter: null});
-					console.log("Sucess");
+					this.get('notify').alert("Deleted user successfully.", { closeAfter: null});
 				}, (error) => {
-					console.log("Error happened");
-					console.log(error);
+					this.get('notify').alert("Error deleting user.", { closeAfter: null});
 				});
 			})
-		},
-
-		create() {
-			let { email, password } = this.getProperties('email', 'password');
-			this.get('ajax').post(config.localhost + '/api/users', {
-				data: {
-					user: { email: email, password: password }
-				}
-			})
-			.then(response => {
-				this.send('transitionToUsers');
-			})
-			.catch(error => {
-				this.get('notify').info("Problem creating user.");
-			});
-
 		}
 	}
 });
