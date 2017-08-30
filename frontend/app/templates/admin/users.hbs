@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="row vertical-offset-100">
 		<div class="col-md-8 col-md-offset-2">
-			<h3 class="admin-table-title"> Admin de usuarios</h3>
+			<h3 class="admin-table-title"> Admin de Usuarios</h3>
 			<table class="table votes-table">
 				<thead class="votes-table-header">
 					<tr>
@@ -15,10 +15,10 @@
 				<tbody class="votes-table-content admin-table-body">
 				{{#each model as |user|}}
 					<tr>
-						<td>Mario Diaz</td>
+						<td>{{user.firstName}} {{user.lastName}}</td>
 						<td>{{user.email}}</td>
 						<td>
-							<button class="btn btn-info">Actualizar</button>
+							<button {{action 'testNotify'}} class="btn btn-info">Actualizar</button>
 						</td>
 						<td>
 							<button {{action 'deleteUser' user.id}} class="btn btn-danger">Eliminar</button>

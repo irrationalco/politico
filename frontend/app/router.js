@@ -18,6 +18,7 @@ Router.map(function() {
 
   this.route('admin', function() {
     this.route('users');
+    this.route('user',  { path: '/post/:post_id' });
     this.route('new-user', { path: "/new" });
   });
 

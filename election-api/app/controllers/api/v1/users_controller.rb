@@ -30,6 +30,7 @@ class Api::V1::UsersController < ApplicationController
 
   # POST /users
   def create
+    puts params.inspect
     @user = User.new(user_params)
 
     if @user.save
@@ -61,6 +62,6 @@ class Api::V1::UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:email, :password)
+      params.require(:user).permit(:email, :password, :first_name, :last_name)
     end
 end

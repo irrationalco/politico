@@ -18,6 +18,10 @@ export default Ember.Controller.extend({
 					this.get('notify').alert("Error deleting user.", { closeAfter: null});
 				});
 			})
+		},
+
+		testNotify() {
+			this.get('notify').info("Some Message");
 		}
 	}
 });
