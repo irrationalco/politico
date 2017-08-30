@@ -23,6 +23,7 @@ export default Ember.Component.extend({
 				}
 			})
 			.then(res => {
+				user.deleteRecord();
 				this.sendAction('transitionToUsers');
 			})
 			.catch(err => {
