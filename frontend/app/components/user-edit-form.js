@@ -29,6 +29,26 @@ export default Ember.Component.extend({
 			.catch(err => {
 				this.get('notify').alert("Make sure all fields are filled correctly.")
 			});
+		},
+
+		update(user) {
+			this.get('ajax').put(config.localhost + '/api/users/' + user.get('id'), {
+				data: {
+					user: { 
+						email: user.get('email'), 
+						first_name: user.get('firstName'),
+						last_name: user.get('lastName'),
+						password:	user.get('password')
+					}
+				}
+			})
+			.then(res => {
+				user.deleteRecord();
+				this.sendAction('transitionToUsers');
+			})
+			.catch(err => {
+				this.get('notify').alert("Make sure all fields are filled correctly.")
+			});
 		}
 	}
 });
