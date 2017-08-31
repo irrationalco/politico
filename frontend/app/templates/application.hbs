@@ -11,9 +11,15 @@
       {{!-- <ul class="nav pull-right top-menu">
         <li></li>
       </ul> --}}
-      <div class="pull-right profile-circle">
-        HF
-      </div>
+      {{#basic-dropdown as |dropdown|}}
+        {{#dropdown.trigger class="pull-right profile-circle"}}
+          HF
+        {{/dropdown.trigger}}
+
+        {{#dropdown.content}}
+          <h4 {{action "logout"}}>Aloito!</h4>
+        {{/dropdown.content}}
+      {{/basic-dropdown}}
     </div>
   </header>
 

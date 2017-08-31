@@ -11,6 +11,10 @@ export default Ember.Controller.extend({
 			} else {
 				this.set('sidebarOpen', true);
 			}
+		},
+
+		logout() {
+			this.get('session').invalidate();
 		}
 	} 
 });
