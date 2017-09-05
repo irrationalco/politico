@@ -1,0 +1,2 @@
+class ElectoralDatum < ApplicationRecord
+end
