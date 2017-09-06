@@ -11,11 +11,12 @@
 # for i in 975..1686
 #   Projection.create(:state_code => 19, :muni_code => 39, :section_code => i,
 #     :PRI => Random.rand(1500), :PAN => Random.rand(1500), :PRD => Random.rand(1000),
-#     :Morena => Random.rand(1000), :PV => Random.rand(300), :PT => Random.rand(300), 
+#     :Morena => Random.rand(1000), :PV => Random.rand(300), :PT => Random.rand(300),
 #     :MC => Random.rand(300))
 # end
 
 require 'csv'
+puts "################\nSeeds"
 
 # def delete_dbs(*class_names)
 #   class_names.each do |cname|
@@ -26,8 +27,17 @@ require 'csv'
 
 # delete_dbs(State, Municipality,Projection,Poll,Section)
 
+# user = User.new
+# user.email = 'abc@abc.abc'
+# user.password = 'abc123'
+# user.password_confirmation = 'abc123'
+# user.save!
+
 ##############################
 # Creando estados y municipios
+puts "Creating munis..."
+t = Time.now
+
 muni_ids = CSV.read("tbl_ids.csv")
 muni_ids.shift
 
@@ -57,6 +67,8 @@ muni_ids.each do |row|
   end
 end
 
+puts "Done munis: #{Time.now - t}s"
+
 # tbl_ids.csv schema
 #     0            1          2            3
 # codigo_edo, nombre_edo, codigo_muni, nombre_muni
@@ -64,48 +76,74 @@ end
 
 ##################################
 # Cargando datos historicos del INE
-# ine_data = CSV.read("tbl_ine.csv")
-# ine_data.shift
+puts "Creating projections..."
+t = Time.now
 
-# ine_data.each do |row|
-#   year          = row[0].to_i
-#   election_type = row[1]
-#   state_code    = row[2].to_i
-#   muni_code     = row[4] .to_i
-#   district_code = row[6].to_i
-#   section_code  = row[7].to_i
-#   nominal_list  = row[8].to_i
+ine_data = CSV.read("tbl_ine.csv")
+ine_data.shift
 
-#   pan    = row[9].to_i
-#   pconv  = row[10].to_i
-#   pes  = row[12].to_i
-#   ph   = row[13].to_i
-#   pmc  = row[14].to_i
-#   pmor = row[15].to_i
-#   pna  = row[16].to_i
-#   ppm  = row[17].to_i
-#   prd  = row[18].to_i
-#   pri  = row[19].to_i
-#   psd  = row[20].to_i
-#   psm  = row[21].to_i
-#   pt   = row[23].to_i
-#   pvem = row[24].to_i
+ine_data.each do |row|
+  year          = row[0].to_i
+  election_type = row[1]
+  state_code    = row[2].to_i
+  muni_code     = row[4] .to_i
+  district_code = row[6].to_i
+  section_code  = row[7].to_i
+  nominal_list  = row[8].to_i
 
-#   total = pan + pconv + pes + ph + pmc + pmor + pna + ppm + prd + pri + psd + psm + pt + pvem
+  pan    = row[9].to_i
+  pconv  = row[10].to_i
+  pes  = row[12].to_i
+  ph   = row[13].to_i
+  pmc  = row[14].to_i
+  pmor = row[15].to_i
+  pna  = row[16].to_i
+  ppm  = row[17].to_i
+  prd  = row[18].to_i
+  pri  = row[19].to_i
+  psd  = row[20].to_i
+  psm  = row[21].to_i
+  pt   = row[23].to_i
+  pvem = row[24].to_i
 
-#   Projection.create(state_code: state_code, muni_code: muni_code, section_code: section_code, district_code: district_code,
-#                     nominal_list: nominal_list, year: year, election_type: election_type, 
-#                     PAN: pan, PCONV: pconv, PES: pes, PH: ph, PMC: pmc, PMOR: pmor, PNA: pna, PPM: ppm, PRD: prd,
-#                     PRI: pri, PSD: psd, PSM: psm, PT: pt, PVEM: pvem, total_votes: total)
-# end
+  total = pan + pconv + pes + ph + pmc + pmor + pna + ppm + prd + pri + psd + psm + pt + pvem
 
+  Projection.create(state_code: state_code, muni_code: muni_code, section_code: section_code, district_code: district_code,
+                    nominal_list: nominal_list, year: year, election_type: election_type,
+                    PAN: pan, PCONV: pconv, PES: pes, PH: ph, PMC: pmc, PMOR: pmor, PNA: pna, PPM: ppm, PRD: prd,
+                    PRI: pri, PSD: psd, PSM: psm, PT: pt, PVEM: pvem, total_votes: total)
+end
+
+puts "Done projections: #{Time.now - t}s"
+
+############################################################################################
+# Creando cache de datos por estado
+puts "Creating states chache..."
+t = Time.now
+
+state_data = Projection.select('SUM("PAN") as "PAN", SUM("PCONV") as "PCONV", SUM("PES") as "PES",
+                                SUM("PH") as "PH", SUM("PMC") as "PMC", SUM("PMOR") as "PMOR", SUM("PNA") as "PNA",
+                                SUM("PPM") as "PPM", SUM("PRD") as "PRD", SUM("PRI") as "PRI", SUM("PSD") as "PSD",
+                                SUM("PSM") as "PSM", SUM("PT") as "PT", SUM("PVEM") as "PVEM", SUM("total_votes") as "total_votes",
+                                state_code, year, election_type').group(:state_code,:year,:election_type)
+
+state_data.each do |data|
+  StateCache.create(state_code: data.state_code, year: data.year, election_type: data.election_type,
+                    PAN: data.PAN, PCONV: data.PCONV, PES: data.PES, PH: data.PH, PMC: data.PMC,
+                    PMOR: data.PMOR, PNA: data.PNA, PPM: data.PPM, PRD: data.PRD, PRI: data.PRI,
+                    PSD: data.PSD, PSM: data.PSM, PT: data.PT, PVEM: data.PVEM, total_votes: data.total_votes)
+end
+
+puts "Done states cache: #{Time.now - t}s"
+
+##########################################################################################################
 # tbl_ine.csv SCHEMA
-#  0      1          2          3          4            5          6            7       8    
+#  0      1          2          3          4            5          6            7       8
 # ANO, Eleccion, Id_entidad, Entidad, Id_municipio, Municipio, id_distrito, seccion, nominal,
 #
 #  9    10      11    12   13  14    15   16   17   18   19   20   21   22   23   24
 # PAN, PCONV, PDSPPN, PES, PH, PMC, PMOR, PNA, PPM, PRD, PRI, PSD, PSM, PSN, PT, PVEM
-########################################################################################################### 
+###########################################################################################################
 
 
 # Creando algunos polls y sections de prueba para las encuestas

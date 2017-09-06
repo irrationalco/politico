@@ -1,4 +1,7 @@
 class Api::V1::SessionsController < ApplicationController
+  
+  acts_as_token_authentication_handler_for User, only: [:destroy]
+
   def create  
     user = User.where(email: params[:username]).first
 

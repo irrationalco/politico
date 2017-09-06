@@ -11,14 +11,20 @@ Router.map(function() {
     
   this.route('polls', { path: 'polls/:poll_id' }, function() {
     this.route('sections', { path: 'sections/:section_id' }, function() {
-      this.route('approval', { path: '/approval' });
-      this.route('vote', { path: '/vote' });
+      this.route('approval');
+      this.route('vote');
     });
   });
 
+  this.route('admin', function() {
+    this.route('users');
+    this.route('user-edit',  { path: '/user/:user_id/edit' });
+    this.route('new-user', { path: "/new" });
+  });
+
   this.route('maps', function() {
-    this.route('projections', { path: '/projections'});
-    this.route('population', { path: '/population'});
+    this.route('projections');
+    this.route('population');
   });
   
 });

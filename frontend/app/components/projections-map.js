@@ -387,20 +387,20 @@ export default Ember.Component.extend({
 
 		this.get('sectionsLayer').selectAll("path")
 			.style("fill", function(d) {
+				return "red";
+				// if (emberContext.get('dataType') === 'votes') {
+				// 	let s = emberContext.get('sectionsData')
+				// 			.findBy('sectionCode', d.properties.section_code);
 
-				if (emberContext.get('dataType') === 'votes') {
-					let s = emberContext.get('sectionsData')
-							.findBy('sectionCode', d.properties.section_code);
+				// 	if (isEmpty(s)) {
+				// 		return "transparent";
+				// 	} else {
+				// 		return emberContext.get('partiesManager').getColor(s);
+				// 	}
 
-					if (isEmpty(s)) {
-						return "transparent";
-					} else {
-						return emberContext.get('partiesManager').getColor(s);
-					}
-
-				} else {
-					return emberContext.get('fillPopulation')(d.properties.population);
-				}
+				// } else {
+				// 	return emberContext.get('fillPopulation')(d.properties.population);
+				// }
 			})
 			.style("stroke", function(d) {
 
@@ -419,30 +419,8 @@ export default Ember.Component.extend({
 					return emberContext.get('fillPopulation')(d.properties.population);
 				}
 			})
-			.style("opacity", function(d) {
-				let opacity = 1;
-
-				if (d.properties.population > 0) {
-					opacity = ".5";
-				}
-
-				if (d.properties.population > 400) {
-					opacity = ".6";
-				}
-
-				if (d.properties.population > 800) {
-					opacity = ".7";
-				}
-
-				if (d.properties.population > 1600) {
-					opacity = ".8";
-				}
-
-				if (d.properties.population > 3000) {
-					opacity = ".9";
-				}
-
-				return opacity;
+			.style("fill-opacity", function(d) {
+				return 1
 			});
 	},
 

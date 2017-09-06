@@ -11,9 +11,15 @@
       {{!-- <ul class="nav pull-right top-menu">
         <li></li>
       </ul> --}}
-      <div class="pull-right profile-circle">
-        HF
-      </div>
+      {{#basic-dropdown as |dropdown|}}
+        {{#dropdown.trigger class="pull-right profile-circle"}}
+          HF
+        {{/dropdown.trigger}}
+
+        {{#dropdown.content class="dropdown-content"}}
+          <p {{action "logout"}} style="text-align: center;"> Cerrar Sesión</p>
+        {{/dropdown.content}}
+      {{/basic-dropdown}}
     </div>
   </header>
 
@@ -50,6 +56,7 @@
       {{outlet}}
   </section>
 </div>
+{{ember-notify messageStyle='bootstrap'}}
 {{!-- <div class="container">
     <div class="row vertical-offset-100">
         <div class="col-md-4 col-md-offset-4">

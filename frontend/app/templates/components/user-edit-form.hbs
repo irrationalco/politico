@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="row vertical-offset-100">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default panel-login">
+                <div>                                
+                    <div class="row-fluid user-row">
+                        <img id="login-logo" class="img-responsive"/>
+                        <h2 style="text-align: center; padding-top: 10px;">{{form-title}}</h2>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    {{#if user.id}}
+                    <form {{action "update" user on="submit"}} accept-charset="UTF-8" role="form" class="form-signin">
+                        <fieldset>
+                            <label>Primer Nombre:</label>
+                            {{input value=user.firstName placeholder="Primer Nombre" class="form-control"}}
+                            <label>Apellidos:</label>
+                            {{input value=user.lastName placeholder="Apellidos" class="form-control"}}
+                        	<label>Email:</label>
+                            {{input value=user.email placeholder="Email" class="form-control"}}
+
+                            <h2 style="text-align: center; margin-bottom: 20px;"> O cambia la contraseña</h2>
+
+                            <label>Nueva Contraseña:</label>
+                            {{input value=user.password type="password" placeholder="Nueva Contraseña" class="form-control"}}
+                            <label>Confirma Password:</label>
+                            {{input value=user.passwordConfirmation type="password" placeholder="Confirmación" class="form-control"}}
+                            {{input type="submit" value="Actualizar" class="btn btn-lg btn-block login-btn"}}
+                        </fieldset>
+                    </form>
+                    {{else}}
+                    <form {{action "create" user on="submit"}} accept-charset="UTF-8" role="form" class="form-signin">
+                        <fieldset>
+                            <label>Primer Nombre:</label>
+                            {{input value=user.firstName placeholder="Primer Nombre" class="form-control"}}
+                            <label>Apellidos:</label>
+                            {{input value=user.lastName placeholder="Apellidos" class="form-control"}}
+                            <label>Email:</label>
+                            {{input value=user.email placeholder="Email" class="form-control"}}
+                            <label>Password:</label>
+                            {{input value=user.password type="password" placeholder="Contraseña" class="form-control"}}
+                            <label>Confirma Password:</label>
+                            {{input value=user.passwordConfirmation type="password" placeholder="Confirmación" class="form-control"}}
+                            {{input type="submit" value="Crear" class="btn btn-lg btn-block login-btn"}}
+                        </fieldset>
+                    </form>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>s

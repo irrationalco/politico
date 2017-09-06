@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170807015908) do
+ActiveRecord::Schema.define(version: 20170830030704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,29 @@ ActiveRecord::Schema.define(version: 20170807015908) do
     t.integer  "poll_id"
   end
 
+  create_table "state_caches", force: :cascade do |t|
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "state_code"
+    t.integer  "year"
+    t.string   "election_type"
+    t.integer  "PAN"
+    t.integer  "PCONV"
+    t.integer  "PES"
+    t.integer  "PH"
+    t.integer  "PMC"
+    t.integer  "PMOR"
+    t.integer  "PNA"
+    t.integer  "PPM"
+    t.integer  "PRD"
+    t.integer  "PRI"
+    t.integer  "PSD"
+    t.integer  "PSM"
+    t.integer  "PT"
+    t.integer  "PVEM"
+    t.integer  "total_votes"
+  end
+
   create_table "states", force: :cascade do |t|
     t.string   "name"
     t.integer  "state_code"
@@ -104,6 +127,8 @@ ActiveRecord::Schema.define(version: 20170807015908) do
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
     t.string   "authentication_token",   limit: 30
+    t.string   "first_name",             limit: 35
+    t.string   "last_name",              limit: 35
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

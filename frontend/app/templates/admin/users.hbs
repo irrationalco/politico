@@ -1,0 +1,32 @@
+<div class="container">
+	<div class="row vertical-offset-100">
+		<div class="col-md-8 col-md-offset-2">
+			<h3 class="admin-table-title"> Admin de Usuarios</h3>
+			<table class="table votes-table">
+				<thead class="votes-table-header">
+					<tr>
+						<th>Nombre</th>
+						<th>Email</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+
+				<tbody class="votes-table-content admin-table-body">
+				{{#each model as |user|}}
+					<tr>
+						<td>{{user.firstName}} {{user.lastName}}</td>
+						<td>{{user.email}}</td>
+						<td>
+							{{link-to "Editar" "admin.user-edit" user class="btn btn-info"}}
+						</td>
+						<td>
+							<button {{action 'deleteUser' user.id}} class="btn btn-danger">Eliminar</button>
+						</td>
+					</tr>
+				{{/each}}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

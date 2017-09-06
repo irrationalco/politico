@@ -7,7 +7,7 @@ class Api::V1::ProjectionsController < ApplicationController
     year = params["year"].present? ? params["year"].to_i : 2012
     election_type = params["election"].present? ? params["election"] : "prs"
 
-    if params["history"].present? && params['level'] != 'country'
+    if params["history"].present? && params['level']
       @projections = get_history(params['section'],
                                 params["municipality"],
                                 params["state"],
@@ -98,8 +98,10 @@ class Api::V1::ProjectionsController < ApplicationController
           end
         when 'state'
           if state
-            result = Projection.where(state_code: State.find_state_by_name(state).state_code)
+            result = StateCache.where(state_code: State.find_state_by_name(state).state_code).as_projection
           end
+        when 'country'
+          result = StateCache.all.as_projection
       end
 
       return nil if !result
