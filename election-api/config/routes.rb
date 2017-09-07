@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       resources :organizations
       resources :projections
       resources :favorites
-      resources :electoral_data
+      resources :voters
       get '/current_user',  to: 'users#user_by_email'
     end
   end

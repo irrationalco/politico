@@ -1,2 +1,0 @@
-class ElectoralDatum < ApplicationRecord
-end
