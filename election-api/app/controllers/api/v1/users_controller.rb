@@ -1,11 +1,11 @@
 class Api::V1::UsersController < ApplicationController
   acts_as_token_authentication_handler_for User, fallback: :none
   before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user_by_token, only: [:index]
 
   # GET /users
   def index
     @users = User.all
-
     render json: @users
   end
 
