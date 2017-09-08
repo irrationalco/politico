@@ -5,7 +5,7 @@ export default DS.Model.extend({
     name: DS.attr('string'),
     first_last_name: DS.attr('string'),
     second_last_name: DS.attr('string'),
-    date_of_birth: DS.attr('date'),
+    date_of_birth: DS.attr('string'),
     street: DS.attr('string'),
     outside_number: DS.attr('string'),
     inside_number: DS.attr('string'),
