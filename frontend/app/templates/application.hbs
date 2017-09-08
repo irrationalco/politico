@@ -41,12 +41,14 @@
           {{/link-to}}
         </li>
 
-        {{!-- Another section --}}
+        {{!-- User admin --}}
+        {{#if session.currentUser.superadmin}}
         <li class="sub-menu">
-          <a>
-            <i class="fa fa-file-o"></i>
-          </a>
+          {{#link-to "admin.users"}}
+            <i class="fa fa-address-book-o"></i>
+          {{/link-to}}
         </li>
+        {{/if}}
       </ul>
     </div>
   {{/if}}
