@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   acts_as_token_authenticatable
 
-
   def is_superadmin?
     superadmin
   end

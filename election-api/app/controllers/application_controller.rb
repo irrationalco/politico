@@ -10,9 +10,9 @@ class ApplicationController < ActionController::API
     @current_user = User.find_by_token(request_auth_token)
   end
 
-  def verify_user_is_admin=
+  def verify_user_is_admin
     set_current_user_by_token()
-    unless @current_user.is_superadmin?=
+    unless @current_user.is_superadmin?
       render json: {}, status: 401
     end
   end
