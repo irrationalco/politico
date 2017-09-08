@@ -1,7 +1,7 @@
 class Api::V1::UsersController < ApplicationController
   acts_as_token_authentication_handler_for User, fallback: :none
   before_action :set_user, only: [:show, :update, :destroy]
-  before_action :set_user_by_token, only: [:index]
+  before_action :verify_user_is_admin
 
   # GET /users
   def index
