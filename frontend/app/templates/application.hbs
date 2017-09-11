@@ -20,6 +20,10 @@
         {{#dropdown.content class="dropdown-content"}}
           {{#if session.isAuthenticated}}
             <p {{action "logout"}} style="text-align: center;">Cerrar Sesión</p>
+          {{else}}
+            {{#link-to "login"}}
+              <p style="text-align: center;">Inicia Sesión</p>
+            {{/link-to}}
           {{/if}}
         {{/dropdown.content}}
       {{/basic-dropdown}}
