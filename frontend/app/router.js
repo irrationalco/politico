@@ -6,27 +6,33 @@ const Router = Ember.Router.extend({
   rootURL: config.rootURL
 });
 
-Router.map(function() {
-  this.route('login', { path: '/login'});
-    
-  this.route('polls', { path: 'polls/:poll_id' }, function() {
-    this.route('sections', { path: 'sections/:section_id' }, function() {
+Router.map(function () {
+  this.route('login', { path: '/login' });
+
+  this.route('polls', { path: 'polls/:poll_id' }, function () {
+    this.route('sections', { path: 'sections/:section_id' }, function () {
       this.route('approval');
       this.route('vote');
     });
   });
 
-  this.route('admin', function() {
+  this.route('admin', function () {
     this.route('users');
-    this.route('user-edit',  { path: '/user/:user_id/edit' });
+    this.route('user-edit', { path: '/user/:user_id/edit' });
     this.route('new-user', { path: "/new" });
   });
 
-  this.route('maps', function() {
+  this.route('maps', function () {
     this.route('projections');
     this.route('population');
   });
-  
+
+  this.route('ine', function () {
+    this.route('voters');
+    this.route('voter-edit', { path: 'voter/:voter_id/edit' });
+    this.route('new-voter', { path: '/new' });
+  });
+
 });
 
 export default Router;

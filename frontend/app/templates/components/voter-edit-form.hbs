@@ -1,0 +1,110 @@
+<div class="row vertical-offset-50">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="panel panel-default panel-login">
+            <div>
+                <div class="row-fluid user-row">
+                    <img id="login-logo" class="img-responsive" />
+                    <h2 style="text-align: center; padding-top: 10px;">{{form-title}}</h2>
+                </div>
+            </div>
+            <div class="panel-body">
+                <form {{action (if voter.id 'update' 'create') voter on="submit" }} accept-charset="UTF-8" role="form" class="form-signin">
+                    <fieldset>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <label>Código Electoral:</label> {{input value=voter.electoral_code placeholder="Código Electoral"
+                                class="form-control"}}
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Fecha de Nacimiento:</label> {{input value=voter.date_of_birth placeholder="Fecha
+                                de Nacimiento" class="form-control"}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <label>Nombre:</label> {{input value=voter.name placeholder="Nombre" class="form-control"}}
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Apellido Paterno:</label> {{input value=voter.first_last_name placeholder="Apellido
+                                Paterno" class="form-control"}}
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Apellido Materno:</label> {{input value=voter.second_last_name placeholder="Apellido
+                                Materno" class="form-control"}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <label>Calle:</label> {{input value=voter.street placeholder="Calle" class="form-control"}}
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Número Exterior:</label> {{input value=voter.outside_number placeholder="Número Exterior"
+                                class="form-control"}}
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Número interior:</label> {{input value=voter.inside_number placeholder="Número interior"
+                                class="form-control"}}
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Código Postal:</label> {{input value=voter.postal_code placeholder="Código Postal"
+                                class="form-control"}}
+                            </div>
+                        </div>
+                        <div class="form-gorup row">
+                            <div class="col-sm-6">
+                                <label>Colónia:</label> {{input value=voter.suburb placeholder="Colónia" class="form-control"}}
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Nombre de Municipio:</label> {{input value=voter.municipality_name placeholder="Nombre
+                                de Municipio" class="form-control"}}
+                            </div>
+                        </div>
+                        <div class="form-gorup row">
+                            <div class="col-sm-6">
+                                <label>Ocupación:</label> {{input value=voter.occupation placeholder="Ocupación" class="form-control"}}
+                            </div>
+                            <div class="col-sm-3">
+                                <label>TIMERES:</label> {{input value=voter.TIMERES placeholder="TIMERES" class="form-control"}}
+                            </div>
+                            <div class="col-sm-3">
+                                <label>FOL_NAC:</label> {{input value=voter.FOL_NAC placeholder="FOL_NAC" class="form-control"}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2">
+                                <label>Estado:</label> {{input value=voter.state placeholder="Estado" class="form-control"}}
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Distrito:</label> {{input value=voter.district placeholder="Distrito" class="form-control"}}
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Municipio:</label> {{input value=voter.municipality placeholder="Municipio" class="form-control"}}
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Sección:</label> {{input value=voter.section placeholder="Sección" class="form-control"}}
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Localidad:</label> {{input value=voter.locality placeholder="Localidad" class="form-control"}}
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Manzana:</label> {{input value=voter.apple placeholder="Manzana" class="form-control"}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <label>CONS_LC:</label> {{input value=voter.CONS_LC placeholder="CONS_LC" class="form-control"}}
+                            </div>
+                            <div class="col-sm-4">
+                                <label>EN_LN:</label> {{input value=voter.EN_LN placeholder="EN_LN" class="form-control"}}
+                            </div>
+                            <div class="col-sm-4">
+                                <label>EMISIONCRE:</label> {{input value=voter.EMISIONCRE placeholder="EMISIONCRE" class="form-control"}}
+                            </div>
+                        </div>
+                        {{input type="submit" value=(if voter.id 'Actualizar' 'Crear') class="btn btn-lg btn-block login-btn"}}
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

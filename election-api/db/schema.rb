@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170830030704) do
+ActiveRecord::Schema.define(version: 20170905051858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,24 +111,54 @@ ActiveRecord::Schema.define(version: 20170830030704) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                             default: "", null: false
-    t.string   "encrypted_password",                default: "", null: false
+    t.string   "email",                             default: "",    null: false
+    t.string   "encrypted_password",                default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0,  null: false
+    t.integer  "sign_in_count",                     default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.string   "authentication_token",   limit: 30
     t.string   "first_name",             limit: 35
     t.string   "last_name",              limit: 35
+    t.boolean  "superadmin",                        default: false
+    t.boolean  "supervisor",                        default: false
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  end
+
+  create_table "voters", force: :cascade do |t|
+    t.string   "electoral_code"
+    t.string   "name"
+    t.string   "first_last_name"
+    t.string   "second_last_name"
+    t.date     "date_of_birth"
+    t.string   "street"
+    t.string   "outside_number"
+    t.string   "inside_number"
+    t.string   "suburb"
+    t.decimal  "postal_code"
+    t.decimal  "TIMERES"
+    t.string   "occupation"
+    t.decimal  "FOL_NAC"
+    t.boolean  "EN_LN"
+    t.string   "municipality_name"
+    t.decimal  "state"
+    t.decimal  "district"
+    t.decimal  "municipality"
+    t.decimal  "section"
+    t.decimal  "locality"
+    t.decimal  "apple"
+    t.decimal  "CONS_LC"
+    t.decimal  "EMISIONCRE"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
 end

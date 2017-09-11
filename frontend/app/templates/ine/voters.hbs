@@ -1,0 +1,70 @@
+<div class="vertical-offset-100 horizontal-padding">
+	<h3 class="admin-table-title"> Admin de Registros</h3>
+	<table class="table votes-table">
+		<thead class="votes-table-header">
+			<tr>
+				<th>Código Electoral</th>
+				<th>Nombre</th>
+				<th>Apellido Paterno</th>
+				<th>Apellido Materno</th>
+				<th>Fecha de Nacimiento</th>
+				<th>Calle</th>
+				<th>Número Exterior</th>
+				<th>Número interior</th>
+				<th>Colónia</th>
+				<th>Código Postal</th>
+				<th>TIMERES</th>
+				<th>Ocupación</th>
+				<th>FOL_NAC</th>
+				<th>EN_LN</th>
+				<th>Nombre de Municipio</th>
+				<th>Estado</th>
+				<th>Distrito</th>
+				<th>Municipio</th>
+				<th>Sección</th>
+				<th>Localidad</th>
+				<th>Manzana</th>
+				<th>CONS_LC</th>
+				<th>EMISIONCRE</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+
+		<tbody class="votes-table-content admin-table-body">
+			{{#each model as |voter|}}
+			<tr>
+				<td> {{voter.electoral_code}}</td>
+				<td> {{voter.name}}</td>
+				<td> {{voter.first_last_name}}</td>
+				<td> {{voter.second_last_name}}</td>
+				<td> {{voter.date_of_birth}}</td>
+				<td> {{voter.street}}</td>
+				<td> {{voter.outside_number}}</td>
+				<td> {{voter.inside_number}}</td>
+				<td> {{voter.suburb}}</td>
+				<td> {{voter.postal_code}}</td>
+				<td> {{voter.TIMERES}}</td>
+				<td> {{voter.occupation}}</td>
+				<td> {{voter.FOL_NAC}}</td>
+				<td> {{voter.EN_LN}}</td>
+				<td> {{voter.municipality_name}}</td>
+				<td> {{voter.state}}</td>
+				<td> {{voter.district}}</td>
+				<td> {{voter.municipality}}</td>
+				<td> {{voter.section}}</td>
+				<td> {{voter.locality}}</td>
+				<td> {{voter.apple}}</td>
+				<td> {{voter.CONS_LC}}</td>
+				<td> {{voter.EMISIONCRE}}</td>
+				<td>
+					{{link-to "Editar" "ine.voter-edit" voter class="btn btn-info"}}
+				</td>
+				<td>
+					<button {{action 'deleteVoter' voter.id}} class="btn btn-danger">Eliminar</button>
+				</td>
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
+</div>

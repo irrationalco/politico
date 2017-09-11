@@ -1,11 +1,11 @@
 class Api::V1::UsersController < ApplicationController
   acts_as_token_authentication_handler_for User, fallback: :none
   before_action :set_user, only: [:show, :update, :destroy]
+  before_action :verify_user_is_admin, except: [:user_by_email]
 
   # GET /users
   def index
     @users = User.all
-
     render json: @users
   end
 
@@ -15,7 +15,10 @@ class Api::V1::UsersController < ApplicationController
     if @user
       data = {
         id: @user.id,
-        email: @user.email
+        email: @user.email,
+        firstName: @user.first_name,
+        lastName: @user.last_name,
+        superadmin: @user.superadmin
       }
       render json: data, status: 201 and return
     else 
