@@ -16,8 +16,8 @@ class Api::V1::UsersController < ApplicationController
       data = {
         id: @user.id,
         email: @user.email,
-        first_name: @user.first_name,
-        last_name: @user.last_name,
+        firstName: @user.first_name,
+        lastName: @user.last_name,
         superadmin: @user.superadmin
       }
       render json: data, status: 201 and return

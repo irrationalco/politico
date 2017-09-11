@@ -8,16 +8,19 @@
     <a href="index.html" class="logo"><b>Asesor Político Inteligente</b></a>
     
     <div class="top-menu">
-      {{!-- <ul class="nav pull-right top-menu">
-        <li></li>
-      </ul> --}}
       {{#basic-dropdown as |dropdown|}}
         {{#dropdown.trigger class="pull-right profile-circle"}}
-          HF
+          {{#if session.isAuthenticated}}
+            {{user-initials session.currentUser.firstName session.currentUser.lastName}}
+          {{else}}
+            NA
+          {{/if}}
         {{/dropdown.trigger}}
 
         {{#dropdown.content class="dropdown-content"}}
-          <p {{action "logout"}} style="text-align: center;"> Cerrar Sesión</p>
+          {{#if session.isAuthenticated}}
+            <p {{action "logout"}} style="text-align: center;">Cerrar Sesión</p>
+          {{/if}}
         {{/dropdown.content}}
       {{/basic-dropdown}}
     </div>
