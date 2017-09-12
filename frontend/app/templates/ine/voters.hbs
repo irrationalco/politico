@@ -1,23 +1,23 @@
 <div class="vertical-offset-100 horizontal-padding">
-	<h3 class="admin-table-title"> Admin de Registros</h3>
-	<table class="table votes-table">
+	<h3 class="admin-table-title">Lista Nominal</h3>
+	<table class="table table-striped">
 		<thead class="votes-table-header">
-			<tr>
-				<th>Código Electoral</th>
+			<tr style="background: #55cec5;">
+				<th>Cód. Electoral</th>
 				<th>Nombre</th>
-				<th>Apellido Paterno</th>
-				<th>Apellido Materno</th>
-				<th>Fecha de Nacimiento</th>
-				<th>Calle</th>
-				<th>Número Exterior</th>
-				<th>Número interior</th>
+				<th>Paterno</th>
+				<th>Materno</th>
+				<th>Nacimiento</th>
+				<th>Dirección</th>
+				<th>Ext.</th>
+				<th>Int.</th>
 				<th>Colónia</th>
-				<th>Código Postal</th>
+				<th>C.P</th>
 				<th>TIMERES</th>
 				<th>Ocupación</th>
 				<th>FOL_NAC</th>
 				<th>EN_LN</th>
-				<th>Nombre de Municipio</th>
+				<th>Municipio</th>
 				<th>Estado</th>
 				<th>Distrito</th>
 				<th>Municipio</th>
@@ -31,7 +31,7 @@
 			</tr>
 		</thead>
 
-		<tbody class="votes-table-content admin-table-body">
+		<tbody class="votes-table-content">
 			{{#each model as |voter|}}
 			<tr>
 				<td> {{voter.electoral_code}}</td>
