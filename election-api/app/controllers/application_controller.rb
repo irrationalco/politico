@@ -3,7 +3,7 @@ class ApplicationController < ActionController::API
   private
 
   def request_auth_token
-    env['HTTP_AUTHORIZATION'].split(" ").last
+    request.headers['HTTP_AUTHORIZATION'].split(" ").last
   end
 
   def set_current_user_by_token
