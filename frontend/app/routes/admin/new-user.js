@@ -7,6 +7,17 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 	},
 	
 	actions: {
+		willTransition(transition) {
+			var model = this.currentModel;
+			if (model.get('hasDirtyAttributes')) {
+				if(confirm('¿Estás seguro?')) {
+					model.rollbackAttributes();
+					this.get('store').unloadRecord(model);
+				} else {
+					transition.abort();
+				}
+			}
+		},
 		transitionToUsers() {
 			this.transitionTo('admin.users');
 		}
