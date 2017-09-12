@@ -27,15 +27,9 @@ puts "################\nSeeds"
 
 # delete_dbs(State, Municipality,Projection,Poll,Section)
 
-# user = User.new
-# user.email = 'abc@abc.abc'
-# user.password = 'abc123'
-# user.password_confirmation = 'abc123'
-# user.save!
-
 ##############################
 # Creando estados y municipios
-puts "Creating munis..."
+puts "Creating states and municipalities..."
 t = Time.now
 
 muni_ids = CSV.read("tbl_ids.csv")
@@ -116,7 +110,7 @@ end
 
 puts "Done projections: #{Time.now - t}s"
 
-############################################################################################
+# ############################################################################################
 # Creando cache de datos por estado
 puts "Creating states chache..."
 t = Time.now
@@ -156,7 +150,9 @@ section3 = Section.create(title: "¿Si hoy tuvieras que votar por Alcalde de Mon
 section4 = Section.create(title: "¿Cómo crees que sea su caracter como persona?", poll: poll)
 section5 = Section.create(title: "Un poco sobre ti: ", poll: poll)
 
+puts "Done polls"
 
+# Creando Voters
 puts "Creating voters..."
 t = Time.now
 ine_data = CSV.read("tbl_voters_chica.csv")
