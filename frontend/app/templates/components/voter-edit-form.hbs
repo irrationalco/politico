@@ -46,7 +46,7 @@
                                 class="form-control"}}
                             </div>
                             <div class="col-sm-2">
-                                <label>Código Postal:</label> {{input value=voter.postal_code placeholder="Código Postal"
+                                <label>Código Postal:</label> {{input type="number" value=voter.postal_code placeholder="Código Postal"
                                 class="form-control"}}
                             </div>
                         </div>
@@ -64,41 +64,41 @@
                                 <label>Ocupación:</label> {{input value=voter.occupation placeholder="Ocupación" class="form-control"}}
                             </div>
                             <div class="col-sm-3">
-                                <label>TIMERES:</label> {{input value=voter.TIMERES placeholder="TIMERES" class="form-control"}}
+                                <label>TIMERES:</label> {{input type="number" value=voter.TIMERES placeholder="TIMERES" class="form-control"}}
                             </div>
                             <div class="col-sm-3">
-                                <label>FOL_NAC:</label> {{input value=voter.FOL_NAC placeholder="FOL_NAC" class="form-control"}}
+                                <label>FOL_NAC:</label> {{input type="number" value=voter.FOL_NAC placeholder="FOL_NAC" class="form-control"}}
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-2">
-                                <label>Estado:</label> {{input value=voter.state placeholder="Estado" class="form-control"}}
+                                <label>Estado:</label> {{input type="number" value=voter.state placeholder="Estado" class="form-control"}}
                             </div>
                             <div class="col-sm-2">
-                                <label>Distrito:</label> {{input value=voter.district placeholder="Distrito" class="form-control"}}
+                                <label>Distrito:</label> {{input type="number" value=voter.district placeholder="Distrito" class="form-control"}}
                             </div>
                             <div class="col-sm-2">
-                                <label>Municipio:</label> {{input value=voter.municipality placeholder="Municipio" class="form-control"}}
+                                <label>Municipio:</label> {{input type="number" value=voter.municipality placeholder="Municipio" class="form-control"}}
                             </div>
                             <div class="col-sm-2">
-                                <label>Sección:</label> {{input value=voter.section placeholder="Sección" class="form-control"}}
+                                <label>Sección:</label> {{input type="number" value=voter.section placeholder="Sección" class="form-control"}}
                             </div>
                             <div class="col-sm-2">
-                                <label>Localidad:</label> {{input value=voter.locality placeholder="Localidad" class="form-control"}}
+                                <label>Localidad:</label> {{input type="number" value=voter.locality placeholder="Localidad" class="form-control"}}
                             </div>
                             <div class="col-sm-2">
-                                <label>Manzana:</label> {{input value=voter.apple placeholder="Manzana" class="form-control"}}
+                                <label>Manzana:</label> {{input type="number" value=voter.apple placeholder="Manzana" class="form-control"}}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <div class="col-sm-4">
-                                <label>CONS_LC:</label> {{input value=voter.CONS_LC placeholder="CONS_LC" class="form-control"}}
+                            <div class="col-sm-6">
+                                <label>CONS_LC:</label> {{input type="number" value=voter.CONS_LC placeholder="CONS_LC" class="form-control"}}
                             </div>
-                            <div class="col-sm-4">
-                                <label>EN_LN:</label> {{input value=voter.EN_LN placeholder="EN_LN" class="form-control"}}
+                            <div class="col-sm-5">
+                                <label>EMISIONCRE:</label> {{input type="number" value=voter.EMISIONCRE placeholder="EMISIONCRE" class="form-control"}}
                             </div>
-                            <div class="col-sm-4">
-                                <label>EMISIONCRE:</label> {{input value=voter.EMISIONCRE placeholder="EMISIONCRE" class="form-control"}}
+                            <div class="col-sm-1">
+                                <label>EN_LN:</label> {{input type="checkbox" checked=voter.EN_LN placeholder="EN_LN" class="form-control"}}
                             </div>
                         </div>
                         {{input type="submit" value=(if voter.id 'Actualizar' 'Crear') class="btn btn-lg btn-block login-btn"}}
