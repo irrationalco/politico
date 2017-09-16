@@ -3,9 +3,14 @@ class Api::V1::VotersController < ApplicationController
 
   # GET /voters
   def index
-    @voters = Voter.all
-
-    render json: @voters
+    if params["per_page"].present? && params["page"].present? &&
+      ((lim = params["per_page"].to_i) != 0) && ((off = params["page"].to_i * lim) != 0)
+      @voters = Voter.all.order(:id).offset(off-lim).limit(lim)
+      render json: @voters, meta: { total: (Voter.count/lim).ceil }
+    else
+      @voters = Voter.all
+      render json: @voters
+    end
   end
 
   # GET /voters/1
