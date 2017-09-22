@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170905051858) do
+ActiveRecord::Schema.define(version: 20170922033648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20170905051858) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "admin_id"
+    t.integer  "manager_id"
   end
 
   create_table "polls", force: :cascade do |t|
@@ -113,6 +114,14 @@ ActiveRecord::Schema.define(version: 20170905051858) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "suborganizations", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "manager_id"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                             default: "",    null: false
     t.string   "encrypted_password",                default: "",    null: false
@@ -131,6 +140,9 @@ ActiveRecord::Schema.define(version: 20170905051858) do
     t.string   "last_name",              limit: 35
     t.boolean  "superadmin",                        default: false
     t.boolean  "supervisor",                        default: false
+    t.boolean  "manager",                           default: false
+    t.boolean  "capturist",                         default: false
+    t.integer  "suborganization_id"
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
@@ -160,8 +172,10 @@ ActiveRecord::Schema.define(version: 20170905051858) do
     t.decimal  "apple"
     t.decimal  "CONS_LC"
     t.decimal  "EMISIONCRE"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "user_id"
+    t.integer  "suborganization_id"
   end
 
 end
