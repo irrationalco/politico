@@ -19,7 +19,10 @@ Router.map(function () {
   this.route('admin', function () {
     this.route('users');
     this.route('user-edit', { path: '/user/:user_id/edit' });
-    this.route('new-user', { path: "/new" });
+    this.route('user-new', { path: "/user/new" });
+    this.route('organizations');
+    this.route('organization-edit', { path: '/organization/:organization_id/edit' });
+    this.route('organization-new', { path: "/organization/new" });
   });
 
   this.route('maps', function () {

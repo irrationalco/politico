@@ -10,6 +10,7 @@ export default Ember.Controller.extend({
 	store: 	 service('store'),
 
 	actions: {
+
 		deleteUser(userId) {
 			this.get('store').findRecord('user', userId, { backgroundReload: false }).then( user => {
 				user.destroyRecord().then(() => {
@@ -18,10 +19,6 @@ export default Ember.Controller.extend({
 					this.get('notify').alert("Error deleting user.", { closeAfter: null});
 				});
 			})
-		},
-
-		testNotify() {
-			this.get('notify').info("Some Message");
 		}
 	}
 });

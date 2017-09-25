@@ -1,12 +1,12 @@
 <div class="container">
 	<div class="row vertical-offset-100">
 		<div class="col-md-8 col-md-offset-2">
-			<h3 class="admin-table-title"> Admin de Usuarios</h3>
+			<h3 class="admin-table-title"> Admin de Organizaciones</h3>
 			<table class="table votes-table">
 				<thead class="votes-table-header">
 					<tr>
 						<th>Nombre</th>
-						<th>Email</th>
+						<th>Manager</th>
 						<th></th>
 						<th></th>
 					</tr>
@@ -17,17 +17,17 @@
 				<td>XXXXX</td>
 				<td>XXXXX</td>
 				<td></td>
-				<td>{{link-to "Nuevo" "admin.user-new" class="btn btn-success"}}</td>
+				<td>{{link-to "Nuevo" "admin.organization-new" class="btn btn-success"}}</td>
 				</tr>
-				{{#each model as |user|}}
+				{{#each model as |org|}}
 					<tr>
-						<td>{{user.firstName}} {{user.lastName}}</td>
-						<td>{{user.email}}</td>
+						<td>{{org.name}}</td>
+						<td></td>
 						<td>
-							{{link-to "Editar" "admin.user-edit" user class="btn btn-info"}}
+							{{link-to "Editar" "admin.organization-edit" org class="btn btn-info"}}
 						</td>
 						<td>
-							<button {{action 'deleteUser' user.id}} class="btn btn-danger">Eliminar</button>
+							<button {{action 'deleteOrg' org.id}} class="btn btn-danger">Eliminar</button>
 						</td>
 					</tr>
 				{{/each}}
