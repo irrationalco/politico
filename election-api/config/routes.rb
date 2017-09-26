@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :sections
       resources :polls
       resources :organizations
+      resources :suborganizations
       resources :projections
       resources :favorites
       resources :voters

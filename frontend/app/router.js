@@ -23,6 +23,9 @@ Router.map(function () {
     this.route('organizations');
     this.route('organization-edit', { path: '/organization/:organization_id/edit' });
     this.route('organization-new', { path: "/organization/new" });
+    this.route('suborganizations');
+    this.route('suborganization-edit', { path: '/suborganization/:suborganization_id/edit' });
+    this.route('suborganization-new', { path: "/suborganization/new" });
   });
 
   this.route('maps', function () {
