@@ -22,9 +22,9 @@
 				{{#each model as |org|}}
 					<tr>
 						<td>{{org.name}}</td>
-						<td></td>
+						<td>{{org.managerName}}</td>
 						<td>
-							{{link-to "Editar" "admin.organization-edit" org class="btn btn-info"}}
+							{{link-to "Editar" "admin.organization-edit" org.id class="btn btn-info"}}
 						</td>
 						<td>
 							<button {{action 'deleteOrg' org.id}} class="btn btn-danger">Eliminar</button>

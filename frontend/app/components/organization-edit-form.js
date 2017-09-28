@@ -11,7 +11,22 @@ export default Ember.Component.extend({
 	store: 	 service('store'),
 	session: service('session'),
 
+	manager: null,
+
+	init() {
+		this._super(...arguments);
+		if(!isEmpty(this.get('org.managerId'))) {
+			this.get('store').findRecord('user', this.get('org.managerId')).then(manager => {
+				this.set('manager', manager);
+			});
+		}
+	},
+
 	actions: {
+		setManager(manager) {
+			this.set('manager', manager);
+		},
+
 		create(org) {
 			this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
 				this.get('ajax').post(config.localhost + '/api/organizations', {
@@ -20,7 +35,8 @@ export default Ember.Component.extend({
 					},
 					data: {
 						organization: { 
-							name: org.get('name')
+							name: org.get('name'),
+							manager_id: this.get('manager.id')
 						}
 					}
 				})
@@ -33,6 +49,7 @@ export default Ember.Component.extend({
 				});
 			});
 		},
+
 		update(org) {
 			this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
 				this.get('ajax').put(config.localhost + '/api/organizations/' + org.get('id'), {
@@ -41,7 +58,8 @@ export default Ember.Component.extend({
 					},
 					data: {
 						organization: { 
-							name: org.get('name')
+							name: org.get('name'),
+							manager_id: this.get('manager.id')
 						}
 					}
 				})

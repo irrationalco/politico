@@ -49,6 +49,6 @@ class Api::V1::SuborganizationsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def suborganization_params
-      params.require(:suborganization).permit(:name)
+      params.require(:suborganization).permit(:name, :manager_id, :organization_id)
     end
 end

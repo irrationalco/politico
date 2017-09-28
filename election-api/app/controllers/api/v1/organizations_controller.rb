@@ -49,6 +49,6 @@ class Api::V1::OrganizationsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def organization_params
-      params.require(:organization).permit(:name)
+      params.require(:organization).permit(:name, :manager_id)
     end
 end
