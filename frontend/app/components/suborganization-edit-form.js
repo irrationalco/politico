@@ -11,7 +11,32 @@ export default Ember.Component.extend({
 	store: 	 service('store'),
 	session: service('session'),
 
+	manager: null,
+	org: 	 null,
+
+	init() {
+		this._super(...arguments);
+		if (!isEmpty(this.get('suborg.managerId'))) {
+			this.get('store').findRecord('user', this.get('suborg.managerId')).then(manager => {
+				this.set('manager', manager);
+			});
+		}
+
+		if (!isEmpty(this.get('suborg.organization'))) {
+			this.set('org', this.get('suborg.organization'));
+		}
+	},
+
 	actions: {
+
+		setManager(manager) {
+			this.set('manager', manager);
+		},
+
+		setOrganization(org) {
+			this.set('org', org);
+		},
+
 		create(suborg) {
 			this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
 				this.get('ajax').post(config.localhost + '/api/suborganizations', {
@@ -20,7 +45,9 @@ export default Ember.Component.extend({
 					},
 					data: {
 						suborganization: { 
-							name: suborg.get('name')
+							name: suborg.get('name'),
+							manager_id: this.get('manager.id'),
+							organization_id: this.get('org.id')
 						}
 					}
 				})
@@ -41,7 +68,9 @@ export default Ember.Component.extend({
 					},
 					data: {
 						suborganization: { 
-							name: suborg.get('name')
+							name: suborg.get('name'),
+							manager_id: this.get('manager.id'),
+							organization_id: this.get('org.id')
 						}
 					}
 				})
