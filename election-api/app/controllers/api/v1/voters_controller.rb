@@ -51,6 +51,6 @@ class Api::V1::VotersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def voter_params
-      params.require(:voter).permit(:electoral_code, :name, :first_last_name, :second_last_name, :date_of_birth, :street, :outside_number, :inside_number, :suburb, :postal_code, :TIMERES, :occupation, :FOL_NAC, :EN_LN, :municipality_name, :state, :district, :municipality, :section, :locality, :apple, :CONS_LC, :EMISIONCRE)
+      params.require(:voter).permit(:captured_by, :electoral_id_number, :expiration_date, :first_name, :second_name, :first_last_name, :second_last_name, :gender,   :date_of_birth, :electoral_code, :CURP, :section, :street, :outside_number, :inside_number, :suburb, :locality_code, :locality, :municipality_code, :municipality, :state_code, :state, :postal_code, :home_phone, :mobile_phone, :email, :alternative_email, :facebook_account, :highest_educational_level, :current_ocupation, :organization, :party_positions_held, :is_part_of_party, :has_been_candidate, :popular_election_position, :election_year, :won_election, :election_route, :notes)
     end
 end

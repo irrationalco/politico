@@ -15,9 +15,6 @@ ActiveRecord::Schema.define(version: 20170922033648) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "TestTable", force: :cascade do |t|
-  end
-
   create_table "favorites", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "projection_id"
@@ -149,31 +146,47 @@ ActiveRecord::Schema.define(version: 20170922033648) do
   end
 
   create_table "voters", force: :cascade do |t|
-    t.string   "electoral_code"
-    t.string   "name"
+    t.string   "captured_by"
+    t.string   "electoral_id_number"
+    t.decimal  "expiration_date"
+    t.string   "first_name"
+    t.string   "second_name"
     t.string   "first_last_name"
     t.string   "second_last_name"
+    t.string   "gender"
     t.date     "date_of_birth"
+    t.string   "electoral_code"
+    t.string   "CURP"
+    t.decimal  "section"
     t.string   "street"
     t.string   "outside_number"
     t.string   "inside_number"
     t.string   "suburb"
+    t.decimal  "locality_code"
+    t.string   "locality"
+    t.decimal  "municipality_code"
+    t.string   "municipality"
+    t.decimal  "state_code"
+    t.string   "state"
     t.decimal  "postal_code"
-    t.decimal  "TIMERES"
-    t.string   "occupation"
-    t.decimal  "FOL_NAC"
-    t.boolean  "EN_LN"
-    t.string   "municipality_name"
-    t.decimal  "state"
-    t.decimal  "district"
-    t.decimal  "municipality"
-    t.decimal  "section"
-    t.decimal  "locality"
-    t.decimal  "apple"
-    t.decimal  "CONS_LC"
-    t.decimal  "EMISIONCRE"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.decimal  "home_phone"
+    t.decimal  "mobile_phone"
+    t.string   "email"
+    t.string   "alternative_email"
+    t.string   "facebook_account"
+    t.string   "highest_educational_level"
+    t.string   "current_ocupation"
+    t.string   "organization"
+    t.string   "party_positions_held"
+    t.boolean  "is_part_of_party"
+    t.boolean  "has_been_candidate"
+    t.string   "popular_election_position"
+    t.decimal  "election_year"
+    t.boolean  "won_election"
+    t.string   "election_route"
+    t.string   "notes"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.integer  "user_id"
     t.integer  "suborganization_id"
   end
