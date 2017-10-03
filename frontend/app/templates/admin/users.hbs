@@ -7,30 +7,41 @@
 					<tr>
 						<th>Nombre</th>
 						<th>Email</th>
+						<th>Suborganización</th>
+						<th style="text-align:center;">Manager</th>
+						<th style="text-align:center;">Supervisor</th>
+						<th style="text-align:center;">Capturista</th>
+						<th></th>
 						<th></th>
 						<th></th>
 					</tr>
 				</thead>
 
 				<tbody class="votes-table-content admin-table-body">
-				<tr>
-				<td>XXXXX</td>
-				<td>XXXXX</td>
-				<td></td>
-				<td>{{link-to "Nuevo" "admin.user-new" class="btn btn-success"}}</td>
-				</tr>
-				{{#each model as |user|}}
 					<tr>
-						<td>{{user.firstName}} {{user.lastName}}</td>
-						<td>{{user.email}}</td>
-						<td>
-							{{link-to "Editar" "admin.user-edit" user class="btn btn-info"}}
-						</td>
-						<td>
-							<button {{action 'deleteUser' user.id}} class="btn btn-danger">Eliminar</button>
-						</td>
+						<td>XXXXX</td>
+						<td>XXXXX</td>
+						<td>XXXXX</td>
+						<td style="text-align:center;">X</td>
+						<td style="text-align:center;">X</td>
+						<td style="text-align:center;">X</td>
+						<td></td>
+						<td></td>
+						<td>{{link-to "Nuevo" "admin.user-new" class="btn btn-success"}}</td>
 					</tr>
-				{{/each}}
+					{{#each model as |user|}}
+						<tr>
+							<td>{{user.firstName}} {{user.lastName}}</td>
+							<td>{{user.email}}</td>
+							<td>{{user.suborganization.name}}</td>
+							<td>{{x-toggle value=user.manager 	 theme='ios' onToggle=(action (mut user.manager))}}</td>
+							<td>{{x-toggle value=user.supervisor theme='ios' onToggle=(action (mut user.supervisor))}}</td>
+							<td>{{x-toggle value=user.capturist  theme='ios' onToggle=(action (mut user.capturist))}}</td>
+							<td><button {{action 'update' user}} class="btn btn-primary">Guardar Roles</button></td>
+							<td>{{link-to "Editar" "admin.user-edit" user.id class="btn btn-info"}}</td>
+							<td><button {{action 'deleteUser' user.id}} class="btn btn-danger">Eliminar</button></td>
+						</tr>
+					{{/each}}
 				</tbody>
 			</table>
 		</div>

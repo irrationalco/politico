@@ -14,11 +14,14 @@ class Api::V1::UsersController < ApplicationController
 
     if @user
       data = {
-        id: @user.id,
-        email: @user.email,
-        firstName: @user.first_name,
-        lastName: @user.last_name,
-        superadmin: @user.superadmin
+        id:         @user.id,
+        email:      @user.email,
+        firstName:  @user.first_name,
+        lastName:   @user.last_name,
+        superadmin: @user.superadmin,
+        manager:    @user.manager,
+        supervisor: @user.supervisor,
+        capturist:  @user.capturist
       }
       render json: data, status: 201 and return
     else 
@@ -64,7 +67,7 @@ class Api::V1::UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:email, :password, :first_name, 
-                                   :last_name, :suborganization_id)
+      params.require(:user).permit(:email, :password, :first_name, :last_name, :suborganization_id,
+                                   :manager, :supervisor, :capturist)
     end
 end

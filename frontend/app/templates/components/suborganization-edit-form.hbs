@@ -13,8 +13,36 @@
                         <fieldset>
                             <label>Nombre:</label>
                             {{input value=suborg.name placeholder="Nombre" class="form-control"}}
+
                             <label>Manager:</label>
-                            {{input type="submit" value="Crear" class="btn btn-lg btn-block login-btn"}}
+                            <div class="form-select">
+                                {{#power-select
+                                    options=users
+                                    searchField="firstName"
+                                    selected=manager
+                                    placeholder="Elige un manager"
+                                    onchange=(action "setManager")
+                                    as |manager|
+                                }}
+                                    <p>{{manager.firstName}} {{manager.lastName}}</p>
+                                {{/power-select}}
+                            </div>
+
+                            <label>Organización:</label>
+                            <div class="form-select">
+                                {{#power-select
+                                    options=orgs
+                                    searchField="name"
+                                    selected=org
+                                    placeholder="Elige la organización a la cual pertenece"
+                                    onchange=(action "setOrganization")
+                                    as |org|
+                                }}
+                                    <p>{{org.name}}</p>
+                                {{/power-select}}
+                            </div>
+
+                            {{input type="submit" value=(if suborg.id 'Actualizar' 'Crear') class="btn btn-lg btn-block login-btn"}}
                         </fieldset>
                     </form>
                 </div>

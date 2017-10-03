@@ -7,30 +7,32 @@
 					<tr>
 						<th>Nombre</th>
 						<th>Manager</th>
+						<th>Organización</th>
 						<th></th>
 						<th></th>
 					</tr>
 				</thead>
 
 				<tbody class="votes-table-content admin-table-body">
-				<tr>
-				<td>XXXXX</td>
-				<td>XXXXX</td>
-				<td></td>
-				<td>{{link-to "Nuevo" "admin.suborganization-new" class="btn btn-success"}}</td>
-				</tr>
-				{{#each model as |suborg|}}
 					<tr>
-						<td>{{suborg.name}}</td>
+						<td>XXXXX</td>
+						<td>XXXXX</td>
 						<td></td>
-						<td>
-							{{link-to "Editar" "admin.suborganization-edit" suborg class="btn btn-info"}}
-						</td>
-						<td>
-							<button {{action 'deleteSuborg' suborg.id}} class="btn btn-danger">Eliminar</button>
-						</td>
+						<td>{{link-to "Nuevo" "admin.suborganization-new" class="btn btn-success"}}</td>
 					</tr>
-				{{/each}}
+					{{#each model as |suborg|}}
+						<tr>
+							<td>{{suborg.name}}</td>
+							<td>{{suborg.managerName}}</td>
+							<td>{{suborg.organization.name}}</td>
+							<td>
+								{{link-to "Editar" "admin.suborganization-edit" suborg.id class="btn btn-info"}}
+							</td>
+							<td>
+								<button {{action 'deleteSuborg' suborg.id}} class="btn btn-danger">Eliminar</button>
+							</td>
+						</tr>
+					{{/each}}
 				</tbody>
 			</table>
 		</div>
