@@ -10,6 +10,32 @@ export default Ember.Controller.extend({
 	store: 	 service('store'),
 
 	actions: {
+		update(user) {
+			this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
+				this.get('ajax').put(config.localhost + '/api/users/' + user.get('id'), {
+					headers: {
+						[headerName]: headerValue
+					},
+					data: {
+						user: { 
+							email: user.get('email'), 
+							first_name: user.get('firstName'),
+							last_name:  user.get('lastName'),
+							password:		user.get('password'),
+							manager:  	user.get('manager'),
+							supervisor: user.get('supervisor'),
+							capturist:  user.get('capturist')
+						}
+					}
+				})
+				.then(res => {
+					this.get('notify').success("Roles del usuario actualizados exitosamente!");
+				})
+				.catch(err => {
+					this.get('notify').alert("Make sure all fields are filled correctly.");
+				});
+			});
+		},
 
 		deleteUser(userId) {
 			this.get('store').findRecord('user', userId, { backgroundReload: false }).then( user => {
