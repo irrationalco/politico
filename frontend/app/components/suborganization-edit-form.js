@@ -29,14 +29,10 @@ export default Ember.Component.extend({
 
 	actions: {
 
-		setManager(manager) {
-			this.set('manager', manager);
-		},
+		setManager(manager) { this.set('manager', manager); },
 
-		setOrganization(org) {
-			this.set('org', org);
-		},
-
+		setOrganization(org) { this.set('org', org); },
+		
 		create(suborg) {
 			this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
 				this.get('ajax').post(config.localhost + '/api/suborganizations', {

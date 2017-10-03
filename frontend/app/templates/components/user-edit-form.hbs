@@ -19,6 +19,20 @@
                         	<label>Email:</label>
                             {{input value=user.email placeholder="Email" class="form-control"}}
 
+                            <label>Suborganización:</label>
+                            <div class="form-select">
+                                {{#power-select
+                                    options=suborgs
+                                    searchField="name"
+                                    selected=suborg
+                                    placeholder="Elige la suborganización a la cual pertenece"
+                                    onchange=(action "setSuborganization")
+                                    as |suborg|
+                                }}
+                                    <p>{{suborg.name}}</p>
+                                {{/power-select}}
+                            </div>
+
                             <h2 style="text-align: center; margin-bottom: 20px;"> O cambia la contraseña</h2>
 
                             <label>Nueva Contraseña:</label>
@@ -37,6 +51,21 @@
                             {{input value=user.lastName placeholder="Apellidos" class="form-control"}}
                             <label>Email:</label>
                             {{input value=user.email placeholder="Email" class="form-control"}}
+
+                            <label>Organización:</label>
+                            <div class="form-select">
+                                {{#power-select
+                                    options=suborgs
+                                    searchField="name"
+                                    selected=suborg
+                                    placeholder="Elige la suborganización a la cual pertenece"
+                                    onchange=(action "setSuborganization")
+                                    as |suborg|
+                                }}
+                                    <p>{{suborg.name}}</p>
+                                {{/power-select}}
+                            </div>
+
                             <label>Password:</label>
                             {{input value=user.password type="password" placeholder="Contraseña" class="form-control"}}
                             <label>Confirma Password:</label>

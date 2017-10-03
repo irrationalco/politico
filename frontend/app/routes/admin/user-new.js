@@ -3,12 +3,15 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
 	model() {
-		return this.get('store').createRecord('user');
+		return Ember.RSVP.hash({
+			user: this.get('store').createRecord('user'),
+			suborgs: this.get('store').findAll('suborganizations')
+		});
 	},
 	
 	actions: {
 		willTransition(transition) {
-			var model = this.currentModel;
+			var model = this.currentModel.user;
 			if (model.get('hasDirtyAttributes')) {
 				if(confirm('¿Estás seguro?')) {
 					model.rollbackAttributes();

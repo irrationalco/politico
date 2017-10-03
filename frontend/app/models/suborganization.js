@@ -5,5 +5,6 @@ export default DS.Model.extend({
 	managerId:    DS.attr('number'),
 	managerName:  DS.attr('string'),
 
+	users: 				DS.hasMany('user'),
 	organization: DS.belongsTo('organization')
 });

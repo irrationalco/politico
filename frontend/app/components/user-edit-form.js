@@ -11,7 +11,21 @@ export default Ember.Component.extend({
 	store: 	 service('store'),
 	session: service('session'),
 
+	suborg: null,
+
+	init() {
+		this._super(...arguments);
+		if (!isEmpty(this.get('user.suborganization'))) {
+			this.set('org', this.get('user.suborganization'));
+		}
+	},
+
 	actions: {
+
+		setSuborganization(suborg) {
+			this.set('suborg', suborg);
+		},
+
 		create(user) {
 			this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
 				this.get('ajax').post(config.localhost + '/api/users', {
@@ -23,7 +37,8 @@ export default Ember.Component.extend({
 							email: user.get('email'), 
 							first_name: user.get('firstName'),
 							last_name: user.get('lastName'),
-							password:	user.get('password')
+							password:	user.get('password'),
+							suborganization_id: this.get('suborg.id')
 						}
 					}
 				})
@@ -47,7 +62,8 @@ export default Ember.Component.extend({
 							email: user.get('email'), 
 							first_name: user.get('firstName'),
 							last_name: user.get('lastName'),
-							password:	user.get('password')
+							password:	user.get('password'),
+							suborganization_id: this.get('suborg.id')
 						}
 					}
 				})

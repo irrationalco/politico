@@ -7,5 +7,7 @@ export default DS.Model.extend({
 	superAdmin: DS.attr('boolean'),
 	supervisor: DS.attr('boolean'),
 	manager:		DS.attr('boolean'),
-	capturist: 	DS.attr('boolean')
+	capturist: 	DS.attr('boolean'),
+
+	suborganization: DS.belongsTo('suborganization')
 });
