@@ -1,5 +1,9 @@
 <div class="vertical-offset-100 horizontal-padding">
 	<h3 class="admin-table-title">Registro de Estructura</h3>
+	<div class="table-header">
+		{{link-to "Cargar Archivo de Registros" "ine.upload-file" class="btn btn-success"}}
+		{{link-to "Agregar Nuevo Registro" "ine.new-voter" class="btn btn-success"}}
+	</div>
 	<table class="table table-striped">
 		<thead class="votes-table-header">
 			<tr style="background: #55cec5;">
@@ -67,7 +71,7 @@
 				<td>{{voter.first_last_name}}</td>
 				<td>{{voter.second_last_name}}</td>
 				<td>{{voter.gender}}</td>
-				<td>{{voter.date_of_birth}}</td>
+				<td>{{readable-date voter.date_of_birth}}</td>
 				<td>{{voter.electoral_code}}</td>
 				<td>{{voter.CURP}}</td>
 

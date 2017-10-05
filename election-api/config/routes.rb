@@ -15,7 +15,9 @@ Rails.application.routes.draw do
       resources :suborganizations
       resources :projections
       resources :favorites
-      resources :voters
+      resources :voters do
+        post 'file_upload', on: :new
+      end
       get '/current_user',  to: 'users#user_by_email'
     end
   end

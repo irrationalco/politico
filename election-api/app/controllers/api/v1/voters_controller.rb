@@ -13,6 +13,15 @@ class Api::V1::VotersController < ApplicationController
     end
   end
 
+  def file_upload
+    invalidRows = Voter.import(params[:file])
+    unless invalidRows.nil?
+      send_data invalidRows, filename: "registrosInvalidos-#{Date.today}.csv", type: :csv
+    else
+      render status: :created
+    end
+  end
+
   # GET /voters/1
   def show
     render json: @voter
