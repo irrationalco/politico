@@ -146,7 +146,6 @@ ActiveRecord::Schema.define(version: 20170922033648) do
   end
 
   create_table "voters", force: :cascade do |t|
-    t.string   "captured_by"
     t.string   "electoral_id_number"
     t.decimal  "expiration_date"
     t.string   "first_name"
