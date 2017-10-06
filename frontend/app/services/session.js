@@ -6,10 +6,11 @@ import config from '../config/environment';
 export default ESASession.extend({
 	store: Ember.inject.service(),
 
-	currentUser: Ember.computed('isAuthenticated', function() {
-		if(this.get('isAuthenticated')) {
-			const promise = Ember.$.getJSON(config.localhost + '/api/current_user', {email: this.get('data').authenticated.email });
-			return DS.PromiseObject.create({ promise: promise });
-		}
-	})
+	currentUser: null,
+
+	loadCurrentUser() {
+		Ember.$.getJSON(config.localhost + '/api/current_user', {email: this.get('data').authenticated.email }).then(res => {
+			this.set('currentUser', res);
+		});
+	}
 });
