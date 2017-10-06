@@ -16,4 +16,11 @@ class ApplicationController < ActionController::API
       render json: {}, status: 401
     end
   end
+
+  def verify_user_is_admin_or_manager
+    set_current_user_by_token()
+    unless @current_user.is_superadmin? || @current_user.is_manager?
+      render json: {}, status: 401
+    end
+  end
 end

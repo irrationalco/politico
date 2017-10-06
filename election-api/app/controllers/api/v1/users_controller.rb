@@ -1,11 +1,16 @@
 class Api::V1::UsersController < ApplicationController
   acts_as_token_authentication_handler_for User, fallback: :none
   before_action :set_user, only: [:show, :update, :destroy]
-  before_action :verify_user_is_admin, except: [:user_by_email,:show]
+  before_action :verify_user_is_admin, except: [:user_by_email,:show,:index]
+  before_action :verify_user_is_admin_or_manager, only: [:index]
 
   # GET /users
   def index
-    @users = User.all
+    if @current_user.is_manager?
+      @users = User.where(suborganization_id: @current_user.suborganization_id)
+    else
+      @users = User.all  
+    end
     render json: @users
   end
 
