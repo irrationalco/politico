@@ -9,9 +9,13 @@ export default Ember.Component.extend({
     ajax: service('ajax'),
     notify: service('notify'),
     store: service('store'),
+    session: service('session'),
 
-    voterObject(voter) {
+    voterObject(voter, headerName, headerValue) {
         return {
+            headers: {
+                [headerName]: headerValue
+            },
             data: {
                 voter: {
                     captured_by: voter.get('captured_by'),
@@ -66,25 +70,29 @@ export default Ember.Component.extend({
 
     actions: {
         create(voter) {
-            this.get('ajax').post(config.localhost + '/api/voters', this.voterObject(voter))
-                .then(res => {
-                    voter.deleteRecord();
-                    this.sendAction('transitionToVoters');
-                })
-                .catch(err => {
-                    this.get('notify').alert("Make sure all fields are filled correctly.")
-                });
+            this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
+                this.get('ajax').post(config.localhost + '/api/voters', this.voterObject(voter, headerName, headerValue))
+                    .then(res => {
+                        voter.deleteRecord();
+                        this.sendAction('transitionToVoters');
+                    })
+                    .catch(err => {
+                        this.get('notify').alert("Make sure all fields are filled correctly.")
+                    });
+            });
         },
 
         update(voter) {
-            this.get('ajax').put(config.localhost + '/api/voters/' + voter.get('id'), this.voterObject(voter))
-                .then(res => {
-                    voter.deleteRecord();
-                    this.sendAction('transitionToVoters');
-                })
-                .catch(err => {
-                    this.get('notify').alert("Make sure all fields are filled correctly.")
-                });
+            this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
+                this.get('ajax').put(config.localhost + '/api/voters/' + voter.get('id'), this.voterObject(voter, headerName, headerValue))
+                    .then(res => {
+                        voter.deleteRecord();
+                        this.sendAction('transitionToVoters');
+                    })
+                    .catch(err => {
+                        this.get('notify').alert("Make sure all fields are filled correctly.")
+                    });
+            });
         },
 
         updateGender(voter, value) {

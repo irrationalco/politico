@@ -1,4 +1,5 @@
 class Api::V1::VotersController < ApplicationController
+  acts_as_token_authentication_handler_for User, fallback: :none
   before_action :set_voter, only: [:show, :update, :destroy]
 
   # GET /voters
