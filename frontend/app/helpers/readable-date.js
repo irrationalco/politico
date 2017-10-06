@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export function readableDate(date) {
-    debugger;
     return (date[0].getDate() + 1) + '/' + (date[0].getMonth() + 1) + '/' + date[0].getFullYear();
 };
 
