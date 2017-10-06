@@ -6,16 +6,16 @@ class Api::V1::VotersController < ApplicationController
   def index
     if params["per_page"].present? && params["page"].present? &&
       ((lim = params["per_page"].to_i) != 0) && ((off = params["page"].to_i * lim) != 0)
-      @voters = Voter.all.order(:id).offset(off-lim).limit(lim)
+      @voters = Voter.where(user: params[:uid].to_i).order(:id).offset(off-lim).limit(lim)
       render json: @voters, meta: { total: (Voter.count/lim).ceil }
     else
-      @voters = Voter.all
+      @voters = Voter.where(user: params[:uid].to_i)
       render json: @voters
     end
   end
 
   def file_upload
-    invalidRows = Voter.import(params[:file])
+    invalidRows = Voter.import(params[:file], params[:user_id].to_i)
     unless invalidRows.nil?
       send_data invalidRows, filename: "registrosInvalidos-#{Date.today}.csv", type: :csv
     else
@@ -61,6 +61,6 @@ class Api::V1::VotersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def voter_params
-      params.require(:voter).permit(:captured_by, :electoral_id_number, :expiration_date, :first_name, :second_name, :first_last_name, :second_last_name, :gender,   :date_of_birth, :electoral_code, :CURP, :section, :street, :outside_number, :inside_number, :suburb, :locality_code, :locality, :municipality_code, :municipality, :state_code, :state, :postal_code, :home_phone, :mobile_phone, :email, :alternative_email, :facebook_account, :highest_educational_level, :current_ocupation, :organization, :party_positions_held, :is_part_of_party, :has_been_candidate, :popular_election_position, :election_year, :won_election, :election_route, :notes)
+      params.require(:voter).permit(:user_id, :electoral_id_number, :expiration_date, :first_name, :second_name, :first_last_name, :second_last_name, :gender,   :date_of_birth, :electoral_code, :CURP, :section, :street, :outside_number, :inside_number, :suburb, :locality_code, :locality, :municipality_code, :municipality, :state_code, :state, :postal_code, :home_phone, :mobile_phone, :email, :alternative_email, :facebook_account, :highest_educational_level, :current_ocupation, :organization, :party_positions_held, :is_part_of_party, :has_been_candidate, :popular_election_position, :election_year, :won_election, :election_route, :notes)
     end
 end

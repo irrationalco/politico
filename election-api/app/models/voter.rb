@@ -3,12 +3,13 @@ class Voter < ApplicationRecord
   belongs_to :user
   belongs_to :suborganization
 
-  def self.import(file)
+  def self.import(file, uid)
     invalidRows = []
     CSV.foreach(file.path, headers: true) do |row|
       begin
         Voter.create! do |v|
-          v.captured_by = row[0].upcase
+          # v.captured_by = row[0].upcase
+          v.user_id = uid
           
           v.electoral_id_number = row[1].upcase
           v.expiration_date = row[2].to_i

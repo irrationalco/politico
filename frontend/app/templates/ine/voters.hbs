@@ -7,8 +7,6 @@
 	<table class="table table-striped">
 		<thead class="votes-table-header">
 			<tr style="background: #55cec5;">
-				<th>Capturado Por</th>
-
 				<th>Número de credencial de elector</th>
 				<th>Vigencia de credencial de elector</th>
 
@@ -61,8 +59,6 @@
 		<tbody class="votes-table-content">
 			{{#each model as |voter|}}
 			<tr>
-				<td>{{voter.captured_by}}</td>
-
 				<td>{{voter.electoral_id_number}}</td>
 				<td>{{voter.expiration_date}}</td>
 

@@ -12,13 +12,15 @@ export default Ember.Component.extend({
     session: service('session'),
 
     voterObject(voter, headerName, headerValue) {
+        var tmp = this.get('session.currentUser');
+        debugger;
         return {
             headers: {
                 [headerName]: headerValue
             },
             data: {
                 voter: {
-                    captured_by: voter.get('captured_by'),
+                    user_id: this.get('session.currentUser').id,
 
                     electoral_id_number: voter.get('electoral_id_number'),
                     expiration_date: voter.get('expiration_date'),

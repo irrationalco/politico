@@ -2,7 +2,7 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
 
-    captured_by: DS.attr('string'),
+    user_id: DS.attr('number'),
 
     electoral_id_number: DS.attr('string'),
     expiration_date: DS.attr('number'),

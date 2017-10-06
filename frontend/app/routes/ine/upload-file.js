@@ -4,8 +4,9 @@ import config from '../../config/environment';
 import { task } from 'ember-concurrency';
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
+    session: Ember.inject.service(),
     fileUploader: task(function* (file) {
-        let response = yield file.upload(config.localhost + '/api/voters/new/file_upload', { accepts: 'text/csv' });
+        let response = yield file.upload(config.localhost + '/api/voters/file_upload/' + this.get('session.currentUser').id, { accepts: 'text/csv' });
     }).enqueue(),
 
     actions: {
