@@ -1,11 +1,16 @@
 class Api::V1::UsersController < ApplicationController
   acts_as_token_authentication_handler_for User, fallback: :none
   before_action :set_user, only: [:show, :update, :destroy]
-  before_action :verify_user_is_admin, except: [:user_by_email]
+  before_action :verify_user_is_admin, except: [:user_by_email,:show,:index]
+  before_action :verify_user_is_admin_or_manager, only: [:index]
 
   # GET /users
   def index
-    @users = User.all
+    if @current_user.is_manager?
+      @users = User.where(suborganization_id: @current_user.suborganization_id)
+    else
+      @users = User.all  
+    end
     render json: @users
   end
 
@@ -14,11 +19,14 @@ class Api::V1::UsersController < ApplicationController
 
     if @user
       data = {
-        id: @user.id,
-        email: @user.email,
-        firstName: @user.first_name,
-        lastName: @user.last_name,
-        superadmin: @user.superadmin
+        id:         @user.id,
+        email:      @user.email,
+        firstName:  @user.first_name,
+        lastName:   @user.last_name,
+        superadmin: @user.superadmin,
+        manager:    @user.manager,
+        supervisor: @user.supervisor,
+        capturist:  @user.capturist
       }
       render json: data, status: 201 and return
     else 
@@ -33,7 +41,6 @@ class Api::V1::UsersController < ApplicationController
 
   # POST /users
   def create
-    puts params.inspect
     @user = User.new(user_params)
 
     if @user.save
@@ -65,6 +72,7 @@ class Api::V1::UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:email, :password, :first_name, :last_name)
+      params.require(:user).permit(:email, :password, :first_name, :last_name, :suborganization_id,
+                                   :manager, :supervisor, :capturist)
     end
 end

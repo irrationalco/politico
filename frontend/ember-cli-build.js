@@ -3,11 +3,11 @@
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var Funnel = require('broccoli-funnel');
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   var app = new EmberApp(defaults, {
     // Add options here
   });
-  
+
   // Bootstrap
   app.import(app.bowerDirectory + '/bootstrap/dist/css/bootstrap.css');
   app.import(app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js');
@@ -19,7 +19,7 @@ module.exports = function(defaults) {
   app.import(app.bowerDirectory + '/font-awesome/css/font-awesome.css');
   app.import(app.bowerDirectory + '/font-awesome/css/font-awesome.css.map');
 
-  var fontawesome = new Funnel(app.bowerDirectory +'/font-awesome/fonts', {
+  var fontawesome = new Funnel(app.bowerDirectory + '/font-awesome/fonts', {
     srcDir: '/',
     destDir: 'fonts'
   });
@@ -68,6 +68,8 @@ module.exports = function(defaults) {
   // app.import('bower_components/d3/d3.min.js');
   // app.import('bower_components/topojson/topojson.min.js');
   // app.import('bower_components/datamaps/dist/datamaps.world.min.js');
-  
+
+  app.import(app.bowerDirectory + '/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js');
+
   return app.toTree([fontawesome]);
 };

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170905051858) do
+ActiveRecord::Schema.define(version: 20170922033648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20170905051858) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "admin_id"
+    t.integer  "manager_id"
   end
 
   create_table "polls", force: :cascade do |t|
@@ -110,6 +111,14 @@ ActiveRecord::Schema.define(version: 20170905051858) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "suborganizations", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "manager_id"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                             default: "",    null: false
     t.string   "encrypted_password",                default: "",    null: false
@@ -128,37 +137,57 @@ ActiveRecord::Schema.define(version: 20170905051858) do
     t.string   "last_name",              limit: 35
     t.boolean  "superadmin",                        default: false
     t.boolean  "supervisor",                        default: false
+    t.boolean  "manager",                           default: false
+    t.boolean  "capturist",                         default: false
+    t.integer  "suborganization_id"
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
   create_table "voters", force: :cascade do |t|
-    t.string   "electoral_code"
-    t.string   "name"
+    t.string   "electoral_id_number"
+    t.decimal  "expiration_date"
+    t.string   "first_name"
+    t.string   "second_name"
     t.string   "first_last_name"
     t.string   "second_last_name"
+    t.string   "gender"
     t.date     "date_of_birth"
+    t.string   "electoral_code"
+    t.string   "CURP"
+    t.decimal  "section"
     t.string   "street"
     t.string   "outside_number"
     t.string   "inside_number"
     t.string   "suburb"
+    t.decimal  "locality_code"
+    t.string   "locality"
+    t.decimal  "municipality_code"
+    t.string   "municipality"
+    t.decimal  "state_code"
+    t.string   "state"
     t.decimal  "postal_code"
-    t.decimal  "TIMERES"
-    t.string   "occupation"
-    t.decimal  "FOL_NAC"
-    t.boolean  "EN_LN"
-    t.string   "municipality_name"
-    t.decimal  "state"
-    t.decimal  "district"
-    t.decimal  "municipality"
-    t.decimal  "section"
-    t.decimal  "locality"
-    t.decimal  "apple"
-    t.decimal  "CONS_LC"
-    t.decimal  "EMISIONCRE"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.decimal  "home_phone"
+    t.decimal  "mobile_phone"
+    t.string   "email"
+    t.string   "alternative_email"
+    t.string   "facebook_account"
+    t.string   "highest_educational_level"
+    t.string   "current_ocupation"
+    t.string   "organization"
+    t.string   "party_positions_held"
+    t.boolean  "is_part_of_party"
+    t.boolean  "has_been_candidate"
+    t.string   "popular_election_position"
+    t.decimal  "election_year"
+    t.boolean  "won_election"
+    t.string   "election_route"
+    t.string   "notes"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "user_id"
+    t.integer  "suborganization_id"
   end
 
 end

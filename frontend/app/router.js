@@ -17,9 +17,16 @@ Router.map(function () {
   });
 
   this.route('admin', function () {
+    this.route('dashboard');
     this.route('users');
     this.route('user-edit', { path: '/user/:user_id/edit' });
-    this.route('new-user', { path: "/new" });
+    this.route('user-new', { path: "/user/new" });
+    this.route('organizations');
+    this.route('organization-edit', { path: '/organization/:organization_id/edit' });
+    this.route('organization-new', { path: "/organization/new" });
+    this.route('suborganizations');
+    this.route('suborganization-edit', { path: '/suborganization/:suborganization_id/edit' });
+    this.route('suborganization-new', { path: "/suborganization/new" });
   });
 
   this.route('maps', function () {
@@ -31,6 +38,7 @@ Router.map(function () {
     this.route('voters');
     this.route('voter-edit', { path: 'voter/:voter_id/edit' });
     this.route('new-voter', { path: '/new' });
+    this.route('upload-file');
   });
 
 });

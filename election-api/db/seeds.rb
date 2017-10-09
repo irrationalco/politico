@@ -27,15 +27,9 @@ puts "################\nSeeds"
 
 # delete_dbs(State, Municipality,Projection,Poll,Section)
 
-# user = User.new
-# user.email = 'abc@abc.abc'
-# user.password = 'abc123'
-# user.password_confirmation = 'abc123'
-# user.save!
-
 ##############################
 # Creando estados y municipios
-puts "Creating munis..."
+puts "Creating states and municipalities..."
 t = Time.now
 
 muni_ids = CSV.read("tbl_ids.csv")
@@ -116,7 +110,7 @@ end
 
 puts "Done projections: #{Time.now - t}s"
 
-############################################################################################
+# ############################################################################################
 # Creando cache de datos por estado
 puts "Creating states chache..."
 t = Time.now
@@ -156,46 +150,48 @@ section3 = Section.create(title: "¿Si hoy tuvieras que votar por Alcalde de Mon
 section4 = Section.create(title: "¿Cómo crees que sea su caracter como persona?", poll: poll)
 section5 = Section.create(title: "Un poco sobre ti: ", poll: poll)
 
+puts "Done polls"
 
-puts "Creating voters..."
-t = Time.now
-ine_data = CSV.read("tbl_voters_chica.csv")
-ine_data.shift
+# Creando Voters
+# puts "Creating voters..."
+# t = Time.now
+# ine_data = CSV.read("tbl_voters_chica.csv")
+# ine_data.shift
 
-ine_data.each do |row|
-  electoral_code = row[0]
-  name = row[1]
-  first_last_name = row[2]
-  second_last_name = row[3]
-  date_of_birth = Date.parse(row[4])
-  street = row[5]
-  outside_number = row[6]
-  inside_number = row[7]
-  suburb = row[8]
-  postal_code = row[9].to_i
-  TIMERES = row[10].to_i
-  occupation = row[11]
-  FOL_NAC = row[12].to_i
-  EN_LN = row[13].to_i == 1
-  municipality_name = row[14]
-  state = row[15].to_i
-  district = row[16].to_i
-  municipality = row[17].to_i
-  section = row[18].to_i
-  locality = row[19].to_i
-  apple = row[20].to_i
-  CONS_LC = row[21].to_i
-  EMISIONCRE = row[22].to_i
-  Voter.create(electoral_code: electoral_code, name: name, first_last_name: first_last_name,
-              second_last_name: second_last_name, date_of_birth: date_of_birth, street: street,
-              outside_number: outside_number, inside_number: inside_number, suburb: suburb,
-              postal_code: postal_code, TIMERES: TIMERES, occupation: occupation, FOL_NAC: FOL_NAC,
-              EN_LN: EN_LN, municipality_name: municipality_name, state: state, district: district,
-              municipality: municipality, section: section, locality: locality, apple: apple,
-              CONS_LC: CONS_LC, EMISIONCRE: EMISIONCRE)
-end
+# ine_data.each do |row|
+#   electoral_code = row[0]
+#   name = row[1]
+#   first_last_name = row[2]
+#   second_last_name = row[3]
+#   date_of_birth = Date.parse(row[4])
+#   street = row[5]
+#   outside_number = row[6]
+#   inside_number = row[7]
+#   suburb = row[8]
+#   postal_code = row[9].to_i
+#   TIMERES = row[10].to_i
+#   occupation = row[11]
+#   FOL_NAC = row[12].to_i
+#   EN_LN = row[13].to_i == 1
+#   municipality_name = row[14]
+#   state = row[15].to_i
+#   district = row[16].to_i
+#   municipality = row[17].to_i
+#   section = row[18].to_i
+#   locality = row[19].to_i
+#   apple = row[20].to_i
+#   CONS_LC = row[21].to_i
+#   EMISIONCRE = row[22].to_i
+#   Voter.create(electoral_code: electoral_code, name: name, first_last_name: first_last_name,
+#               second_last_name: second_last_name, date_of_birth: date_of_birth, street: street,
+#               outside_number: outside_number, inside_number: inside_number, suburb: suburb,
+#               postal_code: postal_code, TIMERES: TIMERES, occupation: occupation, FOL_NAC: FOL_NAC,
+#               EN_LN: EN_LN, municipality_name: municipality_name, state: state, district: district,
+#               municipality: municipality, section: section, locality: locality, apple: apple,
+#               CONS_LC: CONS_LC, EMISIONCRE: EMISIONCRE)
+# end
 
-puts "Done voters: #{Time.now - t}s"
+# puts "Done voters: #{Time.now - t}s"
 
 
 

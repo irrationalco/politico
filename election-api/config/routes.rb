@@ -12,9 +12,11 @@ Rails.application.routes.draw do
       resources :sections
       resources :polls
       resources :organizations
+      resources :suborganizations
       resources :projections
       resources :favorites
       resources :voters
+      post '/voters/file_upload/:user_id', to: 'voters#file_upload'
       get '/current_user',  to: 'users#user_by_email'
     end
   end

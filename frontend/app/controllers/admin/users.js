@@ -10,6 +10,37 @@ export default Ember.Controller.extend({
 	store: 	 service('store'),
 
 	actions: {
+		notAuthorized() {
+			this.get('notify').alert("No tienes permisos para hacer este tipo de cambios, por favor contacta a Jorge.");
+		},
+		
+		update(user) {
+			this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
+				this.get('ajax').put(config.localhost + '/api/users/' + user.get('id'), {
+					headers: {
+						[headerName]: headerValue
+					},
+					data: {
+						user: { 
+							email: user.get('email'), 
+							first_name: user.get('firstName'),
+							last_name:  user.get('lastName'),
+							password:		user.get('password'),
+							manager:  	user.get('manager'),
+							supervisor: user.get('supervisor'),
+							capturist:  user.get('capturist')
+						}
+					}
+				})
+				.then(res => {
+					this.get('notify').success("Roles del usuario actualizados exitosamente!");
+				})
+				.catch(err => {
+					this.get('notify').alert("Asegurate que todos los campos estan llenos de manera correcta.");
+				});
+			});
+		},
+
 		deleteUser(userId) {
 			this.get('store').findRecord('user', userId, { backgroundReload: false }).then( user => {
 				user.destroyRecord().then(() => {
@@ -18,10 +49,6 @@ export default Ember.Controller.extend({
 					this.get('notify').alert("Error deleting user.", { closeAfter: null});
 				});
 			})
-		},
-
-		testNotify() {
-			this.get('notify').info("Some Message");
 		}
 	}
 });

@@ -8,7 +8,8 @@ class Api::V1::SessionsController < ApplicationController
     if user&.valid_password?(params[:password])
       data = {
         access_token: user.authentication_token,
-        email: user.email
+        email:        user.email,
+        id:           user.id
       }
       render json: data, status: 201 and return
     else

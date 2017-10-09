@@ -1,0 +1,8 @@
+$levels: days months years decades centuries
+.datepicker
+    padding: 5px
+    @each $level in $levels
+        .datepicker-#{$level}
+            .active
+                color: #fff !important
+                background-color: #0044cc !important

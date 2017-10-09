@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="row vertical-offset-100">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default panel-login">
+                <div>                                
+                    <div class="row-fluid user-row">
+                        <img id="login-logo" class="img-responsive"/>
+                        <h2 style="text-align: center; padding-top: 10px;">{{form-title}}</h2>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <form {{action (if suborg.id 'update' 'create') suborg on="submit"}} accept-charset="UTF-8" role="form" class="form-signin">
+                        <fieldset>
+                            <label>Nombre:</label>
+                            {{input value=suborg.name placeholder="Nombre" class="form-control"}}
+
+                            <label>Manager:</label>
+                            <div class="form-select">
+                                {{#power-select
+                                    options=users
+                                    searchField="firstName"
+                                    selected=manager
+                                    placeholder="Elige un manager"
+                                    onchange=(action "setManager")
+                                    as |manager|
+                                }}
+                                    <p>{{manager.firstName}} {{manager.lastName}}</p>
+                                {{/power-select}}
+                            </div>
+
+                            <label>Organización:</label>
+                            <div class="form-select">
+                                {{#power-select
+                                    options=orgs
+                                    searchField="name"
+                                    selected=org
+                                    placeholder="Elige la organización a la cual pertenece"
+                                    onchange=(action "setOrganization")
+                                    as |org|
+                                }}
+                                    <p>{{org.name}}</p>
+                                {{/power-select}}
+                            </div>
+
+                            {{input type="submit" value=(if suborg.id 'Actualizar' 'Crear') class="btn btn-lg btn-block login-btn"}}
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

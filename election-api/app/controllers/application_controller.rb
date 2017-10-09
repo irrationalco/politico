@@ -3,7 +3,7 @@ class ApplicationController < ActionController::API
   private
 
   def request_auth_token
-    env['HTTP_AUTHORIZATION'].split(" ").last
+    request.headers['HTTP_AUTHORIZATION'].split(" ").last
   end
 
   def set_current_user_by_token
@@ -13,6 +13,13 @@ class ApplicationController < ActionController::API
   def verify_user_is_admin
     set_current_user_by_token()
     unless @current_user.is_superadmin?
+      render json: {}, status: 401
+    end
+  end
+
+  def verify_user_is_admin_or_manager
+    set_current_user_by_token()
+    unless @current_user.is_superadmin? || @current_user.is_manager?
       render json: {}, status: 401
     end
   end

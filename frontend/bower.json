@@ -7,6 +7,7 @@
     "font-awesome": "^4.6.3",
     "chartjs": "2.1.6",
     "selectize": "miguelcobain/selectize.js#master",
-    "seiyria-bootstrap-slider": "^9.8.1"
+    "seiyria-bootstrap-slider": "^9.8.1",
+    "bootstrap-datepicker": "^1.7.1"
   }
 }

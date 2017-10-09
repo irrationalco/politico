@@ -48,6 +48,12 @@
           {{/link-to}}
         </li>
 
+        <li class="sub-menu">
+          {{#link-to "ine.voters"}}
+            <i class="fa fa-id-card-o"></i>
+          {{/link-to}}
+        </li>
+
         {{!-- User admin --}}
         {{#if session.currentUser.superadmin}}
         <li class="sub-menu">

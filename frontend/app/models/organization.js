@@ -1,7 +1,9 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-	name: DS.attr('string'),
-
-	organizations: DS.hasMany('user')
+	name: 		 	  DS.attr('string'),
+	managerId: 	 	  DS.attr('number'),
+	managerName: 	  DS.attr('string'),
+	
+	suborganizations: DS.hasMany('suborganization')
 });
