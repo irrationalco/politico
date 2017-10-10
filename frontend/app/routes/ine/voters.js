@@ -6,5 +6,11 @@ export default Ember.Route.extend(InfinityRoute, {
 	totalPagesParam: "meta.total",
 	model() {
 		return this.infinityModel("voter", { perPage: 20, startingPage: 1, uid: this.get('session.currentUser').id });
+	},
+
+	actions: {
+		transitionToVoterEdit(voterId) {
+			this.transitionTo('ine.voter-edit', voterId);
+		}
 	}
 });

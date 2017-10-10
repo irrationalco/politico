@@ -8,6 +8,10 @@ class Api::V1::VotersController < ApplicationController
       ((lim = params["per_page"].to_i) != 0) && ((off = params["page"].to_i * lim) != 0)
       @voters = Voter.where(user: params[:uid].to_i).order(:id).offset(off-lim).limit(lim)
       render json: @voters, meta: { total: (Voter.count/lim).ceil }
+    elsif params["name"].present?
+      name = params["name"]
+      @voters = Voter.where(first_name: name).or(Voter.where(first_last_name: name))
+      render json: @voters
     else
       @voters = Voter.where(user: params[:uid].to_i)
       render json: @voters
