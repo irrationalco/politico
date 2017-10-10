@@ -2,6 +2,8 @@ class CreateVoters < ActiveRecord::Migration[5.0]
   def change
     create_table :voters do |t|
       
+      t.string :captured_by
+      
       t.string :electoral_id_number
       t.numeric :expiration_date
 

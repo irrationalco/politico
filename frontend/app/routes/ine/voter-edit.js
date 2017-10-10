@@ -6,7 +6,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 		console.log(params);
 		return this.get('store').findRecord('voter', params.voter_id);
 	},
-	
+
 	actions: {
 		transitionToVoters() {
 			this.transitionTo('ine.voters');
