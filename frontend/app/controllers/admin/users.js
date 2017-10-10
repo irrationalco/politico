@@ -10,6 +10,10 @@ export default Ember.Controller.extend({
 	store: 	 service('store'),
 
 	actions: {
+		notAuthorized() {
+			this.get('notify').alert("No tienes permisos para hacer este tipo de cambios, por favor contacta a Jorge.");
+		},
+		
 		update(user) {
 			this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
 				this.get('ajax').put(config.localhost + '/api/users/' + user.get('id'), {
@@ -32,7 +36,7 @@ export default Ember.Controller.extend({
 					this.get('notify').success("Roles del usuario actualizados exitosamente!");
 				})
 				.catch(err => {
-					this.get('notify').alert("Make sure all fields are filled correctly.");
+					this.get('notify').alert("Asegurate que todos los campos estan llenos de manera correcta.");
 				});
 			});
 		},

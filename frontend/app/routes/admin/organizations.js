@@ -1,8 +1,16 @@
 import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import { CanMixin } from 'ember-can';
 
+export default Ember.Route.extend(AuthenticatedRouteMixin, CanMixin, {
+	beforeModel() {
+		let result = this._super(...arguments);
 
-export default Ember.Route.extend(AuthenticatedRouteMixin, {
+		if(!this.can('see organization')) { return this.transitionTo('index'); }
+		
+		return result;
+	},
+
 	model() {
 		return this.store.findAll('organization');
 	}

@@ -27,19 +27,35 @@
 						<td style="text-align:center;">X</td>
 						<td></td>
 						<td></td>
-						<td>{{link-to "Nuevo" "admin.user-new" class="btn btn-success"}}</td>
+						{{#if (can "create user")}}
+							<td>{{link-to "Nuevo" "admin.user-new" class="btn btn-success"}}</td>	
+						{{else}}
+							<td><button {{action 'notAuthorized'}} class="btn btn-success">Nuevo</button></td>
+						{{/if}}
 					</tr>
 					{{#each model as |user|}}
 						<tr>
 							<td>{{user.firstName}} {{user.lastName}}</td>
 							<td>{{user.email}}</td>
 							<td>{{user.suborganization.name}}</td>
-							<td>{{x-toggle value=user.manager 	 theme='ios' onToggle=(action (mut user.manager))}}</td>
-							<td>{{x-toggle value=user.supervisor theme='ios' onToggle=(action (mut user.supervisor))}}</td>
-							<td>{{x-toggle value=user.capturist  theme='ios' onToggle=(action (mut user.capturist))}}</td>
-							<td><button {{action 'update' user}} class="btn btn-primary">Guardar Roles</button></td>
-							<td>{{link-to "Editar" "admin.user-edit" user.id class="btn btn-info"}}</td>
-							<td><button {{action 'deleteUser' user.id}} class="btn btn-danger">Eliminar</button></td>
+
+							{{#if (can "edit user")}}
+								<td>{{x-toggle value=user.manager 	 theme='ios' onToggle=(action (mut user.manager))}}</td>
+								<td>{{x-toggle value=user.supervisor theme='ios' onToggle=(action (mut user.supervisor))}}</td>
+								<td>{{x-toggle value=user.capturist  theme='ios' onToggle=(action (mut user.capturist))}}</td>
+								<td><button {{action 'update' user}} class="btn btn-primary">Guardar Roles</button></td>
+								<td>{{link-to "Editar" "admin.user-edit" user.id class="btn btn-info"}}</td>
+								<td><button {{action 'deleteUser' user.id}} class="btn btn-danger">Eliminar</button></td>
+							{{else}}
+								<td>{{x-toggle value=user.manager 	 disabled=true theme='ios' onToggle=(action (mut user.manager))}}</td>
+								<td>{{x-toggle value=user.supervisor disabled=true theme='ios' onToggle=(action (mut user.supervisor))}}</td>
+								<td>{{x-toggle value=user.capturist  disabled=true theme='ios' onToggle=(action (mut user.capturist))}}</td>
+								<td><button {{action 'notAuthorized'}} class="btn btn-primary">Guardar Roles</button></td>
+								<td><button {{action 'notAuthorized'}} class="btn btn-info">Editar</button></td>
+								<td><button {{action 'notAuthorized'}} class="btn btn-danger">Eliminar</button></td>
+							{{/if}}
+					
+							
 						</tr>
 					{{/each}}
 				</tbody>
