@@ -70,6 +70,22 @@ export default Ember.Component.extend({
         }
     },
 
+    getYears(ammount) {
+        var from = (new Date()).getFullYear()
+        var years = [from]
+        for (var i = 1; i <= ammount; i++) {
+            years.push(from + i);
+        }
+        return years;
+    },
+
+    init() {
+        this._super(...arguments);
+        this.set('years', this.getYears(10));
+    },
+
+    years: [],
+
     actions: {
         create(voter) {
             this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
@@ -115,6 +131,10 @@ export default Ember.Component.extend({
 
         updateElectionRoute(voter, value) {
             voter.set('election_route', value);
+        },
+
+        updateExpirationDate(voter, value) {
+            voter.set('expiration_date', value);
         }
     }
 });
