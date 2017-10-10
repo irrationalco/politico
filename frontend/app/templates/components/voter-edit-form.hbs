@@ -10,6 +10,7 @@
             <div class="panel-body">
                 <form {{action (if voter.id 'update' 'create') voter on="submit" }} accept-charset="UTF-8" role="form" class="form-signin">
                     <fieldset>
+                        <h3>Información Electoral</h3>
                         <div class="form-group row">
                             <div class="col-sm-8">
                                 <label>Número de Credencial de Elector:<span class="text-danger">*</span></label> 
@@ -27,14 +28,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <label>Primer Nombre:<span class="text-danger">*</span></label> {{input value=voter.first_name required=true placeholder="Primer Nombre" class="form-control"}}
-                            </div>
-                            <div class="col-sm-6">
-                                <label>Segundo Nombre:</label> {{input value=voter.second_name placeholder="Segundo Nombre" class="form-control"}}
-                            </div>
-                        </div>
+                        <h3>Información Personal</h3>
                         <div class="form-group row">
                             <div class="col-sm-6">
                                 <label>Apellido Paterno:<span class="text-danger">*</span></label> {{input value=voter.first_last_name required=true placeholder="Apellido Paterno"
@@ -46,8 +40,17 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <div class="col-sm-9">
-                                <label>CURP:</label> {{input value=voter.CURP placeholder="CURP" class="form-control"}}
+                            <div class="col-sm-6">
+                                <label>Primer Nombre:<span class="text-danger">*</span></label> {{input value=voter.first_name required=true placeholder="Primer Nombre" class="form-control"}}
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Segundo Nombre:</label> {{input value=voter.second_name placeholder="Segundo Nombre" class="form-control"}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <label>Fecha de Nacimiento:<span class="text-danger">*</span></label> {{bootstrap-datepicker value=voter.date_of_birth required=true language="es"
+                                placeholder="Fecha de Nacimiento" class="form-control" format="dd/mm/yyyy" }}
                             </div>
                             <div class="col-sm-3">
                                 <label>Genero:<span class="text-danger">*</span></label>
@@ -64,11 +67,11 @@
                                 class="form-control"}}
                             </div>
                             <div class="col-sm-6">
-                                <label>Fecha de Nacimiento:<span class="text-danger">*</span></label> {{bootstrap-datepicker value=voter.date_of_birth required=true language="es"
-                                placeholder="Fecha de Nacimiento" class="form-control" format="dd/mm/yyyy" }}
+                                <label>CURP:</label> {{input value=voter.CURP placeholder="CURP" class="form-control"}}
                             </div>
                         </div>
 
+                        <h3>Dirección</h3>
                         <div class="form-group row">
                             <div class="col-sm-6">
                                 <label>Calle:</label> {{input value=voter.street placeholder="Calle" class="form-control"}}
@@ -81,6 +84,15 @@
                                 <label>Número Interior:</label> {{input value=voter.inside_number placeholder="Número interior"
                                 class="form-control"}}
                             </div>
+                        </div>
+                        <div class="form-gorup row">
+                            <div class="col-sm-5">
+                                <label>Colónia:<span class="text-danger">*</span></label> {{input value=voter.suburb required=true placeholder="Colónia" class="form-control"}}
+                            </div>
+                            <div class="col-sm-5">
+                                <label>Municipio:</label> {{input value=voter.municipality class="form-control" placeholder="Municipio"
+                                }}
+                            </div>
                             <div class="col-sm-2">
                                 <label>Código Postal:<span class="text-danger">*</span></label> {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.postal_code placeholder="Código
                                 Postal" class="form-control"}}
@@ -88,19 +100,10 @@
                         </div>
                         <div class="form-gorup row">
                             <div class="col-sm-6">
-                                <label>Colónia:<span class="text-danger">*</span></label> {{input value=voter.suburb required=true placeholder="Colónia" class="form-control"}}
+                                <label>Estado:</label> {{input value=voter.state class="form-control" placeholder="Estado" }}
                             </div>
-                            <div class="col-sm-6">
-                                <label>Municipio:</label> {{input value=voter.municipality class="form-control" placeholder="Municipio"
-                                }}
-                            </div>
-                        </div>
-                        <div class="form-gorup row">
                             <div class="col-sm-6">
                                 <label>Localidad:</label> {{input value=voter.locality placeholder="Localidad" class="form-control"}}
-                            </div>
-                            <div class="col-sm-6">
-                                <label>Estado:</label> {{input value=voter.state class="form-control" placeholder="Estado" }}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -122,6 +125,7 @@
                             </div>
                         </div>
 
+                        <h3>Datos de Contacto</h3>
                         <div class="form-group row">
                             <div class="col-sm-4">
                                 <label>Teléfono Fijo:<span class="text-danger">*</span></label> 
@@ -148,8 +152,9 @@
                             </div>
                         </div>
 
+                        <h3>Demográfico</h3>
                         <div class="form-gorup row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-5">
                                 <label>Último Grado de Estudios Terminado:</label>
                                 {{#x-select class="form-control" value=voter.highest_educational_level on-change=(action "updateEducation" voter) as |hel|}}
                                     {{#hel.option value='' disabled=true selected=true hidden=true}}Seleccione una opción{{/hel.option}}
@@ -160,7 +165,7 @@
                                     {{#hel.option}}MAESTRIA{{/hel.option}} 
                                 {{/x-select}}
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-5">
                                 <label>Ocupación Actual:</label>
                                 {{#x-select class="form-control" value=voter.current_ocupation on-change=(action "updateOcupation" voter) as |ocp|}} 
                                     {{#ocp.option value='' disabled=true selected=true hidden=true}}Seleccione una opción{{/ocp.option}}
@@ -178,13 +183,14 @@
                                     {{#ocp.option}}DESEMPLEADO(A){{/ocp.option}}
                                 {{/x-select}}
                             </div>
+                        </div>
+
+                        <h3>Información del Partido</h3>
+                        <div class="form-group row">
                             <div class="col-sm-4">
                                 <label>Organización a la que Pertenece:</label>
                                 {{input value=voter.organization class="form-control" placeholder="Organización a la que pertenece"}}
                             </div>
-                        </div>
-
-                        <div class="form-group row">
                             <div class="col-sm-5">
                                 <label>Cargos Partidarios que ha Tenido:</label>
                                 {{input value=voter.party_positions_held class="form-control" placeholder="Cargos partidarios que ha tenido"}}
@@ -193,6 +199,9 @@
                                 <label>Pertenence a la Estructura del Partido:</label> {{input type="checkbox" checked=voter.is_part_of_party
                                 class="form-control"}}
                             </div>
+                        </div>
+                        <div class="form-group row">
+
                             <div class="col-sm-2">
                                 <label>Ha Sido Candidato(a):</label> {{input type="checkbox" checked=voter.has_been_candidate class="form-control"}}
                             </div>
@@ -200,17 +209,12 @@
                                 <label>Año de la Elección:</label> {{input type="number" 
                                  min=0 oninput="validity.valid||(value='');" value=voter.election_year placeholder="Año de la Elección" class="form-control"}}
                             </div>
-                        </div>
-                        <div class="form-group row">
                             <div class="col-sm-6">
                                 <label>Cargo de Elección Popular:</label>
                                 {{input value=voter.popular_election_position class="form-control" placeholder="Cargo de elección popular"}}
                             </div>
-                            <div class="col-sm-1">
-                                <label>Resultó Electo(a):</label>
-                                {{input type="checkbox" checked=voter.won_election class="form-control"}}
-                            </div>
-                            <!-- resulto electo falta -->
+                        </div>
+                        <div class="form-group row">
                             <div class="col-sm-5">
                                 <label>Via de Elección:</label>
                                 {{#x-select class="form-control" value=voter.election_route on-change=(action "updateElectionRoute" voter) as |hel|}} 
@@ -218,6 +222,10 @@
                                     {{#hel.option}}MAYORIA RELATIVA{{/hel.option}} 
                                     {{#hel.option}}PLURINOMINAL{{/hel.option}} 
                                 {{/x-select}}
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Resultó Electo(a):</label>
+                                {{input type="checkbox" checked=voter.won_election class="form-control"}}
                             </div>
                         </div>
                         <div class="form-group row">
