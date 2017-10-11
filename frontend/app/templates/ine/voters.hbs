@@ -16,113 +16,116 @@
 		{{link-to "Cargar Archivo de Registros" "ine.upload-file" class="btn btn-success"}}
 		{{link-to "Agregar Nuevo Registro" "ine.new-voter" class="btn btn-success"}}
 	</div>
-	<table class="table table-striped">
-		<thead class="votes-table-header">
-			<tr style="background: #55cec5;">
-				<th>Número de credencial de elector</th>
-				<th>Vigencia de credencial de elector</th>
+			<div class="scrolling outer">
+				<div class="inner">
+					<table class="table table-striped table-hover table-condensed">
+						<thead class="votes-table-header">
+							<tr>
+								<td>Credencial Elector</td>
+								<td>Vigencia</td>
 
-				<th>Primer Nombre</th>
-				<th>Segundo Nombre</th>
-				<th>Apellido Paterno</th>
-				<th>Apellido Materno</th>
-				<th>Genero</th>
-				<th>Fecha de Nacimiento</th>
-				<th>Clave de Elector</th>
-				<th>CURP</th>
+								<td>Primer Nombre</td>
+								<td>Segundo Nombre</td>
+								<td>Apellido Paterno</td>
+								<td>Apellido Materno</td>
+								<td>Genero</td>
+								<td>Fecha de Nacimiento</td>
+								<td>Clave de Elector</td>
+								<td>CURP</td>
 
-				<th>Sección</th>
-				<th>Calle</th>
-				<th>Número Exterior</th>
-				<th>Número Interior</th>
-				<th>Colónia</th>
-				<th>Clave de Localidad</th>
-				<th>Localidad</th>
-				<th>Clave de Municipio</th>
-				<th>Municipio</th>
-				<th>Clave de Estado</th>
-				<th>Estado</th>
-				<th>Código Postal</th>
+								<td>Sección</td>
+								<td>Calle</td>
+								<td>Número Exterior</td>
+								<td>Número Interior</td>
+								<td>Colónia</td>
+								<td>Clave de Localidad</td>
+								<td>Localidad</td>
+								<td>Clave de Municipio</td>
+								<td>Municipio</td>
+								<td>Clave de Estado</td>
+								<td>Estado</td>
+								<td>Código Postal</td>
 
-				<th>Teléfono Fijo</th>
-				<th>Teléfono Móvil</th>
-				<th>Correo Electrónico</th>
-				<th>Correo Electrónico Alternativo</th>
-				<th>Cuenta de Facebook</th>
+								<td>Teléfono Fijo</td>
+								<td>Teléfono Móvil</td>
+								<td>Correo Electrónico</td>
+								<td>Correo Electrónico Alternativo</td>
+								<td>Cuenta de Facebook</td>
 
-				<th>Último grado de estudios</th>
-				<th>Ocupación Actual</th>
+								<td>Último grado de estudios</td>
+								<td>Ocupación Actual</td>
 
-				<th>Organización</th>
-				<th>Cargos Partidarios</th>
-				<th>Pertenece a la estructura del partido</th>
-				<th>Ha sido candidato(a)</th>
-				<th>Cargo de elección popular</th>
-				<th>Año de elección</th>
-				<th>Resulto electo(a)</th>
-				<th>Via de Elección</th>
-				<th>Notas</th>
+								<td>Organización</td>
+								<td>Cargos Partidarios</td>
+								<td>Pertenece a la estructura del partido</td>
+								<td>Ha sido candidato(a)</td>
+								<td>Cargo de elección popular</td>
+								<td>Año de elección</td>
+								<td>Resulto electo(a)</td>
+								<td>Via de Elección</td>
+								<td>Notas</td>
 
-				<th></th>
-				<th></th>
-			</tr>
-		</thead>
+								<td></td>
+								<td></td>
+							</tr>
+						</thead>
+						<tbody class="votes-table-content">
+							{{#each model as |voter|}}
+							<tr valign="middle">
+								<td>{{voter.electoral_id_number}}</td>
+								<td>{{voter.expiration_date}}</td>
 
-		<tbody class="votes-table-content">
-			{{#each model as |voter|}}
-			<tr>
-				<td>{{voter.electoral_id_number}}</td>
-				<td>{{voter.expiration_date}}</td>
+								<td>{{voter.first_name}}</td>
+								<td>{{voter.second_name}}</td>
+								<td>{{voter.first_last_name}}</td>
+								<td>{{voter.second_last_name}}</td>
+								<td>{{voter.gender}}</td>
+								<td>{{readable-date voter.date_of_birth}}</td>
+								<td>{{voter.electoral_code}}</td>
+								<td>{{voter.CURP}}</td>
 
-				<td>{{voter.first_name}}</td>
-				<td>{{voter.second_name}}</td>
-				<td>{{voter.first_last_name}}</td>
-				<td>{{voter.second_last_name}}</td>
-				<td>{{voter.gender}}</td>
-				<td>{{readable-date voter.date_of_birth}}</td>
-				<td>{{voter.electoral_code}}</td>
-				<td>{{voter.CURP}}</td>
+								<td>{{voter.section}}</td>
+								<td>{{voter.street}}</td>
+								<td>{{voter.outside_number}}</td>
+								<td>{{voter.inside_number}}</td>
+								<td>{{voter.suburb}}</td>
+								<td>{{voter.locality_code}}</td>
+								<td>{{voter.locality}}</td>
+								<td>{{voter.municipality_code}}</td>
+								<td>{{voter.municipality}}</td>
+								<td>{{voter.state_code}}</td>
+								<td>{{voter.state}}</td>
+								<td>{{voter.postal_code}}</td>
 
-				<td>{{voter.section}}</td>
-				<td>{{voter.street}}</td>
-				<td>{{voter.outside_number}}</td>
-				<td>{{voter.inside_number}}</td>
-				<td>{{voter.suburb}}</td>
-				<td>{{voter.locality_code}}</td>
-				<td>{{voter.locality}}</td>
-				<td>{{voter.municipality_code}}</td>
-				<td>{{voter.municipality}}</td>
-				<td>{{voter.state_code}}</td>
-				<td>{{voter.state}}</td>
-				<td>{{voter.postal_code}}</td>
+								<td>{{voter.home_phone}}</td>
+								<td>{{voter.mobile_phone}}</td>
+								<td>{{voter.email}}</td>
+								<td>{{voter.alternative_email}}</td>
+								<td>{{voter.facebook_account}}</td>
 
-				<td>{{voter.home_phone}}</td>
-				<td>{{voter.mobile_phone}}</td>
-				<td>{{voter.email}}</td>
-				<td>{{voter.alternative_email}}</td>
-				<td>{{voter.facebook_account}}</td>
+								<td>{{voter.highest_educational_level}}</td>
+								<td>{{voter.current_ocupation}}</td>
 
-				<td>{{voter.highest_educational_level}}</td>
-				<td>{{voter.current_ocupation}}</td>
-
-				<td>{{voter.organization}}</td>
-				<td>{{voter.party_positions_held}}</td>
-				<td>{{voter.is_part_of_party}}</td>
-				<td>{{voter.has_been_candidate}}</td>
-				<td>{{voter.popular_election_position}}</td>
-				<td>{{voter.election_year}}</td>
-				<td>{{voter.won_election}}</td>
-				<td>{{voter.election_route}}</td>
-				<td>{{voter.notes}}</td>
-				<td>
-					{{link-to "Editar" "ine.voter-edit" voter class="btn btn-info"}}
-				</td>
-				<td>
-					<button {{action 'deleteVoter' voter.id}} class="btn btn-danger">Eliminar</button>
-				</td>
-			</tr>
-			{{/each}}
-		</tbody>
-	</table>
-	{{infinity-loader infinityModel=model}}
+								<td>{{voter.organization}}</td>
+								<td>{{voter.party_positions_held}}</td>
+								<td>{{voter.is_part_of_party}}</td>
+								<td>{{voter.has_been_candidate}}</td>
+								<td>{{voter.popular_election_position}}</td>
+								<td>{{voter.election_year}}</td>
+								<td>{{voter.won_election}}</td>
+								<td>{{voter.election_route}}</td>
+								<td>{{voter.notes}}</td>
+								<td>
+									{{link-to "Editar" "ine.voter-edit" voter class="btn btn-info"}}
+								</td>
+								<td>
+									<button {{action 'deleteVoter' voter.id}} class="btn btn-danger">Eliminar</button>
+								</td>
+							</tr>
+							{{/each}}
+						</tbody>
+					</table>
+				</div>
+		</div>
+		{{infinity-loader infinityModel=model}}
 </div>

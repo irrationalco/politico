@@ -1,3 +1,5 @@
+// MAP
+
 .card
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)
   background: white
@@ -5,18 +7,6 @@
 .map-background
   fill: none
   pointer-events: all
-
-// .feature 
-//   fill: #424a5d
-//   opacity: .3
-//   cursor: pointer
-//   stroke-linejoin: round
-//   &:hover
-//     opacity: .6
-
-// .feature.active
-//   fill: #6fa6cc
-//   opacity: .5
 
 .section
   opacity: .6
@@ -54,7 +44,6 @@
   stroke-linecap: round
   stroke-linejoin: round
 
-// Map
 #map-world
   height: 700px
   width: 700px
@@ -92,6 +81,8 @@
   stroke-linejoin: round
   stroke-linecap: round
   pointer-events: none
+
+// TOOLTIPS
 
 #tooltip-map
   color: black
@@ -139,20 +130,35 @@
   color: black
   font-weight: 600
 
-.votes-table
-  border: none !important
-  margin: 0 !important
-  color: #797979
+// VOTES TABLE
 
-.votes-table-header
-  tr
-    th
-      padding: 2px !important
-      border-bottom: 1px solid #ddd !important
-.votes-table-content
+.votes-table
   tr
     td
-      padding: 3px !important
+      padding: 5px !important
+
+.votes-table-header
+  font-weight: 900
+
+.votes-table-content
+
+  // ALLOW HORIZONTAL SCROLLING
+
+.scrolling 
+  th
+    position: absolute
+    left: 0
+
+.outer
+  position: relative
+  width: 100%
+
+.inner
+  overflow-x: auto
+  overflow-y: scroll visible
+  width: 100%
+
+// ???
 
 .switcher-bar-first
   width: 65%
@@ -210,8 +216,7 @@
 .otros
   background-color: #647329
 
-
-////////////////////////////
+// MAP KEY
 
 .map-key
   text-transform: capitalize
@@ -271,6 +276,8 @@
 .vertical-line-left-pos
   left: 15px
 
+// SIDEBAR
+
 .sidebar-text-title
   color: $darkblue
   font-family: 'Open Sans'
@@ -278,7 +285,6 @@
   font-weight: 600
   text-align: left
   margin-bottom: 5px !important
-  // border-bottom: 1px solid #d4d7dc
   text-transform: none
 
 .sidebar-text-left
@@ -308,6 +314,7 @@
   margin-bottom: 20px
 
 // TIMELINE
+
 .sidebar-timeline
   padding-left: 25px
 
@@ -323,7 +330,6 @@
   p 
     font-size: 1rem;
   
-  
   &::before 
     content: attr(date-is)
     position: absolute
@@ -335,7 +341,6 @@
     font-weight: 700
     font-size: 1.2rem
   
-
   &::after 
     width: 10px
     height: 10px
@@ -347,8 +352,6 @@
     content: ''
     border: 2px solid rgba(black, .3)
     background: white
-  
 
   &:last-child 
     border-image: linear-gradient(to bottom,rgba(black, .3) 60%, rgba(rgba(black, .3), 0)) 1 100%
-  
