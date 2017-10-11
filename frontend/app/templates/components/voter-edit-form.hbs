@@ -22,7 +22,7 @@
                                 on-change=(action "updateExpirationDate" voter) as |expir|}} 
                                     {{#expir.option value='' disabled=true selected=true hidden=true}}Seleccione una opción{{/expir.option}}
                                     {{#each years as |year|}}
-                                        {{#expir.option}}{{year}}{{/expir.option}} 
+                                        {{#expir.option value=year}}{{year}}{{/expir.option}} 
                                     {{/each}} 
                                 {{/x-select}}
                             </div>
