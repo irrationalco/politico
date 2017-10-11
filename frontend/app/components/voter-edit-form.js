@@ -13,7 +13,6 @@ export default Ember.Component.extend({
 
     voterObject(voter, headerName, headerValue) {
         var tmp = this.get('session.currentUser');
-        debugger;
         return {
             headers: {
                 [headerName]: headerValue

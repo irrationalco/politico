@@ -1,4 +1,4 @@
-import Ember from 'ember';
+	import Ember from 'ember';
 import config from '../../config/environment';
 
 const { service } = Ember.inject;
@@ -10,6 +10,14 @@ export default Ember.Controller.extend({
 	store: 	 service('store'),
 
 	actions: {
+		searchVoters(term) {
+			return this.get('store').query('voter', {name: term});
+		},
+
+		seeVoter(voter) {
+			this.send('transitionToVoterEdit', voter.id);
+		},
+
 		deleteVoter(voterId) {
 			this.get('store').findRecord('voter', voterId, { backgroundReload: false }).then( voter => {
 				voter.destroyRecord().then(() => {
