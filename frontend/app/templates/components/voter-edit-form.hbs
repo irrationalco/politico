@@ -10,7 +10,9 @@
             <div class="panel-body">
                 <form {{action (if voter.id 'update' 'create') voter on="submit" }} accept-charset="UTF-8" role="form" class="form-signin">
                     <fieldset>
-                        
+
+                        <!-- CREDENCIAL -->
+
                         <h3>Credencial</h3>
                         <div class="form-group row">
                             <div class="col-md-6">
@@ -28,6 +30,8 @@
                                 {{/x-select}}
                             </div>
                         </div>
+
+                        <!-- INFORMACIÓN PERSONAL -->
 
                         <h3 style="margin-top: 45px;">Información Personal</h3>
                         <div class="form-group row">
@@ -63,6 +67,8 @@
                             </div>
                         </div>
 
+                        <!-- DIRECCIÓN -->
+
                         <h3 style="margin-top: 45px;">Dirección</h3>
                         <div class="form-gorup row">
                             <div class="col-sm-4">
@@ -90,17 +96,17 @@
                         </div>
                         <div class="form-gorup row">
                             <div class="col-md-4">
-                                <!--<label>Municipio:</label>-->
-                                {{input value=voter.municipality placeholder="Municipio" class="form-control voter-edit-field-required"}}
-                            </div>
-                            <div class="col-md-4">
-                                <!--<label>Estado:</label>-->
-                                {{#x-select class="form-control voter-edit-select-required" value=voter.state on-change=(action "updateState" voter) as |st|}}
-                                    {{#st.option value='' disabled=true selected=true hidden=true}}Seleccione una opción{{/st.option}}
+                                <!--<label>Estado:<span class="text-danger">*</span></label>-->
+                                {{#x-select class="form-control voter-edit-field-required" value=voter.state on-change=(action "updateState" voter) as |st|}}
+                                    {{#st.option value='' disabled=true selected=true hidden=true}}Estado{{/st.option}}
                                     {{#each states as |state idx|}}
                                         {{#st.option value=idx}}{{state}}{{/st.option}} 
                                     {{/each}} 
                                 {{/x-select}}
+                            </div>
+                            <div class="col-md-4">
+                                <!--<label>Municipio:<span class="text-danger">*</span></label>-->
+                                {{input value=voter.municipality placeholder="Municipio" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-4">
                                 <!--<label>Localidad:</label>-->
@@ -108,14 +114,18 @@
                             </div>
                         </div>
 
+                        <!-- CLAVES -->
+
                         <h3 style="margin-top: 45px;">Claves</h3>
                         <div class="form-group row">
                             <div class="col-md-6">
+                                <!--<label>Clave Electoral:<span class="text-danger">*</span></label>-->
                                 {{input value=voter.electoral_code required=true placeholder="Clave Electoral" class="form-control voter-edit-field-required"}}
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-6">
+                                <!--<label>CURP:<span class="text-danger">*</span></label>-->
                                 {{input value=voter.CURP placeholder="CURP" class="form-control voter-edit-field"}}
                             </div>
                         </div>
@@ -123,15 +133,6 @@
                             <div class="col-md-2">
                                 <!--<label>Clave de Estado:<span class="text-danger">*</span></label>-->
                                 {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.state_code placeholder="Estado" class="form-control voter-edit-field-required"}}
-                        <div class="form-gorup row">
-                            <div class="col-sm-6">
-                                <label>Estado:</label>
-                                {{#x-select class="form-control" value=voter.state on-change=(action "updateState" voter) as |st|}}
-                                    {{#st.option value='' disabled=true selected=true hidden=true}}Seleccione una opción{{/st.option}}
-                                    {{#each states as |state idx|}}
-                                        {{#st.option value=idx}}{{state}}{{/st.option}} 
-                                    {{/each}} 
-                                {{/x-select}}
                             </div>
                             <div class="col-md-2">
                                 <!--<label>Clave de Municipio:<span class="text-danger">*</span></label>-->
@@ -141,8 +142,6 @@
                                 <!--<label>Clave de Sección:</label>-->
                                 {{input type="number" min=0 oninput="validity.valid||(value='');" value=voter.section placeholder="Sección" class="form-control voter-edit-field-required"}}
                             </div>
-                        </div>
-                        <div class="form-group row">
                             <div class="col-md-2">
                                 <!--<label>Clave de Localidad:</label>-->
                                 {{input type="number" min=0 oninput="validity.valid||(value='');" value=voter.locality_code placeholder="Localidad" class="form-control voter-edit-field-required"}}
@@ -158,6 +157,7 @@
                             <div class="col-md-4">
                                 <!--<label>Teléfono Celular:<span class="text-danger">*</span></label>-->
                                 {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.mobile_phone placeholder="Teléfono Celular" class="form-control voter-edit-field"}}
+                            </div>
                             <div class="col-sm-3">
                                 <!--<label>Clave de Municipio:<span class="text-danger">*</span></label>-->
                                 {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.municipality_code placeholder="Municipio" class="form-control voter-edit-field"}}
