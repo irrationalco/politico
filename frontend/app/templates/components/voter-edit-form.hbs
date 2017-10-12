@@ -15,16 +15,15 @@
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <!--<label>Número de Credencial de Elector:<span class="text-danger">*</span></label>-->
-                                {{input value=voter.electoral_id_number required=true
-                                placeholder="Número de Credencial de Elector"
-                                class="form-control voter-edit-field-required"}}
+                                {{input value=voter.electoral_id_number required=true placeholder="Número de Credencial de Elector" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-2">
                                 <!--<label>Vigencia de Credencial de Elector:<span class="text-danger">*</span></label>-->
-                                {{#x-select class="form-control voter-edit-select-required" value=voter.expiration_date required=true on-change=(action "updateExpirationDate" voter) as |expir|}} 
-                                    {{#expir.option value='' disabled=true selected=true hidden=true}}Vigencia{{/expir.option}}
+                                {{#x-select class="form-control voter-edit-select-required" value=voter.expiration_date required=true
+                                on-change=(action "updateExpirationDate" voter) as |expir|}} 
+                                    {{#expir.option value='' disabled=true selected=true hidden=true}}Seleccione una opción{{/expir.option}}
                                     {{#each years as |year|}}
-                                        {{#expir.option}}{{year}}{{/expir.option}} 
+                                        {{#expir.option value=year}}{{year}}{{/expir.option}} 
                                     {{/each}} 
                                 {{/x-select}}
                             </div>
@@ -34,34 +33,25 @@
                         <div class="form-group row">
                             <div class="col-md-3">
                                 <!--<label>Apellido Paterno:<span class="text-danger">*</span></label>-->
-                                {{input value=voter.first_last_name required=true
-                                placeholder="Apellido Paterno"
-                                class="form-control voter-edit-field-required"}}
+                                {{input value=voter.first_last_name required=true placeholder="Apellido Paterno" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-3">
                                 <!--<label>Apellido Materno:</label>-->
-                                {{input value=voter.second_last_name
-                                placeholder="Apellido Materno"
-                                class="form-control voter-edit-field-required"}}
+                                {{input value=voter.second_last_name placeholder="Apellido Materno" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-3">
                                 <!--<label>Primer Nombre:<span class="text-danger">*</span></label>-->
-                                {{input value=voter.first_name required=true
-                                placeholder="Primer Nombre"
-                                class="form-control voter-edit-field-required"}}
+                                {{input value=voter.first_name required=true placeholder="Primer Nombre" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-3">
                                 <!--<label>Segundo Nombre:</label>-->
-                                {{input value=voter.second_name placeholder="Segundo Nombre"
-                                class="form-control voter-edit-field"}}
+                                {{input value=voter.second_name placeholder="Segundo Nombre" class="form-control voter-edit-field"}}
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-3">
                                 <!--<label>Fecha de Nacimiento:<span class="text-danger">*</span></label>-->
-                                {{bootstrap-datepicker value=voter.date_of_birth required=true language="es" format="dd/mm/yyyy"
-                                placeholder="Fecha de Nacimiento"
-                                class="form-control voter-edit-field-required"}}
+                                {{bootstrap-datepicker value=voter.date_of_birth language="es" format="dd/mm/yyyy" required=true placeholder="Fecha de Nacimiento" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-2">
                                 <!--<label>Genero:<span class="text-danger">*</span></label>-->
@@ -77,96 +67,76 @@
                         <div class="form-gorup row">
                             <div class="col-sm-4">
                                 <!--<label>Colonia:<span class="text-danger">*</span></label>-->
-                                {{input value=voter.suburb required=true
-                                placeholder="Colonia"
-                                class="form-control voter-edit-field-required"}}
+                                {{input value=voter.suburb required=true placeholder="Colonia" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-sm-2">
                                 <!--<label>Código Postal:<span class="text-danger">*</span></label>-->
-                                {{input type="number"
-                                min=0 required=true oninput="validity.valid||(value='');" value=voter.postal_code
-                                placeholder="C.P."
-                                class="form-control voter-edit-field-required"}}
+                                {{input type="number" min=0 oninput="validity.valid||(value='');" value=voter.postal_code required=true placeholder="C.P." class="form-control voter-edit-field-required"}}
                             </div>
                         </div>
                         <div class="form-gorup row">
                             <div class="col-md-4">
                                 <!--<label>Calle:</label>-->
-                                {{input value=voter.street
-                                placeholder="Calle"
-                                class="form-control voter-edit-field"}}
+                                {{input value=voter.street placeholder="Calle" class="form-control voter-edit-field"}}
                             </div>
                             <div class="col-sm-2">
                                 <!--<label>Número Exterior:</label>-->
-                                {{input value=voter.outside_number
-                                placeholder="Número Ext."
-                                class="form-control voter-edit-field"}}
+                                {{input value=voter.outside_number placeholder="Número Ext." class="form-control voter-edit-field"}}
                             </div>
                             <div class="col-sm-2">
                                 <!--<label>Número Interior:</label>-->
-                                {{input value=voter.inside_number
-                                placeholder="Número Int."
-                                class="form-control voter-edit-field"}}
+                                {{input value=voter.inside_number placeholder="Número Int." class="form-control voter-edit-field"}}
                             </div>
                         </div>
                         <div class="form-gorup row">
                             <div class="col-md-4">
                                 <!--<label>Municipio:</label>-->
-                                {{input value=voter.municipality
-                                placeholder="Municipio"
-                                class="form-control voter-edit-field-required"}}
+                                {{input value=voter.municipality placeholder="Municipio" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-4">
-                                <!--<label>Estado:</label>
-                                -->{{input value=voter.state
-                                placeholder="Estado"
-                                class="form-control voter-edit-field-required"}}
+                                <!--<label>Estado:</label>-->
+                                {{#x-select class="form-control voter-edit-select-required" value=voter.state on-change=(action "updateState" voter) as |st|}}
+                                    {{#st.option value='' disabled=true selected=true hidden=true}}Seleccione una opción{{/st.option}}
+                                    {{#each states as |state idx|}}
+                                        {{#st.option value=idx}}{{state}}{{/st.option}} 
+                                    {{/each}} 
+                                {{/x-select}}
                             </div>
                             <div class="col-md-4">
                                 <!--<label>Localidad:</label>-->
-                                {{input value=voter.locality placeholder="Localidad"
-                                class="form-control voter-edit-field"}}
+                                {{input value=voter.locality placeholder="Localidad" class="form-control voter-edit-field"}}
                             </div>
                         </div>
 
                         <h3 style="margin-top: 45px;">Claves</h3>
                         <div class="form-group row">
                             <div class="col-md-6">
-                                {{input value=voter.electoral_code required=true placeholder="Clave Electoral"
-                                class="form-control voter-edit-field-required"}}
+                                {{input value=voter.electoral_code required=true placeholder="Clave Electoral" class="form-control voter-edit-field-required"}}
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-6">
-                                {{input value=voter.CURP placeholder="CURP"
-                                class="form-control voter-edit-field"}}
+                                {{input value=voter.CURP placeholder="CURP" class="form-control voter-edit-field"}}
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-2">
                                 <!--<label>Clave de Estado:<span class="text-danger">*</span></label>-->
-                                {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.state_code
-                                placeholder="Estado"
-                                class="form-control voter-edit-field-required"}}
+                                {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.state_code placeholder="Estado" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-2">
                                 <!--<label>Clave de Municipio:<span class="text-danger">*</span></label>-->
-                                {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.municipality_code
-                                placeholder="Municipio"
-                                class="form-control voter-edit-field-required"}}
+                                {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.municipality_code placeholder="Municipio" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-2">
                                 <!--<label>Clave de Sección:</label>-->
-                                {{input type="number" min=0 oninput="validity.valid||(value='');" value=voter.section
-                                placeholder="Sección"
-                                class="form-control voter-edit-field-required"}}
+                                {{input type="number" min=0 oninput="validity.valid||(value='');" value=voter.section placeholder="Sección" class="form-control voter-edit-field-required"}}
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-2">
                                 <!--<label>Clave de Localidad:</label>-->
-                                {{input type="number" min=0 oninput="validity.valid||(value='');" value=voter.locality_code placeholder="Localidad"
-                                class="form-control voter-edit-field-required"}}
+                                {{input type="number" min=0 oninput="validity.valid||(value='');" value=voter.locality_code placeholder="Localidad" class="form-control voter-edit-field-required"}}
                             </div>
                         </div>
 
@@ -174,37 +144,27 @@
                         <div class="form-group row">
                             <div class="col-md-4">
                                 <!--<label>Teléfono Fijo:<span class="text-danger">*</span></label>-->
-                                {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.home_phone
-                                placeholder="Teléfono Fijo"
-                                class="form-control voter-edit-field"}}
+                                {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.home_phone placeholder="Teléfono Fijo" class="form-control voter-edit-field"}}
                             </div>
                             <div class="col-md-4">
                                 <!--<label>Teléfono Celular:<span class="text-danger">*</span></label>-->
-                                {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.mobile_phone
-                                placeholder="Teléfono Celular"
-                                class="form-control voter-edit-field"}}
+                                {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.mobile_phone placeholder="Teléfono Celular" class="form-control voter-edit-field"}}
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-8">
                                 <!--<label>Cuenta de Facebook:</label>-->
-                                {{input value=voter.facebook_account
-                                placeholder="URL Facebook"
-                                class="form-control voter-edit-field"}}
+                                {{input value=voter.facebook_account placeholder="URL Facebook" class="form-control voter-edit-field"}}
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-4">
                                 <!--<label>Correo Electrónico:</label>-->
-                                {{input type="email" value=voter.email
-                                placeholder="Email"
-                                class="form-control voter-edit-field"}}
+                                {{input type="email" value=voter.email placeholder="Email" class="form-control voter-edit-field"}}
                             </div>
                             <div class="col-md-4">
                                 <!--<label>Correo Electrónico Alternativo:</label>--> 
-                                {{input type="email" value=voter.alternative_email
-                                placeholder="Email 2"
-                                class="form-control voter-edit-field"}}
+                                {{input type="email" value=voter.alternative_email placeholder="Email 2" class="form-control voter-edit-field"}}
                             </div>
                         </div>
 
@@ -212,20 +172,15 @@
                         <div class="form-group row">
                             <div class="col-md-4">
                                 <!--<label>Organización:</label>-->
-                                {{input value=voter.organization
-                                placeholder="Organización"
-                                class="form-control voter-edit-field"}}
+                                {{input value=voter.organization placeholder="Organización" class="form-control voter-edit-field"}}
                             </div>
                             <div class="col-md-4">
                                 <!--<label>Cargos Partidarios:</label>-->
-                                {{input value=voter.party_positions_held
-                                placeholder="Cargos Partidarios"
-                                class="form-control voter-edit-field"}}
+                                {{input value=voter.party_positions_held placeholder="Cargos Partidarios" class="form-control voter-edit-field"}}
                             </div>
                             <div class="col-md-4">
                                 <label>Pertenece a Estructura</label>
-                                {{input type="checkbox" checked=voter.is_part_of_party
-                                class="form-control"}}
+                                {{input type="checkbox" checked=voter.is_part_of_party class="form-control"}}
                             </div>
                         </div>
 
@@ -237,15 +192,11 @@
                             </div>
                             <div class="col-md-4">
                                 <!--<label>Año de la Elección:</label>-->
-                                {{input type="number" min=0 oninput="validity.valid||(value='');" value=voter.election_year
-                                placeholder="Año de Candidatura"
-                                class="form-control voter-edit-field"}}
+                                {{input type="number" min=0 oninput="validity.valid||(value='');" value=voter.election_year placeholder="Año de Candidatura" class="form-control voter-edit-field"}}
                             </div>
                             <div class="col-md-4">
                                 <!--<label>Cargo de Elección Popular:</label>-->
-                                {{input value=voter.popular_election_position
-                                placeholder="Cargo de Elección Popular"
-                                class="form-control voter-edit-field"}}
+                                {{input value=voter.popular_election_position placeholder="Cargo de Elección Popular" class="form-control voter-edit-field"}}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -300,9 +251,7 @@
                         <div class="form-group row" style="margin-bottom:45px;">
                             <div class="col-sm-12">
                                 <!--<label>Notas:</label>-->
-                                {{textarea value=voter.notes rows=5
-                                placeholder="Ingresa notas aquí"
-                                class="form-control voter-edit-field"}}
+                                {{textarea value=voter.notes rows=5 placeholder="Ingresa notas aquí" class="form-control voter-edit-field"}}
                             </div>
                         </div>
 
