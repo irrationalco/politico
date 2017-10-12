@@ -13,18 +13,18 @@
                 Cargando {{queue.files.length}} archivos. ({{queue.progress}}%)
             {{else}}
                 {{!-- <h4>Upload Images</h4> --}}
-                <p>
+                <h5 style="padding:0 25px;">
                 {{#if dropzone.supported}}
-                    Arrastra un archivo a este recuadro para agrgarlo o  
+                    Arrastra un archivo a este recuadro para agregarlo o  
                 {{/if}}
                 {{#file-upload name="files"
                                 accept="csv"
                                 multiple=true
                                 onfileadd=(route-action "uploadFile")}}
-                    <a id="upload-image" tabindex=0>has click aqui</a>
+                    <a id="upload-image" tabindex=0>haz click aquí</a>
                 {{/file-upload}}
-                    para seleccionarlo
-                </p>
+                    para seleccionarlo manualmente
+                </h5>
             {{/if}}
         {{/file-dropzone}}
         </div>

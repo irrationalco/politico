@@ -179,9 +179,9 @@
                                 class="form-control voter-edit-field"}}
                             </div>
                             <div class="col-md-4">
-                                <!--<label>Teléfono Móvil:<span class="text-danger">*</span></label>-->
+                                <!--<label>Teléfono Celular:<span class="text-danger">*</span></label>-->
                                 {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.mobile_phone
-                                placeholder="Teléfono Móvil"
+                                placeholder="Teléfono Celular"
                                 class="form-control voter-edit-field"}}
                             </div>
                         </div>
@@ -301,12 +301,12 @@
                             <div class="col-sm-12">
                                 <!--<label>Notas:</label>-->
                                 {{textarea value=voter.notes rows=5
-                                placeholder="Ingresa texto aquí"
+                                placeholder="Ingresa notas aquí"
                                 class="form-control voter-edit-field"}}
                             </div>
                         </div>
 
-                        {{input type="submit" value=(if voter.id 'Actualizar' 'Crear') class="btn btn-lg btn-block login-btn"}}
+                        {{input type="submit" value=(if voter.id 'Actualizar' 'Crear') class="btn-success btn-lg btn-block"}}
 
                     </fieldset>
                 </form>
