@@ -23,7 +23,7 @@
                                 <!--<label>Vigencia de Credencial de Elector:<span class="text-danger">*</span></label>-->
                                 {{#x-select class="form-control voter-edit-select-required" value=voter.expiration_date required=true
                                 on-change=(action "updateExpirationDate" voter) as |expir|}} 
-                                    {{#expir.option value='' disabled=true selected=true hidden=true}}Seleccione una opción{{/expir.option}}
+                                    {{#expir.option value='' disabled=true selected=true hidden=true}}Vigencia{{/expir.option}}
                                     {{#each years as |year|}}
                                         {{#expir.option value=year}}{{year}}{{/expir.option}} 
                                     {{/each}} 
