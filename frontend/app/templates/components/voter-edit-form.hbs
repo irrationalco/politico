@@ -97,7 +97,7 @@
                         <div class="form-gorup row">
                             <div class="col-md-4">
                                 <!--<label>Estado:<span class="text-danger">*</span></label>-->
-                                {{#x-select class="form-control voter-edit-field-required" value=voter.state on-change=(action "updateState" voter) as |st|}}
+                                {{#x-select class="form-control voter-edit-select-required" value=voter.state on-change=(action "updateState" voter) as |st|}}
                                     {{#st.option value='' disabled=true selected=true hidden=true}}Estado{{/st.option}}
                                     {{#each states as |state idx|}}
                                         {{#st.option value=idx}}{{state}}{{/st.option}} 
