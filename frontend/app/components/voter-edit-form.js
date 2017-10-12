@@ -84,6 +84,40 @@ export default Ember.Component.extend({
     },
 
     years: [],
+    states: [
+        "Aguascalientes",
+        "Baja California",
+        "Baja California Sur",
+        "Campeche",
+        "Coahuila",
+        "Colima",
+        "Chiapas",
+        "Chihuahua",
+        "Distrito Federal",
+        "Durango",
+        "Guanajuato",
+        "Guerrero",
+        "Hidalgo",
+        "Jalisco",
+        "México",
+        "Michoacán",
+        "Morelos",
+        "Nayarit",
+        "Nuevo León",
+        "Oaxaca",
+        "Puebla",
+        "Querétaro",
+        "Quintana Roo",
+        "San Luis Potosí",
+        "Sinaloa",
+        "Sonora",
+        "Tabasco",
+        "Tamaulipas",
+        "Tlaxcala",
+        "Veracruz",
+        "Yucatán",
+        "Zacatecas"
+    ],
 
     actions: {
         create(voter) {
@@ -134,6 +168,11 @@ export default Ember.Component.extend({
 
         updateExpirationDate(voter, value) {
             voter.set('expiration_date', value);
-        }
+        },
+
+        updateState(voter, value) {
+            voter.set('state_code', value+1);
+            voter.set('state', this.states[value]);
+        },
     }
 });

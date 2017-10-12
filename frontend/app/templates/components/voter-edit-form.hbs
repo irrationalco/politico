@@ -123,6 +123,15 @@
                             <div class="col-md-2">
                                 <!--<label>Clave de Estado:<span class="text-danger">*</span></label>-->
                                 {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.state_code placeholder="Estado" class="form-control voter-edit-field-required"}}
+                        <div class="form-gorup row">
+                            <div class="col-sm-6">
+                                <label>Estado:</label>
+                                {{#x-select class="form-control" value=voter.state on-change=(action "updateState" voter) as |st|}}
+                                    {{#st.option value='' disabled=true selected=true hidden=true}}Seleccione una opción{{/st.option}}
+                                    {{#each states as |state idx|}}
+                                        {{#st.option value=idx}}{{state}}{{/st.option}} 
+                                    {{/each}} 
+                                {{/x-select}}
                             </div>
                             <div class="col-md-2">
                                 <!--<label>Clave de Municipio:<span class="text-danger">*</span></label>-->
@@ -149,6 +158,13 @@
                             <div class="col-md-4">
                                 <!--<label>Teléfono Celular:<span class="text-danger">*</span></label>-->
                                 {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.mobile_phone placeholder="Teléfono Celular" class="form-control voter-edit-field"}}
+                            <div class="col-sm-3">
+                                <label>Clave de Municipio:<span class="text-danger">*</span></label> {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.municipality_code placeholder="Municipio"
+                                class="form-control"}}
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Clave de Sección:<span>*</span></label> {{input type="number" required=true min=0 oninput="validity.valid||(value='');" value=voter.section placeholder="Sección"
+                                class="form-control"}}
                             </div>
                         </div>
                         <div class="form-group row">
