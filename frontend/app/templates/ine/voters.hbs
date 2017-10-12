@@ -3,12 +3,12 @@
 	<div class="voter-table-header">
 			<div class="row">
 				<div class="text-center col-md-2 col-md-offset-5">
-					{{link-to "Cargar Archivo de Registros" "ine.upload-file" class="btn btn-success"}}
+					{{link-to "Subir Archivo" "ine.upload-file" class="btn btn-success"}}
 				</div>
 			</div>
 			<div class="row">
 				<div class="text-center col-md-2 col-md-offset-5">
-					{{link-to "Agregar Nuevo Registro" "ine.new-voter" class="btn btn-success"}}
+					{{link-to "Crear Nuevo Registro" "ine.new-voter" class="btn btn-success"}}
 				</div>
 			</div>
 	</div>
@@ -23,44 +23,45 @@
 							<td>Credencial Elector</td>
 							<td>Vigencia</td>
 
-							<td>Primer Nombre</td>
-							<td>Segundo Nombre</td>
-							<td>Apellido Paterno</td>
-							<td>Apellido Materno</td>
+							<td>Nombre</td>
+							<td>Paterno</td>
+							<td>Materno</td>
 							<td>Genero</td>
 							<td>Fecha de Nacimiento</td>
+
 							<td>Clave de Elector</td>
 							<td>CURP</td>
 
-							<td>Sección</td>
-							<td>Calle</td>
-							<td>Número Exterior</td>
-							<td>Número Interior</td>
-							<td>Colónia</td>
-							<td>Clave de Localidad</td>
-							<td>Localidad</td>
-							<td>Clave de Municipio</td>
-							<td>Municipio</td>
-							<td>Clave de Estado</td>
 							<td>Estado</td>
-							<td>Código Postal</td>
+							<td>Municipio</td>
+							<td>Localidad</td>
+							<td>Sección</td>
+							<td>Colonia</td>
+							<td>Calle</td>
+							<td>Ext</td>
+							<td>Int</td>
+							<td>C.P.</td>
 
-							<td>Teléfono Fijo</td>
-							<td>Teléfono Móvil</td>
-							<td>Correo Electrónico</td>
-							<td>Correo Electrónico Alternativo</td>
-							<td>Cuenta de Facebook</td>
+							<td>Clave Estado</td>
+							<td>Clave Municipo</td>
+							<td>Clave Localidad</td>
 
-							<td>Último grado de estudios</td>
-							<td>Ocupación Actual</td>
+							<td>Teléfono</td>
+							<td>Celular</td>
+							<td>Email</td>
+							<td>Email 2</td>
+							<td>URL Facebook</td>
+
+							<td>Estudios</td>
+							<td>Ocupación</td>
 
 							<td>Organización</td>
 							<td>Cargos Partidarios</td>
-							<td>Pertenece a la estructura del partido</td>
-							<td>Ha sido candidato(a)</td>
-							<td>Cargo de elección popular</td>
-							<td>Año de elección</td>
-							<td>Resulto electo(a)</td>
+							<td>Pertenece a Estructura</td>
+							<td>Candidato(a)</td>
+							<td>Cargo de Elección Popular</td>
+							<td>Año de Elección</td>
+							<td>Resultó Electo(a)</td>
 							<td>Via de Elección</td>
 							<td>Notas</td>
 
@@ -73,30 +74,32 @@
 					<tbody class="voter-table-content">
 						{{#each model as |voter|}}
 						<tr valign="middle">
+
 							<td>{{voter.electoral_id_number}}</td>
 							<td>{{voter.expiration_date}}</td>
 
-							<td>{{voter.first_name}}</td>
-							<td>{{voter.second_name}}</td>
+							<td>{{voter.first_name}} {{voter.second_name}}</td>
 							<td>{{voter.first_last_name}}</td>
 							<td>{{voter.second_last_name}}</td>
 							<td>{{voter.gender}}</td>
 							<td>{{readable-date voter.date_of_birth}}</td>
+
 							<td>{{voter.electoral_code}}</td>
 							<td>{{voter.CURP}}</td>
 
+							<td>{{voter.state}}</td>
+							<td>{{voter.municipality}}</td>
+							<td>{{voter.locality}}</td>
 							<td>{{voter.section}}</td>
+							<td>{{voter.suburb}}</td>
 							<td>{{voter.street}}</td>
 							<td>{{voter.outside_number}}</td>
 							<td>{{voter.inside_number}}</td>
-							<td>{{voter.suburb}}</td>
-							<td>{{voter.locality_code}}</td>
-							<td>{{voter.locality}}</td>
-							<td>{{voter.municipality_code}}</td>
-							<td>{{voter.municipality}}</td>
-							<td>{{voter.state_code}}</td>
-							<td>{{voter.state}}</td>
 							<td>{{voter.postal_code}}</td>
+							
+							<td>{{voter.state_code}}</td>
+							<td>{{voter.municipality_code}}</td>
+							<td>{{voter.locality_code}}</td>
 
 							<td>{{voter.home_phone}}</td>
 							<td>{{voter.mobile_phone}}</td>
