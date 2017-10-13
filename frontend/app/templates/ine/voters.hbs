@@ -1,6 +1,17 @@
 <div class="vertical-offset-100 horizontal-padding">
-	<h3 class="voter-table-title">Registro de Estructura</h3>
-	<div class="voter-table-header">
+	<h3 class="admin-table-title">Registro de Estructura</h3>
+	<div class="table-header">
+
+				{{#power-select
+			search=(action "searchVoters")
+			selected=selected
+			placeholder="Busca por Nombre o Apellido"
+			onchange=(action "seeVoter")
+			as |voter|
+			}}
+				{{voter.first_name}} {{voter.first_last_name}}
+			{{/power-select}}
+			
 			<div class="row">
 				<div class="text-center col-md-2 col-md-offset-5">
 					{{link-to "Subir Archivo" "ine.upload-file" class="btn btn-success"}}
