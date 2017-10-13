@@ -1,8 +1,9 @@
 <div class="vertical-offset-100 horizontal-padding">
 	<h3 class="admin-table-title">Registro de Estructura</h3>
 	<div class="table-header">
+		<div class="form-select" style="width: 250px; float: right; padding: 5px;">
 
-				{{#power-select
+			{{#power-select
 			search=(action "searchVoters")
 			selected=selected
 			placeholder="Busca por Nombre o Apellido"
@@ -11,17 +12,11 @@
 			}}
 				{{voter.first_name}} {{voter.first_last_name}}
 			{{/power-select}}
-			
-			<div class="row">
-				<div class="text-center col-md-2 col-md-offset-5">
-					{{link-to "Subir Archivo" "ine.upload-file" class="btn btn-success"}}
-				</div>
-			</div>
-			<div class="row">
-				<div class="text-center col-md-2 col-md-offset-5">
-					{{link-to "Crear Nuevo Registro" "ine.new-voter" class="btn btn-success"}}
-				</div>
-			</div>
+		</div>
+
+		{{link-to "Cargar Archivo de Registros" "ine.upload-file" class="btn btn-success"}}
+		{{link-to "Agregar Nuevo Registro" "ine.new-voter" class="btn btn-success"}}
+		
 	</div>
 		
 		<!-- BEGIN TABLE -->
