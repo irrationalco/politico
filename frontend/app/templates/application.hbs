@@ -41,13 +41,6 @@
           {{/link-to}}
         </li>
 
-        {{!-- Polls --}}
-        <li class="sub-menu">
-          {{#link-to "polls" 1}}
-            <i class="fa fa-bar-chart-o"></i>
-          {{/link-to}}
-        </li>
-
         <li class="sub-menu">
           {{#link-to "ine.voters"}}
             <i class="fa fa-id-card-o"></i>
@@ -56,19 +49,35 @@
 
         {{!-- User admin --}}
         {{#if session.currentUser.superadmin}}
+        
+        {{!-- Polls --}}
+        <li class="sub-menu">
+          {{#link-to "polls" 1}}
+            <i class="fa fa-bar-chart-o"></i>
+          {{/link-to}}
+        </li>
+
         <li class="sub-menu">
           {{#link-to "admin.dashboard"}}
             <i class="fa fa-gear"></i>
           {{/link-to}}
         </li>
-        {{/if}}
 
-        {{#if session.currentUser.manager}}
         <li class="sub-menu">
           {{#link-to "admin.users"}}
             <i class="fa fa-user-o"></i>
           {{/link-to}}
         </li>
+        {{/if}}
+
+        {{#if session.currentUser.manager}}
+          {{#unless session.currentUser.superadmin}}
+          <li class="sub-menu">
+            {{#link-to "admin.users"}}
+            <i class="fa fa-user-o"></i>
+            {{/link-to}}
+          </li>
+          {{/unless}}
         {{/if}}
 
       </ul>

@@ -21,6 +21,12 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, CanMixin, {
 		}
 	},
 
+	beforeModel() {
+		let result = this._super(...arguments);
+		if(!this.can('see map')) { return this.transitionTo('index'); }
+		return result;
+	},
+
 	model(params) {
 		return this.store.query('projection',params);
 	}

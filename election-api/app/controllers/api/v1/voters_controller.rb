@@ -1,12 +1,21 @@
 class Api::V1::VotersController < ApplicationController
   acts_as_token_authentication_handler_for User, fallback: :none
   before_action :set_voter, only: [:show, :update, :destroy]
+  before_action :set_current_user_by_token, only: [:index]
 
   # GET /voters
   def index
     if params["per_page"].present? && params["page"].present? &&
       ((lim = params["per_page"].to_i) != 0) && ((off = params["page"].to_i * lim) != 0)
-      @voters = Voter.where(user: params[:uid].to_i).order(:id).offset(off-lim).limit(lim)
+
+      if @current_user.is_superadmin? || @current_user.is_manager?
+        @voters = Voter.all
+        ap @voters
+      else
+        @voters = Voter.where(user: params[:uid].to_i)
+      end
+
+      @voters.order(:id).offset(off-lim).limit(lim)  
       render json: @voters, meta: { total: (Voter.count/lim).ceil }
     elsif params["name"].present?
       name = params["name"]

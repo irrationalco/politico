@@ -26,8 +26,8 @@ module.exports = function(environment) {
   };
 
   ENV['ember-simple-auth'] = {
-    routeAfterAuthentication: 'maps.projections',
-    routeIfAlreadyAuthenticated: 'maps.projections'
+    routeAfterAuthentication: 'index',
+    routeIfAlreadyAuthenticated: 'index'
   }
 
   if (environment === 'development') {
