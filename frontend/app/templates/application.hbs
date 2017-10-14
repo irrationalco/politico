@@ -62,6 +62,15 @@
           {{/link-to}}
         </li>
         {{/if}}
+
+        {{#if session.currentUser.manager}}
+        <li class="sub-menu">
+          {{#link-to "admin.users"}}
+            <i class="fa fa-address-book-o"></i>
+          {{/link-to}}
+        </li>
+        {{/if}}
+
       </ul>
     </div>
   {{/if}}
