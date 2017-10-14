@@ -387,20 +387,19 @@ export default Ember.Component.extend({
 
 		this.get('sectionsLayer').selectAll("path")
 			.style("fill", function(d) {
-				return "red";
-				// if (emberContext.get('dataType') === 'votes') {
-				// 	let s = emberContext.get('sectionsData')
-				// 			.findBy('sectionCode', d.properties.section_code);
+				if (emberContext.get('dataType') === 'votes') {
+					let s = emberContext.get('sectionsData')
+							.findBy('sectionCode', d.properties.section_code);
 
-				// 	if (isEmpty(s)) {
-				// 		return "transparent";
-				// 	} else {
-				// 		return emberContext.get('partiesManager').getColor(s);
-				// 	}
+					if (isEmpty(s)) {
+						return "transparent";
+					} else {
+						return emberContext.get('partiesManager').getColor(s);
+					}
 
-				// } else {
-				// 	return emberContext.get('fillPopulation')(d.properties.population);
-				// }
+				} else {
+					return emberContext.get('fillPopulation')(d.properties.population);
+				}
 			})
 			.style("stroke", function(d) {
 
