@@ -44,7 +44,11 @@ class Api::V1::VotersController < ApplicationController
   # POST /voters
   def create
     @voter = Voter.new(voter_params)
-
+    user = User.find(voter_params[:user_id])
+    if user
+      @voter[:suborganization_id] = user[:suborganization_id]
+    end
+    
     if @voter.save
       render json: @voter, status: :created
     else
