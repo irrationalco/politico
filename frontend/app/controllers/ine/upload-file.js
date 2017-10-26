@@ -29,11 +29,14 @@ export default Ember.Controller.extend({
         this.set('succesfulUpload', response.status === 201);
         if (response.status === 201) {
             //succes
-        } else if (response.status === 200) {
+        } else if (response.status === 206) {
             //errores en algunos datos
             //regreso el csv con errores
             this.downloadAnswerFile('filas invalidas.csv', response.body);
             this.set('errorString', 'Se encontraron datos invalidos en el archivo, se empezará su descarga inmediatamente');
+        }else if (response.status === 204) {
+            //el archivo tiene problemas 
+            this.set('errorString', 'No se puede procesar el archivo, verifique que sea tenga un formato valido');
         } else {
             //algun otro error en el camino al server
             this.set('errorString', 'Hubo un error al subir el archivo, verifique su conección a internet');
