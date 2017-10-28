@@ -5,24 +5,23 @@ class Api::V1::VotersController < ApplicationController
 
   # GET /voters
   def index
+    if @current_user.is_superadmin?
+      @voters = Voter.all
+    elsif @current_user.is_manager?
+      @voters = Voter.where(suborganization_id: @current_user.suborganization_id)
+    else
+      @voters = Voter.where(user: params[:uid].to_i)
+    end
+
     if params["per_page"].present? && params["page"].present? &&
       ((lim = params["per_page"].to_i) != 0) && ((off = params["page"].to_i * lim) != 0)
-
-      if @current_user.is_superadmin? || @current_user.is_manager?
-        @voters = Voter.all
-        ap @voters
-      else
-        @voters = Voter.where(user: params[:uid].to_i)
-      end
-
       @voters.order(:id).offset(off-lim).limit(lim)  
       render json: @voters, meta: { total: (Voter.count/lim).ceil }
     elsif params["name"].present?
       name = params["name"]
-      @voters = Voter.where(first_name: name).or(Voter.where(first_last_name: name))
+      @voters = @voters.where(first_name: name).or(@voters.where(first_last_name: name))
       render json: @voters
     else
-      @voters = Voter.where(user: params[:uid].to_i)
       render json: @voters
     end
   end
