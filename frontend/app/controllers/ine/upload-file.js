@@ -11,7 +11,7 @@ export default Ember.Controller.extend({
 
     errorString: '',
 
-    downloadAnswerFile: function (filename, text) {
+    downloadCSVFile: function (filename, text) {
         var element = document.createElement('a');
         element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(text));
         element.setAttribute('download', filename);
@@ -32,9 +32,9 @@ export default Ember.Controller.extend({
         } else if (response.status === 206) {
             //errores en algunos datos
             //regreso el csv con errores
-            this.downloadAnswerFile('filas invalidas.csv', response.body);
+            this.downloadCSVFile('filas invalidas.csv', response.body);
             this.set('errorString', 'Se encontraron datos invalidos en el archivo, se empezará su descarga inmediatamente');
-        }else if (response.status === 204) {
+        } else if (response.status === 204) {
             //el archivo tiene problemas 
             this.set('errorString', 'No se puede procesar el archivo, verifique que sea tenga un formato valido');
         } else {
@@ -46,6 +46,9 @@ export default Ember.Controller.extend({
     actions: {
         uploadFile(file) {
             this.get('fileUploader').perform(file);
+        },
+        downloadFormatFile() {
+            this.downloadCSVFile('archivo de formato.csv', 'Numero de la credencial de elector,Vigencia de la credencial de elector,Apellido Paterno,Apellido Materno,Primer Nombre,Segundo Nombre,Sexo,Fecha de nacimiento,Clave de elector,CURP,Seccion Electoral,Calle,Numero exterior,Numero Interior,Colonia,Clave de la localidad,Clave de municipio,Clave de estado,Codigo postal,Telefono fijo,Telefono celular,Correo Electronico,Correo electronico alternativo,Cuenta Facebook,Ultimo Grado de estudios,Ocupacion Actual,Organizacion a la que pertenece,Cargos partidarios que ha tenido,Pertenece a la estructura del partido,Ha sido candidata(o),Cargo de eleccion popular,Año de eleccion,Resulto electa(o),Via de eleccion,Notas');
         }
     }
 });
