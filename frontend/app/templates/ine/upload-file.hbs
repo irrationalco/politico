@@ -1,8 +1,17 @@
 <div class="vertical-offset-100 horizontal-padding">
 	<h3 class="admin-table-title">Agregar Archivo de Registros</h3>
+    {{#if triedUpload}}
+        <div class="text-center" style="margin-top: -25px">
+            {{#if succesfulUpload}}
+                <h4 class="text-success">El archivo se cargó con éxito</h4>
+            {{else}}
+                <h4 class="text-danger">{{errorString}}</h4>
+            {{/if}}
+        </div>
+    {{/if}}
 	<div class="container-fluid row file-uploader-contanier">
-        <div class="col-sm-offset-4 col-sm-4">
-		{{#file-dropzone class="file-uploader" name="files" ondrop=(route-action "uploadFile") as |dropzone queue|}}
+        <div class="col-md-offset-4 col-md-4 col-sm-offset-1 col-sm-10">
+		{{#file-dropzone class="file-uploader" name="files" ondrop=(action "uploadFile") as |dropzone queue|}}
             {{#if dropzone.active}}
                 {{#if dropzone.valid}}
                 Suelta el archivo para empezar la carga
@@ -20,7 +29,7 @@
                 {{#file-upload name="files"
                                 accept="csv"
                                 multiple=true
-                                onfileadd=(route-action "uploadFile")}}
+                                onfileadd=(action "uploadFile")}}
                     <a id="upload-image" tabindex=0>haz click aquí</a>
                 {{/file-upload}}
                     para seleccionarlo manualmente
@@ -29,4 +38,21 @@
         {{/file-dropzone}}
         </div>
 	</div>
+    <div class="conatiner-fluid row help-container">
+        <div class="col-md-offset-3 col-md-6 col-sm-offset-1 col-sm-10">
+            <div class="text-center">
+                <h3>Ayuda</h3>
+            </div>
+            <p>El archivo a cargar debe ser guardado en formato CSV</p>
+            <p>Para fechas, el formato debe de ser: 1 o 2 dígitos para día, 1 o 2 dígitos para mes y 4 dígitos para año, todos separados por "/" (sin las comillas)</p>
+            <p>En lo posible evitar usar acentos y ñ</p>
+            <p>Para cada persona utilizar una sola fila</p>
+            <p>No cambiar el orden de las columnas del archivo muestra</p>
+            <p>No agregar o quitar columnas </p>
+            <p>Para datos extra que no estén en el archivo de formato agregarlo en notas</p>
+            <div class="text-center">
+                <btn {{action "downloadFormatFile"}} class="btn btn-success">Descargar Archivo de Formato</btn>
+            </div>
+        </div>
+    </div>
 </div>

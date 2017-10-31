@@ -1,27 +1,40 @@
 class Api::V1::VotersController < ApplicationController
   acts_as_token_authentication_handler_for User, fallback: :none
   before_action :set_voter, only: [:show, :update, :destroy]
+  before_action :set_current_user_by_token, only: [:index]
 
   # GET /voters
   def index
+    if @current_user.is_superadmin?
+      @voters = Voter.all
+    elsif @current_user.is_manager?
+      @voters = Voter.where(suborganization_id: @current_user.suborganization_id)
+    else
+      @voters = Voter.where(user: params[:uid].to_i)
+    end
+
     if params["per_page"].present? && params["page"].present? &&
       ((lim = params["per_page"].to_i) != 0) && ((off = params["page"].to_i * lim) != 0)
-      @voters = Voter.where(user: params[:uid].to_i).order(:id).offset(off-lim).limit(lim)
+      @voters.order(:id).offset(off-lim).limit(lim)  
       render json: @voters, meta: { total: (Voter.count/lim).ceil }
     elsif params["name"].present?
       name = params["name"]
-      @voters = Voter.where(first_name: name).or(Voter.where(first_last_name: name))
+      @voters = @voters.where(first_name: name).or(@voters.where(first_last_name: name))
       render json: @voters
     else
-      @voters = Voter.where(user: params[:uid].to_i)
       render json: @voters
     end
   end
 
   def file_upload
-    invalidRows = Voter.import(params[:file], params[:user_id].to_i)
+    begin
+      invalidRows = Voter.import(params[:file], params[:user_id].to_i)
+    rescue
+      render status: 	:no_content
+      return
+    end
     unless invalidRows.nil?
-      send_data invalidRows, filename: "registrosInvalidos-#{Date.today}.csv", type: :csv
+      send_data invalidRows, filename: "registrosInvalidos-#{Date.today}.csv", type: :csv, status: :partial_content
     else
       render status: :created
     end
@@ -35,7 +48,11 @@ class Api::V1::VotersController < ApplicationController
   # POST /voters
   def create
     @voter = Voter.new(voter_params)
-
+    user = User.find(voter_params[:user_id])
+    if user
+      @voter[:suborganization_id] = user[:suborganization_id]
+    end
+    
     if @voter.save
       render json: @voter, status: :created
     else

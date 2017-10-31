@@ -5,7 +5,4 @@ import { task, timeout } from 'ember-concurrency';
 const { service } = Ember.inject;
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
-	session: service('session'),
-	beforeModel() {
-	}
 });

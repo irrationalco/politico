@@ -26,7 +26,8 @@ class Api::V1::UsersController < ApplicationController
         superadmin: @user.superadmin,
         manager:    @user.manager,
         supervisor: @user.supervisor,
-        capturist:  @user.capturist
+        capturist:  @user.capturist,
+        suborganizationId: @user.suborganization_id
       }
       render json: data, status: 201 and return
     else 

@@ -2,7 +2,8 @@
 
 module.exports = function(environment) {
   var ENV = {
-    host: 'https://sleepy-meadow-37074.herokuapp.com',
+    host: 'https://asesorpolitico.herokuapp.com',
+    // localhost: 'https://asesorpolitico.herokuapp.com',
     localhost: 'http://localhost:3000',
     modulePrefix: 'frontend',
     environment: environment,
@@ -25,8 +26,8 @@ module.exports = function(environment) {
   };
 
   ENV['ember-simple-auth'] = {
-    routeAfterAuthentication: 'maps.projections',
-    routeIfAlreadyAuthenticated: 'maps.projections'
+    routeAfterAuthentication: 'index',
+    routeIfAlreadyAuthenticated: 'index'
   }
 
   if (environment === 'development') {

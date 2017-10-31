@@ -34,34 +34,79 @@
   {{#if sidebarOpen}}
     <div id="sidebar" class="sidebar-box nav-collapse">
       <ul class="sidebar-menu" id="nav-accordion">
-        {{!-- Maps --}}
-        <li class="sub-menu mt">
-          {{#link-to "maps.projections"}}
-            <i class="fa fa-map-o"></i>
-          {{/link-to}}
-        </li>
 
-        {{!-- Polls --}}
-        <li class="sub-menu">
-          {{#link-to "polls" 1}}
-            <i class="fa fa-bar-chart-o"></i>
-          {{/link-to}}
-        </li>
 
+      {{#if session.currentUser}}
         <li class="sub-menu">
-          {{#link-to "ine.voters"}}
-            <i class="fa fa-id-card-o"></i>
-          {{/link-to}}
-        </li>
+            {{#link-to "ine.voters"}}
+              <i class="fa fa-id-card-o"></i>
+            {{/link-to}}
+          </li>
 
-        {{!-- User admin --}}
-        {{#if session.currentUser.superadmin}}
-        <li class="sub-menu">
-          {{#link-to "admin.users"}}
-            <i class="fa fa-address-book-o"></i>
-          {{/link-to}}
-        </li>
-        {{/if}}
+          {{!-- User admin --}}
+          {{#if session.currentUser.superadmin}}
+
+            {{!-- Maps --}}
+            <li title="Mapas interactivos" class="sub-menu mt">
+              {{#link-to "maps.projections"}}
+                <i class="fa fa-map-o"></i>
+              {{/link-to}}
+            </li>
+            
+            {{!-- Polls --}}
+            <li title="Polls" class="sub-menu">
+              {{#link-to "polls" 1}}
+                <i class="fa fa-bar-chart-o"></i>
+              {{/link-to}}
+            </li>
+
+            <li title="Admin dashboard" class="sub-menu">
+              {{#link-to "admin.dashboard"}}
+                <i class="fa fa-gear"></i>
+              {{/link-to}}
+            </li>
+
+            <li title="Admin Usuarios" class="sub-menu">
+              {{#link-to "admin.users"}}
+                <i class="fa fa-user-o"></i>
+              {{/link-to}}
+            </li>
+          {{/if}}
+
+          {{#if session.currentUser.manager}}
+            {{#unless session.currentUser.superadmin}}
+            {{!-- Maps --}}
+
+              <li title="Mapas interactivo" class="sub-menu mt">
+                {{#link-to "maps.projections"}}
+                <i class="fa fa-map-o"></i>
+                {{/link-to}}
+              </li>
+
+              <li title="Ve tus usuarios" class="sub-menu">
+                {{#link-to "admin.users"}}
+                <i class="fa fa-user-o"></i>
+                {{/link-to}}
+              </li>
+            {{/unless}}
+          {{/if}}
+
+          <li title="Logout" class="sub-menu">
+            <a {{action "logout"}}>
+              <i class="fa fa-sign-out"></i>  
+            </a>
+          </li>
+
+      {{else}}
+
+      <li title="Login" class="sub-menu">
+        {{#link-to "login"}}
+          <i class="fa fa-sign-in"></i>
+        {{/link-to}}
+      </li>
+
+      {{/if}}
+
       </ul>
     </div>
   {{/if}}

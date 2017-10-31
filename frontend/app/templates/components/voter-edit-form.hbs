@@ -130,7 +130,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <div class="col-md-2">
+                            <div class="col-md-2 hide">
                                 <!--<label>Clave de Estado:<span class="text-danger">*</span></label>-->
                                 {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.state_code placeholder="Estado" class="form-control voter-edit-field-required"}}
                             </div>
@@ -152,11 +152,11 @@
                         <div class="form-group row">
                             <div class="col-md-4">
                                 <!--<label>Teléfono Fijo:<span class="text-danger">*</span></label>-->
-                                {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.home_phone placeholder="Teléfono Fijo" class="form-control voter-edit-field"}}
+                                {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.home_phone placeholder="Teléfono Fijo" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-4">
                                 <!--<label>Teléfono Celular:<span class="text-danger">*</span></label>-->
-                                {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.mobile_phone placeholder="Teléfono Celular" class="form-control voter-edit-field"}}
+                                {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.mobile_phone placeholder="Teléfono Celular" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-sm-3">
                                 <!--<label>Clave de Municipio:<span class="text-danger">*</span></label>-->
