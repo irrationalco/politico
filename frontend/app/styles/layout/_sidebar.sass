@@ -1,7 +1,9 @@
 // Import fonts
-// @import url(http://fonts.googleapis.com/css?family=Ruda:300,700,900)
+
 @import url(https://fonts.googleapis.com/css?family=Lato:400,600,700,900)
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,900)
+
+// General
 
 body
   color: $darkblue
@@ -40,7 +42,7 @@ a
 .card-box
   padding: 10px
 
-// Bootstrap Modifications
+// Bootstrap
 
 .modal-header
   background: #68dff0
@@ -104,6 +106,7 @@ ul.top-menu > li > .logout
       padding-bottom: 10px
 
 // Profile Icon
+
 .profile-circle
   height: 40px
   width: 40px
@@ -178,7 +181,7 @@ ul.sidebar-menu li
     margin: -3px 6px 0 0
     font-size: 11px
 
-// MAIN CONTENT CONFIGURATION
+// Main Content Configuration
 
 #main-content
   margin-left: $sidebar-width
@@ -197,7 +200,6 @@ ul.sidebar-menu li
 .black-bg
   background: $darkerblue
   
-
 .wrapper
   display: inline-block
   margin-top: 60px
@@ -207,12 +209,12 @@ ul.sidebar-menu li
   padding-top: 0px
   width: 100%
 
-
 // Logo
+
 a.logo
   font-family: 'Open Sans'
   font-size: 20px
-  color: #ffffff
+  color: $white
   float: left
   margin-top: 15px
   // text-transform: uppercase
@@ -221,10 +223,11 @@ a.logo
   &:hover, &:focus
     text-decoration: none
     outline: none
+    color: $white
   span
     color: #68dff0
 
-// sidebar toggle
+// Sidebar Toggle
 
 .sidebar-toggle-box
   float: left
@@ -293,7 +296,7 @@ a.logo
   a
     color: #68dff0
 
-// LINE ICONS CONFIGURATION
+// Line Icons Configuration
 
 .mtbox
   margin-top: 80px
@@ -322,7 +325,7 @@ a.logo
     background: #ffffff
     box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2)
 
-// TOGGLE CONFIGURATION
+// Toggle Configuration
 
 .has-switch
   border-radius: 30px
@@ -444,7 +447,7 @@ a.logo
     border-radius: 0 6px 6px 0
     border-color: #41cac0
 
-// badge
+// Badge
 
 .badge
   &.bg-primary
@@ -460,7 +463,7 @@ a.logo
   &.bg-inverse
     background: #2A3542
 
-// footer
+// Footer
 
 .site-footer
   background: #68dff0
@@ -486,14 +489,14 @@ a.logo
 @media (max-width: 768px)
   .header
     position: absolute
-  // sidebar
+  // Sidebar
   #sidebar
     height: auto
     overflow: hidden
     position: absolute
     width: 100%
     z-index: 1001
-  // body container
+  // Body container
   #main-content
     margin: 0px !important
     position: none !important
@@ -549,13 +552,13 @@ a.logo
         border-left: 15px solid transparent
         border-right: 15px solid transparent
   
-  // sidebar collabler
+  // Sidebar Collabler
   .modal-footer .btn
     margin-bottom: 0px !important
   .btn
     margin-bottom: 5px
   
-  // menu icon plus minus
+  // Menu Icon Plus Minus
   .dcjq-icon
     top: 10px
   ul.sidebar-menu li ul.sub li a
