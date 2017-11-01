@@ -1,4 +1,6 @@
-// CUSTOM BOOTSTRAP THEME
+// CUSTOM BOOTSTRAP
+
+  // Links
 
 a
   color: $aqua
@@ -10,40 +12,12 @@ a
   &:focus
     color: $cloud
 
-.btn-success
-  background: $aqua
-  border: 2px solid $aqua
-  border-radius: 4px
-  color: $white
-  margin: 5px 0
-  &:hover
-    border: 2px solid $lightcloud
-    color: $white
-    background: $lightcloud
-  &:active
-    box-shadow: none
-    border: 2px solid $cloud
-    background: $cloud
-  &:active:hover
-    border: 2px solid $cloud
-    background: $cloud
-    color: $white
-  &:active:focus
-    border: 2px solid $cloud
-    background: $white
-    color: $cloud
-    outline: none
-  &:active:focus:hover
-    color: $white
-  &:focus
-    border: 2px solid $cloud
-    background: $cloud
-    outline: none
-    color: $white
-  &:focus:hover
-    border: 2px solid $cloud
-    background: $cloud
-    outline: none
+  // Columns
+
+.col-centered
+  float: none
+  margin-right: auto
+  margin-left: auto
 
 // MAP
 
@@ -212,35 +186,42 @@ a
   overflow-y: scroll visible
   width: 100%
 
-// VOTER EDIT FORM
+// BUTTONS 
 
-.voter-edit-title
-  margin-top: 0px
-  margin-bottom: 40px
-  text-align: center
-  font-size: 35px
-
-.voter-edit-field
-    border: none
-    border-radius: 0 !important
+.btn-success
+  background: $aqua
+  border: 2px solid $aqua
+  border-radius: 4px
+  color: $white
+  margin: 5px 0
+  &:hover
+    border: 2px solid $lightcloud
+    color: $white
+    background: $lightcloud
+  &:active
     box-shadow: none
-    background: transparent
-    border-bottom: 2px solid $mediumgray !important
-    height: 45px !important
-    -webkit-box-shadow: none
-    box-shadow: none
-
-.voter-edit-field-required
-  @extend .voter-edit-field
-  border-bottom: 2px solid $aqua !important
-
-.voter-edit-select
-  @extend .voter-edit-field
-  border: 2px solid $mediumgray !important
-
-.voter-edit-select-required
-  @extend .voter-edit-field
-  border: 2px solid $aqua !important
+    border: 2px solid $cloud
+    background: $cloud
+  &:active:hover
+    border: 2px solid $cloud
+    background: $cloud
+    color: $white
+  &:active:focus
+    border: 2px solid $cloud
+    background: $white
+    color: $cloud
+    outline: none
+  &:active:focus:hover
+    color: $white
+  &:focus
+    border: 2px solid $cloud
+    background: $cloud
+    outline: none
+    color: $white
+  &:focus:hover
+    border: 2px solid $cloud
+    background: $cloud
+    outline: none
 
 // SWITCHER BAR
 
