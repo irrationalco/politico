@@ -228,8 +228,8 @@
                                 <!--<label>Via de Elección:</label>-->
                                 {{#x-select class="form-control voter-edit-select" value=voter.election_route on-change=(action "updateElectionRoute" voter) as |hel|}} 
                                     {{#hel.option value='' disabled=true selected=true hidden=true}}Vía de Elección{{/hel.option}}
-                                    {{#hel.option}}MAYORIA RELATIVA{{/hel.option}} 
-                                    {{#hel.option}}PLURINOMINAL{{/hel.option}} 
+                                    {{#hel.option value='MAYORIA RELATIVA'}}MAYORIA RELATIVA{{/hel.option}} 
+                                    {{#hel.option value='PLURINOMINAL'}}PLURINOMINAL{{/hel.option}} 
                                 {{/x-select}}
                             </div>
                             <div class="col-md-4">
@@ -244,29 +244,29 @@
                                 <!--<label>Último Grado de Estudios Terminado:</label>-->
                                 {{#x-select class="form-control voter-edit-select" value=voter.highest_educational_level on-change=(action "updateEducation" voter) as |hel|}}
                                     {{#hel.option value='' disabled=true selected=true hidden=true}}Grado de Estudios{{/hel.option}}
-                                    {{#hel.option}}PRIMARIA{{/hel.option}} 
-                                    {{#hel.option}}SECUNDARIA{{/hel.option}} 
-                                    {{#hel.option}}BACHILLERATO{{/hel.option}}
-                                    {{#hel.option}}LICENCIATURA{{/hel.option}} 
-                                    {{#hel.option}}MAESTRIA{{/hel.option}} 
+                                    {{#hel.option value='PRIMARIA'}}PRIMARIA{{/hel.option}} 
+                                    {{#hel.option value='SECUNDARIA'}}SECUNDARIA{{/hel.option}} 
+                                    {{#hel.option value='BACHILLERATO'}}BACHILLERATO{{/hel.option}}
+                                    {{#hel.option value='LICENCIATURA'}}LICENCIATURA{{/hel.option}} 
+                                    {{#hel.option value='MAESTRIA'}}MAESTRIA{{/hel.option}} 
                                 {{/x-select}}
                             </div>
                             <div class="col-sm-5">
                                 <!--<label>Ocupación Actual:</label>-->
                                 {{#x-select class="form-control voter-edit-select" value=voter.current_ocupation on-change=(action "updateOcupation" voter) as |ocp|}} 
                                     {{#ocp.option value='' disabled=true selected=true hidden=true}}Ocupación{{/ocp.option}}
-                                    {{#ocp.option}}SECTOR PUBLICO{{/ocp.option}} 
-                                    {{#ocp.option}}EMPRESA PROPIA{{/ocp.option}} 
-                                    {{#ocp.option}}TRABAJA EN IP{{/ocp.option}} 
-                                    {{#ocp.option}}TRABAJA POR SU CUENTA{{/ocp.option}} 
-                                    {{#ocp.option}}EDUCADOR(A){{/ocp.option}}
-                                    {{#ocp.option}}OBRERO(A){{/ocp.option}} 
-                                    {{#ocp.option}}TRABAJA EN EL CAMPO{{/ocp.option}}
-                                    {{#ocp.option}}PENSION/JUBILACION{{/ocp.option}} 
-                                    {{#ocp.option}}HOGAR{{/ocp.option}} 
-                                    {{#ocp.option}}ESTUDIANTE{{/ocp.option}}
-                                    {{#ocp.option}}TRABAJO DOMESTICO{{/ocp.option}} 
-                                    {{#ocp.option}}DESEMPLEADO(A){{/ocp.option}}
+                                    {{#ocp.option value='SECTOR PUBLICO'}}SECTOR PUBLICO{{/ocp.option}} 
+                                    {{#ocp.option value='EMPRESA PROPIA'}}EMPRESA PROPIA{{/ocp.option}} 
+                                    {{#ocp.option value='TRABAJA EN IP'}}TRABAJA EN IP{{/ocp.option}} 
+                                    {{#ocp.option value='TRABAJA POR SU CUENTA'}}TRABAJA POR SU CUENTA{{/ocp.option}} 
+                                    {{#ocp.option value='EDUCADOR(A)'}}EDUCADOR(A){{/ocp.option}}
+                                    {{#ocp.option value='OBRERO(A)'}}OBRERO(A){{/ocp.option}} 
+                                    {{#ocp.option value='TRABAJA EN EL CAMPO'}}TRABAJA EN EL CAMPO{{/ocp.option}}
+                                    {{#ocp.option value='PENSION/JUBILACION'}}PENSION/JUBILACION{{/ocp.option}} 
+                                    {{#ocp.option value='HOGAR'}}HOGAR{{/ocp.option}} 
+                                    {{#ocp.option value='ESTUDIANTE'}}ESTUDIANTE{{/ocp.option}}
+                                    {{#ocp.option value='TRABAJO DOMESTICO'}}TRABAJO DOMESTICO{{/ocp.option}} 
+                                    {{#ocp.option value='DESEMPLEADO(A)'}}DESEMPLEADO(A){{/ocp.option}}
                                 {{/x-select}}
                             </div>
                         </div>
