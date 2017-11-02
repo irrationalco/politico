@@ -1,4 +1,4 @@
-<tr valign="middle">
+<tr {{action 'expand'}} valign="middle">
 
 	<td>{{voter.electoral_id_number}}</td>
 
@@ -12,3 +12,15 @@
 		{{link-to "Editar" "ine.voter-edit" voter class="btn btn-info"}}
 	</td>
 </tr>
+
+
+<tr>
+<td colspan="7">
+{{#liquid-if showExpanded class="expandedVoter"}}
+	{{#click-outside action=(action "close")}}
+			<div style="height: 300px; background: black;"></div>
+	{{/click-outside}}
+{{/liquid-if}}
+</td>
+</tr>
+
