@@ -1,0 +1,45 @@
+<div class="container">
+	<div class="row vertical-offset-100">
+		<div class="col-md-8 col-md-offset-2">
+			<h3>Registro de Estructura</h3>
+			<div class="table-header">
+				<div class="form-select" style="width: 250px; float: right; padding: 5px;">
+					{{#power-select
+					search=(action "searchVoters")
+					selected=selected
+					placeholder="Busca por Nombre o Apellido"
+					onchange=(action "seeVoter")
+					as |voter|
+					}}
+						{{voter.first_name}} {{voter.first_last_name}}
+					{{/power-select}}
+				</div>
+
+				{{link-to "Cargar Archivo de Registros" "ine.upload-file" class="btn btn-success"}}
+				{{link-to "Agregar Nuevo Registro" "ine.new-voter" class="btn btn-success"}}		
+			</div>
+			<table class="table table-striped table-hover table-condensed">
+				<thead class="voter-table-header">
+					<tr>
+						<td>Credencial Elector</td>
+						<td>Nombre</td>
+						<td>Paterno</td>
+						<td>Materno</td>
+						<td>Fecha de Nacimiento</td>
+						<td>Estado</td>
+						<td>Clave Estado</td>
+						<td></td>
+
+					</tr>
+				</thead>
+
+				<tbody class="voter-table-content">
+					{{#each model as |voter|}}
+						{{voter-row voter=voter}}
+					{{/each}}
+					{{infinity-loader infinityModel=model}}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
