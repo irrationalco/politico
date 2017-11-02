@@ -2,7 +2,6 @@
 	<h3 class="admin-table-title">Registro de Estructura</h3>
 	<div class="table-header">
 		<div class="form-select" style="width: 250px; float: right; padding: 5px;">
-
 			{{#power-select
 			search=(action "searchVoters")
 			selected=selected
@@ -13,131 +12,123 @@
 				{{voter.first_name}} {{voter.first_last_name}}
 			{{/power-select}}
 		</div>
-
 		{{link-to "Cargar Archivo de Registros" "ine.upload-file" class="btn btn-success"}}
 		{{link-to "Agregar Nuevo Registro" "ine.new-voter" class="btn btn-success"}}
-		
 	</div>
-		
-		<!-- BEGIN TABLE -->
-		<div class="scrolling outer">
-			<div class="inner">
-				<table class="table table-striped table-hover table-condensed">
-					<thead class="voter-table-header">
-						<tr>
+	<div class="scrolling outer">
+		<div class="inner">
+			<table class="table table-striped table-hover table-condensed">
+				<thead class="voter-table-header">
+					<tr>
 
-							<td>Credencial Elector</td>
-							<td>Vigencia</td>
+						<td>Credencial Elector</td>
+						<td>Vigencia</td>
 
-							<td>Nombre</td>
-							<td>Paterno</td>
-							<td>Materno</td>
-							<td>Genero</td>
-							<td>Fecha de Nacimiento</td>
+						<td>Nombre</td>
+						<td>Paterno</td>
+						<td>Materno</td>
+						<td>Genero</td>
+						<td>Fecha de Nacimiento</td>
 
-							<td>Clave de Elector</td>
-							<td>CURP</td>
+						<td>Clave de Elector</td>
+						<td>CURP</td>
 
-							<td>Estado</td>
-							<td>Municipio</td>
-							<td>Localidad</td>
-							<td>Sección</td>
-							<td>Colonia</td>
-							<td>Calle</td>
-							<td>Ext</td>
-							<td>Int</td>
-							<td>C.P.</td>
+						<td>Estado</td>
+						<td>Municipio</td>
+						<td>Localidad</td>
+						<td>Sección</td>
+						<td>Colonia</td>
+						<td>Calle</td>
+						<td>Ext</td>
+						<td>Int</td>
+						<td>C.P.</td>
 
-							<td>Clave Estado</td>
-							<td>Clave Municipo</td>
-							<td>Clave Localidad</td>
+						<td>Clave Estado</td>
+						<td>Clave Municipo</td>
+						<td>Clave Localidad</td>
 
-							<td>Teléfono</td>
-							<td>Celular</td>
-							<td>Email</td>
-							<td>Email 2</td>
-							<td>URL Facebook</td>
+						<td>Teléfono</td>
+						<td>Celular</td>
+						<td>Email</td>
+						<td>Email 2</td>
+						<td>URL Facebook</td>
 
-							<td>Estudios</td>
-							<td>Ocupación</td>
+						<td>Estudios</td>
+						<td>Ocupación</td>
 
-							<td>Organización</td>
-							<td>Cargos Partidarios</td>
-							<td>Pertenece a Estructura</td>
-							<td>Candidato(a)</td>
-							<td>Cargo de Elección Popular</td>
-							<td>Año de Elección</td>
-							<td>Resultó Electo(a)</td>
-							<td>Via de Elección</td>
-							<td>Notas</td>
+						<td>Organización</td>
+						<td>Cargos Partidarios</td>
+						<td>Pertenece a Estructura</td>
+						<td>Candidato(a)</td>
+						<td>Cargo de Elección Popular</td>
+						<td>Año de Elección</td>
+						<td>Resultó Electo(a)</td>
+						<td>Via de Elección</td>
+						<td>Notas</td>
 
-							<td></td>
-							<td></td>
+						<td></td>
+						<td></td>
 
-						</tr>
-					</thead>
+					</tr>
+				</thead>
 
-					<tbody class="voter-table-content">
-						{{#each model as |voter|}}
-						<tr valign="middle">
+				<tbody class="voter-table-content">
+					{{#each model as |voter|}}
+					<tr valign="middle">
 
-							<td>{{voter.electoral_id_number}}</td>
-							<td>{{voter.expiration_date}}</td>
+						<td>{{voter.electoral_id_number}}</td>
+						<td>{{voter.expiration_date}}</td>
 
-							<td>{{voter.first_name}} {{voter.second_name}}</td>
-							<td>{{voter.first_last_name}}</td>
-							<td>{{voter.second_last_name}}</td>
-							<td>{{voter.gender}}</td>
-							<td>{{readable-date voter.date_of_birth}}</td>
+						<td>{{voter.first_name}} {{voter.second_name}}</td>
+						<td>{{voter.first_last_name}}</td>
+						<td>{{voter.second_last_name}}</td>
+						<td>{{voter.gender}}</td>
+						<td>{{readable-date voter.date_of_birth}}</td>
 
-							<td>{{voter.electoral_code}}</td>
-							<td>{{voter.CURP}}</td>
+						<td>{{voter.electoral_code}}</td>
+						<td>{{voter.CURP}}</td>
 
-							<td>{{voter.state}}</td>
-							<td>{{voter.municipality}}</td>
-							<td>{{voter.locality}}</td>
-							<td>{{voter.section}}</td>
-							<td>{{voter.suburb}}</td>
-							<td>{{voter.street}}</td>
-							<td>{{voter.outside_number}}</td>
-							<td>{{voter.inside_number}}</td>
-							<td>{{voter.postal_code}}</td>
-							
-							<td>{{voter.state_code}}</td>
-							<td>{{voter.municipality_code}}</td>
-							<td>{{voter.locality_code}}</td>
+						<td>{{voter.state}}</td>
+						<td>{{voter.municipality}}</td>
+						<td>{{voter.locality}}</td>
+						<td>{{voter.section}}</td>
+						<td>{{voter.suburb}}</td>
+						<td>{{voter.street}}</td>
+						<td>{{voter.outside_number}}</td>
+						<td>{{voter.inside_number}}</td>
+						<td>{{voter.postal_code}}</td>
+						
+						<td>{{voter.state_code}}</td>
+						<td>{{voter.municipality_code}}</td>
+						<td>{{voter.locality_code}}</td>
 
-							<td>{{voter.home_phone}}</td>
-							<td>{{voter.mobile_phone}}</td>
-							<td>{{voter.email}}</td>
-							<td>{{voter.alternative_email}}</td>
-							<td>{{voter.facebook_account}}</td>
+						<td>{{voter.home_phone}}</td>
+						<td>{{voter.mobile_phone}}</td>
+						<td>{{voter.email}}</td>
+						<td>{{voter.alternative_email}}</td>
+						<td>{{voter.facebook_account}}</td>
 
-							<td>{{voter.highest_educational_level}}</td>
-							<td>{{voter.current_ocupation}}</td>
+						<td>{{voter.highest_educational_level}}</td>
+						<td>{{voter.current_ocupation}}</td>
 
-							<td>{{voter.organization}}</td>
-							<td>{{voter.party_positions_held}}</td>
-							<td>{{voter.is_part_of_party}}</td>
-							<td>{{voter.has_been_candidate}}</td>
-							<td>{{voter.popular_election_position}}</td>
-							<td>{{voter.election_year}}</td>
-							<td>{{voter.won_election}}</td>
-							<td>{{voter.election_route}}</td>
-							<td>{{voter.notes}}</td>
+						<td>{{voter.organization}}</td>
+						<td>{{voter.party_positions_held}}</td>
+						<td>{{voter.is_part_of_party}}</td>
+						<td>{{voter.has_been_candidate}}</td>
+						<td>{{voter.popular_election_position}}</td>
+						<td>{{voter.election_year}}</td>
+						<td>{{voter.won_election}}</td>
+						<td>{{voter.election_route}}</td>
+						<td>{{voter.notes}}</td>
 
-							<td>
-								{{link-to "Editar" "ine.voter-edit" voter class="btn btn-info"}}
-							</td>
-							<td>
-								<button {{action 'deleteVoter' voter.id}} class="btn btn-danger">Eliminar</button>
-							</td>
+						<td>{{link-to "Editar" "ine.voter-edit" voter class="btn btn-info"}}</td>
+						<td><button {{action 'deleteVoter' voter.id}} class="btn btn-danger">Eliminar</button></td>
 
-						</tr>
-						{{/each}}
-					</tbody>
-				</table>		
-			</div>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>		
+		</div>
 	</div>
 	{{infinity-loader infinityModel=model}}
 </div>

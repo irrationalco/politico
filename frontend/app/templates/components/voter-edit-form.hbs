@@ -4,10 +4,26 @@
             <div>
                 <div class="vertical-offset-100 horizontal-padding">
                     <h3 class="voter-edit-title">{{form-title}}</h3>
-                    <h5 style="color:#55cec5;">*Campos requeridos en verde</h5>
                 </div>
             </div>
             <div class="panel-body">
+
+                <!-- REQUIRED KEY
+
+                    <h3></h3>
+                    <div class="form-group row">
+                        <div class="col-md-6 col-centered">
+                            <input type="text" style="padding:10px" placeholder="Obligatorio" class="form-control[readonly]} voter-edit-field-required" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6 col-centered">
+                            <input type="text" style="padding:10px" placeholder="No Obligatorio" class="form-control[readonly]} voter-edit-field" readonly="readonly">
+                        </div>
+                    </div>
+
+                -->
+
                 <form {{action (if voter.id 'update' 'create') voter on="submit" }} accept-charset="UTF-8" role="form" class="form-signin">
                     <fieldset>
 
@@ -37,19 +53,19 @@
                         <div class="form-group row">
                             <div class="col-md-3">
                                 <!--<label>Apellido Paterno:<span class="text-danger">*</span></label>-->
-                                {{input value=voter.first_last_name required=true placeholder="Apellido Paterno" class="form-control voter-edit-field-required"}}
+                                {{input value=voter.first_last_name pattern="[a-zA-z'\- ]+" title="Por favor usa solo letras y no uses acentos ni simbolos exceptuando - y '" required=true placeholder="Apellido Paterno" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-3">
                                 <!--<label>Apellido Materno:</label>-->
-                                {{input value=voter.second_last_name placeholder="Apellido Materno" class="form-control voter-edit-field-required"}}
+                                {{input value=voter.second_last_name pattern="[a-zA-z'\- ]+" title="Por favor usa solo letras y no uses acentos ni simbolos exceptuando - y '" placeholder="Apellido Materno" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-3">
                                 <!--<label>Primer Nombre:<span class="text-danger">*</span></label>-->
-                                {{input value=voter.first_name required=true placeholder="Primer Nombre" class="form-control voter-edit-field-required"}}
+                                {{input value=voter.first_name pattern="[a-zA-z'\- ]+" title="Por favor usa solo letras y no uses acentos ni simbolos exceptuando - y '" required=true placeholder="Primer Nombre" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-3">
                                 <!--<label>Segundo Nombre:</label>-->
-                                {{input value=voter.second_name placeholder="Segundo Nombre" class="form-control voter-edit-field"}}
+                                {{input value=voter.second_name pattern="[a-zA-z'\- ]+" title="Por favor usa solo letras y no uses acentos ni simbolos exceptuando - y '" placeholder="Segundo Nombre" class="form-control voter-edit-field"}}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -73,7 +89,7 @@
                         <div class="form-gorup row">
                             <div class="col-sm-4">
                                 <!--<label>Colonia:<span class="text-danger">*</span></label>-->
-                                {{input value=voter.suburb required=true placeholder="Colonia" class="form-control voter-edit-field-required"}}
+                                {{input value=voter.suburb pattern="[a-zA-z'\- ]+" required=true placeholder="Colonia" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-sm-2">
                                 <!--<label>Código Postal:<span class="text-danger">*</span></label>-->
@@ -83,15 +99,15 @@
                         <div class="form-gorup row">
                             <div class="col-md-4">
                                 <!--<label>Calle:</label>-->
-                                {{input value=voter.street placeholder="Calle" class="form-control voter-edit-field"}}
+                                {{input value=voter.street pattern="[a-zA-z'\- ]+" placeholder="Calle" class="form-control voter-edit-field"}}
                             </div>
                             <div class="col-sm-2">
                                 <!--<label>Número Exterior:</label>-->
-                                {{input value=voter.outside_number placeholder="Número Ext." class="form-control voter-edit-field"}}
+                                {{input value=voter.outside_number placeholder="# Ext" class="form-control voter-edit-field"}}
                             </div>
                             <div class="col-sm-2">
                                 <!--<label>Número Interior:</label>-->
-                                {{input value=voter.inside_number placeholder="Número Int." class="form-control voter-edit-field"}}
+                                {{input value=voter.inside_number placeholder="# Int" class="form-control voter-edit-field"}}
                             </div>
                         </div>
                         <div class="form-gorup row">
@@ -106,11 +122,11 @@
                             </div>
                             <div class="col-md-4">
                                 <!--<label>Municipio:<span class="text-danger">*</span></label>-->
-                                {{input value=voter.municipality placeholder="Municipio" class="form-control voter-edit-field-required"}}
+                                {{input value=voter.municipality pattern="[a-zA-z'\- ]+" placeholder="Municipio" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-4">
                                 <!--<label>Localidad:</label>-->
-                                {{input value=voter.locality placeholder="Localidad" class="form-control voter-edit-field"}}
+                                {{input value=voter.locality pattern="[a-zA-z'\- ]+" placeholder="Localidad" class="form-control voter-edit-field"}}
                             </div>
                         </div>
 
@@ -158,20 +174,6 @@
                                 <!--<label>Teléfono Celular:<span class="text-danger">*</span></label>-->
                                 {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.mobile_phone placeholder="Teléfono Celular" class="form-control voter-edit-field-required"}}
                             </div>
-                            <div class="col-sm-3">
-                                <!--<label>Clave de Municipio:<span class="text-danger">*</span></label>-->
-                                {{input type="number" min=0 required=true oninput="validity.valid||(value='');" value=voter.municipality_code placeholder="Municipio" class="form-control voter-edit-field"}}
-                            </div>
-                            <div class="col-sm-3">
-                                <!-- <label>Clave de Sección:<span>*</span></label>-->
-                                {{input type="number" required=true min=0 oninput="validity.valid||(value='');" value=voter.section placeholder="Sección" class="form-control voter-edit-field"}}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-md-8">
-                                <!--<label>Cuenta de Facebook:</label>-->
-                                {{input value=voter.facebook_account placeholder="URL Facebook" class="form-control voter-edit-field"}}
-                            </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-4">
@@ -181,6 +183,12 @@
                             <div class="col-md-4">
                                 <!--<label>Correo Electrónico Alternativo:</label>--> 
                                 {{input type="email" value=voter.alternative_email placeholder="Email 2" class="form-control voter-edit-field"}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-8">
+                                <!--<label>Cuenta de Facebook:</label>-->
+                                {{input value=voter.facebook_account placeholder="URL Facebook" class="form-control voter-edit-field"}}
                             </div>
                         </div>
 
