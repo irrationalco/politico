@@ -89,7 +89,7 @@
                         <div class="form-gorup row">
                             <div class="col-sm-4">
                                 <!--<label>Colonia:<span class="text-danger">*</span></label>-->
-                                {{input value=voter.suburb pattern="[a-zA-z'\- ]+" required=true placeholder="Colonia" class="form-control voter-edit-field-required"}}
+                                {{input value=voter.suburb pattern="[a-zA-z'\- ]+" title="Por favor usa solo letras y no uses acentos ni simbolos exceptuando - y '" required=true placeholder="Colonia" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-sm-2">
                                 <!--<label>Código Postal:<span class="text-danger">*</span></label>-->
@@ -99,7 +99,7 @@
                         <div class="form-gorup row">
                             <div class="col-md-4">
                                 <!--<label>Calle:</label>-->
-                                {{input value=voter.street pattern="[a-zA-z'\- ]+" placeholder="Calle" class="form-control voter-edit-field"}}
+                                {{input value=voter.street pattern="[a-zA-z'\- ]+" title="Por favor usa solo letras y no uses acentos ni simbolos exceptuando - y '" placeholder="Calle" class="form-control voter-edit-field"}}
                             </div>
                             <div class="col-sm-2">
                                 <!--<label>Número Exterior:</label>-->
@@ -122,11 +122,11 @@
                             </div>
                             <div class="col-md-4">
                                 <!--<label>Municipio:<span class="text-danger">*</span></label>-->
-                                {{input value=voter.municipality pattern="[a-zA-z'\- ]+" placeholder="Municipio" class="form-control voter-edit-field-required"}}
+                                {{input value=voter.municipality pattern="[a-zA-z'\- ]+" title="Por favor usa solo letras y no uses acentos ni simbolos exceptuando - y '" placeholder="Municipio" class="form-control voter-edit-field-required"}}
                             </div>
                             <div class="col-md-4">
                                 <!--<label>Localidad:</label>-->
-                                {{input value=voter.locality pattern="[a-zA-z'\- ]+" placeholder="Localidad" class="form-control voter-edit-field"}}
+                                {{input value=voter.locality pattern="[a-zA-z'\- ]+" title="Por favor usa solo letras y no uses acentos ni simbolos exceptuando - y '" placeholder="Localidad" class="form-control voter-edit-field"}}
                             </div>
                         </div>
 
