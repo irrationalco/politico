@@ -1,22 +1,55 @@
 <div class="container">
 	<div class="row vertical-offset-100">
 		<div class="col-md-8 col-md-offset-2">
-			<h3>Registro de Estructura</h3>
 			<div class="table-header">
-				<div class="form-select" style="width: 250px; float: right; padding: 5px;">
-					{{#power-select
-					search=(action "searchVoters")
-					selected=selected
-					placeholder="Busca por Nombre o Apellido"
-					onchange=(action "seeVoter")
-					as |voter|
-					}}
-						{{voter.first_name}} {{voter.first_last_name}}
-					{{/power-select}}
+				<div style="height: 40px;">
+					<h3 style="margin: 0px; float: left;">Registro de Estructura</h3>
+					<div class="form-select" style="width: 250px; margin-bottom: 0px; float: right; padding: 5px;">
+						{{#power-select
+						search=(action "searchVoters")
+						selected=selected
+						placeholder="Busca por Nombre o Apellido"
+						onchange=(action "seeVoter")
+						as |voter|
+						}}
+							{{voter.first_name}} {{voter.first_last_name}}
+						{{/power-select}}
+					</div>
+				</div>
+				<div style="height: 30px;line-height: 30px;">
+					{{#link-to "ine.upload-file" class="voters-table-links"}}
+						<span>Subir Archivo</span>
+						<i class="fa fa-file"></i>
+	            	{{/link-to}}
+
+	            	{{#link-to "ine.new-voter" class="voters-table-links"}}
+	              		<span>Agregar Completo</span>
+	              		<i class="fa fa-plus"></i>
+	            	{{/link-to}}
+
+	            	<a class="voters-table-links" {{action 'showQuickForm'}}>
+	            		<span>Agregar Simple</span>
+	              		<i class="fa fa-plus-square-o"></i>
+	            	</a>
+
+	            	<a class="voters-table-links" {{action 'showFilters'}}>
+	            		<span>Filtros</span>
+	              		<i class="fa fa-filter"></i>
+	            	</a>
 				</div>
 
-				{{link-to "Cargar Archivo de Registros" "ine.upload-file" class="btn btn-success"}}
-				{{link-to "Agregar Nuevo Registro" "ine.new-voter" class="btn btn-success"}}		
+				{{!-- filters --}}
+				{{#liquid-if showFilters class="expandedVoter"}}
+					<div style="height: 30px; font-size: 15px;">
+						En esta fila iran iran los filtros
+					</div>
+				{{/liquid-if}}
+
+				{{#liquid-if showQuickForm class="expandedVoter"}}
+					<div style="height: 30px; font-size: 15px;">
+						En esta fila iran forma de agregar usuario simple
+					</div>
+				{{/liquid-if}}			
 			</div>
 			<table class="table table-striped table-hover table-condensed">
 				<thead class="voter-table-header">
@@ -27,9 +60,7 @@
 						<td>Materno</td>
 						<td>Fecha de Nacimiento</td>
 						<td>Estado</td>
-						<td>Clave Estado</td>
 						<td></td>
-
 					</tr>
 				</thead>
 
