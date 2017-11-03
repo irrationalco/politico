@@ -10,19 +10,19 @@
                         <div class="form-group row">
                             <div class="form-group row">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <h4 style="margin-top:0">Credencial</h4>
+                                    <h4 style="margin-top:0">Básico</h4>
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Número de Credencial de Elector</label>
                                     {{input value=voter.electoral_id_number required=true class="form-control voter-edit-field"}}
                                 </div>
-                                <div class="col-md-3 col-md-offset-2">
+                                <div class="col-md-8 col-md-offset-2">
                                     <label>Vigencia</label>
                                     {{#x-select value=voter.expiration_date required=true class="form-control voter-edit-select" 
                                     on-change=(action "updateExpirationDate" voter) as |expir|}} 
                                         {{#expir.option value='' disabled=true selected=true hidden=true}}{{/expir.option}}
                                         {{#each years as |year|}}
-                                            {{#expir.option value=year}}{{year}}{{/expir.option}} 
+                                            {{#expir.option value=year}}{{year}}Seleccionar{{/expir.option}} 
                                         {{/each}} 
                                     {{/x-select}}
                                 </div>
@@ -35,23 +35,19 @@
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Nombre</label>
-                                    {{input value=voter.first_name required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"
-                                    title="Por favor usa solo letras y no uses acentos ni simbolos exceptuando - y '" }}
+                                    {{input value=voter.first_name required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label style="color:#d5d5d6">Segundo Nombre</label>
-                                    {{input value=voter.second_name pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"
-                                    title="Por favor usa solo letras y no uses acentos ni simbolos exceptuando - y '" }}
+                                    <label>Segundo Nombre - <i style="color:#717274">Opcional</i></label>
+                                    {{input value=voter.second_name pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Apellido Paterno</label>
-                                    {{input value=voter.first_last_name required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"
-                                    title="Por favor usa solo letras y no uses acentos ni simbolos exceptuando - y '" }}
+                                    {{input value=voter.first_last_name required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Apellido Materno</label>
-                                    {{input value=voter.second_last_name required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"
-                                    title="Por favor usa solo letras y no uses acentos ni simbolos exceptuando - y '" }}
+                                    {{input value=voter.second_last_name required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-bottom:0">
@@ -70,9 +66,9 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Genero:</label>
+                                    <label>Género</label>
                                     {{#x-select class="form-control voter-edit-select" value=voter.gender required=true on-change=(action "updateGender" voter) as |gnd|}} 
-                                        {{#gnd.option value='' disabled=true selected=true hidden=true}}{{/gnd.option}}
+                                        {{#gnd.option value='' disabled=true selected=true hidden=true}}Seleccionar{{/gnd.option}}
                                         {{#gnd.option value="H"}}Hombre{{/gnd.option}}
                                         {{#gnd.option value="M"}}Mujer{{/gnd.option}} 
                                     {{/x-select}}
@@ -86,27 +82,86 @@
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Colonia</label>
-                                    {{input value=voter.suburb required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"
-                                    title="Por favor usa solo letras y no uses acentos ni simbolos exceptuando - y '" }}
+                                    {{input value=voter.suburb required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
                                 </div>
-                                <div class="col-md-3 col-md-offset-2">
+                                <div class="col-md-8 col-md-offset-2">
                                     <label>Código Postal</label>
-                                    {{input value=voter.postal_code required=true type="number" min=0 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                    {{input value=voter.postal_code type="number" required=true  min=0 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Núm. Exterior</label>
-                                    {{input value=voter.outside_number class="form-control voter-edit-field"}}
+                                    {{input value=voter.outside_number required=true class="form-control voter-edit-field"}}
                                 </div>
-                                <div class="col-md-3 col-md-offset-2">
-                                    <label style="color:#d5d5d6">Núm. Interior</label>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Núm. Interior - <i style="color:#717274">Opcional</i></label>
                                     {{input value=voter.inside_number class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Estado</label>
+                                    {{#x-select value=voter.state required=true class="form-control voter-edit-select" on-change=(action "updateState" voter) as |st|}}
+                                        {{#st.option value='' disabled=true selected=true hidden=true}}Seleccionar{{/st.option}}
+                                        {{#each states as |state idx|}}
+                                            {{#st.option value=idx}}{{state}}{{/st.option}} 
+                                        {{/each}} 
+                                    {{/x-select}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2" style="margin-top:7px">
+                                    <label>Municipio</label>
+                                    {{input value=voter.municipality required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2" style="margin-bottom:0">
+                                    <label>Localidad - <i style="color:#717274">Opcional</i></label>
+                                    {{input value=voter.locality pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="form-group row">
                                 <div class="col-md-8 col-md-offset-2">
-
+                                    <h4 style="margin-top:-7px">Información en Credencial</h4>
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Clave de Elector</label>
+                                    {{input value=voter.electoral_code required=true class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>CURP</label>
+                                    {{input value=voter.CURP required=true class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Clave de Estado</label>
+                                    {{input value=voter.state_code type="number" min=0 required=true oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Clave de Municipio</label>
+                                    {{input value=voter.municipality_code type="number" min=0 required=true oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Clave de Sección</label>
+                                    {{input value=voter.section type="number" min=0 required=true oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Clave de Localidad</label>
+                                    {{input value=voter.locality_code type="number" min=0 oninput="validity.valid||(value='');"class="form-control voter-edit-field"}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <h4 style="margin-top:-7px">Contacto</h4>
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Teléfono Fijo</label>
+                                    {{input value=voter.home_phone type="number" min=0 required=true oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Celular</label>
+                                    {{input value=voter.mobile_phone type="number" min=0 required=true oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Email</label>
+                                    {{input type="email" value=voter.email required=true class="form-control voter-edit-field"}}
                                 </div>
                             </div>
                         </div>
