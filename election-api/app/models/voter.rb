@@ -62,7 +62,7 @@ class Voter < ApplicationRecord
     end
     if invalidRows.length > 0
         attributes = ['Numero de la credencial de elector', 'Vigencia de la credencial de elector', 'Apellido Paterno',
-                       'Apellido Materno', 'Primer Nombre', 'Segundo Nombre', 'Sexo', 'Dia de nacimiento', 'Mes de nacimiento',
+                       'Apellido Materno', 'Primer Nombre', 'Sexo', 'Dia de nacimiento', 'Mes de nacimiento',
                        'Anio de nacimiento','Clave de elector', 'CURP', 'Seccion Electoral', 'Calle', 'Numero exterior', 'Numero Interior',
                        'Colonia', 'Clave de la localidad', 'Clave de municipio', 'Clave de estado', 'Codigo postal', 'Telefono fijo',
                        'Telefono celular', 'Correo Electronico', 'Correo electronico alternativo', 'Cuenta Facebook', 'Ultimo Grado de estudios',

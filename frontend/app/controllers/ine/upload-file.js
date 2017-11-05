@@ -48,7 +48,7 @@ export default Ember.Controller.extend({
             this.get('fileUploader').perform(file);
         },
         downloadFormatFile() {
-            this.downloadCSVFile('archivo de formato.csv', 'Numero de la credencial de elector,Vigencia de la credencial de elector,Apellido Paterno,Apellido Materno,Primer Nombre,Segundo Nombre,Sexo,Dia de nacimiento,Mes de nacimiento,Anio de nacimiento,Clave de elector,CURP,Seccion Electoral,Calle,Numero exterior,Numero Interior,Colonia,Clave de la localidad,Clave de municipio,Clave de estado,Codigo postal,Telefono fijo,Telefono celular,Correo Electronico,Correo electronico alternativo,Cuenta Facebook,Ultimo Grado de estudios,Ocupacion Actual,Organizacion a la que pertenece,Cargos partidarios que ha tenido,Pertenece a la estructura del partido,Ha sido candidata(o),Cargo de eleccion popular,Año de eleccion,Resulto electa(o),Via de eleccion,Notas');
+            this.downloadCSVFile('archivo de formato.csv', 'Numero de la credencial de elector,Vigencia de la credencial de elector,Apellido Paterno,Apellido Materno,Primer Nombre,Sexo,Dia de nacimiento,Mes de nacimiento,Anio de nacimiento,Clave de elector,CURP,Seccion Electoral,Calle,Numero exterior,Numero Interior,Colonia,Clave de la localidad,Clave de municipio,Clave de estado,Codigo postal,Telefono fijo,Telefono celular,Correo Electronico,Correo electronico alternativo,Cuenta Facebook,Ultimo Grado de estudios,Ocupacion Actual,Organizacion a la que pertenece,Cargos partidarios que ha tenido,Pertenece a la estructura del partido,Ha sido candidata(o),Cargo de eleccion popular,Año de eleccion,Resulto electa(o),Via de eleccion,Notas');
         }
     }
 });
