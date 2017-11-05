@@ -34,7 +34,6 @@ export default Ember.Component.extend({
           expiration_date: voter.get('expiration_date'),
 
           first_name: voter.get('first_name'),
-          second_name: voter.get('second_name'),
           first_last_name: voter.get('first_last_name'),
           second_last_name: voter.get('second_last_name'),
           gender: voter.get('gender') || "H",
