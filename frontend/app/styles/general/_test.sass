@@ -1,26 +1,13 @@
-// CUSTOM BOOTSTRAP
-
-  // Links
-
 a
-  color: $aqua
-  &:hover
-    @extend a
-    color: $lightcloud
-  &:active
-    color: $cloud
-  &:focus
-    color: $cloud
+  color: $primary
 
-  // Columns
-
+// Columns
 .col-centered
   float: none
   margin-right: auto
   margin-left: auto
 
-// MAP
-
+// Map
 .card
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)
   background: white
@@ -103,8 +90,7 @@ a
   stroke-linecap: round
   pointer-events: none
 
-// TOOLTIPS
-
+// Tooltips
 #tooltip-map
   color: black
   position: absolute
@@ -151,8 +137,7 @@ a
   color: black
   font-weight: 600
 
-// VOTER TABLE
-
+// Voter table
 .voter-table
   tr
     td
@@ -171,60 +156,7 @@ a
 
 .voter-table-content
 
-  // HORIZONTAL SCROLLING
-.scrolling 
-  th
-    position: absolute
-    left: 0
-
-.outer
-  position: relative
-  width: 100%
-
-.inner
-  overflow-x: auto
-  overflow-y: scroll visible
-  width: 100%
-
-// BUTTONS 
-
-.btn-success
-  background: $aqua
-  border: 2px solid $aqua
-  border-radius: 4px
-  color: $white
-  margin: 5px 0
-  &:hover
-    border: 2px solid $lightcloud
-    color: $white
-    background: $lightcloud
-  &:active
-    box-shadow: none
-    border: 2px solid $cloud
-    background: $cloud
-  &:active:hover
-    border: 2px solid $cloud
-    background: $cloud
-    color: $white
-  &:active:focus
-    border: 2px solid $cloud
-    background: $white
-    color: $cloud
-    outline: none
-  &:active:focus:hover
-    color: $white
-  &:focus
-    border: 2px solid $cloud
-    background: $cloud
-    outline: none
-    color: $white
-  &:focus:hover
-    border: 2px solid $cloud
-    background: $cloud
-    outline: none
-
-// SWITCHER BAR
-
+// Switcher Bar
 .switcher-bar-first
   width: 65%
   height: 15px
@@ -281,8 +213,7 @@ a
 .otros
   background: #647329
 
-// MAP KEY
-
+// Map Key
 .map-key
   text-transform: capitalize
   position: absolute
@@ -341,8 +272,7 @@ a
 .vertical-line-left-pos
   left: 15px
 
-// SIDEBAR
-
+// Sidebar
 .sidebar-text-title
   color: $darkblue
   font-family: 'Open Sans'
@@ -363,56 +293,14 @@ a
 .sidebar-text-left
   @extend .sidebar-text
 
-.sidebar-text-left
-  &:hover
-    @extend .sidebar-text-left
-    color: $white
-    background: $lightcloud
-  &:active:hover
-    color: $white
-    background: $cloud
-  &:active:focus
-    color: $cloud
-    background: $white
-  &:active:focus:hover
-    color: $white
-  &:focus
-    color: $white
-    background: $cloud
-  &:focus:hover
-    background: $cloud
-
 .sidebar-text-right
   @extend .sidebar-text
   float: right
 
-.sidebar-text-right
-  &:hover
-    @extend .sidebar-text-right
-    color: $white
-    background: $lightcloud
-  &:active:hover
-    color: $white
-    background: $cloud
-  &:active:focus
-    color: $cloud
-    background: $white
-  &:active:focus:hover
-    color: $white
-  &:focus
-    color: $white
-    background: $cloud
-  &:focus:hover
-    background: $cloud
-
 .sidebar-selected
-  background: $aqua
+  background: $primary
   border-radius: 4px
   color: $white
-
-.sidebar-selected
-    &:hover
-      @extend .sidebar-selected
 
 .sidebar-buttons-box
   height: 72px

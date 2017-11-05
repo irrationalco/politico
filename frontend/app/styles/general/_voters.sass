@@ -1,57 +1,61 @@
-// Placeholders
-
-::-webkit-input-placeholder
-	color: $darkgray !important
-
-.voter-edit-field-required::-webkit-input-placeholder
-	color: $darkergray !important
-
-.voter-edit-field-required::-webkit-input-placeholder
-	@extend .voter-edit-field-required
-
-// Title
+#voter-edit
+  width: 60%
+  margin: 0 auto
+  float: none
+  
+#voter-edit
+	h4
+	  padding-bottom: 3px
+	  border-bottom: 1px solid $lightgray
+	  margin-top: 0px
+		
+#voter-edit
+	label
+		color: $darkgray
+		font-weight: 300
+		margin-bottom: 2px
+	
+#voter-edit
+	textarea
+		min-height: 150px
 
 .voter-edit-title
 	margin-top: 0px
-	margin-bottom: 40px
+	margin-bottom: 25px
 	text-align: center
-	font-size: 35px
+	font-size: 25px
 
 // Fields
-
 .voter-edit-field
 	font-size: 14px !important
-	border: none
+	//border: none
 	border-radius: 4px !important
-	box-shadow: none
-	background: $lightgray
+	//box-shadow: none
+	//-webkit-box-shadow: none
+	background: $white
 	height: 35px !important
-	-webkit-box-shadow: none
-	box-shadow: none
-
-.voter-edit-field-required
-	@extend .voter-edit-field
-	background: $mediumgray
 
 .voter-edit-select
 	@extend .voter-edit-field
-	//border: 2px solid $mediumgray !important
 	border-radius: 4px
 
-.voter-edit-select-required
-	@extend .voter-edit-field
-	background: $mediumgray
-
 // Help container
-
 .help-container
     p
         font-size: 1.1em
 
 // Bootstrap
+.form-signin input[type="text"]
+	margin-bottom: 7px
 
-.form-control[readonly]
-	@extend .voter-edit-field
+.form-signin input[type="number"]
+	margin-bottom: 7px
 
-.form-signin
-	margin-bott: 5px
+.form-signin input[type="email"]
+	margin-bottom: 7px
+
+.form-signin input[type="checkbox"]
+	margin-bottom: 7px
+
+.x-select
+	margin-bottom: 7px

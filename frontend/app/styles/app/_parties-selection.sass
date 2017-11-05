@@ -3,7 +3,12 @@
 
 .selectize-dropdown
 	text-transform: uppercase !important
-	border: 1px solid $aqua !important
+	border: 1px solid $lightgray !important
+	border-radius: 0 !important
+	box-shadow: none !important
+
+.selectize-dropdown-content
+	max-height: 100px !important
 
 .selectize-input
 	border: 0 !important
@@ -17,7 +22,7 @@
 		border-radius: 4px !important
 		cursor: pointer !important
 		margin: 0 !important
-		background: $aqua !important
+		background: $primary !important
 		color: $white !important
 		padding: 6px 8px !important
 		box-shadow: none !important
@@ -34,7 +39,7 @@
 		border-radius: 4px !important
 		cursor: pointer !important
 		margin: 0 6px 6px 0 !important
-		background: $aqua !important
+		background: $primary !important
 		border: 1px solid transparent !important
 		color: $white !important
 		padding: 4px 16px 4px 4px !important
@@ -54,7 +59,7 @@
 	cursor: initial !important
 
 .active
-	background-color: $mediumgray !important
+	background-color: $lightgray !important
 	color: $darkblue !important
 
 .input-active
@@ -67,7 +72,7 @@
 	font-size: 10px !important
 	padding: 4px 0 0 0 !important
 
-// Sowwy, beats me
+// Sowwy
 
 #select-party
 	input
@@ -79,5 +84,10 @@
 
 #select-party .selectize-input
 	input
-		background-color: $white !important
-		border-radius: 4px !important
+		background-color: #ffffff !important
+
+#select-party .selectize-input input
+	border: 1px solid $lightgray !important
+	border-radius: 0 !important
+	margin-bottom: 1px !important
+	z-index: 1000 !important
