@@ -169,7 +169,11 @@ export default Ember.Component.extend({
 
     updateGender(voter, value) {
       voter.set('gender', value);
+      document.getElementById(value+'-btn').classList.add('active')
+      document.getElementById((value==='H'?'M':'H')+'-btn').classList.remove('active')
     },
+
+
 
     updateEducation(voter, value) {
       voter.set('highest_educational_level', value);
