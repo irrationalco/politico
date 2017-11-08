@@ -12,8 +12,8 @@
                     {{#if user.id}}
                     <form {{action "update" user on="submit"}} accept-charset="UTF-8" role="form" class="form-signin">
                         <fieldset>
-                            <label>Primer Nombre:</label>
-                            {{input value=user.firstName placeholder="Primer Nombre" class="form-control"}}
+                            <label>Nombre:</label>
+                            {{input value=user.firstName placeholder="Nombre" class="form-control"}}
                             <label>Apellidos:</label>
                             {{input value=user.lastName placeholder="Apellidos" class="form-control"}}
                         	<label>Email:</label>
@@ -45,8 +45,8 @@
                     {{else}}
                     <form {{action "create" user on="submit"}} accept-charset="UTF-8" role="form" class="form-signin">
                         <fieldset>
-                            <label>Primer Nombre:</label>
-                            {{input value=user.firstName placeholder="Primer Nombre" class="form-control"}}
+                            <label>Nombre:</label>
+                            {{input value=user.firstName placeholder="Nombre" class="form-control"}}
                             <label>Apellidos:</label>
                             {{input value=user.lastName placeholder="Apellidos" class="form-control"}}
                             <label>Email:</label>
