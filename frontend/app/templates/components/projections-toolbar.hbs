@@ -1,7 +1,5 @@
 <div class="projections-toolbar">
-
 	<div class="map-breadcrumbs">
-	
 		<ul class="map-links">
 			<li class="map-link" {{action 'setCountry'}}>
 				México
@@ -33,7 +31,6 @@
 			{{/if}}
 		</ul>
 	</div>
-
 	<div class="searchbar-container">
 		{{!-- {{input type='search' class='searchbar' key-down='setSearchValue' value=searchValue placeholder="Search"}}
 		<i class="fa fa-search ticket-table-search-icon"></i> --}}
@@ -41,7 +38,7 @@
 		{{#power-select-multiple
 		selected=selectedCities
 		options=cities
-		placeholder='Busca un estado'
+		placeholder='Busca por Estado'
 		onchange=(action "chooseSelection")
 		as |obj|
 		}}
