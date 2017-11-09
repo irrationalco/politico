@@ -4,8 +4,7 @@
   width: 225px
   height: 100%
   position: fixed
-  // box-shadow: 0 2px 5px 0 rgba(0,0,0,.26)
-  border-right: 1px solid #d4d7dc
+  border-right: 1px solid $gray
   background-color: $white
 
 .projections-toolbar
@@ -14,18 +13,20 @@
   height: 60px
   z-index: 110
   background-color: #6fa6cc
-  border-bottom: 1px solid #d4d7dc
-  background-color: #fbfbfb
+  border-bottom: 1px solid $gray
+  background-color: $white
 
+// Charts
 #charts-panel
   $padding: 15px
   width: 300px
   border-right: none
-  border-left: 1px solid #d4d7dc
+  border-left: 1px solid $gray
   right: -250px
   overflow-y: auto
   margin-top: 60px
   padding: $padding
+  color: $black
   .toggle-button
     font-size: 20px
     cursor: pointer
@@ -35,26 +36,27 @@
     position: absolute
     right: $padding
   #settings-panel
-    margin: 0 -10px;
-    margin-top: 7px;
-    padding: 10px 15px;
-    background-color: white
-    border-radius: 4px;
-    border: 1px solid #E6EBEC;
+    margin: 0
+    padding: 15px 15px
+    //background-color: white
+    //border: 1px solid $lightgray
     .min-max p
       display: inline-block
     .min
       margin-left: -5px
     .max
       float: right;
-      margin-right: -12px;
+      margin-right: -12px
   .chart-title
     text-align: center
     font-weight: 600
+  p
+    margin: 0
 
 .projections-container
   position: relative
 
+// Breadcrumbs
 .map-breadcrumbs
   display: inline-block
   height: 100%
@@ -66,8 +68,7 @@
 .map-link
   padding: 0
   display: inline
-  font-size: 14px
-  color: $darkblue
+  color: $black
   cursor: pointer
 
 .map-link:first-child
@@ -75,7 +76,9 @@
 
 .map-link:last-child
   font-weight: 600
+  color: $black
 
+// Search
 .searchbar
   width: 93%
   border: none
@@ -104,7 +107,6 @@
     color: #8b8b8b
   input[type=search]
     border-bottom: 1px solid #c4c4c2
-    font-size: 15px
     &:focus
       outline: none
   label
