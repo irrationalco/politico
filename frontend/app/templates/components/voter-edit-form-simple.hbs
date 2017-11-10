@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default panel-login">
+            <div class="vertical-offset-50 horizontal-padding">
+                <h4 class="voter-edit-title">Crear Nuevo Registro Rápido</h4>
+                <!--<h4 class="voter-edit-title">{{form-title}}</h4>-->
+            </div>
+            <div class="panel-body">
+                <form {{action (if voter.id 'update' 'create') voter on="submit" }} accept-charset="UTF-8" role="form" class="form-signin">
+                    <fieldset id="voter-edit">
+                        <div class="form-group row">
+                            <div class="form-group row" style="margin-bottom:0">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <h4>Información Personal</h4>
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Nombre</label>
+                                    {{input value=voter.first_name required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Segundo Nombre <i class="text-muted">(Opcional)</i></label>
+                                    {{input value=voter.second_name pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Apellido Paterno</label>
+                                    {{input value=voter.first_last_name required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Apellido Materno</label>
+                                    {{input value=voter.second_last_name required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-bottom:0">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Fecha de Nacimiento</label>
+                                </div>
+                                <div class="col-md-2 col-md-offset-2">
+                                    {{input value=dayOfBirth type="number" min=0 max=31 oninput="validity.valid||(value='');" required=true class="form-control voter-edit-field"}}
+                                    <p class="form-text text-muted" style="margin-top:-7px;margin-bottom:4px">Día</p>
+                                </div>
+                                <div class="col-md-2 col-md-offset-0">
+                                    {{input value=monthOfBirth type="number" min=0 max=12 oninput="validity.valid||(value='');" required=true class="form-control voter-edit-field"}}
+                                    <p class="form-text text-muted" style="margin-top:-7px;margin-bottom:4px">Mes</p>
+                                </div>
+                                <div class="col-md-4 col-md-offset-0">
+                                    {{input value=yearOfBirth type="number" min=1900 oninput="validity.valid||(value='');" required=true class="form-control voter-edit-field"}}
+                                    <p class="form-text text-muted" style="margin-top:-7px;margin-bottom:4px">Año</p>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-bottom:0">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Género</label>
+                                    {{#x-select class="form-control voter-edit-select" value=voter.gender required=true on-change=(action "updateGender" voter) as |gnd|}} 
+                                        {{#gnd.option value='' disabled=true selected=true hidden=true}}Seleccionar{{/gnd.option}}
+                                        {{#gnd.option value="H"}}Hombre{{/gnd.option}}
+                                        {{#gnd.option value="M"}}Mujer{{/gnd.option}} 
+                                    {{/x-select}}
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-bottom:0">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Estado</label>
+                                    {{#x-select value=voter.state required=true class="form-control voter-edit-select" on-change=(action "updateState" voter) as |st|}}
+                                        {{#st.option value='' disabled=true selected=true hidden=true}}Seleccionar{{/st.option}}
+                                        {{#each states as |state idx|}}
+                                            {{#st.option value=idx}}{{state}}{{/st.option}} 
+                                        {{/each}} 
+                                    {{/x-select}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Municipio</label>
+                                    {{input value=voter.municipality required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    {{input type="submit" value=(if voter.id 'Actualizar' 'Crear') class="btn-success btn-lg btn-block"}}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
