@@ -187,7 +187,11 @@
                         <div class="form-group row">
                             <div class="form-group row">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <h4 style="margin-top:-7px">Información de Estructura</h4>
+                                    <h4 style="margin-top:-7px">Partido</h4>
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Pertenece a Estructura <i class="text-muted">(Opcional)</i></label>
+                                    {{input type="checkbox" checked=voter.is_part_of_party class="form-control"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Organización <i class="text-muted">(Opcional)</i></label>
@@ -198,16 +202,19 @@
                                     {{input value=voter.party_positions_held class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Pertenece a Estructura <i class="text-muted">(Opcional)</i></label>
-                                    {{input type="checkbox" checked=voter.is_part_of_party class="form-control"}}
-                                </div>
-                                <div class="col-md-8 col-md-offset-2">
                                     <label>Ha sido Candidato(a) <i class="text-muted">(Opcional)</i></label>
                                     {{input type="checkbox" checked=voter.has_been_candidate class="form-control"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Año de Candidatura <i class="text-muted">(Opcional)</i></label>
                                     {{input value=voter.election_year type="number" min=1900 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <h4 style="margin-top:-7px">Otros</h4>
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Grado de Estudios <i class="text-muted">(Opcional)</i></label>
