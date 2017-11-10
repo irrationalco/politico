@@ -34,15 +34,18 @@
                                     <label>Fecha de Nacimiento <i class="text-muted">(Opcional)</i></label>
                                 </div>
                                 <div class="col-md-2 col-md-offset-2">
-                                    {{input value=dayOfBirth type="number" min=0 max=31 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                    {{input value=dayOfBirth type="number" min=0 max=31 minlength=1 maxlength=2 oninput="validity.valid||(value='');" class="form-control voter-edit-field"
+                                    placeholder="1"}}
                                     <p class="form-text text-muted" style="margin-top:-7px;margin-bottom:7x">Día</p>
                                 </div>
                                 <div class="col-md-2 col-md-offset-0">
-                                    {{input value=monthOfBirth type="number" min=0 max=12 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                    {{input value=monthOfBirth type="number" min=0 max=12 minlength=1 maxlength=2 oninput="validity.valid||(value='');" class="form-control voter-edit-field"
+                                    placeholder="1"}}
                                     <p class="form-text text-muted" style="margin-top:-7px;margin-bottom:7px">Mes</p>
                                 </div>
                                 <div class="col-md-4 col-md-offset-0">
-                                    {{input value=yearOfBirth type="number" min=1900 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                    {{input value=yearOfBirth type="number" min=1900 minlength=4 maxlength=4 oninput="validity.valid||(value='');" class="form-control voter-edit-field"
+                                    placeholder="1999"}}
                                     <p class="form-text text-muted" style="margin-top:-7px;margin-bottom:7px">Año</p>
                                 </div>
                             </div>
@@ -92,7 +95,9 @@
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Código Postal <i class="text-muted">(Opcional)</i></label>
-                                    {{input value=voter.postal_code type="number" min=0 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Ingresa 5 dígitos (solo números)</p>
+                                    {{input value=voter.postal_code type="number" min="01000" minlength=5 maxlength=5 oninput="validity.valid||(value='');" class="form-control voter-edit-field"
+                                    placeholder="12345"}}
                                 </div>
                                 <div class="col-md-4 col-md-offset-2">
                                     <label>Núm. Exterior <i class="text-muted">(Opcional)</i></label>
@@ -110,11 +115,13 @@
                                     <h4 style="margin-top:-7px">Contacto</h4>
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Teléfono Fijo <i class="text-muted">(Opcional)</i></label>
-                                    {{input value=voter.home_phone type="number" minlength=8 maxlength=10 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                    <label>Teléfono Fijo (Nacional) <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Ingresa de 8 a 12 dígitos (solo números)</p>
+                                    {{input value=voter.home_phone type="number" minlength=8 maxlength=12 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Teléfono Celular <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Ingresa 10 dígitos (no incluyas el "01")</p>
                                     {{input value=voter.mobile_phone type="number" minlength=10 maxlength=10 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
@@ -141,30 +148,37 @@
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Clave de Elector <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Clave alfanumérica de 12 dígitos</p>
                                     {{input value=voter.electoral_code class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>CURP <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Clave alfanumérica de 18 dígitos</p>
                                     {{input value=voter.CURP class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Clave de Estado <i class="text-muted">(Opcional)</i></label>
-                                    {{input value=voter.state_code type="number" min=0 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Máximo 2 números</p>
+                                    {{input value=voter.state_code type="number" min=1 max=32 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Clave de Municipio <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Máximo 3 números</p>
                                     {{input value=voter.municipality_code type="number" min=0 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Clave de Sección <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Máximo 4 números</p>
                                     {{input value=voter.section type="number" min=0 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Clave de Localidad <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Máximo 4 números</p>
                                     {{input value=voter.locality_code type="number" min=0 oninput="validity.valid||(value='');"class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-4 col-md-offset-2">
                                     <label>Emisión <i class="text-muted">(Opcional)</i></label>
+                                    <!-- añadir #x-select y nuevo value=voter.emision_date -->
                                     {{input value=voter.emision_date type="number" min=1917 max=2017 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-4 col-md-offset-0">
