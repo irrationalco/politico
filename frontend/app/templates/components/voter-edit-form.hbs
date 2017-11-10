@@ -31,7 +31,7 @@
                             </div>
                             <div class="form-group row" style="margin-bottom:0">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Fecha de Nacimiento<i class="text-muted">(Opcional)</i></label>
+                                    <label>Fecha de Nacimiento <i class="text-muted">(Opcional)</i></label>
                                 </div>
                                 <div class="col-md-2 col-md-offset-2">
                                     {{input value=dayOfBirth type="number" min=0 max=31 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
@@ -110,12 +110,12 @@
                                     <h4 style="margin-top:-7px">Contacto</h4>
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Teléfono Fijo<i class="text-muted">(Opcional)</i></label>
-                                    {{input value=voter.home_phone type="number" min=0 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                    <label>Teléfono Fijo <i class="text-muted">(Opcional)</i></label>
+                                    {{input value=voter.home_phone type="number" minlength=8 maxlength=10 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Teléfono Celular <i class="text-muted">(Opcional)</i></label>
-                                    {{input value=voter.mobile_phone type="number" min=0 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                    {{input value=voter.mobile_phone type="number" minlength=10 maxlength=10 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Correo Electrónico <i class="text-muted">(Opcional)</i></label>

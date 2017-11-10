@@ -32,7 +32,7 @@
                             </div>
                             <div class="form-group row" style="margin-bottom:0">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Fecha de Nacimiento</label>
+                                    <label>Fecha de Nacimiento <i class="text-muted">(Opcional)</i></label>
                                 </div>
                                 <div class="col-md-2 col-md-offset-2">
                                     {{input value=dayOfBirth type="number" min=0 max=31 oninput="validity.valid||(value='');" required=true class="form-control voter-edit-field"}}
@@ -70,7 +70,7 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Municipio</label>
+                                    <label>Municipio <i class="text-muted">(Opcional)</i></label>
                                     {{input value=voter.municipality required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
                                 </div>
                             </div>
