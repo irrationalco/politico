@@ -100,6 +100,33 @@
                         <div class="form-group row">
                             <div class="form-group row">
                                 <div class="col-md-8 col-md-offset-2">
+                                    <h4 style="margin-top:-7px">Contacto</h4>
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Teléfono Fijo</label>
+                                    {{input value=voter.home_phone type="number" min=0 required=true oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Teléfono Celular</label>
+                                    {{input value=voter.mobile_phone type="number" min=0 required=true oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Correo Electrónico</label>
+                                    {{input type="email" value=voter.email required=true class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Correo Electrónico Alternativo <i class="text-muted">(Opcional)</i></label>
+                                    {{input type="email" value=voter.alternative_email class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>URL Facebook <i class="text-muted">(Opcional)</i></label>
+                                    {{input value=voter.facebook_account class="form-control voter-edit-field"}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group row">
+                                <div class="col-md-8 col-md-offset-2">
                                     <h4 style="margin-top:-7px">Credencial de Elector</h4>
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
@@ -140,33 +167,6 @@
                                     <label>Número de Credencial de Elector</label>
                                     <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Localizado al reverso de la Credencial de Elector</p>
                                     {{input value=voter.electoral_id_number required=true class="form-control voter-edit-field"}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group row">
-                                <div class="col-md-8 col-md-offset-2">
-                                    <h4 style="margin-top:-7px">Contacto</h4>
-                                </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <label>Teléfono Fijo</label>
-                                    {{input value=voter.home_phone type="number" min=0 required=true oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
-                                </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <label>Teléfono Celular</label>
-                                    {{input value=voter.mobile_phone type="number" min=0 required=true oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
-                                </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <label>Correo Electrónico</label>
-                                    {{input type="email" value=voter.email required=true class="form-control voter-edit-field"}}
-                                </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <label>Correo Electrónico Alternativo <i class="text-muted">(Opcional)</i></label>
-                                    {{input type="email" value=voter.alternative_email class="form-control voter-edit-field"}}
-                                </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <label>URL Facebook <i class="text-muted">(Opcional)</i></label>
-                                    {{input value=voter.facebook_account class="form-control voter-edit-field"}}
                                 </div>
                             </div>
                         </div>
