@@ -31,18 +31,18 @@
                             </div>
                             <div class="form-group row" style="margin-bottom:0">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Fecha de Nacimiento</label>
+                                    <label>Fecha de Nacimiento<i class="text-muted">(Opcional)</i></label>
                                 </div>
                                 <div class="col-md-2 col-md-offset-2">
-                                    {{input value=dayOfBirth type="number" min=0 max=31 oninput="validity.valid||(value='');" required=true class="form-control voter-edit-field"}}
-                                    <p class="form-text text-muted" style="margin-top:-7px;margin-bottom:7px">Día</p>
+                                    {{input value=dayOfBirth type="number" min=0 max=31 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                    <p class="form-text text-muted" style="margin-top:-7px;margin-bottom:7x">Día</p>
                                 </div>
                                 <div class="col-md-2 col-md-offset-0">
-                                    {{input value=monthOfBirth type="number" min=0 max=12 oninput="validity.valid||(value='');" required=true class="form-control voter-edit-field"}}
+                                    {{input value=monthOfBirth type="number" min=0 max=12 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                     <p class="form-text text-muted" style="margin-top:-7px;margin-bottom:7px">Mes</p>
                                 </div>
                                 <div class="col-md-4 col-md-offset-0">
-                                    {{input value=yearOfBirth type="number" min=1900 oninput="validity.valid||(value='');" required=true class="form-control voter-edit-field"}}
+                                    {{input value=yearOfBirth type="number" min=1900 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                     <p class="form-text text-muted" style="margin-top:-7px;margin-bottom:7px">Año</p>
                                 </div>
                             </div>
@@ -72,8 +72,8 @@
                                     {{/x-select}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Municipio</label>
-                                    {{input value=voter.municipality required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
+                                    <label>Municipio <i class="text-muted">(Opcional)</i></label>
+                                    {{input value=voter.municipality pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2" style="margin-bottom:0">
                                     <label>Localidad <i class="text-muted">(Opcional)</i></label>
