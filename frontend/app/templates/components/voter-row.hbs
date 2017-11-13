@@ -18,14 +18,7 @@
 <td class="{{"no-border no-padding" unless showExpanded}}" colspan="7">
 {{#liquid-if showExpanded class="expandedVoter"}}
 	{{#click-outside action=(action "close")}}
-		<div style="height: 200px;">
-			Nombre: {{voter.first_name}} {{voter.second_name}}
-			Apellidos: {{voter.first_last_name}} {{voter.second_last_name}}
-			Id Electoral{{voter.electoral_id_number}}
-			Fecha expiracion INE:{{voter.expiration_date}}
-			{{!-- Los demas atributos de voter los puedes ver en models/voter.js o voters.hbs, solo puse algunos
-				  como ejemplo --}}
-		</div>
+		{{voter-expanded-row voter=voter}}
 	{{/click-outside}}
 {{/liquid-if}}
 </td>
