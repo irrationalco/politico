@@ -8,27 +8,6 @@
                 <form {{action (if voter.id 'update' 'create') voter on="submit" }} accept-charset="UTF-8" role="form" class="form-signin">
                     <fieldset id="voter-edit">
                         <div class="form-group row">
-                            <div class="form-group row">
-                                <div class="col-md-8 col-md-offset-2">
-                                    <h4 style="margin-top:0">Información Electoral</h4>
-                                </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <label>Número de Credencial de Elector</label>
-                                    {{input value=voter.electoral_id_number required=true class="form-control voter-edit-field"}}
-                                </div>
-                                <div class="col-md-4 col-md-offset-2">
-                                    <label>Vigencia</label>
-                                    {{#x-select value=voter.expiration_date required=true class="form-control voter-edit-select" 
-                                    on-change=(action "updateExpirationDate" voter) as |expir|}} 
-                                        {{#expir.option value='' disabled=true selected=true hidden=true}}{{/expir.option}}
-                                        {{#each years as |year|}}
-                                            {{#expir.option value=year}}{{year}}{{/expir.option}} 
-                                        {{/each}} 
-                                    {{/x-select}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <div class="form-group row" style="margin-bottom:0">
                                 <div class="col-md-8 col-md-offset-2">
                                     <h4>Información Personal</h4>
@@ -48,18 +27,21 @@
                             </div>
                             <div class="form-group row" style="margin-bottom:0">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Fecha de Nacimiento</label>
+                                    <label>Fecha de Nacimiento <i class="text-muted">(Opcional)</i></label>
                                 </div>
                                 <div class="col-md-2 col-md-offset-2">
-                                    {{input value=dayOfBirth type="number" min=0 max=31 oninput="validity.valid||(value='');" required=true class="form-control voter-edit-field"}}
-                                    <p class="form-text text-muted" style="margin-top:-7px;margin-bottom:7px">Día</p>
+                                    {{input value=dayOfBirth type="number" min=0 max=31 minlength=1 maxlength=2 oninput="validity.valid||(value='');" class="form-control voter-edit-field"
+                                    placeholder="1"}}
+                                    <p class="form-text text-muted" style="margin-top:-7px;margin-bottom:7x">Día</p>
                                 </div>
                                 <div class="col-md-2 col-md-offset-0">
-                                    {{input value=monthOfBirth type="number" min=0 max=12 oninput="validity.valid||(value='');" required=true class="form-control voter-edit-field"}}
+                                    {{input value=monthOfBirth type="number" min=0 max=12 minlength=1 maxlength=2 oninput="validity.valid||(value='');" class="form-control voter-edit-field"
+                                    placeholder="1"}}
                                     <p class="form-text text-muted" style="margin-top:-7px;margin-bottom:7px">Mes</p>
                                 </div>
                                 <div class="col-md-4 col-md-offset-0">
-                                    {{input value=yearOfBirth type="number" min=1900 oninput="validity.valid||(value='');" required=true class="form-control voter-edit-field"}}
+                                    {{input value=yearOfBirth type="number" min=1900 minlength=4 maxlength=4 oninput="validity.valid||(value='');" class="form-control voter-edit-field"
+                                    placeholder="1999"}}
                                     <p class="form-text text-muted" style="margin-top:-7px;margin-bottom:7px">Año</p>
                                 </div>
                             </div>
@@ -76,23 +58,7 @@
                         <div class="form-group row">
                             <div class="form-group row">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <h4>Dirección</h4>
-                                </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <label>Colonia</label>
-                                    {{input value=voter.suburb required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
-                                </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <label>Código Postal</label>
-                                    {{input value=voter.postal_code type="number" required=true  min=0 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
-                                </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <label>Núm. Exterior</label>
-                                    {{input value=voter.outside_number required=true class="form-control voter-edit-field"}}
-                                </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <label>Núm. Interior - <i class="text-muted">Opcional</i></label>
-                                    {{input value=voter.inside_number class="form-control voter-edit-field"}}
+                                    <h4>Ubicación</h4>
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label>Estado</label>
@@ -104,11 +70,11 @@
                                     {{/x-select}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Municipio</label>
-                                    {{input value=voter.municipality required=true pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
+                                    <label>Municipio <i class="text-muted">(Opcional)</i></label>
+                                    {{input value=voter.municipality pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2" style="margin-bottom:0">
-                                    <label>Localidad - <i class="text-muted">Opcional</i></label>
+                                    <label>Localidad <i class="text-muted">(Opcional)</i></label>
                                     {{input value=voter.locality pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
                                 </div>
                             </div>
@@ -116,31 +82,28 @@
                         <div class="form-group row">
                             <div class="form-group row">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <h4 style="margin-top:-7px">Información en Credencial</h4>
+                                    <h4>Dirección</h4>
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Clave de Elector</label>
-                                    {{input value=voter.electoral_code required=true class="form-control voter-edit-field"}}
+                                    <label>Colonia <i class="text-muted">(Opcional)</i></label>
+                                    {{input value=voter.suburb pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>CURP</label>
-                                    {{input value=voter.CURP required=true class="form-control voter-edit-field"}}
+                                    <label>Calle <i class="text-muted">(Opcional)</i></label>
+                                    {{input value=voter.street pattern="[a-zA-z'\- ]+" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Clave de Estado</label>
-                                    {{input value=voter.state_code type="number" min=0 required=true oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                    <label>Código Postal <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Ingresa 5 números</p>
+                                    {{input value=voter.postal_code type="number" min=1 minlength=5 maxlength=5 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                 </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <label>Clave de Municipio</label>
-                                    {{input value=voter.municipality_code type="number" min=0 required=true oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                <div class="col-md-4 col-md-offset-2">
+                                    <label>Núm. Exterior <i class="text-muted">(Opcional)</i></label>
+                                    {{input value=voter.outside_number class="form-control voter-edit-field"}}
                                 </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <label>Clave de Sección</label>
-                                    {{input value=voter.section type="number" min=0 required=true oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
-                                </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <label>Clave de Localidad</label>
-                                    {{input value=voter.locality_code type="number" min=0 oninput="validity.valid||(value='');"class="form-control voter-edit-field"}}
+                                <div class="col-md-4 col-md-offset-0">
+                                    <label>Núm. Interior <i class="text-muted">(Opcional)</i></label>
+                                    {{input value=voter.inside_number class="form-control voter-edit-field"}}
                                 </div>
                             </div>
                         </div>
@@ -150,23 +113,28 @@
                                     <h4 style="margin-top:-7px">Contacto</h4>
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Teléfono Fijo</label>
-                                    {{input value=voter.home_phone type="number" min=0 required=true oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                    <label>Teléfono Fijo (Nacional) <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Ingresa 8 - 12 números</p>
+                                    {{input value=voter.home_phone type="number" minlength=8 maxlength=12 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Teléfono Celular</label>
-                                    {{input value=voter.mobile_phone type="number" min=0 required=true oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                    <label>Teléfono Celular <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Ingresa 10 números</p>
+                                    {{input value=voter.mobile_phone type="number" minlength=10 maxlength=10 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Correo Electrónico</label>
-                                    {{input type="email" value=voter.email required=true class="form-control voter-edit-field"}}
+                                    <label>Correo Electrónico <i class="text-muted">(Opcional)</i></label>
+                                    {{input type="email" value=voter.email class="form-control voter-edit-field"}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <h4 style="margin-top:-7px">Redes Sociales</h4>
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Correo Electrónico Alternativo - <i class="text-muted">Opcional</i></label>
-                                    {{input type="email" value=voter.alternative_email class="form-control voter-edit-field"}}
-                                </div>
-                                <div class="col-md-8 col-md-offset-2">
-                                    <label>URL Facebook - <i class="text-muted">Opcional</i></label>
+                                    <label>URL Facebook <i class="text-muted">(Opcional)</i></label>
                                     {{input value=voter.facebook_account class="form-control voter-edit-field"}}
                                 </div>
                             </div>
@@ -174,30 +142,95 @@
                         <div class="form-group row">
                             <div class="form-group row">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <h4 style="margin-top:-7px">Información de Estructura</h4>
+                                    <h4 style="margin-top:-7px">Credencial de Elector</h4>
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Organización - <i class="text-muted">Opcional</i></label>
-                                    {{input value=voter.organization class="form-control voter-edit-field"}}
+                                    <label>Clave de Elector <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Clave alfanumérica de 12 dígitos</p>
+                                    {{input value=voter.electoral_code class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Cargos Partidarios - <i class="text-muted">Opcional</i></label>
-                                    {{input value=voter.party_positions_held class="form-control voter-edit-field"}}
+                                    <label>CURP <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Clave alfanumérica de 18 dígitos</p>
+                                    {{input value=voter.CURP class="form-control voter-edit-field"}}
+                                </div>
+                                <!--<div class="col-md-8 col-md-offset-2">
+                                    <label>Clave de Estado <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* </p>
+                                    {{input value=voter.state_code type="number" min=1 max=32 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Pertenece a Estructura - <i class="text-muted">Opcional</i></label>
+                                    <label>Clave de Municipio <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* </p>
+                                    {{input value=voter.municipality_code type="number" min=1 maxlength=3 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                </div>
+                                -->
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Clave de Sección <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Ejemplo: <i>1234</i></p>
+                                    {{input value=voter.section type="number" min=1 maxlength=3 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Clave de Localidad <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Ejemplo: <i>1234</i></p>
+                                    {{input value=voter.locality_code type="number" min=1 maxlength=4 oninput="validity.valid||(value='');"class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-4 col-md-offset-2">
+                                    <label>Emisión <i class="text-muted">(Opcional)</i></label>
+                                    <!-- añadir -->
+                                    {{input value=voter.emision_date type="number" min=1917 max=2017 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-4 col-md-offset-0">
+                                    <label>Vigencia <i class="text-muted">(Opcional)</i></label>
+                                    {{#x-select value=voter.expiration_date class="form-control voter-edit-select" 
+                                    on-change=(action "updateExpirationDate" voter) as |expir|}} 
+                                        {{#expir.option value='' disabled=true selected=true hidden=true}}{{/expir.option}}
+                                        {{#each years as |year|}}
+                                            {{#expir.option value=year}}{{year}}{{/expir.option}} 
+                                        {{/each}} 
+                                    {{/x-select}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Número de Credencial de Elector <i class="text-muted">(Opcional)</i></label>
+                                    <p class="form-text text-muted" style="margin-top:-3px; margin-bottom: 5px">* Localizado al reverso de la Credencial de Elector</p>
+                                    {{input value=voter.electoral_id_number class="form-control voter-edit-field"}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <h4 style="margin-top:-7px">Partido</h4>
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Pertenece a Estructura <i class="text-muted">(Opcional)</i></label>
                                     {{input type="checkbox" checked=voter.is_part_of_party class="form-control"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Ha sido Candidato(a) - <i class="text-muted">Opcional</i></label>
+                                    <label>Organización <i class="text-muted">(Opcional)</i></label>
+                                    {{input value=voter.organization class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Cargos Partidarios <i class="text-muted">(Opcional)</i></label>
+                                    {{input value=voter.party_positions_held class="form-control voter-edit-field"}}
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Ha sido Candidato(a) <i class="text-muted">(Opcional)</i></label>
                                     {{input type="checkbox" checked=voter.has_been_candidate class="form-control"}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Año de Candidatura - <i class="text-muted">Opcional</i></label>
+                                    <label>Año de Candidatura <i class="text-muted">(Opcional)</i></label>
                                     {{input value=voter.election_year type="number" min=1900 oninput="validity.valid||(value='');" class="form-control voter-edit-field"}}
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group row">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Grado de Estudios - <i class="text-muted">Opcional</i></label>
+                                    <h4 style="margin-top:-7px">Otros</h4>
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <label>Grado de Estudios <i class="text-muted">(Opcional)</i></label>
                                     {{#x-select value=voter.highest_educational_level class="form-control voter-edit-select" on-change=(action "updateEducation" voter) as |hel|}}
                                         {{#hel.option value='' disabled=true selected=true hidden=true}}Grado de Estudios{{/hel.option}}
                                         {{#hel.option value='PRIMARIA'}}PRIMARIA{{/hel.option}} 
@@ -208,7 +241,7 @@
                                     {{/x-select}}
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Ocupación - <i class="text-muted">Opcional</i></label>
+                                    <label>Ocupación <i class="text-muted">(Opcional)</i></label>
                                     {{#x-select value=voter.current_ocupation class="form-control voter-edit-select" on-change=(action "updateOcupation" voter) as |ocp|}} 
                                         {{#ocp.option value='' disabled=true selected=true hidden=true}}Ocupación{{/ocp.option}}
                                         {{#ocp.option value='SECTOR PUBLICO'}}SECTOR PUBLICO{{/ocp.option}} 
@@ -233,6 +266,7 @@
                                     <h4 style="margin-top:-7px">Notas - <i class="text-muted">Opcional</i></h4>
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
+                                    <label><i class="text-muted">(Opcional)</i></label>
                                     {{textarea value=voter.notes rows=5 class="form-control voter-edit-field"}}
                                 </div>
                             </div>

@@ -73,7 +73,7 @@ puts "Done munis: #{Time.now - t}s"
 puts "Creating projections..."
 t = Time.now
 
-ine_data = CSV.read("tbl_ine_chica.csv")
+ine_data = CSV.read("tbl_ine.csv") # tbl_ine_chica.csv / tbl_ine.csv
 ine_data.shift
 
 ine_data.each do |row|
@@ -112,23 +112,23 @@ puts "Done projections: #{Time.now - t}s"
 
 # ############################################################################################
 # Creando cache de datos por estado
-puts "Creating states chache..."
-t = Time.now
-
-state_data = Projection.select('SUM("PAN") as "PAN", SUM("PCONV") as "PCONV", SUM("PES") as "PES",
-                                SUM("PH") as "PH", SUM("PMC") as "PMC", SUM("PMOR") as "PMOR", SUM("PNA") as "PNA",
-                                SUM("PPM") as "PPM", SUM("PRD") as "PRD", SUM("PRI") as "PRI", SUM("PSD") as "PSD",
-                                SUM("PSM") as "PSM", SUM("PT") as "PT", SUM("PVEM") as "PVEM", SUM("total_votes") as "total_votes",
-                                state_code, year, election_type').group(:state_code,:year,:election_type)
-
-state_data.each do |data|
-  StateCache.create(state_code: data.state_code, year: data.year, election_type: data.election_type,
-                    PAN: data.PAN, PCONV: data.PCONV, PES: data.PES, PH: data.PH, PMC: data.PMC,
-                    PMOR: data.PMOR, PNA: data.PNA, PPM: data.PPM, PRD: data.PRD, PRI: data.PRI,
-                    PSD: data.PSD, PSM: data.PSM, PT: data.PT, PVEM: data.PVEM, total_votes: data.total_votes)
-end
-
-puts "Done states cache: #{Time.now - t}s"
+# puts "Creating states chache..."
+# t = Time.now
+# 
+# state_data = Projection.select('SUM("PAN") as "PAN", SUM("PCONV") as "PCONV", SUM("PES") as "PES",
+#                                 SUM("PH") as "PH", SUM("PMC") as "PMC", SUM("PMOR") as "PMOR", SUM("PNA") as "PNA",
+#                                 SUM("PPM") as "PPM", SUM("PRD") as "PRD", SUM("PRI") as "PRI", SUM("PSD") as "PSD",
+#                                 SUM("PSM") as "PSM", SUM("PT") as "PT", SUM("PVEM") as "PVEM", SUM("total_votes") as "total_votes",
+#                                 state_code, year, election_type').group(:state_code,:year,:election_type)
+# 
+# state_data.each do |data|
+#   StateCache.create(state_code: data.state_code, year: data.year, election_type: data.election_type,
+#                     PAN: data.PAN, PCONV: data.PCONV, PES: data.PES, PH: data.PH, PMC: data.PMC,
+#                     PMOR: data.PMOR, PNA: data.PNA, PPM: data.PPM, PRD: data.PRD, PRI: data.PRI,
+#                     PSD: data.PSD, PSM: data.PSM, PT: data.PT, PVEM: data.PVEM, total_votes: data.total_votes)
+# end
+# 
+# puts "Done states cache: #{Time.now - t}s"
 
 ##########################################################################################################
 # tbl_ine.csv SCHEMA
@@ -192,6 +192,3 @@ puts "Done polls"
 # end
 
 # puts "Done voters: #{Time.now - t}s"
-
-
-

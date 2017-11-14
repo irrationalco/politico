@@ -1,0 +1,31 @@
+<div class="voter-expanded-row row">
+	<div class="col-xs-12 col-md-6 voter-details-container">
+		<p>Información Basica</p>
+		<p>{{voter.first_name}} {{voter.first_last_name}} {{voter.second_last_name}}</p>
+		<p>{{voter.gender}}</p>
+		<p>{{readable-date voter.date_of_birth}}</p>
+		<p>{{voter.state}}, {{voter.municipality}}</p>
+		<p>Id Electoral: {{voter.electoral_id_number}}</p>
+		<p>CURP: {{voter.CURP}}</p>
+	</div>
+
+
+	<div class="col-xs-12 col-md-6 voter-details-container">
+		<p>Información de estructura</p>
+		<p><b>{{if voter.is_part_of_party "Sí" "No"}}</b> pertenece al partido.</p>
+		<p>Organización: {{voter.organization}} </p>
+		<p>Cargos partidarios: {{voter.party_positions_held}}</p>
+		{{#if voter.has_been_candidate}}
+			<p>Ha sido candidato.</p>
+			<p><b>{{if voter.won_election "Ganó" "Perdió"}}</b> la elección.</p>
+			<p>Año de candidatura: {{voter.election_year}}</p>
+			<p>Posición: {{voter.popular_election_position}}</p>
+			<p>Via de elección: {{voter.election_route}}</p>
+		{{/if}}
+	</div>
+
+	<div class="col-xs-12 voter-details-container">
+		<p>Notas</p>
+		<p>{{voter.notes}}</p>
+	</div>
+</div>

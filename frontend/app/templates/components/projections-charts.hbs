@@ -4,7 +4,7 @@
     <div class="settings-button fa fa-cog" {{action "settings"}}/>
   </div>
   <div id="settings-panel" style="display: none;">
-    <p>Porcentaje mínimo</p>
+    <p class="chart-title">Porcentaje mínimo</p>
     {{ui-slider value=minimumPercentage min=0 max=20 ticks='0,20' changed='minPercentageChanged'}}
     <div class="min-max">
       <p class="min">0%</p>
@@ -13,19 +13,19 @@
   </div>
   {{#if isOpen}}
     {{#if presidentChart}}
-      <h5 class="chart-title">Elecciones Presidenciales</h5>
+      <p class="chart-title">Elecciones Presidenciales</p>
       {{#if isStatic}}
         {{ember-chart type=presidentChartType data=presidentChart width=200 height=350}}
       {{/if}}
     {{/if}}
     {{#if senatorsChart}}
-      <h5 class="chart-title">Elecciones para Senadores</h5>
+      <p class="chart-title">Elecciones para Senadores</p>
       {{#if isStatic}}
         {{ember-chart type=senatorsChartType data=senatorsChart width=200 height=350}}
       {{/if}}
     {{/if}}
     {{#if deputiesChart}}
-      <h5 class="chart-title">Elecciones para Diputados Federales</h5>
+      <p class="chart-title">Elecciones para Diputados Federales</p>
       {{#if isStatic}}
         {{ember-chart type=deputiesChartType data=deputiesChart width=200 height=350}}
       {{/if}}
