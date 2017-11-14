@@ -6,27 +6,30 @@ export default DS.Model.extend({
 
   electoral_id_number: DS.attr('string'),
   expiration_date: DS.attr('number'),
+  emission_year: DS.attr('number'),
 
   first_name: DS.attr('string'),
   first_last_name: DS.attr('string'),
   second_last_name: DS.attr('string'),
   gender: DS.attr('string'),
   date_of_birth: DS.attr('date'),
+
   electoral_code: DS.attr('string'),
   CURP: DS.attr('string'),
 
+  state: DS.attr('string'),
+  municipality: DS.attr('string'),
+  locality: DS.attr('string'),
   section: DS.attr('number'),
+  suburb: DS.attr('string'),
   street: DS.attr('string'),
   outside_number: DS.attr('string'),
   inside_number: DS.attr('string'),
-  suburb: DS.attr('string'),
-  locality_code: DS.attr('number'),
-  locality: DS.attr('string'),
-  municipality_code: DS.attr('number'),
-  municipality: DS.attr('string'),
-  state_code: DS.attr('number'),
-  state: DS.attr('string'),
   postal_code: DS.attr('number'),
+
+  state_code: DS.attr('number'),
+  municipality_code: DS.attr('number'),
+  locality_code: DS.attr('number'),
 
   home_phone: DS.attr('number'),
   mobile_phone: DS.attr('number'),

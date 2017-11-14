@@ -32,6 +32,7 @@ export default Ember.Component.extend({
 
           electoral_id_number: voter.get('electoral_id_number'),
           expiration_date: voter.get('expiration_date'),
+          emission_year: voter.get('emission_year'),
 
           first_name: voter.get('first_name'),
           first_last_name: voter.get('first_last_name'),
@@ -172,8 +173,6 @@ export default Ember.Component.extend({
       document.getElementById(value+'-btn').classList.add('active')
       document.getElementById((value==='H'?'M':'H')+'-btn').classList.remove('active')
     },
-
-
 
     updateEducation(voter, value) {
       voter.set('highest_educational_level', value);
