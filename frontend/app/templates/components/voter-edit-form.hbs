@@ -47,12 +47,11 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <label>Género</label>
-                                    {{#x-select class="form-control voter-edit-select" value=voter.gender required=true on-change=(action "updateGender" voter) as |gnd|}} 
-                                        {{#gnd.option value='' disabled=true selected=true hidden=true}}Seleccionar{{/gnd.option}}
-                                        {{#gnd.option value="H"}}Hombre{{/gnd.option}}
-                                        {{#gnd.option value="M"}}Mujer{{/gnd.option}} 
-                                    {{/x-select}}
+                                    <label style="display: block">Género</label>
+                                    <div class="btn-group">
+                                        <button id='H-btn' type="button" class="btn btn-default {{if voter.}}" {{action 'updateGender' voter 'H'}}>Hombre</button>
+                                        <button id='M-btn' type="button" class="btn btn-default" {{action 'updateGender' voter 'M'}}>Mujer</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -264,7 +263,7 @@
                         <div class="form-group row">
                             <div class="form-group row">
                                 <div class="col-md-8 col-md-offset-2">
-                                    <h4 style="margin-top:-7px">Notas</h4>
+                                    <h4 style="margin-top:-7px">Notas - <i class="text-muted">Opcional</i></h4>
                                 </div>
                                 <div class="col-md-8 col-md-offset-2">
                                     <label><i class="text-muted">(Opcional)</i></label>
