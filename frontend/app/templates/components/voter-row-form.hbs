@@ -1,4 +1,30 @@
 <div class="voter-row-form">
-	<form {{action "create" user on="submit"}}>
+	<form {{action "create" voter on="submit"}}>
+		<div class="row-form-field med">
+			<span>Nombre</span>
+			{{input value=voter.first_name}}
+		</div>
+
+		<div class="row-form-field med">
+			<span>1er Apellido</span>
+			{{input value=voter.first_last_name class=""}}
+		</div>
+
+		<div class="row-form-field med">
+			<span>2do Apellido</span>
+			{{input value=voter.first_second_name class=""}}
+		</div>
+
+		<div class="row-form-field med">
+			<span>Municipio</span>
+			{{input value=voter.municipality class=""}}
+		</div>
+
+		<div class="buttons-row">
+			<div class="btn-blue invert">Cancelar</div>
+			{{input value="Guardar" type="submit" class="btn-blue"}}
+			<div class="btn-blue">Agregar más detalles</div>
+
+		</div>
 	</form>
 </div>

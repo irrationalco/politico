@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { task, timeout} from 'ember-concurrency';
+import { task, timeout } from 'ember-concurrency';
 
 const { isEmpty } = Ember;
 
@@ -7,10 +7,11 @@ export default Ember.Component.extend({
 
 	store: Ember.inject.service(),
 
-	user: null,
+	voter: null,
 
 	init() {
-		let user = this.get('store').createRecord('user');
-		this.set('user', user);
+		this._super(...arguments);
+		let voter = this.get('store').createRecord('voter');
+		this.set('voter', voter);
 	}
 });
