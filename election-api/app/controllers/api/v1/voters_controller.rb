@@ -13,6 +13,8 @@ class Api::V1::VotersController < ApplicationController
       @voters = Voter.where(user: params[:uid].to_i)
     end
 
+    @voters = @voters.order(created_at: :desc)
+
     if params["per_page"].present? && params["page"].present? &&
       ((lim = params["per_page"].to_i) != 0) && ((off = params["page"].to_i * lim) != 0)
       @voters.order(:id).offset(off-lim).limit(lim)  
@@ -48,7 +50,7 @@ class Api::V1::VotersController < ApplicationController
   # POST /voters
   def create
     @voter = Voter.new(voter_params)
-    user = User.find(voter_params[:user_id])
+    user = User.find_by(id: voter_params[:user_id])
     if user
       @voter[:suborganization_id] = user[:suborganization_id]
     end
