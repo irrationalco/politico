@@ -3,6 +3,7 @@ class Voter < ApplicationRecord
   belongs_to :user
   belongs_to :suborganization
 
+  # Method to import voters from a CSV file
   def self.import(file, uid)
     invalidRows = []
     suborg_id = User.find(uid)
@@ -21,7 +22,7 @@ class Voter < ApplicationRecord
           v.gender = row[5].strip.upcase
           v.date_of_birth = Date.strptime("#{row[6].strip}/#{row[7].strip}/#{row[8].strip}", "%d/%m/%Y")
           v.electoral_code = row[9].strip.upcase
-          v.CURP = row[10].strip.upcase
+          v.curp = row[10].strip.upcase
     
           v.section = row[11].strip.upcase
           v.street = row[12].strip.upcase
@@ -63,7 +64,7 @@ class Voter < ApplicationRecord
     if invalidRows.length > 0
         attributes = ['Numero de la credencial de elector', 'Vigencia de la credencial de elector', 'Nombre',
                         'Apellido Paterno', 'Apellido Materno', 'Sexo', 'Dia de nacimiento', 'Mes de nacimiento',
-                       'Anio de nacimiento','Clave de elector', 'CURP', 'Seccion Electoral', 'Calle', 'Numero exterior', 'Numero Interior',
+                       'Anio de nacimiento','Clave de elector', 'curp', 'Seccion Electoral', 'Calle', 'Numero exterior', 'Numero Interior',
                        'Colonia', 'Clave de la localidad', 'Localidad', 'Clave de municipio', 'Municipio',
                        'Clave de estado', 'Estado', 'Codigo postal', 'Telefono fijo', 'Telefono celular', 'Correo Electronico',
                        'Correo electronico alternativo', 'Cuenta Facebook', 'Ultimo Grado de estudios',

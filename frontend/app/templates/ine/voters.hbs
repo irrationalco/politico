@@ -1,5 +1,7 @@
 <div class="vertical-offset-100 horizontal-padding">
+
 	<h3 class="admin-table-title">Registro de Estructura</h3>
+
 	<div class="table-header">
 		<div class="form-select" style="width: 250px; float: right; padding: 5px;">
 			{{#power-select
@@ -14,12 +16,12 @@
 		</div>
 		{{link-to "Agregar Nuevo Registro" "ine.new-voter" class="btn btn-success"}}
 	</div>
+
 	<div class="scrolling outer">
 		<div class="inner">
 			<table class="table table-striped table-hover table-condensed">
 				<thead class="voter-table-header">
 					<tr>
-
 						<td>Credencial Elector</td>
 						<td>Vigencia</td>
 						<td>Año de emisión</td>
@@ -87,7 +89,7 @@
 						<td>{{readable-date voter.date_of_birth}}</td>
 
 						<td>{{voter.electoral_code}}</td>
-						<td>{{voter.CURP}}</td>
+						<td>{{voter.curp}}</td>
 
 						<td>{{voter.state}}</td>
 						<td>{{voter.municipality}}</td>

@@ -5,12 +5,8 @@ import {
   timeout
 } from 'ember-concurrency';
 
-const {
-  isEmpty
-} = Ember;
-const {
-  service
-} = Ember.inject;
+const { isEmpty } = Ember;
+const { service } = Ember.inject;
 
 export default Ember.Component.extend({
   ajax: service('ajax'),
@@ -20,14 +16,13 @@ export default Ember.Component.extend({
 
   voterObject(voter, headerName, headerValue) {
     var tmp = this.get('session.currentUser');
-    debugger;
     voter.set('date_of_birth', new Date(this.yearOfBirth, this.monthOfBirth - 1, this.dayOfBirth));
     return {
       headers: {
         [headerName]: headerValue
       },
       data: {
-        voter: {
+        attributes: {
           user_id: this.get('session.currentUser').id,
 
           electoral_id_number: voter.get('electoral_id_number'),
@@ -40,7 +35,7 @@ export default Ember.Component.extend({
           gender: voter.get('gender') || "H",
           date_of_birth: voter.get('date_of_birth'),
           electoral_code: voter.get('electoral_code'),
-          CURP: voter.get('CURP'),
+          curp: voter.get('curp'),
 
           section: voter.get('section'),
           street: voter.get('street'),

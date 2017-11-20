@@ -43,7 +43,7 @@
 				{{#liquid-if showQuickForm class="expandedVoter"}}
 					
 				{{/liquid-if}}
-				{{voter-row-form}}
+				{{voter-row-form refreshVoters='refreshVoters'}}
 			</div>
 			<table class="table table-striped table-hover table-condensed">
 				<thead class="voter-table-header">
@@ -62,7 +62,7 @@
 					{{#each model as |voter|}}
 						{{voter-row voter=voter}}
 					{{/each}}
-					{{infinity-loader infinityModel=model}}
+					{{!-- {{infinity-loader infinityModel=model}} --}}
 				</tbody>
 			</table>
 		</div>

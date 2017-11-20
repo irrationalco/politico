@@ -15,7 +15,7 @@ export default DS.Model.extend({
   date_of_birth: DS.attr('date'),
 
   electoral_code: DS.attr('string'),
-  CURP: DS.attr('string'),
+  curp: DS.attr('string'),
 
   state: DS.attr('string'),
   municipality: DS.attr('string'),

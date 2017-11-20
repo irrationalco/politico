@@ -1,5 +1,5 @@
 <div class="voter-row-form">
-	<form {{action "create" voter on="submit"}}>
+	<form {{action "quickCreate" voter on="submit"}}>
 		<div class="row-form-field med">
 			<span>Nombre</span>
 			{{input value=voter.first_name}}
@@ -12,7 +12,7 @@
 
 		<div class="row-form-field med">
 			<span>2do Apellido</span>
-			{{input value=voter.first_second_name class=""}}
+			{{input value=voter.second_last_name class=""}}
 		</div>
 
 		<div class="row-form-field med">
