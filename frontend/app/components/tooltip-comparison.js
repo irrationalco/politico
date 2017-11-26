@@ -68,8 +68,7 @@ export default Ember.Component.extend({
 		stop = 100;
 		let barLastPart = [othersColor + " " + start + "%,", othersColor + " " + stop + "%);"];
 
-		let bar = Ember.String.htmlSafe("background: linear-gradient(to right, " + barFirstPart[0] + barFirstPart[1] 
-			+ barSecondPart[0] + barSecondPart[1] + barLastPart[0] + barLastPart[1]);
+		let bar = Ember.String.htmlSafe("background: linear-gradient(to right, " + barFirstPart[0] + barFirstPart[1] + barSecondPart[0] + barSecondPart[1] + barLastPart[0] + barLastPart[1]);
 		
 		this.set('percentageBar', bar);
 
