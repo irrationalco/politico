@@ -42,12 +42,13 @@ export default Ember.Component.extend({
 						}
 					}
 				})
-				.then(res => {
+				.then(() => {
 					user.deleteRecord();
 					this.sendAction('transitionToUsers');
 				})
 				.catch(err => {
-					this.get('notify').alert("Make sure all fields are filled correctly.")
+					console.log(err);
+					this.get('notify').alert("Make sure all fields are filled correctly.");
 				});
 			});
 		},
@@ -67,12 +68,13 @@ export default Ember.Component.extend({
 						}
 					}
 				})
-				.then(res => {
+				.then(() => {
 					user.deleteRecord();
 					this.sendAction('transitionToUsers');
 				})
 				.catch(err => {
-					this.get('notify').alert("Make sure all fields are filled correctly.")
+					console.log(err);
+					this.get('notify').alert("Make sure all fields are filled correctly.");
 				});
 			});
 			

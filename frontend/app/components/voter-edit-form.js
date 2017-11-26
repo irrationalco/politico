@@ -1,17 +1,12 @@
 import Ember from 'ember';
 import config from '../config/environment';
-import {
-  task,
-  timeout
-} from 'ember-concurrency';
 
-const { isEmpty } = Ember;
 const { service } = Ember.inject;
 
 export default Ember.Component.extend({
-  ajax: service('ajax'),
-  notify: service('notify'),
-  store: service('store'),
+  ajax:    service('ajax'),
+  notify:  service('notify'),
+  store:   service('store'),
   session: service('session'),
 
   voterObject(voter, headerName, headerValue) {
@@ -74,8 +69,8 @@ export default Ember.Component.extend({
   },
 
   getYears(ammount) {
-    var from = (new Date()).getFullYear()
-    var years = [from]
+    var from = (new Date()).getFullYear();
+    var years = [from];
     for (var i = 1; i <= ammount; i++) {
       years.push(from + i);
     }
@@ -140,12 +135,13 @@ export default Ember.Component.extend({
     create(voter) {
       this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
         this.get('ajax').post(config.localhost + '/api/voters', this.voterObject(voter, headerName, headerValue))
-          .then(res => {
+          .then(() => {
             voter.deleteRecord();
             this.sendAction('transitionToVoters');
           })
           .catch(err => {
-            this.get('notify').alert("Make sure all fields are filled correctly.")
+            console.log(err);
+            this.get('notify').alert("Make sure all fields are filled correctly.");
           });
       });
     },
@@ -153,20 +149,21 @@ export default Ember.Component.extend({
     update(voter) {
       this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
         this.get('ajax').put(config.localhost + '/api/voters/' + voter.get('id'), this.voterObject(voter, headerName, headerValue))
-          .then(res => {
+          .then(() => {
             voter.deleteRecord();
             this.sendAction('transitionToVoters');
           })
           .catch(err => {
-            this.get('notify').alert("Make sure all fields are filled correctly.")
+            console.log(err);
+            this.get('notify').alert("Make sure all fields are filled correctly.");
           });
       });
     },
 
     updateGender(voter, value) {
       voter.set('gender', value);
-      document.getElementById(value+'-btn').classList.add('active')
-      document.getElementById((value==='H'?'M':'H')+'-btn').classList.remove('active')
+      document.getElementById(value+'-btn').classList.add('active');
+      document.getElementById((value==='H'?'M':'H')+'-btn').classList.remove('active');
     },
 
     updateEducation(voter, value) {

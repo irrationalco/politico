@@ -1,6 +1,4 @@
 import Ember from 'ember';
-import d3 from "npm:d3";
-import topojson from "npm:topojson";
 
 export default Ember.Component.extend({
 	elections:[

@@ -32,10 +32,11 @@ export default Ember.Controller.extend({
 						}
 					}
 				})
-				.then(res => {
+				.then(() => {
 					this.get('notify').success("Roles del usuario actualizados exitosamente!");
 				})
 				.catch(err => {
+					console.log(err);
 					this.get('notify').alert("Asegurate que todos los campos estan llenos de manera correcta.");
 				});
 			});
@@ -45,10 +46,11 @@ export default Ember.Controller.extend({
 			this.get('store').findRecord('user', userId, { backgroundReload: false }).then( user => {
 				user.destroyRecord().then(() => {
 					this.get('notify').alert("Deleted user successfully.", { closeAfter: null});
-				}, (error) => {
+				}, (err) => {
+					console.log(err);
 					this.get('notify').alert("Error deleting user.", { closeAfter: null});
 				});
-			})
+			});
 		}
 	}
 });

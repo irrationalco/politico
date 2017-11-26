@@ -22,9 +22,8 @@ export default Ember.Controller.extend({
     },
 
     fileUploader: task(function* (file) {
-        console.log(file)
         let response = yield file.upload(config.localhost + '/api/voters/file_upload/' + this.get('session.currentUser').id, { accepts: 'text/csv' });
-        console.log(response)
+        
         this.set('triedUpload', true);
         this.set('succesfulUpload', response.status === 201);
         if (response.status === 201) {

@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
 
-const { isEmpty } = Ember;
 
 export default Ember.Component.extend({
 	partiesManager: Ember.inject.service("parties"),
@@ -47,7 +46,7 @@ export default Ember.Component.extend({
 		let barSecondPart = [othersColor + " " + party.percentage + "%,", othersColor + " " + 100 + "%);"];
 
 		let bar = Ember.String.htmlSafe("background: linear-gradient(to right, " + barFirstPart[0] + barFirstPart[1] 
-																	+ barSecondPart[0] + barSecondPart[1]);
+			+ barSecondPart[0] + barSecondPart[1]);
 
 		this.set('percentageBar', bar);
 	}).restartable()

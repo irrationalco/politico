@@ -16,6 +16,6 @@ export default Ability.extend({
 
   canSee: Ember.computed('session.currentUser', function() {
   	let u = this.get('session.currentUser');
-  	return (u.get('superadmin') || u.get('manager'))
+  	return (u.get('superadmin') || u.get('manager'));
   })
 });

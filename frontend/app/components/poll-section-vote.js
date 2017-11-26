@@ -14,7 +14,7 @@ export default Ember.Component.extend({
 	}),
 
 	is100: Ember.computed('totalPercent', function() {
-		return this.get('percent') == 100 ?  true : false; 
+		return this.get('percent') === 100 ?  true : false; 
 	}),
 
 	didInsertElement() {

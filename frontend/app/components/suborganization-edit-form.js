@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import config from '../config/environment';
-import { task, timeout } from 'ember-concurrency';
 
 const { isEmpty } = Ember;
 const { service } = Ember.inject;
@@ -47,12 +46,13 @@ export default Ember.Component.extend({
 						}
 					}
 				})
-				.then(res => {
+				.then(() => {
 					suborg.deleteRecord();
 					this.sendAction('transitionToSuborgs');
 				})
 				.catch(err => {
-					this.get('notify').alert("Make sure all fields are filled correctly.")
+					console.log(err);
+					this.get('notify').alert("Make sure all fields are filled correctly.");
 				});
 			});
 		},
@@ -70,13 +70,13 @@ export default Ember.Component.extend({
 						}
 					}
 				})
-				.then(res => {
+				.then(() => {
 					suborg.deleteRecord();
 					this.sendAction('transitionToSuborgs');
 				})
 				.catch(err => {
 					console.log(err);
-					this.get('notify').alert("Make sure all fields are filled correctly.")
+					this.get('notify').alert("Make sure all fields are filled correctly.");
 				});
 			});
 		}

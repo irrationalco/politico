@@ -63,8 +63,8 @@ export default Ember.Component.extend({
 		let thirdPart = [spColor + " " + movement + "%,", 
 						  spColor + " " + 100 + "%);" ];
 
-		return Ember.String.htmlSafe("background: linear-gradient(to right, " + firstPart[0] + firstPart[1] 
-									+ secondPart[0] + secondPart[1] + thirdPart[0] +thirdPart[1]);
+		return Ember.String.htmlSafe("background: linear-gradient(to right, " + firstPart[0] + firstPart[1] + secondPart[0] 
+			+ secondPart[1] + thirdPart[0] +thirdPart[1]);
 	}),
 	
 	computeTopParties: task(function * (section) {
@@ -88,7 +88,7 @@ export default Ember.Component.extend({
 		});
 		firstParty.name = firstName;
 		firstParty.votes = section.get(firstName);
-		totalVotesParties += firstParty.votes
+		totalVotesParties += firstParty.votes;
 		pct = firstParty.votes / totalVotes * 100;
 		firstParty.percentage = Math.round(pct * 10) / 10;
 
@@ -110,7 +110,7 @@ export default Ember.Component.extend({
 		});
 		thirdParty.name = thirdName;
 		thirdParty.votes = section.get(thirdName);
-		totalVotesParties += thirdParty.votes
+		totalVotesParties += thirdParty.votes;
 		pct = thirdParty.votes / totalVotes * 100;
 		thirdParty.percentage = Math.round(pct * 10) / 10;
 

@@ -13,10 +13,11 @@ export default Ember.Controller.extend({
 			this.get('store').findRecord('suborganization', suborgId, { backgroundReload: false }).then(suborganization => {
 				suborganization.destroyRecord().then(() => {
 					this.get('notify').alert("Deleted suborganization successfully.", { closeAfter: null});
-				}, (error) => {
+				}, (err) => {
+					console.log(err);
 					this.get('notify').alert("Error deleting suborganization.", { closeAfter: null});
 				});
-			})
+			});
 		},
 	}
 });
