@@ -69,7 +69,7 @@ export default Ember.Component.extend({
 				})
 				.catch(err => {
 					console.log(err);
-					this.get('notify').alert("Make sure all fields are filled correctly.")
+					this.get('notify').alert("Make sure all fields are filled correctly.");
 				});
 			});
 		}
