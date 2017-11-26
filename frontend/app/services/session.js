@@ -1,9 +1,8 @@
 import Ember from 'ember';
-import DS from 'ember-data';
 import RSVP from 'rsvp';
 import ESASession from "ember-simple-auth/services/session";
+
 const { isEmpty } = Ember;
-import config from '../config/environment';
 
 export default ESASession.extend({
 	store: Ember.inject.service(),

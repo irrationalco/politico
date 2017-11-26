@@ -1,5 +1,4 @@
-	import Ember from 'ember';
-import config from '../../config/environment';
+import Ember from 'ember';
 
 const { service } = Ember.inject;
 
@@ -43,10 +42,11 @@ export default Ember.Controller.extend({
 			this.get('store').findRecord('voter', voterId, { backgroundReload: false }).then( voter => {
 				voter.destroyRecord().then(() => {
 					this.get('notify').alert("Deleted record successfully.", { closeAfter: null});
-				}, (error) => {
+				}, (err) => {
+					console.log(err);
 					this.get('notify').alert("Error deleting record.", { closeAfter: null});
 				});
-			})
+			});
 		},
 
 		testNotify() {

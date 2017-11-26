@@ -21,5 +21,5 @@ export default function() {
 		  // the false state.
 		  this.reverse('toUp', {duration: 300})
   	);
-};
+}
 

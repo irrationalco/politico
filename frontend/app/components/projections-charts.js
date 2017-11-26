@@ -53,7 +53,7 @@ export default Ember.Component.extend({
   getOther(activeParties) {
     return this.get('partiesManager').parties.filter((x) => activeParties.indexOf(x) === -1)
       .reduce((s, v) => {
-        return s + raw[0].get(v)
+        return s + raw[0].get(v);
       }, 0);
   },
 
@@ -64,7 +64,7 @@ export default Ember.Component.extend({
       fill: false,
       borderColor: this.get('partiesManager').colors['others'],
       data: raw.map((x) => parties.reduce((s, v) => {
-        return s + x.get(v)
+        return s + x.get(v);
       }, 0)),
       pointBackgroundColor: this.get('partiesManager').colors['others']
     };
@@ -72,7 +72,7 @@ export default Ember.Component.extend({
 
   filterPartiesDoughnut(raw) {
     let total = this.get('partiesManager').parties.reduce((s, v) => {
-      return s + raw[0].get(v)
+      return s + raw[0].get(v);
     }, 0);
     let minVal = total * (this.minimumPercentage / 100);
     let activeParties = this.get('partiesManager').parties.filter((x) => raw[0].get(x) >= minVal);
@@ -87,24 +87,21 @@ export default Ember.Component.extend({
       active: activeParties,
       other: this.get('partiesManager').parties.filter((x) => activeParties.indexOf(x) === -1)
         .reduce((s, v) => {
-          return s + raw[0].get(v)
+          return s + raw[0].get(v);
         }, 0)
     };
   },
 
   filterPartiesLine(raw) {
-    // let activeParties = this.get('partiesManager').parties.filter((party)=>
-    //   raw.map((x)=>x.get(party)).reduce((s,v)=>{s+v},0)!==0);
-    //   !raw.map((x)=>x.get(party)).some((v)=>v===0));
     let ratios = this.get('partiesManager').parties.map((s) => 0);
     raw.forEach((year, idx) => {
       let total = this.get('partiesManager').parties.reduce((s, v) => {
-        return s + year.get(v)
+        return s + year.get(v);
       }, 0);
       this.get('partiesManager').parties.forEach((party, index) => ratios[index] += year.get(party) / total * (idx + 1));
     });
     let total = ratios.reduce((s, v) => {
-      return s + v
+      return s + v;
     }, 0);
     ratios = ratios.map((x, idx) => {
       return {
@@ -118,7 +115,7 @@ export default Ember.Component.extend({
     activeParties = activeParties.filter((x) => {
       let tmp = val;
       val += x.ratio;
-      return tmp <= .95;
+      return tmp <= 0.95;
     }).map((x) => x.party);
     return {
       active: activeParties,

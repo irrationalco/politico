@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import config from '../config/environment';
-import { task, timeout } from 'ember-concurrency';
 
 const { isEmpty } = Ember;
 const { service } = Ember.inject;

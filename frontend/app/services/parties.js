@@ -1,7 +1,4 @@
 import Ember from 'ember';
-import { task } from 'ember-concurrency';
-
-const { isEmpty } = Ember;
 
 export default Ember.Service.extend({
 
@@ -21,7 +18,7 @@ export default Ember.Service.extend({
       if (max === null) { 
         max = party; 
       } else if (section.get(party) > section.get(max)) {
-        max = party
+        max = party;
       }
     });
     return max;
@@ -43,14 +40,14 @@ export default Ember.Service.extend({
       color["isGradient"] = true;
       return color;
     } else {
-      color["hex"] = this.get('colors')[parties[0]]
+      color["hex"] = this.get('colors')[parties[0]];
       return color;
     }
   },
 
   computeComparison(section) {
     let sP = this.get('selectedParties');
-    let parties = []
+    let parties = [];
     if (section.get(sP[1]) > section.get(sP[0])) {
       return [sP[1], sP[0]];
     } else {
@@ -78,6 +75,6 @@ export default Ember.Service.extend({
 
   hex(x) {
     x = x.toString(16);
-    return (x.length == 1) ? '0' + x : x;
+    return (x.length === 1) ? '0' + x : x;
   }
 });

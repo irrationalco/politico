@@ -65,7 +65,7 @@ export default Ember.Component.extend({
           notes: voter.get('notes')
         }
       }
-    }
+    };
   },
 
   getYears(ammount) {

@@ -6,7 +6,7 @@ export default Ember.Route.extend({
 	},
 
 	redirect(model, transition) {
-		if (model.get('id') == 1 || model.get('id') == 2) {
+		if (model.get('id') === 1 || model.get('id') === 2) {
 			this.transitionTo('polls.sections.approval');	
 		} else {
 			this.transitionTo('polls.sections.vote');

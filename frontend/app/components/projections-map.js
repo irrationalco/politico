@@ -419,7 +419,7 @@ export default Ember.Component.extend({
 				}
 			})
 			.style("fill-opacity", function(d) {
-				return 1
+				return 1;
 			});
 	},
 
@@ -542,7 +542,7 @@ export default Ember.Component.extend({
 
 		return d3.zoomIdentity
 			.translate(this.get('width') / 2, this.get('height') / 2)
-			.scale(.9 / Math.max(dx / this.get('width'), dy / this.get('height')))
+			.scale(0.9 / Math.max(dx / this.get('width'), dy / this.get('height')))
 			.translate(-x, -y);
 	},
 
@@ -561,7 +561,7 @@ export default Ember.Component.extend({
 
 		this.get('statesLayer')
 			.attr("transform", transform)
-			.style("stroke-width", .7 / transform.k);
+			.style("stroke-width", 0.7 / transform.k);
 
 		this.get('muniLayer')
 			.attr("transform", transform)
