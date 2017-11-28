@@ -23,36 +23,15 @@ export default Ember.Component.extend({
 	actions: {
 
 		quickCreate(voter) {
-			voter.save().then(res => {
+			voter.save()
+			.then(res => {
 				this.sendAction("refreshVoters");
+				this.get('notify').success("Registro guardado exitosamente.");
+			})
+			.catch(err => {
+				console.log(err);
+				this.get('notify').alert("El registro no pudo ser guardado.");
 			});
 		}
-
-		// quickCreate(voter) {
-		// 	this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
-		// 		this.get('ajax').post(config.localhost + '/api/voters', {
-		// 			headers: {
-		// 				[headerName]: headerValue
-		// 			},
-		// 			data: {
-		// 				voter: {
-		// 					first_name: 		  voter.get('first_name'),
-		// 					first_last_name:  voter.get('first_last_name'),
-		// 					second_last_name: voter.get('second_last_name'),
-		// 					municipality: 		voter.get('municipality')
-
-		// 				}
-		// 			}
-		// 		})
-		// 		.then(res => {
-		// 			this.get('notify').success("Registro guardado exitosamente.");
-		// 		})
-		// 		.catch(err => {
-		// 			this.get('notify').alert('Problemas guardando el registro.');
-		// 		});
-		// 	});
-		// }
 	}
-
-
 });
