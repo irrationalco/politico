@@ -15,6 +15,21 @@
 			{{input value=voter.second_last_name class=""}}
 		</div>
 
+		<div class="row-form-field big">
+			<span>Estado</span>
+			{{#power-select
+				class="row-form-select"
+				tagName=div
+				options=states
+				selected=selectedState
+				placeholder="Selecciona"
+				onchange=(action "selectState")
+				as |state| 
+			}}
+				{{state}}
+			{{/power-select}}
+		</div>
+
 		<div class="row-form-field med">
 			<span>Municipio</span>
 			{{input value=voter.municipality class=""}}

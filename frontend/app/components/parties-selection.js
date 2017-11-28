@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
+const { service } = Ember.inject;
+
 export default Ember.Component.extend({
-	partiesManager: Ember.inject.service("parties"),
+	partiesManager: service("parties"),
 
 	temporalParties: Ember.computed('selectedParties', function() {
 		return this.get('selectedParties').map(item => { return item; });

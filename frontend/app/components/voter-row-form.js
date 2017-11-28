@@ -7,10 +7,14 @@ const { service } = Ember.inject;
 
 export default Ember.Component.extend({
 
-	ajax: 	 service('ajax'),
-	store: 	 service('store'),
-	session: service('session'),
-	notify:  service('notify'),
+	ajax: 	 		 service('ajax'),
+	store: 	 		 service('store'),
+	session: 		 service('session'),
+	notify:  		 service('notify'),
+	cartography: service('cartography'),
+
+	states: Ember.computed.oneWay('cartography.statesNames'),
+	selectedState: null,
 
 	voter: null,
 
@@ -22,7 +26,12 @@ export default Ember.Component.extend({
 
 	actions: {
 
+		selectState(state) {
+			this.set('selectedState', state);
+		},
+
 		quickCreate(voter) {
+			voter.state = this.get('selectedState');
 			voter.save()
 			.then(res => {
 				this.sendAction("refreshVoters");

@@ -7,6 +7,12 @@ const { isEmpty } = Ember;
 export default Ember.Service.extend({
 
   states: null,
+  statesNames: [ 
+    "Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Coahuila", "Colima", 
+    "Chiapas", "Chihuahua", "Distrito Federal", "Durango", "Guanajuato", "Guerrero", "Hidalgo", "Jalisco",
+    "México", "Michoacán", "Morelos", "Nayarit", "Nuevo León", "Oaxaca", "Puebla", "Querétaro", "Quintana Roo",
+    "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz","Yucatán","Zacatecas"
+  ],
 
   municipalities: null,
   municipalitiesBorders: null,
@@ -176,29 +182,3 @@ export default Ember.Service.extend({
     }
   })
 });
-
-// d3.json("../assets/mx_tj.json", (error, data) => {
-//       let municipalities = topojson.feature(data, data.objects.municipalities).features
-//         .filterBy("properties.state_code", stateCode);
-
-//       Ember.run.later(this, () => {
-//         this.get('muniLayer').selectAll("path")
-//         .data(municipalities)
-//         .enter().append("path")
-//         .attr("d", this.get('path'))
-//         .attr("class", "feature")
-//         .on("click", function(d) {
-//           emberScope.clicked(this, d);
-//         });
-
-//         this.get('muniLayer').append("path")
-//         .datum(topojson.mesh(data, data.objects.municipalities, function(a, b) {
-//           if (a.properties.state_code == stateCode) {
-//             return a !== b;
-//           }
-//         }))
-//         .attr("class", "mesh")
-//         .attr("d", this.get('path'));
-
-//       }, 300);
-//     });
