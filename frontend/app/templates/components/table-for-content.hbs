@@ -1,0 +1,22 @@
+{{yield}}
+<table class="table table-striped table-hover table-condensed">
+	<thead class="voter-table-header">
+		<tr>
+			<td>Credencial Elector</td>
+			<td>Nombre</td>
+			<td>Paterno</td>
+			<td>Materno</td>
+			<td>Fecha de Nacimiento</td>
+			<td>Estado</td>
+			<td></td>
+		</tr>
+	</thead>
+
+	<tbody class="voter-table-content">
+		{{#each model as |voter|}}
+			{{voter-row voter=voter}}
+		{{/each}}
+		{{!-- {{infinity-loader infinityModel=model}} --}}
+	</tbody>
+</table>
+
