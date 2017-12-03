@@ -1,0 +1,15 @@
+{{#if url}}
+	{{#link-to url class="voters-table-links"}}
+		<span>{{text}}</span>	
+		{{#if faIcon}}
+			<i class="fa {{faIcon}}"></i>
+		{{/if}}
+	{{/link-to}}
+{{else}}
+	<a class="voters-table-links" {{action 'setShowFlag'}}>
+		<span>{{text}}</span>
+		{{#if faIcon}}
+			<i class="fa {{faIcon}}"></i>
+		{{/if}}
+	</a>
+{{/if}}

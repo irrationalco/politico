@@ -1,8 +1,14 @@
 {{#table-for model=model title="Registro de votantes" as |table|}}
 	{{#table.nav as |nav|}}
-		{{nav.controls}}
-		{{nav.filters}}
-		{{nav.voter-quickform}}
+
+		{{#nav.controls as |control|}}
+			{{control.url-btn text="Agregar Completo" url="ine.new-voter" faIcon="fa-plus"}}
+			{{control.action-btn text="Agregar Simple" showFlag=showQuickform faIcon="fa-plus-square-o"}}
+			{{control.action-btn text="Filtros" showFlag=showFilters faIcon="fa-filter"}}
+		{{/nav.controls}}
+
+		{{nav.filters showFlag=showFilters}}
+		{{nav.voter-quickform showFlag=showQuickform}}
 	{{/table.nav}}
 
 	{{table.content}}

@@ -1,18 +1,6 @@
-{{yield}}
-
 <div style="height: 30px;line-height: 30px;">
-	{{#link-to "ine.new-voter" class="voters-table-links"}}
-		<span>Agregar Completo</span>
-		<i class="fa fa-plus"></i>
-	{{/link-to}}
-
-	<a class="voters-table-links" {{action 'showQuickForm'}}>
-		<span>Agregar Simple</span>
-		<i class="fa fa-plus-square-o"></i>
-	</a>
-
-	<a class="voters-table-links" {{action 'showFilters'}}>
-		<span>Filtros</span>
-		<i class="fa fa-filter"></i>
-	</a>
+	{{yield
+		(hash
+			action-btn=(component 'table-nav-button')
+			url-btn=(component 'table-nav-button'))}}
 </div>
