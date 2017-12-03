@@ -13,36 +13,15 @@
 		{{/power-select}} --}}
 		</div>
 	</div>
-
-	<div style="height: 30px;line-height: 30px;">
-		{{#link-to "ine.new-voter" class="voters-table-links"}}
-		<span>Agregar Completo</span>
-		<i class="fa fa-plus"></i>
-		{{/link-to}}
-
-		<a class="voters-table-links" {{action 'showQuickForm'}}>
-			<span>Agregar Simple</span>
-			<i class="fa fa-plus-square-o"></i>
-		</a>
-
-		<a class="voters-table-links" {{action 'showFilters'}}>
-			<span>Filtros</span>
-			<i class="fa fa-filter"></i>
-		</a>
-	</div>
-
-	{{!-- filters --}}
-	{{#liquid-if showFilters class="expandedVoter"}}
-	<div style="height: 30px; font-size: 15px;">
-		En esta fila iran los filtros
-	</div>
-	{{/liquid-if}}
-
-	{{#liquid-if showQuickForm class="expandedVoter"}}
-
-	{{/liquid-if}}
-	{{yield 
-		(hash 
-			voter-quickform=(component 'voter-row-form' refreshVoters='refreshVoters'))}}
 	
+
+	{{yield 
+		(hash
+			voter-quickform=(component 'voter-row-form' refreshVoters='refreshVoters')
+			filters=(component 'table-nav-filters' showFilters=showFilters)
+			controls=(component 'table-nav-controls' showQuickform=showQuickform))}}
+
 </div>
+
+
+

@@ -1,5 +1,7 @@
 {{#table-for model=model title="Registro de votantes" as |table|}}
 	{{#table.nav as |nav|}}
+		{{nav.controls}}
+		{{nav.filters}}
 		{{nav.voter-quickform}}
 	{{/table.nav}}
 

@@ -1,3 +1,6 @@
+{{#liquid-if showQuickForm class="expandedVoter"}}
+
+{{/liquid-if}}
 <div class="voter-row-form">
 	<form {{action "quickCreate" voter on="submit"}}>
 		<div class="row-form-field med">
@@ -40,7 +43,6 @@
 			<div class="btn-blue invert">Cancelar</div>
 			{{input value="Guardar" type="submit" class="btn-blue"}}
 			<div class="btn-blue">Agregar más detalles</div>
-
 		</div>
 	</form>
 </div>
