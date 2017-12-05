@@ -8,7 +8,7 @@
 		{{/nav.controls}}
 
 		{{nav.filters showFlag=showFilters}}
-		{{nav.voter-quickform showFlag=showQuickform}}
+		{{nav.voter-quickform showFlag=showQuickform refreshVoters=(route-action "refreshVoters")}}
 	{{/table.nav}}
 
 	{{table.content}}
