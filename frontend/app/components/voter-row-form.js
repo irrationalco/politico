@@ -7,9 +7,7 @@ const { service } = Ember.inject;
 
 export default Ember.Component.extend({
 
-	ajax: 	 		 service('ajax'),
 	store: 	 		 service('store'),
-	session: 		 service('session'),
 	notify:  		 service('notify'),
 	cartography: service('cartography'),
 

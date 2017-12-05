@@ -14,11 +14,11 @@
 		</div>
 	</div>
 	
-
+	{{!-- The params in the contextual components are mandatory when used and will precede the values assigned here. I pass the params here for documentation porpuses. TODO: document in an MD file the internal table-for component --}}
 	{{yield 
 		(hash
-			voter-quickform=(component 'voter-row-form')
-			filters=(component 'table-nav-filters')
+			voter-quickform=(component 'voter-row-form' showFlag=false refreshVoters="actionToRefreshRoute")
+			filters=(component 'table-nav-filters' showFlag=false)
 			controls=(component 'table-nav-controls'))}}
 
 </div>
