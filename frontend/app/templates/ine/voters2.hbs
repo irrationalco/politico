@@ -7,6 +7,7 @@
 			{{control.action-btn text="Filtros" showFlag=showFilters}}
 		{{/nav.controls}}
 
+		{{nav.searchbar modelName="voter" placeholder="Busca por nombre"}}
 		{{nav.filters showFlag=showFilters}}
 		{{nav.voter-quickform showFlag=showQuickform refreshVoters=(route-action "refreshVoters")}}
 	{{/table.nav}}

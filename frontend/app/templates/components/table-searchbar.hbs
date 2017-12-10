@@ -1,0 +1,13 @@
+<div style="height: 40px;">
+	<div class="form-select" style="width: 250px; margin-bottom: 0px; float: right; padding: 5px;">
+		{{#power-select
+		search=(action "searchModel")
+		selected=selected
+		placeholder=placeholder
+		onchange=(action "selectObject")
+		as |obj|
+	}}
+		{{obj.first_name}} {{obj.first_last_name}}
+	{{/power-select}}
+	</div>
+</div>
