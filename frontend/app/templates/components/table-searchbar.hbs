@@ -1,13 +1,16 @@
-<div style="height: 40px;">
-	<div class="form-select" style="width: 250px; margin-bottom: 0px; float: right; padding: 5px;">
+<div style="height: 40px; margin-bottom: 5px;">
+	<div style="width: 250px; margin-bottom: 0px; float: right;">
 		{{#power-select
-		search=(action "searchModel")
-		selected=selected
-		placeholder=placeholder
-		onchange=(action "selectObject")
-		as |obj|
-	}}
-		{{obj.first_name}} {{obj.first_last_name}}
-	{{/power-select}}
+			class="table-searchbar"
+			tagName=div
+			search=(action "searchModel")
+			selected=selected
+			renderInPlace=true
+			placeholder=placeholder
+			onchange=(action "selectObject")
+			as |obj|
+		}}
+			{{obj.first_name}} {{obj.first_last_name}}
+		{{/power-select}}
 	</div>
 </div>
