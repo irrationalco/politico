@@ -20,8 +20,9 @@ class Api::V1::VotersController < ApplicationController
       @voters.order(:id).offset(off-lim).limit(lim)  
       render json: @voters, meta: { total: (Voter.count/lim).ceil }
     elsif params["q"].present?
-      @q = Voter.ransack(params[:q])
+      @q = Voter.ransack(first_name_cont: params[:q], state_cont: params[:q], m: 'or')
       @voters = @q.result(distinct: true)
+
       render json: @voters
     else
       render json: @voters
