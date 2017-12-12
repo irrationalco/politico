@@ -5,6 +5,7 @@ class Api::V1::VotersController < ApplicationController
 
   # GET /voters
   def index
+    # TODO: Encapsulate in a function
     if @current_user.is_superadmin?
       @voters = Voter.all
     elsif @current_user.is_manager?
@@ -15,14 +16,23 @@ class Api::V1::VotersController < ApplicationController
 
     @voters = @voters.order(created_at: :desc)
 
+    # TODO: This needs to be more clear.
     if params["per_page"].present? && params["page"].present? &&
       ((lim = params["per_page"].to_i) != 0) && ((off = params["page"].to_i * lim) != 0)
       @voters.order(:id).offset(off-lim).limit(lim)  
       render json: @voters, meta: { total: (Voter.count/lim).ceil }
     elsif params["q"].present?
-      @q = Voter.ransack(first_name_cont: params[:q], state_cont: params[:q], m: 'or')
+      @q = Voter.ransack(
+            first_name_cont:          params[:q],
+            first_last_name_cont:     params[:q],
+            second_last_name_cont:    params[:q],
+            state_cont:               params[:q],
+            municipality_cont:        params[:q],
+            electoral_code_cont:      params[:q],
+            electoral_id_number_cont: params[:q],
+            m: 'or'
+          )
       @voters = @q.result(distinct: true)
-
       render json: @voters
     else
       render json: @voters
