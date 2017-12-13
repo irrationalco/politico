@@ -17,11 +17,12 @@ class Api::V1::VotersController < ApplicationController
     @voters = @voters.order(created_at: :desc)
 
     # TODO: This needs to be more clear.
-    if params["per_page"].present? && params["page"].present? &&
-      ((lim = params["per_page"].to_i) != 0) && ((off = params["page"].to_i * lim) != 0)
-      @voters.order(:id).offset(off-lim).limit(lim)  
-      render json: @voters, meta: { total: (Voter.count/lim).ceil }
-    elsif params["q"].present?
+    # if params["per_page"].present? && params["page"].present? &&
+    #   ((lim = params["per_page"].to_i) != 0) && ((off = params["page"].to_i * lim) != 0)
+    #   @voters.order(:id).offset(off-lim).limit(lim)  
+    #   render json: @voters, meta: { total: (Voter.count/lim).ceil }
+    
+    if params["q"].present?
       @q = Voter.ransack(
             first_name_cont:          params[:q],
             first_last_name_cont:     params[:q],

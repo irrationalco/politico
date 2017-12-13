@@ -1,16 +1,7 @@
-<div style="height: 40px; margin-bottom: 5px;">
-	<div style="width: 250px; margin-bottom: 0px; float: right;">
-		{{#power-select
-			class="table-searchbar"
-			tagName=div
-			search=(action "searchModel")
-			selected=selected
-			renderInPlace=true
-			placeholder=placeholder
-			onchange=(action "selectObject")
-			as |obj|
-		}}
-			{{obj.first_name}} {{obj.first_last_name}}
-		{{/power-select}}
-	</div>
+<div class="table-searchbar">
+	{{input value=q
+			key-up=(action 'setSearchQuery')
+			placeholder="Busca por nombre, estado, municipio, código electoral..."
+			}}
+	<i class="fa fa-search"></i>
 </div>

@@ -3,13 +3,13 @@
 
 		{{#nav.controls as |control|}}
 			{{control.url-btn text="Agregar Completo" url="ine.new-voter"}}
-			{{control.action-btn text="Agregar Simple" showFlag=showQuickform}}
-			{{control.action-btn text="Filtros" showFlag=showFilters}}
+			{{!-- {{control.action-btn text="Agregar Simple" showFlag=showQuickform}} --}}
+			{{!-- {{control.action-btn text="Filtros" showFlag=showFilters}} --}}
 		{{/nav.controls}}
 
-		{{nav.searchbar modelName="voter" placeholder="Busca por nombre"}}
 		{{nav.filters showFlag=showFilters}}
 		{{nav.voter-quickform showFlag=showQuickform refreshVoters=(route-action "refreshVoters")}}
+		{{nav.searchbar setSearchQuery=(action 'setSearchQuery')}}
 	{{/table.nav}}
 
 	{{table.content}}
