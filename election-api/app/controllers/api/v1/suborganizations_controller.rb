@@ -1,5 +1,5 @@
 class Api::V1::SuborganizationsController < ApplicationController
-  before_action :set_suborganization, only: [:show, :update, :destroy]
+  before_action :set_suborganization, only: %i[show update destroy]
 
   # GET /suborganizations
   def index
@@ -8,8 +8,8 @@ class Api::V1::SuborganizationsController < ApplicationController
     render json: @suborganizations, include: 'users'
   end
 
-  # render json: @blog, include: 'posts.category, posts.author.address', fields: { posts: { category: [:name], author: [:id, :name] } }
-
+  # render json: @blog, include: 'posts.category, posts.author.address',
+  #        fields: { posts: { category: [:name], author: [:id, :name] } }
 
   # GET /suborganizations/1
   def show
@@ -42,13 +42,14 @@ class Api::V1::SuborganizationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_suborganization
-      @suborganization = Suborganization.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def suborganization_params
-      params.require(:suborganization).permit(:name, :manager_id, :organization_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_suborganization
+    @suborganization = Suborganization.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def suborganization_params
+    params.require(:suborganization).permit(:name, :manager_id, :organization_id)
+  end
 end

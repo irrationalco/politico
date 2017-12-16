@@ -1,21 +1,22 @@
 class Api::V1::UsersController < ApplicationController
   acts_as_token_authentication_handler_for User, fallback: :none
-  before_action :set_user, only: [:show, :update, :destroy]
-  before_action :verify_user_is_admin, except: [:user_by_email,:show,:index]
+  before_action :set_user, only: %i[show update destroy]
+  before_action :verify_user_is_admin, except: %i[user_by_email show index]
   before_action :verify_user_is_admin_or_manager, only: [:index]
 
   # GET /users
   def index
-    if @current_user.is_manager?
-      @users = User.where(suborganization_id: @current_user.suborganization_id)
-    else
-      @users = User.all  
-    end
+    @users = if @current_user.is_manager?
+               User.where(suborganization_id: @current_user.suborganization_id)
+             else
+               User.all
+             end
     render json: @users
   end
 
+  # rubocop:disable Metrics/MethodLength
   def user_by_email
-    @user = User.where(email: params["email"]).take if params["email"].present?
+    @user = User.where(email: params['email']).take if params['email'].present?
 
     if @user
       data = {
@@ -29,11 +30,12 @@ class Api::V1::UsersController < ApplicationController
         capturist:  @user.capturist,
         suborganizationId: @user.suborganization_id
       }
-      render json: data, status: 201 and return
-    else 
-      render json: {}, status: 404 and return
+      render(json: data, status: 201) && return
+    else
+      render(json: {}, status: 404) && return
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   # GET /users/1
   def show
@@ -66,14 +68,15 @@ class Api::V1::UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def user_params
-      params.require(:user).permit(:email, :password, :first_name, :last_name, :suborganization_id,
-                                   :manager, :supervisor, :capturist)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def user_params
+    params.require(:user).permit(:email, :password, :first_name, :last_name, :suborganization_id,
+                                 :manager, :supervisor, :capturist)
+  end
 end

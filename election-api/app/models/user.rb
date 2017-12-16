@@ -10,9 +10,9 @@ class User < ApplicationRecord
   end
 
   def is_supervisor?
-    supervisor    
+    supervisor
   end
-  
+
   def is_capturist?
     capturist
   end

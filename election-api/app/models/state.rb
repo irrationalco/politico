@@ -10,7 +10,7 @@ class State < ApplicationRecord
   end
 
   def find_state_municipality(muni_name)
-    self.municipalities.where(name: muni_name).take!
+    municipalities.where(name: muni_name).take!
   rescue ActiveRecord::RecordNotFound
     raise DataNotFound, "Couldn't find a municipality with that name in state: #{state.name}"
   end
