@@ -4,6 +4,11 @@
 <div class="voter-row-form">
 	<form {{action "quickCreate" voter on="submit"}}>
 		<div class="row-form-field med">
+			<span>Clave de elector</span>
+			{{input value=voter.electoral_id_number}}
+		</div>
+
+		<div class="row-form-field med">
 			<span>Nombre</span>
 			{{input value=voter.first_name}}
 		</div>
@@ -40,9 +45,8 @@
 		</div>
 
 		<div class="buttons-row">
-			<div class="btn-blue invert">Cancelar</div>
+			<div {{action "reset"}} class="btn-blue invert" style="cursor: pointer;">Cancelar</div>
 			{{input value="Guardar" type="submit" class="btn-blue"}}
-			<div class="btn-blue">Agregar más detalles</div>
 		</div>
 	</form>
 </div>
