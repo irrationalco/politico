@@ -5,6 +5,11 @@ export default Ember.Component.extend({
 	showExpanded: false,
 
 	actions: {
+
+		delete(objectId) {
+			this.sendAction("deleteAction", objectId);
+		},
+
 		expand() {
 			this.set('showExpanded', true);
 		},

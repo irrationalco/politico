@@ -5,12 +5,13 @@
 	<td>{{voter.first_name}}</td>
 	<td>{{voter.first_last_name}}</td>
 	<td>{{voter.second_last_name}}</td>
-	<td>{{readable-date voter.date_of_birth}}</td>
 	<td>{{voter.state}}</td>
+	<td>{{voter.municipality}}</td>
 
 	<td>
 		{{link-to "Editar" "ine.voter-edit" voter class="btn btn-edit"}}
 	</td>
+	<td><button {{action 'delete' voter.id}} class="btn btn-danger">Borrar</button></td>
 </tr>
 
 

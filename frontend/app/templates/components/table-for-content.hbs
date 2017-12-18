@@ -1,21 +1,21 @@
 {{yield}}
-<div class="content">
+<div class="content" style="overflow: auto;">
 	<table class="table table-striped table-hover table-condensed">
 		<thead class="voter-table-header">
 			<tr>
-				<td>Credencial Elector</td>
+				<td>Clave de Elector</td>
 				<td>Nombre</td>
 				<td>Paterno</td>
 				<td>Materno</td>
-				<td>Fecha de Nacimiento</td>
 				<td>Estado</td>
+				<td>Municipio</td>
 				<td></td>
 			</tr>
 		</thead>
 
 		<tbody class="voter-table-content">
 			{{#each model as |voter|}}
-				{{voter-row voter=voter}}
+				{{voter-row voter=voter deleteAction=deleteAction}}
 			{{/each}}
 			{{!-- {{infinity-loader infinityModel=model}} --}}
 		</tbody>

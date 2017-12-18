@@ -11,7 +11,6 @@ export default Ember.Controller.extend({
 	showQuickform: false,
 
 	session: service('session'),
-	ajax: 	 service('ajax'),
 	notify:  service('notify'),
 	store: 	 service('store'),
 
