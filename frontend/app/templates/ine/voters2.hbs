@@ -13,4 +13,5 @@
 	{{/table.nav}}
 
 	{{table.content deleteAction=(action 'deleteVoter')}}
+	{{load-more-button action='infinityLoad' infinityModel=model}}
 {{/table-for}}

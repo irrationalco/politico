@@ -3,10 +3,10 @@ import InfinityRoute from "ember-infinity/mixins/route";
 
 const { service } = Ember.inject;
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(InfinityRoute, {
 	session: service("session"),
 
-	// totalPagesParam: "meta.total",
+	totalPagesParam: "meta.total",
 
 	queryParams: {
 		q: {
@@ -16,8 +16,7 @@ export default Ember.Route.extend({
 	},
 
 	model(params) {
-		return this.store.query('voter', params);
-		// return this.infinityModel("voter", { perPage: 20, startingPage: 1, uid: this.get('session.currentUser').id });
+		return this.infinityModel("voter", { q: params.q, perPage: 12, startingPage: 1, uid: this.get('session.currentUser').id });
 	},
 
 	actions: {
