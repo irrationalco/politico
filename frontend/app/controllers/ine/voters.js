@@ -3,12 +3,23 @@ import Ember from 'ember';
 const { service } = Ember.inject;
 
 export default Ember.Controller.extend({
+
+	queryParams: ['q'],
+	q: "",
+
+	showFilters: false,
+	showQuickform: false,
+
 	session: service('session'),
-	ajax: 	 service('ajax'),
 	notify:  service('notify'),
 	store: 	 service('store'),
 
 	actions: {
+
+		setSearchQuery(query) {
+			this.set('q', query);
+		},
+
 		searchVoters(term) {
 			return this.get('store').query('voter', {name: term});
 		},
