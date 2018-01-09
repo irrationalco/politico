@@ -5,22 +5,23 @@
 	<td>{{voter.first_name}}</td>
 	<td>{{voter.first_last_name}}</td>
 	<td>{{voter.second_last_name}}</td>
-	<td>{{readable-date voter.date_of_birth}}</td>
 	<td>{{voter.state}}</td>
+	<td>{{voter.municipality}}</td>
 
 	<td>
-		{{link-to "Editar" "ine.voter-edit" voter class="btn btn-info"}}
+		{{link-to "Editar" "ine.voter-edit" voter class="btn btn-edit"}}
 	</td>
+	<td><button {{action 'delete' voter.id}} class="btn btn-danger">Borrar</button></td>
 </tr>
 
 
 <tr>
-<td class="{{"no-border no-padding" unless showExpanded}}" colspan="7">
-{{#liquid-if showExpanded class="expandedVoter"}}
-	{{#click-outside action=(action "close")}}
-		{{voter-expanded-row voter=voter}}
-	{{/click-outside}}
-{{/liquid-if}}
-</td>
+	<td class="{{"no-border no-padding" unless showExpanded}}" colspan="8">
+	{{#liquid-if showExpanded class="expandedVoter"}}
+		{{#click-outside action=(action "close")}}
+			{{voter-expanded-row voter=voter}}
+		{{/click-outside}}
+	{{/liquid-if}}
+	</td>
 </tr>
 

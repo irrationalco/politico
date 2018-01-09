@@ -11,10 +11,6 @@ export default Ember.Route.extend(InfinityRoute, {
 	actions: {
 		transitionToVoterEdit(voterId) {
 			this.transitionTo('ine.voter-edit', voterId);
-		},
-
-		refreshVoters() {
-			this.refresh();
 		}
 	}
 });

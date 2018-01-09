@@ -6,6 +6,7 @@ class Api::V1::VotersController < ApplicationController
   # GET /voters
   # rubocop:disable Metrics/MethodLength
   def index
+    # TODO: Encapsulate in a function
     @voters = if @current_user.is_superadmin?
                 Voter.all
               elsif @current_user.is_manager?
@@ -16,17 +17,27 @@ class Api::V1::VotersController < ApplicationController
 
     @voters = @voters.order(created_at: :desc)
 
-    if params['per_page'].present? && params['page'].present? &&
-       ((lim = params['per_page'].to_i) != 0) && ((off = params['page'].to_i * lim) != 0)
-      @voters.order(:id).offset(off - lim).limit(lim)
-      render json: @voters, meta: { total: (Voter.count / lim).ceil }
-    elsif params['name'].present?
-      name = params['name']
-      @voters = @voters.where(first_name: name).or(@voters.where(first_last_name: name))
-      render json: @voters
+    if params["q"].present?
+      @q = @voters.ransack(
+            first_name_cont:          params[:q],
+            first_last_name_cont:     params[:q],
+            second_last_name_cont:    params[:q],
+            state_cont:               params[:q],
+            municipality_cont:        params[:q],
+            electoral_code_cont:      params[:q],
+            electoral_id_number_cont: params[:q],
+            m: 'or'
+          )
+      @voters = @q.result(distinct: true)
+    end
+
+    if params["per_page"].present? && params["page"].present?
+      @voters = @voters.page(params["page"]).per(params["per_page"])
+      render json: @voters, meta: { total: @voters.total_pages }
     else
       render json: @voters
     end
+
   end
   # rubocop:enable Metrics/MethodLength
 

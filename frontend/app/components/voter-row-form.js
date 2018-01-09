@@ -34,11 +34,17 @@ export default Ember.Component.extend({
 			.then(res => {
 				this.sendAction("refreshVoters");
 				this.get('notify').success("Registro guardado exitosamente.");
+				this.send("reset");
 			})
 			.catch(err => {
 				console.log(err);
 				this.get('notify').alert("El registro no pudo ser guardado.");
 			});
+		},
+
+		reset() {
+			let voter = this.get('store').createRecord('voter');
+			this.set('voter', voter);
 		}
 	}
 });

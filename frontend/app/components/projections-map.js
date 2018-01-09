@@ -8,23 +8,23 @@ const { isEmpty } = Ember;
 
 export default Ember.Component.extend({
 
-	partiesManager: Ember.inject.service("parties"),
-	store: Ember.inject.service(),
-	cartography: Ember.inject.service(),
+	partiesManager:  Ember.inject.service("parties"),
+	store: 					 Ember.inject.service(),
+	cartography: 		 Ember.inject.service(),
 
 	selectedParties: Ember.computed.oneWay("partiesManager.selectedParties"),
 
-	states: Ember.computed.oneWay('cartography.states'),
+	states: 				 Ember.computed.oneWay('cartography.states'),
 
-	municipalities: Ember.computed.oneWay('cartography.municipalities'),
+	municipalities:  			 Ember.computed.oneWay('cartography.municipalities'),
 	municipalitiesBorders: Ember.computed.oneWay('cartography.municipalitiesBorders'),
 
-	federalDistricts: Ember.computed.oneWay('cartography.federalDistricts'),
+	federalDistricts: 			 Ember.computed.oneWay('cartography.federalDistricts'),
 	federalDistrictsBorders: Ember.computed.oneWay('cartography.federalDistrictsBorders'),
 
 	sections: Ember.computed.oneWay('cartography.sections'),
 
-	scaleExtent: [1 << 11, 1 << 26.5],
+	scaleExtent: 	[1 << 11, 1 << 26.5],
 
 	centerCoords: [-102, 23],
 
@@ -71,38 +71,30 @@ export default Ember.Component.extend({
 		return d3Tile.tile().size([this.get('width'), this.get('height')]);
 	}),
 
-	svg: null,
+	svg: 					 	 null,
 
-	statesLayer: null,
+	statesLayer:	 	 null,
 
-	muniLayer: null,
+	muniLayer: 	 	 	 null,
 
-	sectionsLayer: null,
+	sectionsLayer: 	 null,
 
-	imageLayer: null,
+	imageLayer: 	 	 null,
 
-	currState: null,
-	currMuni: null,
+	currState: 		 	 null,
+	currMuni: 			 null,
 	currFedDistrict: null,
-	currSection: null,
-	currDataType: "votes",
+	currSection: 		 null,
 
-	hoveredSection: null,
+	currDataType: 	 "votes",
 
-	stateCode: null,
-	muniCode: null,
+	hoveredSection:  null,
+
+	stateCode: 			 null,
+	muniCode: 			 null,
 	fedDistrictCode: null,
 
-	tooltip: null,
-
-	// Overriding init
-	init() {
-		this._super(...arguments);
-	},
-
-	didReceiveAttrs() {
-		this._super(...arguments);
-	},
+	tooltip: 				 null,
 
 	didUpdateAttrs() {
 		this._super(...arguments);

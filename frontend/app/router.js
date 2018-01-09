@@ -38,7 +38,7 @@ Router.map(function () {
     this.route('voters');
     this.route('voter-edit', { path: 'voter/:voter_id/edit' });
     this.route('new-voter', { path: '/new' });
-    this.route('voters2');
+    this.route('voters3');
   });
 
 });
