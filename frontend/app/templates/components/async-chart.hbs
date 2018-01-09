@@ -1,0 +1,15 @@
+<div class="chart-panel">
+    <p class="chart-title">{{title}}</p>
+    <p class="chart-subtitle">{{subtitle}}</p>
+    {{#if runQuery.isIdle}}
+        {{#if data}}
+            {{ember-chart type=type data=data options=options width=width height=height}}
+        {{else}}
+            <p class="text-danger">Ha ocurrido un error al cargar los datos.</p>
+        {{/if}}
+    {{else}}
+        <div style="text-align:center">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        </div>
+    {{/if}}
+</div>

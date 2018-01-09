@@ -84,6 +84,23 @@ class Api::V1::VotersController < ApplicationController
     @voter.destroy
   end
 
+  def dashboard
+    if !params['chart'].present?
+      render status: :unprocessable_entity
+    end
+    result = nil
+    case params['chart']
+    when 'gender'
+      result = gender_chart 1  #TODO: cambiar esto al id de usuario
+    end
+    if result.nil?
+      render status: :unprocessable_entity
+    else
+      result = {data: {id: params['chart'].to_i(36), type: 'dashboardInfos', attributes: {info: result}}}
+      render json: result
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -95,4 +112,13 @@ class Api::V1::VotersController < ApplicationController
   def voter_params
     ActiveModelSerializers::Deserialization.jsonapi_parse(params)
   end
+
+    def gender_chart id
+      res = Voter.where(user_id: id).group(:gender).count
+      res = {labels: ['Hombres', 'Mujeres'], datasets:[{label: "", data: [res['H'], res['M']]}]}
+      p '-----------'
+      p res 
+      p '-----------'
+      return res
+    end
 end
