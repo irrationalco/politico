@@ -4,13 +4,14 @@ class Api::V1::SessionsController < ApplicationController
   def create
     user = User.where(email: params[:username]).first
 
-    if user.valid_password?(params[:password])
+    # if user&.valid_password?(params[:password])
+    if user && user.valid_password?(params[:password])
       data = {
         access_token: user.authentication_token,
         email:        user.email,
         id:           user.id
       }
-      render json: data, status: 201 && return
+      render json: data, status: 201
     else
       head(:unauthorized)
     end
@@ -18,7 +19,7 @@ class Api::V1::SessionsController < ApplicationController
 
   def destroy
     current_user.authentication_token = nil
-    if current_user.save
+    if current_user && current_user.save
       head(:ok)
     else
       head(:unauthorized)
