@@ -306,7 +306,7 @@ export default Ember.Component.extend({
 			.style("fill", function(d) {
 
 				if (emberContext.get('dataType') === 'votes') {
-					let s = emberContext.get('sectionsData')
+					let s = emberContext.get('model')
 							.findBy('sectionCode', d.properties.section_code);
 
 					if (isEmpty(s)) {
@@ -324,7 +324,7 @@ export default Ember.Component.extend({
 			.style("stroke", function(d) {
 
 				if (emberContext.get('dataType') === 'votes') {
-					let s = emberContext.get('sectionsData')
+					let s = emberContext.get('model')
 							.findBy('sectionCode', d.properties.section_code);
 
 					if (isEmpty(s)) {
@@ -380,7 +380,7 @@ export default Ember.Component.extend({
 		this.get('sectionsLayer').selectAll("path")
 			.style("fill", function(d) {
 				if (emberContext.get('dataType') === 'votes') {
-					let s = emberContext.get('sectionsData')
+					let s = emberContext.get('model')
 							.findBy('sectionCode', d.properties.section_code);
 
 					if (isEmpty(s)) {
@@ -397,7 +397,7 @@ export default Ember.Component.extend({
 
 				if (emberContext.get('dataType') === 'votes') {
 					// let randomNum = Math.floor(Math.random() * 50) + 10;
-					let s = emberContext.get('sectionsData')
+					let s = emberContext.get('model')
 							.findBy('sectionCode', d.properties.section_code);
 
 					if (isEmpty(s)) {
