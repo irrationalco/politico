@@ -7,6 +7,7 @@ class CreateDemographics < ActiveRecord::Migration[5.0]
       t.integer :state_code
       t.integer :district_code
       t.integer :total
+      t.integer :year
       t.float   :hombres
       t.float   :hijos
       t.float   :entidad_nac
