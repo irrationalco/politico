@@ -18,6 +18,9 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, CanMixin, {
 		},
 		election: {
 			refreshModel: true
+		},
+		dataType: {
+			refreshModel: true
 		}
 	},
 
@@ -28,6 +31,10 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, CanMixin, {
 	},
 
 	model(params) {
-		return this.store.query('projection',params);
+		if (params.dataType == 'demographics') {
+			return this.store.query('demographic', params);
+		} else {
+			return this.store.query('projection', params);	
+		}
 	}
 });
