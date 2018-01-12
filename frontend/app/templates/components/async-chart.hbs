@@ -2,8 +2,12 @@
     <p class="chart-title">{{title}}</p>
     <p class="chart-subtitle">{{subtitle}}</p>
     {{#if runQuery.isIdle}}
-        {{#if data}}
-            {{ember-chart type=type data=data options=options width=width height=height}}
+        {{#if success}}
+            {{#if data}}
+                <div id="{{id}}"></div>
+            {{else}}
+                <p>No hay información</p>
+            {{/if}}
         {{else}}
             <p class="text-danger">Ha ocurrido un error al cargar los datos.</p>
         {{/if}}
