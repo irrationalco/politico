@@ -58,19 +58,19 @@ export default Ember.Component.extend({
     }
     let type = this.get('type');
     if (type === "line") {
-      new Chartkick.LineChart(this.get('id'), this.get('data'));
+      new Chartkick.LineChart(this.get('id'), this.get('data'), this.get('options'));
     } else if (type === "pie") {
-      new Chartkick.PieChart(this.get('id'), this.get('data'), {
+      new Chartkick.PieChart(this.get('id'), this.get('data'), Ember.$.extend({
         doughnut: true
-      });
+      }, this.get('options') || {}));
     } else if (type === "column") {
-      new Chartkick.ColumnChart(this.get('id'), this.get('data'));
+      new Chartkick.ColumnChart(this.get('id'), this.get('data'), this.get('options'));
     } else if (type === "bar") {
-      new Chartkick.BarChart(this.get('id'), this.get('data'));
+      new Chartkick.BarChart(this.get('id'), this.get('data'), this.get('options'));
     } else if (type === "area") {
-      new Chartkick.AreaChart(this.get('id'), this.get('data'));
+      new Chartkick.AreaChart(this.get('id'), this.get('data'), this.get('options'));
     } else if (type === "scatter") {
-      new Chartkick.ScatterChart(this.get('id'), this.get('data'));
+      new Chartkick.ScatterChart(this.get('id'), this.get('data'), this.get('options'));
     }
   }).group('allTasks'),
 
