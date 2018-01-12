@@ -56,7 +56,6 @@ export default Ember.Component.extend({
     if (this.get('error') || !this.get('data')) {
       return;
     }
-    console.log(this.get('id'), this.get('data'))
     let type = this.get('type');
     if (type === "line") {
       new Chartkick.LineChart(this.get('id'), this.get('data'));
