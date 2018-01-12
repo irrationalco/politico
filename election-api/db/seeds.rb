@@ -1,19 +1,34 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+# Demographics Dummy Data for Nuevo Leon
+# Municipalities
+for i in 0..55
+  for j in 0..4000
+    Demographic.create(section_code: j, muni_code: i, state_code: 19, district_code: nil,
+      total: Random.rand(5000), year: 2015, hombres: Random.rand(0.0...100.0).round(2), mujeres: Random.rand(0.0...100.0).round(2),
+      hijos: Random.rand(0.5...4).round(2), entidad_nac: Random.rand(0.0...100.0).round(2), entidad_inm: Random.rand(0.0...100.0).round(2),
+      limitacion: Random.rand(0.0...100.0).round(2), analfabetismo: Random.rand(0.0...100.0).round(2),
+      educacion_av: Random.rand(0.0...100.0).round(2), pea: Random.rand(0.0...100.0).round(2),
+      no_serv_salud: Random.rand(0.0...100.0).round(2), matrimonios: Random.rand(0.0...100.0).round(2),
+      hogares: Random.rand(0.0...100.0).round(2), hogares_jefa: Random.rand(0.0...100.0).round(2),
+      hogares_pob: Random.rand(0.0...100.0).round(2), auto:  Random.rand(0.0...100.0).round(2),
+      entidad_mig: Random.rand(0.0...100.0).round(2))
+  end
+end
 
-# Monterrey
+# Districts
+for x in 0..20
+  for y in 0..4000
+    Demographic.create(section_code: y, muni_code: nil, state_code: 19, district_code: x,
+      total: Random.rand(5000), year: 2015, hombres: Random.rand(0.0...100.0).round(2), mujeres: Random.rand(0.0...100.0).round(2),
+      hijos: Random.rand(0.5...4).round(2), entidad_nac: Random.rand(0.0...100.0).round(2), entidad_inm: Random.rand(0.0...100.0).round(2),
+      limitacion: Random.rand(0.0...100.0).round(2), analfabetismo: Random.rand(0.0...100.0).round(2),
+      educacion_av: Random.rand(0.0...100.0).round(2), pea: Random.rand(0.0...100.0).round(2),
+      no_serv_salud: Random.rand(0.0...100.0).round(2), matrimonios: Random.rand(0.0...100.0).round(2),
+      hogares: Random.rand(0.0...100.0).round(2), hogares_jefa: Random.rand(0.0...100.0).round(2),
+      hogares_pob: Random.rand(0.0...100.0).round(2), auto:  Random.rand(0.0...100.0).round(2),
+      entidad_mig: Random.rand(0.0...100.0).round(2))
+  end
+end
 
-# for i in 975..1686
-#   Projection.create(:state_code => 19, :muni_code => 39, :section_code => i,
-#     :PRI => Random.rand(1500), :PAN => Random.rand(1500), :PRD => Random.rand(1000),
-#     :Morena => Random.rand(1000), :PV => Random.rand(300), :PT => Random.rand(300),
-#     :MC => Random.rand(300))
-# end
 
 require 'csv'
 puts "################\nSeeds"
@@ -114,20 +129,20 @@ puts "Done projections: #{Time.now - t}s"
 # Creando cache de datos por estado
 # puts "Creating states chache..."
 # t = Time.now
-# 
+#
 # state_data = Projection.select('SUM("PAN") as "PAN", SUM("PCONV") as "PCONV", SUM("PES") as "PES",
 #                                 SUM("PH") as "PH", SUM("PMC") as "PMC", SUM("PMOR") as "PMOR", SUM("PNA") as "PNA",
 #                                 SUM("PPM") as "PPM", SUM("PRD") as "PRD", SUM("PRI") as "PRI", SUM("PSD") as "PSD",
 #                                 SUM("PSM") as "PSM", SUM("PT") as "PT", SUM("PVEM") as "PVEM", SUM("total_votes") as "total_votes",
 #                                 state_code, year, election_type').group(:state_code,:year,:election_type)
-# 
+#
 # state_data.each do |data|
 #   StateCache.create(state_code: data.state_code, year: data.year, election_type: data.election_type,
 #                     PAN: data.PAN, PCONV: data.PCONV, PES: data.PES, PH: data.PH, PMC: data.PMC,
 #                     PMOR: data.PMOR, PNA: data.PNA, PPM: data.PPM, PRD: data.PRD, PRI: data.PRI,
 #                     PSD: data.PSD, PSM: data.PSM, PT: data.PT, PVEM: data.PVEM, total_votes: data.total_votes)
 # end
-# 
+#
 # puts "Done states cache: #{Time.now - t}s"
 
 ##########################################################################################################
