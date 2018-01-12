@@ -45,9 +45,6 @@ export default Ember.Component.extend({
         this.set('success', true);
         if (Object.keys(result).length !== 0 || result.constructor !== Object) {
           this.set('data', result);
-          console.log(this.get('data'))
-        } else {
-          console.log(this.get('id'), 'empty')
         }
       }
     } catch (err) {
