@@ -92,11 +92,21 @@ class Api::V1::VotersController < ApplicationController
     case params['chart']
     when 'gender'
       result = gender_chart 1  #TODO: cambiar esto al id de usuario
+    when 'date_of_birth'
+      result = date_of_birth_chart 1
+    when 'ed_level'
+      result = education_level_chart 1
+    when 'added_day'
+      result = added_by_day_chart 1
+    when 'added_week'
+      result = added_by_week_chart 1
+    when 'added_month'
+      result = added_by_month_chart 1
+    
     end
     if result.nil?
       render status: :unprocessable_entity
     else
-      result = {data: {id: params['chart'].to_i(36), type: 'dashboardInfos', attributes: {info: result}}}
       render json: result
     end
   end
@@ -114,11 +124,29 @@ class Api::V1::VotersController < ApplicationController
   end
 
     def gender_chart id
-      res = Voter.where(user_id: id).group(:gender).count
-      res = {labels: ['Hombres', 'Mujeres'], datasets:[{label: "", data: [res['H'], res['M']]}]}
-      p '-----------'
-      p res 
-      p '-----------'
-      return res
+      res = Voter.where(user_id: id).where.not(gender: nil).group(:gender).count
+      return res if res.empty?
+      res = {"Hombres": res['H'], "Mujeres": res['M']}
     end
+
+    def date_of_birth_chart id
+      res = Voter.where(user_id: id).group_by_year(:date_of_birth).count
+    end
+
+    def education_level_chart id
+      res = Voter.where(user_id: id).where.not(highest_educational_level: nil).group(:highest_educational_level).count
+    end
+
+    def added_by_day_chart id
+      res = Voter.where(user_id: id).group_by_day(:created_at).count
+    end
+
+    def added_by_week_chart id
+      res = Voter.where(user_id: id).group_by_week(:created_at).count
+    end
+
+    def added_by_month_chart id
+      res = Voter.where(user_id: id).group_by_month(:created_at).count
+    end
+
 end
