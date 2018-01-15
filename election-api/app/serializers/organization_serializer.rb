@@ -3,6 +3,6 @@ class OrganizationSerializer < ActiveModel::Serializer
 
   def manager_name
     manager = object.manager
-    manager.present? ? manager.first_name + " " +manager.last_name : nil
+    manager.present? ? manager.first_name + ' ' + manager.last_name : nil
   end
 end

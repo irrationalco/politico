@@ -1,5 +1,5 @@
 class Api::V1::OrganizationsController < ApplicationController
-  before_action :set_organization, only: [:show, :update, :destroy]
+  before_action :set_organization, only: %i[show update destroy]
 
   # GET /organizations
   def index
@@ -8,8 +8,8 @@ class Api::V1::OrganizationsController < ApplicationController
     render json: @organizations, include: 'users'
   end
 
-  # render json: @blog, include: 'posts.category, posts.author.address', fields: { posts: { category: [:name], author: [:id, :name] } }
-
+  # render json: @blog, include: 'posts.category, posts.author.address',
+  #        fields: { posts: { category: [:name], author: [:id, :name] } }
 
   # GET /organizations/1
   def show
@@ -42,13 +42,14 @@ class Api::V1::OrganizationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_organization
-      @organization = Organization.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def organization_params
-      params.require(:organization).permit(:name, :manager_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_organization
+    @organization = Organization.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def organization_params
+    params.require(:organization).permit(:name, :manager_id)
+  end
 end

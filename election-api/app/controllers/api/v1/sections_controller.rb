@@ -1,6 +1,6 @@
 class Api::V1::SectionsController < ApplicationController
   acts_as_token_authentication_handler_for User, fallback: :none
-  before_action :set_section, only: [:show, :update, :destroy]
+  before_action :set_section, only: %i[show update destroy]
 
   # GET /sections
   def index
@@ -40,13 +40,14 @@ class Api::V1::SectionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_section
-      @section = Section.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def section_params
-      params.fetch(:section, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_section
+    @section = Section.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def section_params
+    params.fetch(:section, {})
+  end
 end

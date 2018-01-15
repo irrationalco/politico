@@ -1,6 +1,6 @@
 class Api::V1::PollsController < ApplicationController
   # acts_as_token_authentication_handler_for User, fallback: :none
-  before_action :set_poll, only: [:show, :update, :destroy]
+  before_action :set_poll, only: %i[show update destroy]
 
   # GET /polls
   def index
@@ -40,13 +40,14 @@ class Api::V1::PollsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_poll
-      @poll = Poll.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def poll_params
-      params.fetch(:poll, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_poll
+    @poll = Poll.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def poll_params
+    params.fetch(:poll, {})
+  end
 end

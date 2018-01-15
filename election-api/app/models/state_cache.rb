@@ -1,9 +1,9 @@
 class StateCache < ApplicationRecord
-
   def self.as_projection
-    all.map { |r| r.to_projection }
+    all.map(&:to_projection)
   end
 
+  # rubocop:disable Metrics/MethodLength
   def to_projection
     Projection.new do |r|
       r.PAN = self.PAN
@@ -20,12 +20,12 @@ class StateCache < ApplicationRecord
       r.PSM = self.PSM
       r.PT = self.PT
       r.PVEM = self.PVEM
-      r.total_votes = self.total_votes
-      r.state_code = self.state_code
-      r.election_type = self.election_type
-      r.year = self.year
-      r.id = self.id
+      r.total_votes = total_votes
+      r.state_code = state_code
+      r.election_type = election_type
+      r.year = year
+      r.id = id
     end
   end
-
+  # rubocop:enable Metrics/MethodLength
 end
