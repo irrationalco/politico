@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       resources :projections
       resources :favorites
       resources :voters
+      resources :demographics
       post '/voters/file_upload/:user_id', to: 'voters#file_upload'
       get '/current_user', to: 'users#user_by_email'
     end

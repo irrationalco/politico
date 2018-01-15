@@ -1,3 +1,6 @@
+require 'csv'
+puts "################\nSeeds"
+
 # Demographics Dummy Data for Nuevo Leon
 # Municipalities
 for i in 0..55
@@ -28,10 +31,6 @@ for x in 0..20
       entidad_mig: Random.rand(0.0...100.0).round(2))
   end
 end
-
-
-require 'csv'
-puts "################\nSeeds"
 
 # def delete_dbs(*class_names)
 #   class_names.each do |cname|

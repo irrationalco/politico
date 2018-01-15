@@ -31,7 +31,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, CanMixin, {
 	},
 
 	model(params) {
-		if (params.dataType == 'demographics') {
+		if (params.dataType == 'population') {
 			return this.store.query('demographic', params);
 		} else {
 			return this.store.query('projection', params);	
