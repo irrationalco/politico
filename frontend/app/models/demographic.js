@@ -1,13 +1,14 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-	sectionCode: 	DS.attr('number'),
-	muniCode: 	 	DS.attr('number'),
-	stateCode: 	 	DS.attr('number'),
+	sectionCode: 		DS.attr('number'),
+	muniCode: 	 		DS.attr('number'),
+	stateCode: 	 		DS.attr('number'),
 	districtCode: 	DS.attr('number'),
-	year: 			DS.attr('number'),
+	total:    			DS.attr('number'),
+	year: 					DS.attr('number'),
 	hombres:        DS.attr('number'),
-	hijos: 			DS.attr('number'),
+	hijos: 					DS.attr('number'),
 	entidad_nac:    DS.attr('number'),
 	entidad_ant:    DS.attr('number'),
 	limitacion:     DS.attr('number'),

@@ -379,35 +379,33 @@ export default Ember.Component.extend({
 
 		this.get('sectionsLayer').selectAll("path")
 			.style("fill", function(d) {
-				if (emberContext.get('dataType') === 'votes') {
-					let s = emberContext.get('model')
+
+				let s = emberContext.get('model')
 							.findBy('sectionCode', d.properties.section_code);
 
+				if (emberContext.get('dataType') === 'votes') {
 					if (isEmpty(s)) {
 						return "transparent";
 					} else {
 						return emberContext.get('partiesManager').getColor(s);
 					}
-
 				} else {
-					return emberContext.get('fillPopulation')(d.properties.population);
+					return emberContext.get('fillPopulation')(s.get('total'));
 				}
 			})
 			.style("stroke", function(d) {
 
-				if (emberContext.get('dataType') === 'votes') {
-					// let randomNum = Math.floor(Math.random() * 50) + 10;
-					let s = emberContext.get('model')
+				let s = emberContext.get('model')
 							.findBy('sectionCode', d.properties.section_code);
 
+				if (emberContext.get('dataType') === 'votes') {
 					if (isEmpty(s)) {
 						return "transparent";
 					} else {
 						return emberContext.get('partiesManager').getColor(s);
 					}
-
 				} else {
-					return emberContext.get('fillPopulation')(d.properties.population);
+					return emberContext.get('fillPopulation')(s.get('total'));
 				}
 			})
 			.style("fill-opacity", function(d) {

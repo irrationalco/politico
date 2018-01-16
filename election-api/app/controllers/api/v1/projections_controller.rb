@@ -30,7 +30,8 @@ class Api::V1::ProjectionsController < ApplicationController
       render json: @projections
     end
   rescue State::DataNotFound => e
-    puts e.message
+    logger.error e.backtrace.first(5).join('\n')
+    logger.error "*ERROR* Projections#index -> #{e}"
   end
 
   # GET /projections/1
