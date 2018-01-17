@@ -1,5 +1,23 @@
 <div class='dashboard'>
-    {{async-chart title="Prueba 1" subtitle="sub" query='gender' store=store type='bar' options=optionNoLegend}}
-    {{async-chart title="Prueba 2" subtitle="sub" query='gender' store=store type='bar'}}
-    {{async-chart title="Prueba 3" subtitle="sub" query='gender' store=store type='bar'}}
+    <div class="chart-panel">
+        {{async-data title="" query="email"}}
+        {{async-data title="" query="phone"}}
+        {{async-data title="" query="facebook"}}
+        {{async-data title="" query="total"}}
+    </div>
+    {{async-chart title="Genero" subtitle="sub" query='gender' type='column'}}
+    {{async-chart title="Fecha de nacimiento" subtitle="sub" query='date_of_birth' type='line'}}
+    {{async-chart title="Nivel educativo" subtitle="sub" query='ed_level' type='column'}}
+    {{async-chart title="Fecha de Entrada" subtitle="por mes" query='added_month' type='line' options=noPoints}}
+    {{async-chart title="Fecha de Entrada" subtitle="por semana" query='added_week' type='line' options=noPoints}}
+    {{async-chart title="Fecha de Entrada" subtitle="por dia" query='added_day' type='line' options=noPoints}}
+    {{async-chart title="Ocupacion" query="ocupation" type="column"}}
+    {{async-chart title="Es parrte del partido" query="party" type="column"}}
+    {{async-chart title="Estados" query="state" type="column" options=stateClickOption}}
+    {{#if selectedState}}
+        {{async-chart title="Municipios" query=municipalityQuery type="column" options=municipalityClickOption}}
+    {{/if}}
+    {{#if selectedMunicipality}}
+        {{async-chart title="Secciones" query=sectionQuery type="column"}}
+    {{/if}}
 </div>

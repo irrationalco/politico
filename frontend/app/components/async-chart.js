@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import {
   task,
-  taskGroup
+  taskGroup,
+  timeout
 } from 'ember-concurrency';
 import config from '../config/environment';
 const {
@@ -39,6 +40,7 @@ export default Ember.Component.extend({
           chart: this.get('query')
         }
       });
+      yield timeout(1000);
       if (!result) {
         this.set('error', true)
       } else {
@@ -74,12 +76,26 @@ export default Ember.Component.extend({
     }
   }).group('allTasks'),
 
-  init() {
-    this._super(...arguments);
+  getData(){
     this.set('id', this.get('query') + '-' + Math.floor(Math.random() * 1000));
     this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
       this.get('runQuery').perform(headerName, headerValue);
     });
+  },
+
+  init() {
+    this._super(...arguments);
+    this.getData();
+  },
+
+  didUpdateAttrs(info) {
+    this._super(...arguments);
+    if(info.oldAttrs.query !== info.newAttrs.query){
+      this.set('success', false);
+      this.set('data', null);
+      this.set('error', false);
+      this.getData();
+    }
   },
 
   didUpdate() {

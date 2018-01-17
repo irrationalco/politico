@@ -85,10 +85,8 @@ class Api::V1::VotersController < ApplicationController
   end
 
   def dashboard
-    if !params['chart'].present?
-      render status: :unprocessable_entity
-    end
     result = nil
+    if params['chart'].present?
     case params['chart']
     when 'gender'
       result = gender_chart
@@ -102,7 +100,28 @@ class Api::V1::VotersController < ApplicationController
       result = added_by_week_chart
     when 'added_month'
       result = added_by_month_chart
-    
+      when 'ocupation'
+        result = ocupation_chart
+      when 'party'
+        result = party_chart
+      when 'state'
+        result = state_chart
+      when /^municipality\.(.+)$/
+        result = municipality_chart $1
+      when /^section\.([^\.]+)\.([^\.]+)$/
+        result = section_chart $1, $2
+      end
+    elsif params['stats'].present?
+      case params['stats']
+      when 'email'
+        result = email_stats
+      when 'phone'
+        result = phone_stats
+      when 'facebook'
+        result = facebook_stats
+      when 'total'
+        result = total_stats
+      end
     end
     if result.nil?
       render status: :unprocessable_entity
@@ -126,7 +145,7 @@ class Api::V1::VotersController < ApplicationController
     def gender_chart
       res = Voter.where(user_id: @current_user.id).where.not(gender: nil).group(:gender).count
       return res if res.empty?
-      res = {"Hombres": res['H'], "Mujeres": res['M']}
+      res = {"Hombres": res['H'] || 0, "Mujeres": res['M'] || 0}
     end
 
     def date_of_birth_chart
@@ -149,4 +168,41 @@ class Api::V1::VotersController < ApplicationController
       res = Voter.where(user_id: @current_user.id).group_by_month(:created_at).count
     end
 
+    def ocupation_chart
+      res = Voter.where(user_id: @current_user.id).where.not(current_ocupation: nil).group(:current_ocupation).count
+    end
+
+    def party_chart
+      res = Voter.where(user_id: @current_user.id).where.not(is_part_of_party: nil).group(:is_part_of_party).count
+      return res if res.empty?
+      res = {"Si": res[true] || 0, "No": res[false] || 0}
+    end
+
+    def state_chart
+      res = res = Voter.where(user_id: @current_user.id).where.not(state: nil).group(:state).count
+    end
+
+    def municipality_chart state
+      res = Voter.where(user_id: @current_user.id).where(state: state).where.not(municipality: nil).group(:municipality).count
+    end
+
+    def section_chart state, municipality
+      res = Voter.where(user_id: @current_user.id).where(state: state).where(municipality: municipality).where.not(section: nil).group(:section).count
+    end
+
+    def email_stats
+      res = Voter.where(user_id: @current_user.id).where.not(email: nil).count
+    end
+
+    def phone_stats 
+      res = Voter.where(user_id: @current_user.id).where("NOT (home_phone IS NULL OR mobile_phone IS NULL)").count
+    end
+
+    def facebook_stats
+      res = Voter.where(user_id: @current_user.id).where.not(facebook_account: nil).count
+    end
+
+    def total_stats
+      res = Voter.where(user_id: @current_user.id).count
+    end
 end
