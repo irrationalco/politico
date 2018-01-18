@@ -106,6 +106,12 @@ class Api::V1::VotersController < ApplicationController
         result = party_chart
       when 'state'
         result = state_chart
+      when 'email'
+        result = email_chart
+      when 'phone'
+        result = phone_chart
+      when 'facebook'
+        result = facebook_chart
       when /^municipality\.(.+)$/
         result = municipality_chart $1
       when /^section\.([^\.]+)\.([^\.]+)$/
@@ -113,12 +119,6 @@ class Api::V1::VotersController < ApplicationController
       end
     elsif params['stats'].present?
       case params['stats']
-      when 'email'
-        result = email_stats
-      when 'phone'
-        result = phone_stats
-      when 'facebook'
-        result = facebook_stats
       when 'total'
         result = total_stats
       end
@@ -190,16 +190,19 @@ class Api::V1::VotersController < ApplicationController
       res = Voter.where(user_id: @current_user.id).where(state: state).where(municipality: municipality).where.not(section: nil).group(:section).count
     end
 
-    def email_stats
+    def email_chart
       res = Voter.where(user_id: @current_user.id).where.not(email: nil).count
+      res = {"Si": res || 0, "No": Voter.where(user_id: @current_user.id).count - res || 0}
     end
 
-    def phone_stats 
+    def phone_chart 
       res = Voter.where(user_id: @current_user.id).where("NOT (home_phone IS NULL OR mobile_phone IS NULL)").count
+      res = {"Si": res || 0, "No": Voter.where(user_id: @current_user.id).count - res || 0}
     end
 
-    def facebook_stats
+    def facebook_chart
       res = Voter.where(user_id: @current_user.id).where.not(facebook_account: nil).count
+      res = {"Si": res || 0, "No": Voter.where(user_id: @current_user.id).count - res || 0}
     end
 
     def total_stats

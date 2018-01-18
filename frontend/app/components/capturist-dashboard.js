@@ -34,6 +34,9 @@ export default Ember.Component.extend({
   init() {
     this._super(...arguments);
     var stateClickFunction = (event, activeElm) => {
+      if(this.get('selectedState') === activeElm[0]._model.label){
+        return;
+      }
       this.set('selectedState', activeElm[0]._model.label)
       this.set('selectedMunicipality', null)
     };
@@ -44,6 +47,9 @@ export default Ember.Component.extend({
     });
 
     var municipalityClickFunction = (event, activeElm) => {
+      if(this.get('selectedMunicipality') === activeElm[0]._model.label){
+        return;
+      }
       this.set('selectedMunicipality', activeElm[0]._model.label)
     };
     this.set('municipalityClickOption', {

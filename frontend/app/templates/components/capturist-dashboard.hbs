@@ -1,8 +1,5 @@
 <div class='dashboard'>
     <div class="chart-panel">
-        {{async-data title="" query="email"}}
-        {{async-data title="" query="phone"}}
-        {{async-data title="" query="facebook"}}
         {{async-data title="" query="total"}}
     </div>
     {{async-chart title="Genero" subtitle="sub" query='gender' type='column'}}
@@ -13,6 +10,9 @@
     {{async-chart title="Fecha de Entrada" subtitle="por dia" query='added_day' type='line' options=noPoints}}
     {{async-chart title="Ocupacion" query="ocupation" type="column"}}
     {{async-chart title="Es parrte del partido" query="party" type="column"}}
+    {{async-chart title="Email" query="email" type="column"}}
+    {{async-chart title="Phone" query="phone" type="column"}}
+    {{async-chart title="Facebook" query="facebook" type="column"}}
     {{async-chart title="Estados" query="state" type="column" options=stateClickOption}}
     {{#if selectedState}}
         {{async-chart title="Municipios" query=municipalityQuery type="column" options=municipalityClickOption}}
