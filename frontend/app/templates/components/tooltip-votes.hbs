@@ -1,8 +1,6 @@
 <div id="tooltip-map">
 {{#if isPopulation}}
-
-	{{tooltip-population hoveredSection=hoveredSection}}
-	
+	{{tooltip-population hoveredSection=hoveredSection demographics=sectionData}}
 {{else}}
 
 	{{#if isNormal}}

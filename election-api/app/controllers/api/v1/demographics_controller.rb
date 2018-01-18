@@ -11,7 +11,6 @@ class Api::V1::DemographicsController < ApplicationController
 
     @demographics = Projection.where(id: 1) unless @demographics.present?
     render json: @demographics
-
   rescue State::DataNotFound => e
     logger.error e.backtrace.first(5).join('\n')
     logger.error "*ERROR* Demographics#index -> #{e}"
