@@ -63,7 +63,7 @@ export default Ember.Component.extend({
       new Chartkick.LineChart(this.get('id'), this.get('data'), this.get('options'));
     } else if (type === "pie") {
       new Chartkick.PieChart(this.get('id'), this.get('data'), Ember.$.extend({
-        doughnut: true
+        donut: true
       }, this.get('options') || {}));
     } else if (type === "column") {
       new Chartkick.ColumnChart(this.get('id'), this.get('data'), this.get('options'));

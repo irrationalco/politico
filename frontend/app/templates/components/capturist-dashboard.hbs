@@ -1,23 +1,74 @@
 <div class='dashboard'>
     <div class="chart-panel">
-        {{async-data title="" query="total"}}
+        Número total de registros: {{async-data title="" query="total"}}
     </div>
-    {{async-chart title="Genero" subtitle="sub" query='gender' type='column'}}
-    {{async-chart title="Fecha de nacimiento" subtitle="sub" query='date_of_birth' type='line'}}
-    {{async-chart title="Nivel educativo" subtitle="sub" query='ed_level' type='column'}}
-    {{async-chart title="Fecha de Entrada" subtitle="por mes" query='added_month' type='line' options=noPoints}}
-    {{async-chart title="Fecha de Entrada" subtitle="por semana" query='added_week' type='line' options=noPoints}}
-    {{async-chart title="Fecha de Entrada" subtitle="por dia" query='added_day' type='line' options=noPoints}}
-    {{async-chart title="Ocupacion" query="ocupation" type="column"}}
-    {{async-chart title="Es parrte del partido" query="party" type="column"}}
-    {{async-chart title="Email" query="email" type="column"}}
-    {{async-chart title="Phone" query="phone" type="column"}}
-    {{async-chart title="Facebook" query="facebook" type="column"}}
-    {{async-chart title="Estados" query="state" type="column" options=stateClickOption}}
-    {{#if selectedState}}
-        {{async-chart title="Municipios" query=municipalityQuery type="column" options=municipalityClickOption}}
-    {{/if}}
-    {{#if selectedMunicipality}}
-        {{async-chart title="Secciones" query=sectionQuery type="column"}}
-    {{/if}}
+    <div class="chart-panel">
+        <p class="chart-title">Genero</p>
+        {{async-chart query='gender' type='column'}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">Fecha de Nacimiento</p>
+        <p class="chart-subtitle">por año</p>
+        {{async-chart query='date_of_birth' type='line'}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">Nivel Educativo</p>
+            {{async-chart query='ed_level' type='column'}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">Fecha de Captura</p>
+        <p class="chart-subtitle">por mes</p>
+        {{async-chart query='added_month' type='line' options=noPoints}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">Fecha de Captura</p>
+        <p class="chart-subtitle">por semana</p>
+        {{async-chart query='added_week' type='line' options=noPoints}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">Fecha de Captura</p>
+        <p class="chart-subtitle">por día</p>
+        {{async-chart query='added_day' type='line' options=noPoints}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">Ocupación</p>
+        {{async-chart query="ocupation" type="column"}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">Es parte del partido</p>
+        {{async-chart query="party" type="column"}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">Tiene E-mail?</p>
+        {{async-chart query="email" type="column"}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">Tiene Telefono?</p>
+        {{async-chart query="phone" type="column"}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">Tiene Facebook?</p>
+        {{async-chart query="facebook" type="column"}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">Número de Registros</p>
+        {{async-chart query="state" type="column" options=stateClickOption}}
+        {{#if selectedState}}
+            {{async-chart query=municipalityQuery type="column" options=municipalityClickOption}}
+        {{/if}}
+        {{#if selectedMunicipality}}
+            {{async-chart query=sectionQuery type="column"}}
+        {{/if}}
+    </div>
 </div>
