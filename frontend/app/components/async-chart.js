@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import {
   task,
-  timeout,
   waitForQueue
 } from 'ember-concurrency';
 import config from '../config/environment';
@@ -43,7 +42,6 @@ export default Ember.Component.extend({
         },
         data: queries
       });
-      yield timeout(1000);
       if (!result) {
         this.set('error', true)
       } else {
