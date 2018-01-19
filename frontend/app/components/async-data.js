@@ -42,11 +42,25 @@ export default Ember.Component.extend({
     }
   }),
 
-  init() {
+  didUpdateAttrs(info) {
     this._super(...arguments);
+    if(info.oldAttrs.query !== info.newAttrs.query){
+      this.set('success', false);
+      this.set('data', null);
+      this.set('error', false);
+      this.getData();
+    }
+  },
+
+  getData(){
     this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
       this.get('runQuery').perform(headerName, headerValue);
     });
+  },
+
+  init() {
+    this._super(...arguments);
+    this.getData();
   }
 
 });
