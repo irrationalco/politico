@@ -26,13 +26,6 @@ export default Ember.Component.extend({
 
   runQuery: task(function* (headerName, headerValue) {
     try {
-      var qArray = this.get('query').split("&");
-      var queries = {chart: qArray[0]};
-      qArray.shift();
-      qArray.forEach((q) => {
-        let tmp = q.split('=');
-        queries[tmp[0]] = tmp[1];
-      });
       let result = yield this.get('ajax').request(config.localhost + '/api/ine/dashboard', {
         accepts: {
           json: 'application/json'
@@ -40,7 +33,7 @@ export default Ember.Component.extend({
         headers: {
           [headerName]: headerValue
         },
-        data: queries
+        data: this.get('query')
       });
       if (!result) {
         this.set('error', true)
@@ -80,7 +73,7 @@ export default Ember.Component.extend({
   }).restartable(),
 
   getData(){
-    this.set('id', this.get('query').split("&")[0] + '-' + Math.floor(Math.random() * 1000));
+    this.set('id', this.get('query').chart + '-' + Math.floor(Math.random() * 1000));
     this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
       this.get('runQuery').perform(headerName, headerValue);
     });
