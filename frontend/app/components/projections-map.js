@@ -395,7 +395,7 @@ export default Ember.Component.extend({
 			.on("mousemove", function(d) {
 				emberContext.get('tooltip')
 					.style("left", (d3.event.pageX - 200) + "px")
-					.style("top", (d3.event.pageY - 300) + "px");
+					.style("top", (d3.event.pageY - 250) + "px");
 			})
 			.on("mouseout", function(d) {
 				emberContext.get('tooltip')
