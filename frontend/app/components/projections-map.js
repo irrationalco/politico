@@ -12,17 +12,13 @@ export default Ember.Component.extend({
 	store: 					 Ember.inject.service(),
 	cartography: 		 Ember.inject.service(),
 
-	selectedParties: Ember.computed.oneWay("partiesManager.selectedParties"),
-
-	states: 				 Ember.computed.oneWay('cartography.states'),
-
-	municipalities:  			 Ember.computed.oneWay('cartography.municipalities'),
-	municipalitiesBorders: Ember.computed.oneWay('cartography.municipalitiesBorders'),
-
+	selectedParties: 				 Ember.computed.oneWay("partiesManager.selectedParties"),
+	states: 				 				 Ember.computed.oneWay('cartography.states'),
+	municipalities:  			 	 Ember.computed.oneWay('cartography.municipalities'),
+	municipalitiesBorders: 	 Ember.computed.oneWay('cartography.municipalitiesBorders'),
 	federalDistricts: 			 Ember.computed.oneWay('cartography.federalDistricts'),
 	federalDistrictsBorders: Ember.computed.oneWay('cartography.federalDistrictsBorders'),
-
-	sections: Ember.computed.oneWay('cartography.sections'),
+	sections: 							 Ember.computed.oneWay('cartography.sections'),
 
 	scaleExtent: 	[1 << 11, 1 << 26.5],
 
@@ -44,10 +40,8 @@ export default Ember.Component.extend({
 			.domain([100, 1000, 2000, 3000])
 			.range(d3ScaleChromatic.schemeReds[5]),
 
-	width: null,
-
+	width: 	null,
 	height: null,
-
 	active: null,
 
 	// Map projection
@@ -73,12 +67,10 @@ export default Ember.Component.extend({
 
 	svg: 					 	 null,
 
+	// SVG Layers that make up the map
 	statesLayer:	 	 null,
-
 	muniLayer: 	 	 	 null,
-
 	sectionsLayer: 	 null,
-
 	imageLayer: 	 	 null,
 
 	currState: 		 	 null,
@@ -87,13 +79,12 @@ export default Ember.Component.extend({
 	currSection: 		 null,
 
 	currDataType: 	 "votes",
-
 	hoveredSection:  null,
-
 	stateCode: 			 null,
 	muniCode: 			 null,
 	fedDistrictCode: null,
 
+	// Map cursor tooltip
 	tooltip: 				 null,
 
 	didUpdateAttrs() {
@@ -404,7 +395,7 @@ export default Ember.Component.extend({
 			.on("mousemove", function(d) {
 				emberContext.get('tooltip')
 					.style("left", (d3.event.pageX - 200) + "px")
-					.style("top", (d3.event.pageY - 190) + "px");
+					.style("top", (d3.event.pageY - 300) + "px");
 			})
 			.on("mouseout", function(d) {
 				emberContext.get('tooltip')
