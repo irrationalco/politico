@@ -1,74 +1,139 @@
+<div class="dashboard-controls">
+    <div>
+        <p>Estado:</p>
+        {{#power-select
+        options=states
+        placeholder="Selecciona un estado para filtrar"
+        onchange=(action "stateSelect")
+        selected=selectedState
+        allowClear=true
+        as |state|}}
+            {{state.name}}
+        {{/power-select}}
+    </div>
+    {{#if selectedState}}
+        <div>
+            <p>Municipio:</p>
+            {{#power-select
+            options=municipalities
+            placeholder="Selecciona un municipio para filtrar"
+            onchange=(action "municipalitySelect")
+            selected=selectedMunicipality
+            allowClear=true
+            as |mun|}}
+                {{mun}}
+            {{/power-select}}
+        </div>
+    {{/if}}
+    {{#if selectedMunicipality}}
+        <div>
+            <p>Sección:</p>
+            {{#power-select
+            options=sections
+            placeholder="Selecciona una sección para filtrar"
+            onchange=(action "sectionSelect")
+            selected=selectedSection
+            allowClear=true
+            as |section|}}
+                {{section}}
+            {{/power-select}}
+        </div>
+    {{/if}}
+</div>
 <div class='dashboard'>
     <div class="chart-panel">
-        Número total de registros: {{async-data title="" query="total"}}
+        Número de registros: {{async-data query=totalQuery}}
     </div>
     <div class="chart-panel">
         <p class="chart-title">Genero</p>
-        {{async-chart query='gender' type='column'}}
+        <div style="display:flex;flex-direction: column;align-content:center">
+        {{async-chart query=genderQuery type='column'}}
+        </div>
     </div>
 
     <div class="chart-panel">
         <p class="chart-title">Fecha de Nacimiento</p>
         <p class="chart-subtitle">por año</p>
-        {{async-chart query='date_of_birth' type='line'}}
+        {{async-chart query=dateOfBirthQuery type='line'}}
     </div>
 
     <div class="chart-panel">
         <p class="chart-title">Nivel Educativo</p>
-            {{async-chart query='ed_level' type='column'}}
+            {{async-chart query=edLevelQuery type='column'}}
     </div>
 
     <div class="chart-panel">
         <p class="chart-title">Fecha de Captura</p>
-        <p class="chart-subtitle">por mes</p>
-        {{async-chart query='added_month' type='line' options=noPoints}}
-    </div>
+        
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#por-mes" aria-controls="por-mes" role="tab" data-toggle="tab">Por Mes</a></li>
+            <li role="presentation"><a href="#por-semana" aria-controls="por-semana" role="tab" data-toggle="tab">Por Semana</a></li>
+            <li role="presentation"><a href="#por-dia" aria-controls="por-dia" role="tab" data-toggle="tab">Por Dia</a></li>
+        </ul>
 
-    <div class="chart-panel">
-        <p class="chart-title">Fecha de Captura</p>
-        <p class="chart-subtitle">por semana</p>
-        {{async-chart query='added_week' type='line' options=noPoints}}
-    </div>
-
-    <div class="chart-panel">
-        <p class="chart-title">Fecha de Captura</p>
-        <p class="chart-subtitle">por día</p>
-        {{async-chart query='added_day' type='line' options=noPoints}}
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="por-mes">
+                {{async-chart query=addedMonthQuery type='line' options=timeGraphOptions}}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="por-semana">
+                {{async-chart query=addedWeekQuery type='line' options=timeGraphOptions}}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="por-dia">
+                {{async-chart query=addedDayQuery type='line' options=timeGraphOptions}}
+            </div>
+        </div>
     </div>
 
     <div class="chart-panel">
         <p class="chart-title">Ocupación</p>
-        {{async-chart query="ocupation" type="column"}}
+        {{async-chart query=ocupationQuery type="column"}}
     </div>
 
     <div class="chart-panel">
         <p class="chart-title">Es parte del partido</p>
-        {{async-chart query="party" type="column"}}
+        {{async-chart query=partyQuery type="column"}}
     </div>
 
     <div class="chart-panel">
         <p class="chart-title">Tiene E-mail?</p>
-        {{async-chart query="email" type="column"}}
+        {{async-chart query=emailQuery type="column"}}
     </div>
 
     <div class="chart-panel">
         <p class="chart-title">Tiene Telefono?</p>
-        {{async-chart query="phone" type="column"}}
+        {{async-chart query=phoneQuery type="column"}}
     </div>
 
     <div class="chart-panel">
         <p class="chart-title">Tiene Facebook?</p>
-        {{async-chart query="facebook" type="column"}}
+        {{async-chart query=facebookQuery type="column"}}
     </div>
 
-    <div class="chart-panel">
-        <p class="chart-title">Número de Registros</p>
-        {{async-chart query="state" type="column" options=stateClickOption}}
-        {{#if selectedState}}
-            {{async-chart query=municipalityQuery type="column" options=municipalityClickOption}}
-        {{/if}}
-        {{#if selectedMunicipality}}
-            {{async-chart query=sectionQuery type="column"}}
-        {{/if}}
-    </div>
+    {{#unless selectedState}}
+        <div class="chart-panel">
+            <p class="chart-title">Número de Registros</p>
+            <p class="chart-subtitle">por estado</p>
+            {{async-chart query=stateQuery type="column"}}
+        </div>
+    {{/unless}}
+
+    {{#if selectedState}}
+        {{#unless selectedMunicipality}}
+            <div class="chart-panel">
+                <p class="chart-title">Número de Registros</p>
+                <p class="chart-subtitle">por municipio</p>
+                {{async-chart query=municipalityQuery type="column"}}
+            </div>
+        {{/unless}}
+    {{/if}}
+
+    {{#if selectedMunicipality}}
+        {{#unless selectedSection}}
+            <div class="chart-panel">
+                <p class="chart-title">Número de Registros</p>
+                <p class="chart-subtitle">por sección</p>
+                {{async-chart query=sectionQuery type="column"}}
+            </div>
+        {{/unless}}
+    {{/if}}
 </div>

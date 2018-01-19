@@ -3,6 +3,20 @@ class Voter < ApplicationRecord
   belongs_to :user
   belongs_to :suborganization
 
+  scope :filtered, -> (user_id, state_code, muni, section) {
+    res = where(user_id: user_id)
+    if !state_code.empty?
+      res = res.where(state_code: state_code)
+    end
+    if !muni.empty?
+      res = res.where(municipality: muni)
+    end
+    if !section.empty?
+      res = res.where(section: section)
+    end
+    return res
+  }
+
   # Method to import voters from a CSV file
   def self.import(file, uid)
     invalid_rows = []
