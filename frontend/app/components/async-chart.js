@@ -1,8 +1,8 @@
 import Ember from 'ember';
 import {
   task,
-  taskGroup,
-  timeout
+  timeout,
+  waitForQueue
 } from 'ember-concurrency';
 import config from '../config/environment';
 const {
@@ -25,10 +25,15 @@ export default Ember.Component.extend({
 
   id: null,
 
-  allTasks: taskGroup().enqueue(),
-
   runQuery: task(function* (headerName, headerValue) {
     try {
+      var qArray = this.get('query').split("&");
+      var queries = {chart: qArray[0]};
+      qArray.shift();
+      qArray.forEach((q) => {
+        let tmp = q.split('=');
+        queries[tmp[0]] = tmp[1];
+      });
       let result = yield this.get('ajax').request(config.localhost + '/api/ine/dashboard', {
         accepts: {
           json: 'application/json'
@@ -36,9 +41,7 @@ export default Ember.Component.extend({
         headers: {
           [headerName]: headerValue
         },
-        data: {
-          chart: this.get('query')
-        }
+        data: queries
       });
       yield timeout(1000);
       if (!result) {
@@ -48,16 +51,18 @@ export default Ember.Component.extend({
         if (Object.keys(result).length !== 0 || result.constructor !== Object) {
           this.set('data', result);
         }
+        this.get('createChart').perform();
       }
     } catch (err) {
       this.set('error', true);
     }
-  }).group('allTasks'),
+  }).restartable(),
 
   createChart: task(function* () {
     if (this.get('error') || !this.get('data')) {
       return;
     }
+    yield waitForQueue('afterRender');
     let type = this.get('type');
     if (type === "line") {
       new Chartkick.LineChart(this.get('id'), this.get('data'), this.get('options'));
@@ -74,10 +79,10 @@ export default Ember.Component.extend({
     } else if (type === "scatter") {
       new Chartkick.ScatterChart(this.get('id'), this.get('data'), this.get('options'));
     }
-  }).group('allTasks'),
+  }).restartable(),
 
   getData(){
-    this.set('id', this.get('query') + '-' + Math.floor(Math.random() * 1000));
+    this.set('id', this.get('query').split("&")[0] + '-' + Math.floor(Math.random() * 1000));
     this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
       this.get('runQuery').perform(headerName, headerValue);
     });
@@ -96,11 +101,6 @@ export default Ember.Component.extend({
       this.set('error', false);
       this.getData();
     }
-  },
-
-  didUpdate() {
-    this._super(...arguments);
-    this.get('createChart').perform();
   }
 
 });
