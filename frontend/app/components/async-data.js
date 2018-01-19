@@ -29,9 +29,7 @@ export default Ember.Component.extend({
         headers: {
           [headerName]: headerValue
         },
-        data: {
-          stats: this.get('query')
-        }
+        data: this.get('query')
       });
       if (!result && result !== 0) {
         this.set('error', true)
