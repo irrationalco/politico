@@ -95,7 +95,8 @@ export default Ember.Component.extend({
           [headerName]: headerValue
         },
         data: {
-          info: `municipalities.${state.id}`
+          info: 'municipalities',
+          state: state.id
         }
       });
       if (result) {
@@ -127,7 +128,9 @@ export default Ember.Component.extend({
           [headerName]: headerValue
         },
         data: {
-          info: `sections.${state.id}.${municipality}`
+          info: 'sections',
+          state: state.id,
+          muni: municipality
         }
       });
       if (result) {

@@ -123,10 +123,10 @@ class Api::V1::VotersController < ApplicationController
         result = total_info params['state'], params['muni'], params['section']
       when 'states'
         result = states_info
-      when /^municipalities\.(.+)$/
-        result = municipality_info $1
-      when /^sections\.([^\.]+)\.([^\.]+)$/
-        result = section_info $1, $2
+      when 'municipalities'
+        result = municipality_info params['state']
+      when 'sections'
+        result = section_info params['state'], params['muni']
       end
     end
     if result.nil?
