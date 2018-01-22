@@ -22,7 +22,7 @@ export default Ember.Component.extend({
           this.get('getMunicipalities').perform(headerName, headerValue);
         });
       } else {
-        if(!this.get('municipalities').length){
+        if (!this.get('municipalities').length) {
           return;
         }
         this.set('municipalities', []);
@@ -31,21 +31,23 @@ export default Ember.Component.extend({
     municipalitySelect(selection) {
       this.set('selectedMunicipality', selection);
       this.set('selectedSection', null);
-      if (selection){
+      if (selection) {
         this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
           this.get('getSections').perform(headerName, headerValue);
         });
-      }else{
-        if(!this.get('sections').length){
+      } else {
+        if (!this.get('sections').length) {
           return;
         }
         this.set('sections', []);
       }
     },
-    sectionSelect(selection){
+    sectionSelect(selection) {
       this.set('selectedSection', selection);
     }
   },
+
+  loadingStates: false,
 
   states: [],
 
@@ -53,6 +55,7 @@ export default Ember.Component.extend({
 
   getStates: task(function* (headerName, headerValue) {
     try {
+      this.set('loadingStates', true);
       let result = yield this.get('ajax').request(config.localhost + '/api/ine/dashboard', {
         accepts: {
           json: 'application/json'
@@ -69,8 +72,12 @@ export default Ember.Component.extend({
       }
     } catch (err) {
       console.log(err)
+    } finally {
+      this.set('loadingStates', false);
     }
   }),
+
+  loadingMunis: false,
 
   municipalities: [],
 
@@ -78,6 +85,7 @@ export default Ember.Component.extend({
 
   getMunicipalities: task(function* (headerName, headerValue) {
     try {
+      this.set('loadingMunis', true);
       let state = this.get('selectedState');
       let result = yield this.get('ajax').request(config.localhost + '/api/ine/dashboard', {
         accepts: {
@@ -95,8 +103,12 @@ export default Ember.Component.extend({
       }
     } catch (err) {
       console.log(err)
+    } finally {
+      this.set('loadingMunis', false);
     }
   }),
+
+  loadingSections: false,
 
   sections: [],
 
@@ -104,6 +116,7 @@ export default Ember.Component.extend({
 
   getSections: task(function* (headerName, headerValue) {
     try {
+      this.set('loadingSections', true);
       let state = this.get('selectedState');
       let municipality = this.get('selectedMunicipality');
       let result = yield this.get('ajax').request(config.localhost + '/api/ine/dashboard', {
@@ -122,6 +135,8 @@ export default Ember.Component.extend({
       }
     } catch (err) {
       console.log(err)
+    } finally {
+      this.set('loadingSections', false);
     }
   }),
 
@@ -138,84 +153,127 @@ export default Ember.Component.extend({
     }
   },
 
-  queryFilters: Ember.computed('{selectedState,selectedMunicipality,selectedSection}', function(){
-    let state = this.get('selectedState') || {id: ''};
+  queryFilters: Ember.computed('{selectedState,selectedMunicipality,selectedSection}', function () {
+    let state = this.get('selectedState') || {
+      id: ''
+    };
     let muni = this.get('selectedMunicipality') || '';
     let section = this.get('selectedSection') || '';
-    return {state: state.id, muni:muni, section: section};
+    return {
+      state: state.id,
+      muni: muni,
+      section: section
+    };
   }),
 
-  genderQuery: Ember.computed('queryFilters', function(){
+  genderQuery: Ember.computed('queryFilters', function () {
     let filters = this.get('queryFilters');
-    return Object.assign({chart: 'gender'}, filters);
+    return Object.assign({
+      chart: 'gender'
+    }, filters);
   }),
 
-  dateOfBirthQuery: Ember.computed('queryFilters', function(){
+  dateOfBirthQuery: Ember.computed('queryFilters', function () {
     let filters = this.get('queryFilters');
-    return Object.assign({chart: 'date_of_birth'}, filters);
+    return Object.assign({
+      chart: 'date_of_birth'
+    }, filters);
   }),
 
-  edLevelQuery: Ember.computed('queryFilters', function(){
+  edLevelQuery: Ember.computed('queryFilters', function () {
     let filters = this.get('queryFilters');
-    return Object.assign({chart: 'ed_level'}, filters);
+    return Object.assign({
+      chart: 'ed_level'
+    }, filters);
   }),
 
-  addedMonthQuery: Ember.computed('queryFilters', function(){
+  addedMonthQuery: Ember.computed('queryFilters', function () {
     let filters = this.get('queryFilters');
-    return Object.assign({chart: 'added_month'}, filters);
+    return Object.assign({
+      chart: 'added_month'
+    }, filters);
   }),
 
-  addedWeekQuery: Ember.computed('queryFilters', function(){
+  addedWeekQuery: Ember.computed('queryFilters', function () {
     let filters = this.get('queryFilters');
-    return Object.assign({chart: 'added_week'}, filters);
+    return Object.assign({
+      chart: 'added_week'
+    }, filters);
   }),
 
-  addedDayQuery: Ember.computed('queryFilters', function(){
+  addedDayQuery: Ember.computed('queryFilters', function () {
     let filters = this.get('queryFilters');
-    return Object.assign({chart: 'added_day'}, filters);
+    return Object.assign({
+      chart: 'added_day'
+    }, filters);
   }),
 
-  ocupationQuery: Ember.computed('queryFilters', function(){
+  ocupationQuery: Ember.computed('queryFilters', function () {
     let filters = this.get('queryFilters');
-    return Object.assign({chart: 'ocupation'}, filters);
+    return Object.assign({
+      chart: 'ocupation'
+    }, filters);
   }),
 
-  partyQuery: Ember.computed('queryFilters', function(){
+  partyQuery: Ember.computed('queryFilters', function () {
     let filters = this.get('queryFilters');
-    return Object.assign({chart: 'party'}, filters);
+    return Object.assign({
+      chart: 'party'
+    }, filters);
   }),
 
-  emailQuery: Ember.computed('queryFilters', function(){
+  emailQuery: Ember.computed('queryFilters', function () {
     let filters = this.get('queryFilters');
-    return Object.assign({chart: 'email'}, filters);
+    return Object.assign({
+      chart: 'email'
+    }, filters);
   }),
 
-  phoneQuery: Ember.computed('queryFilters', function(){
+  phoneQuery: Ember.computed('queryFilters', function () {
     let filters = this.get('queryFilters');
-    return Object.assign({chart: 'phone'}, filters);
+    return Object.assign({
+      chart: 'phone'
+    }, filters);
   }),
 
-  facebookQuery: Ember.computed('queryFilters', function(){
+  facebookQuery: Ember.computed('queryFilters', function () {
     let filters = this.get('queryFilters');
-    return Object.assign({chart: 'facebook'}, filters);
+    return Object.assign({
+      chart: 'facebook'
+    }, filters);
   }),
 
-  stateQuery: {chart: 'state'},
+  stateQuery: {
+    chart: 'state'
+  },
 
-  municipalityQuery: Ember.computed('selectedState', function(){
-    let state = this.get('selectedState') || {id: null};
-    return {chart: 'municipality', state: state.id};
+  municipalityQuery: Ember.computed('selectedState', function () {
+    let state = this.get('selectedState') || {
+      id: null
+    };
+    return {
+      chart: 'municipality',
+      state: state.id
+    };
   }),
-  
-  sectionQuery: Ember.computed('selectedMunicipality', function(){
-    let state = this.get('selectedState') || {id: null};
+
+  sectionQuery: Ember.computed('selectedMunicipality', function () {
+    let state = this.get('selectedState') || {
+      id: null
+    };
     let muni = this.get('selectedMunicipality') || '';
-    return {chart: 'section', state: state.id, municipality: muni};
+    return {
+      chart: 'section',
+      state: state.id,
+      municipality: muni
+    };
   }),
 
-  totalQuery: Ember.computed('queryFilters', function(){
+  totalQuery: Ember.computed('queryFilters', function () {
     let filters = this.get('queryFilters');
-    return Object.assign({info: 'total'}, filters);
+    return Object.assign({
+      info: 'total'
+    }, filters);
   }),
 
   init() {
