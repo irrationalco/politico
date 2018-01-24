@@ -3,7 +3,6 @@ class StateCache < ApplicationRecord
     all.map(&:to_projection)
   end
 
-  # rubocop:disable Metrics/MethodLength
   def to_projection
     Projection.new do |r|
       r.PAN = self.PAN
@@ -27,5 +26,4 @@ class StateCache < ApplicationRecord
       r.id = id
     end
   end
-  # rubocop:enable Metrics/MethodLength
 end

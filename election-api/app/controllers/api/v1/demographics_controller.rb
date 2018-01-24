@@ -2,7 +2,6 @@ class Api::V1::DemographicsController < ApplicationController
   acts_as_token_authentication_handler_for User, fallback: :none
 
   def index
-    
     if needed_params_present?('state', 'municipality')
       state = State.find_state_by_name(params['state'])
       muni  = state.find_state_municipality(params['municipality'])

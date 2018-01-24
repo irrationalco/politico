@@ -4,7 +4,6 @@ class Api::V1::VotersController < ApplicationController
   before_action :set_current_user_by_token, only: [:index]
 
   # GET /voters
-  # rubocop:disable Metrics/MethodLength
   def index
     # TODO: Encapsulate in a function
     @voters = if @current_user.is_superadmin?
@@ -17,29 +16,27 @@ class Api::V1::VotersController < ApplicationController
 
     @voters = @voters.order(created_at: :desc)
 
-    if params["q"].present?
+    if params['q'].present?
       @q = @voters.ransack(
-            first_name_cont:          params[:q],
-            first_last_name_cont:     params[:q],
-            second_last_name_cont:    params[:q],
-            state_cont:               params[:q],
-            municipality_cont:        params[:q],
-            electoral_code_cont:      params[:q],
-            electoral_id_number_cont: params[:q],
-            m: 'or'
-          )
+        first_name_cont:          params[:q],
+        first_last_name_cont:     params[:q],
+        second_last_name_cont:    params[:q],
+        state_cont:               params[:q],
+        municipality_cont:        params[:q],
+        electoral_code_cont:      params[:q],
+        electoral_id_number_cont: params[:q],
+        m: 'or'
+      )
       @voters = @q.result(distinct: true)
     end
 
-    if params["per_page"].present? && params["page"].present?
-      @voters = @voters.page(params["page"]).per(params["per_page"])
+    if params['per_page'].present? && params['page'].present?
+      @voters = @voters.page(params['page']).per(params['per_page'])
       render json: @voters, meta: { total: @voters.total_pages }
     else
       render json: @voters
     end
-
   end
-  # rubocop:enable Metrics/MethodLength
 
   def file_upload
     begin

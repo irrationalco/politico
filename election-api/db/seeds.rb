@@ -6,14 +6,15 @@ puts "################\nSeeds"
 for i in 0..55
   for j in 0..3000
     Demographic.create(section_code: j, muni_code: i, state_code: 19, district_code: nil,
-      total: Random.rand(5000), year: 2015, hombres: Random.rand(0.0...100.0).round(2), mujeres: Random.rand(0.0...100.0).round(2),
-      hijos: Random.rand(0.5...4).round(2), entidad_nac: Random.rand(0.0...100.0).round(2), entidad_inm: Random.rand(0.0...100.0).round(2),
-      limitacion: Random.rand(0.0...100.0).round(2), analfabetismo: Random.rand(0.0...100.0).round(2),
-      educacion_av: Random.rand(0.0...100.0).round(2), pea: Random.rand(0.0...100.0).round(2),
-      no_serv_salud: Random.rand(0.0...100.0).round(2), matrimonios: Random.rand(0.0...100.0).round(2),
-      hogares: Random.rand(0.0...100.0).round(2), hogares_jefa: Random.rand(0.0...100.0).round(2),
-      hogares_pob: Random.rand(0.0...100.0).round(2), auto:  Random.rand(0.0...100.0).round(2),
-      entidad_mig: Random.rand(0.0...100.0).round(2))
+                       total: Random.rand(5000), year: 2015, hombres: Random.rand(0.0...100.0).round(2),
+                       mujeres: Random.rand(0.0...100.0).round(2), hijos: Random.rand(0.5...4).round(2),
+                       entidad_nac: Random.rand(0.0...100.0).round(2), entidad_inm: Random.rand(0.0...100.0).round(2),
+                       limitacion: Random.rand(0.0...100.0).round(2), analfabetismo: Random.rand(0.0...100.0).round(2),
+                       educacion_av: Random.rand(0.0...100.0).round(2), pea: Random.rand(0.0...100.0).round(2),
+                       no_serv_salud: Random.rand(0.0...100.0).round(2), matrimonios: Random.rand(0.0...100.0).round(2),
+                       hogares: Random.rand(0.0...100.0).round(2), hogares_jefa: Random.rand(0.0...100.0).round(2),
+                       hogares_pob: Random.rand(0.0...100.0).round(2), auto:  Random.rand(0.0...100.0).round(2),
+                       entidad_mig: Random.rand(0.0...100.0).round(2))
   end
 end
 
@@ -21,14 +22,15 @@ end
 for x in 0..20
   for y in 0..3000
     Demographic.create(section_code: y, muni_code: nil, state_code: 19, district_code: x,
-      total: Random.rand(5000), year: 2015, hombres: Random.rand(0.0...100.0).round(2), mujeres: Random.rand(0.0...100.0).round(2),
-      hijos: Random.rand(0.5...4).round(2), entidad_nac: Random.rand(0.0...100.0).round(2), entidad_inm: Random.rand(0.0...100.0).round(2),
-      limitacion: Random.rand(0.0...100.0).round(2), analfabetismo: Random.rand(0.0...100.0).round(2),
-      educacion_av: Random.rand(0.0...100.0).round(2), pea: Random.rand(0.0...100.0).round(2),
-      no_serv_salud: Random.rand(0.0...100.0).round(2), matrimonios: Random.rand(0.0...100.0).round(2),
-      hogares: Random.rand(0.0...100.0).round(2), hogares_jefa: Random.rand(0.0...100.0).round(2),
-      hogares_pob: Random.rand(0.0...100.0).round(2), auto:  Random.rand(0.0...100.0).round(2),
-      entidad_mig: Random.rand(0.0...100.0).round(2))
+                       total: Random.rand(5000), year: 2015, hombres: Random.rand(0.0...100.0).round(2),
+                       mujeres: Random.rand(0.0...100.0).round(2), hijos: Random.rand(0.5...4).round(2),
+                       entidad_nac: Random.rand(0.0...100.0).round(2), entidad_inm: Random.rand(0.0...100.0).round(2),
+                       limitacion: Random.rand(0.0...100.0).round(2), analfabetismo: Random.rand(0.0...100.0).round(2),
+                       educacion_av: Random.rand(0.0...100.0).round(2), pea: Random.rand(0.0...100.0).round(2),
+                       no_serv_salud: Random.rand(0.0...100.0).round(2), matrimonios: Random.rand(0.0...100.0).round(2),
+                       hogares: Random.rand(0.0...100.0).round(2), hogares_jefa: Random.rand(0.0...100.0).round(2),
+                       hogares_pob: Random.rand(0.0...100.0).round(2), auto:  Random.rand(0.0...100.0).round(2),
+                       entidad_mig: Random.rand(0.0...100.0).round(2))
   end
 end
 
@@ -43,36 +45,30 @@ end
 
 ##############################
 # Creando estados y municipios
-puts "Creating states and municipalities..."
+puts 'Creating states and municipalities...'
 t = Time.now
 
-muni_ids = CSV.read("tbl_ids.csv")
+muni_ids = CSV.read('tbl_ids.csv')
 muni_ids.shift
 
 muni_ids.each do |row|
-  row[1] = "Veracruz de Ignacio de la Llave" if row[1] == "Veracruz"
-  row[1] = "Michoacán de Ocampo" if row[1] == "Michoacán"
-  row[1] = "Michoacán de Ocampo" if row[1] == "Michoacán"
-  row[1] = "Coahuila de Zaragoza" if row[1] == "Coahuila"
+  row[1] = 'Veracruz de Ignacio de la Llave' if row[1] == 'Veracruz'
+  row[1] = 'Michoacán de Ocampo' if row[1] == 'Michoacán'
+  row[1] = 'Michoacán de Ocampo' if row[1] == 'Michoacán'
+  row[1] = 'Coahuila de Zaragoza' if row[1] == 'Coahuila'
 
   state = State.find_or_create_by(name: row[1]) do |a_state|
     a_state.state_code = row[0]
   end
 
   muni = Municipality.where(name: row[3]).take
-  if muni == nil
-    muni = Municipality.create({ name: row[3], muni_code: row[2], state_code: row[0] })
-  else
-    if muni.state_code != state.state_code
-      muni = Municipality.create({ name: row[3], muni_code: row[2], state_code: row[0] })
-    else
-      muni = nil
-    end
-  end
+  muni = if muni.nil?
+           Municipality.create(name: row[3], muni_code: row[2], state_code: row[0])
+         elsif muni.state_code != state.state_code
+           Municipality.create(name: row[3], muni_code: row[2], state_code: row[0])
+         end
 
-  unless muni == nil && state.municipalities.exists?(id: muni.id)
-    state.municipalities << muni
-  end
+  state.municipalities << muni unless muni.nil? && state.municipalities.exists?(id: muni.id)
 end
 
 puts "Done munis: #{Time.now - t}s"
@@ -84,10 +80,10 @@ puts "Done munis: #{Time.now - t}s"
 
 ##################################
 # Cargando datos historicos del INE
-puts "Creating projections..."
+puts 'Creating projections...'
 t = Time.now
 
-ine_data = CSV.read("tbl_ine.csv") # tbl_ine_chica.csv / tbl_ine.csv
+ine_data = CSV.read('tbl_ine.csv') # tbl_ine_chica.csv / tbl_ine.csv
 ine_data.shift
 
 ine_data.each do |row|
@@ -116,8 +112,8 @@ ine_data.each do |row|
 
   total = pan + pconv + pes + ph + pmc + pmor + pna + ppm + prd + pri + psd + psm + pt + pvem
 
-  Projection.create(state_code: state_code, muni_code: muni_code, section_code: section_code, district_code: district_code,
-                    nominal_list: nominal_list, year: year, election_type: election_type,
+  Projection.create(state_code: state_code, muni_code: muni_code, section_code: section_code,
+                    district_code: district_code, nominal_list: nominal_list, year: year, election_type: election_type,
                     PAN: pan, PCONV: pconv, PES: pes, PH: ph, PMC: pmc, PMOR: pmor, PNA: pna, PPM: ppm, PRD: prd,
                     PRI: pri, PSD: psd, PSM: psm, PT: pt, PVEM: pvem, total_votes: total)
 end
@@ -132,8 +128,9 @@ puts "Done projections: #{Time.now - t}s"
 # state_data = Projection.select('SUM("PAN") as "PAN", SUM("PCONV") as "PCONV", SUM("PES") as "PES",
 #                                 SUM("PH") as "PH", SUM("PMC") as "PMC", SUM("PMOR") as "PMOR", SUM("PNA") as "PNA",
 #                                 SUM("PPM") as "PPM", SUM("PRD") as "PRD", SUM("PRI") as "PRI", SUM("PSD") as "PSD",
-#                                 SUM("PSM") as "PSM", SUM("PT") as "PT", SUM("PVEM") as "PVEM", SUM("total_votes") as "total_votes",
-#                                 state_code, year, election_type').group(:state_code,:year,:election_type)
+#                                 SUM("PSM") as "PSM", SUM("PT") as "PT", SUM("PVEM") as "PVEM", SUM("total_votes") as
+#                                 "total_votes", state_code, year, election_type')
+#                        .group(:state_code,:year,:election_type)
 #
 # state_data.each do |data|
 #   StateCache.create(state_code: data.state_code, year: data.year, election_type: data.election_type,
@@ -153,18 +150,19 @@ puts "Done projections: #{Time.now - t}s"
 # PAN, PCONV, PDSPPN, PES, PH, PMC, PMOR, PNA, PPM, PRD, PRI, PSD, PSM, PSN, PT, PVEM
 ###########################################################################################################
 
-
 # Creando algunos polls y sections de prueba para las encuestas
-poll = Poll.create(name: "Primer Encuesta", total_sections: 5)
-poll2 = Poll.create(name: "Segunda Encuesta", total_sections: 4)
+poll = Poll.create(name: 'Primer Encuesta', total_sections: 5)
+Poll.create(name: 'Segunda Encuesta', total_sections: 4)
 
-section1 = Section.create(title: "¿Cómo te sientes sobre...?", poll: poll)
-section2 = Section.create(title: "¿Si hoy tuvieras que votar por el presidente, qué tan probable sería que eligieras a...?", poll: poll)
-section3 = Section.create(title: "¿Si hoy tuvieras que votar por Alcalde de Monterrey, qué tan probable sería que eligieras a...?", poll: poll)
-section4 = Section.create(title: "¿Cómo crees que sea su caracter como persona?", poll: poll)
-section5 = Section.create(title: "Un poco sobre ti: ", poll: poll)
+Section.create(title: '¿Cómo te sientes sobre...?', poll: poll)
+Section.create(title: '¿Si hoy tuvieras que votar por el presidente, qué tan probable sería que eligieras a...?',
+               poll: poll)
+Section.create(title: '¿Si hoy tuvieras que votar por Alcalde de Monterrey, qué tan probable sería que eligieras a...?',
+               poll: poll)
+Section.create(title: '¿Cómo crees que sea su caracter como persona?', poll: poll)
+Section.create(title: 'Un poco sobre ti: ', poll: poll)
 
-puts "Done polls"
+puts 'Done polls'
 
 # Creando Voters
 # puts "Creating voters..."

@@ -61,25 +61,23 @@ class Voter < ApplicationRecord
         invalid_rows << row
       end
     end
-    if !invalid_rows.empty?
-      attributes = ['Numero de la credencial de elector', 'Vigencia de la credencial de elector', 'Nombre',
-                    'Apellido Paterno', 'Apellido Materno', 'Sexo', 'Dia de nacimiento', 'Mes de nacimiento',
-                    'Anio de nacimiento', 'Clave de elector', 'curp', 'Seccion Electoral', 'Calle', 'Numero exterior', 'Numero Interior',
-                    'Colonia', 'Clave de la localidad', 'Localidad', 'Clave de municipio', 'Municipio',
-                    'Clave de estado', 'Estado', 'Codigo postal', 'Telefono fijo', 'Telefono celular', 'Correo Electronico',
-                    'Correo electronico alternativo', 'Cuenta Facebook', 'Ultimo Grado de estudios',
-                    'Ocupacion Actual', 'Organizacion a la que pertenece', 'Cargos partidarios que ha tenido', 'Pertenece a la estructura del partido',
-                    'Ha sido candidata(o)', 'Cargo de eleccion popular', 'Año de eleccion', 'Resulto electa(o)', 'Via de eleccion', 'Notas']
+    return nil if invalid_rows.empty? # Guard clause
+    attributes = ['Numero de la credencial de elector', 'Vigencia de la credencial de elector', 'Nombre',
+                  'Apellido Paterno', 'Apellido Materno', 'Sexo', 'Dia de nacimiento', 'Mes de nacimiento',
+                  'Anio de nacimiento', 'Clave de elector', 'curp', 'Seccion Electoral', 'Calle', 'Numero exterior',
+                  'Numero Interior', 'Colonia', 'Clave de la localidad', 'Localidad', 'Clave de municipio', 'Municipio',
+                  'Clave de estado', 'Estado', 'Codigo postal', 'Telefono fijo', 'Telefono celular',
+                  'Correo Electronico', 'Correo electronico alternativo', 'Cuenta Facebook', 'Ultimo Grado de estudios',
+                  'Ocupacion Actual', 'Organizacion a la que pertenece', 'Cargos partidarios que ha tenido',
+                  'Pertenece a la estructura del partido', 'Ha sido candidata(o)', 'Cargo de eleccion popular',
+                  'Año de eleccion', 'Resulto electa(o)', 'Via de eleccion', 'Notas']
 
-      CSV.generate(headers: true) do |csv|
-        csv << attributes
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
 
-        invalid_rows.each do |row|
-          csv << row
-        end
+      invalid_rows.each do |row|
+        csv << row
       end
-    else
-      return nil
     end
   end
 end

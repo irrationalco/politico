@@ -20,7 +20,6 @@ class ApplicationController < ActionController::API
   end
 
   # Utilities
-  
   # Function to make params check more explicit
   def needed_params_present?(*ar_params)
     ar_params.flatten.all? { |e| params[e].present? }
