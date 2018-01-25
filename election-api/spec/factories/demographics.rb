@@ -1,4 +1,4 @@
 FactoryGirl.define do
-  factory :favorite do
+  factory :demographic do
   end
 end

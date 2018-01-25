@@ -1,6 +1,6 @@
 class Api::V1::FavoritesController < ApplicationController
   acts_as_token_authentication_handler_for User, fallback: :none
-  before_action :set_favorite, only: [:show, :update, :destroy]
+  before_action :set_favorite, only: %i[show update destroy]
 
   # GET /favorites
   def index
@@ -40,13 +40,14 @@ class Api::V1::FavoritesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_favorite
-      @favorite = Favorite.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def favorite_params
-      params.fetch(:favorite, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_favorite
+    @favorite = Favorite.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def favorite_params
+    params.fetch(:favorite, {})
+  end
 end

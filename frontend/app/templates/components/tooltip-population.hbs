@@ -1,27 +1,64 @@
-<div class="tooltip-row">
-	<h6 class="tooltip-header">Sección: {{hoveredSection.section_code}} <span class="small-text">{{hoveredSection.population}} Pob. total</span></h6>
-</div>
-<div class="tooltip-row">
-	<table class="table votes-table">
-		<thead class="votes-table-header">
-			<tr>
-				<th>Pob.</th>
-				<th> &lt; 30</th>
-				<th> > 30</th>
-				<th> Fem.</th>
-				<th> Masc.</th>
-			</tr>
-		</thead>
-		<tbody class="votes-table-content">
-			<tr>
-				<td>
-					<span class="tooltip-party">{{hoveredSection.population}}</span>
-				</td>
-				<td class="tooltip-pct">{{less30}}%</td>
-				<td class="tooltip-pct">{{more30}}%</td>
-				<td class="tooltip-pct">{{fem}}%</td>
-				<td class="tooltip-pct">{{masc}}%</td>
-			</tr>
-		</tbody>
-	</table>
+<div class="tooltip-population">
+	<div class="tooltip-row tooltip-header">
+		<h6>Sección: {{hoveredSection.section_code}} <span class="small-text">{{demographics.total}} Pob. total</span></h6>
+	</div>
+	<div class="tooltip-row">
+		<table class="table votes-table">
+			<thead class="votes-table-header">
+				<tr>
+					<th>Hogares</th>
+					<th>Hijos</th>
+					<th>Hombre</th>
+					<th>Mujer</th>
+					<th>PEA</th>
+				</tr>
+			</thead>
+			<tbody class="votes-table-content">
+				<tr>
+					<td class="tooltip-pct">{{demographics.hogares}}</td>
+					<td class="tooltip-pct">{{demographics.hijos}}</td>
+					<td class="tooltip-pct">{{demographics.hombres}}%</td>
+					<td class="tooltip-pct">{{demographics.mujeres}}%</td>
+					<td class="tooltip-pct">{{demographics.pea}}%</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table class="table votes-table">
+			<thead class="votes-table-header">
+				<tr>
+					<th>Matrimonios</th>
+					<th>No IMSS</th>
+					<th>Educación</th>
+					<th>Analfabeta</th>
+				</tr>
+			</thead>
+			<tbody class="votes-table-content">
+				<tr>
+					<td class="tooltip-pct">{{demographics.matrimonios}}%</td>
+					<td class="tooltip-pct">{{demographics.no_serv_salud}}%</td>
+					<td class="tooltip-pct">{{demographics.educacion_av}}%</td>
+					<td class="tooltip-pct">{{demographics.analfabetismo}}%</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table class="table votes-table">
+			<thead class="votes-table-header">
+				<tr>
+					<th>Entidad NAC</th>
+					<th>Entidad INM</th>
+					<th>Entidad MIG</th>
+				</tr>
+			</thead>
+			<tbody class="votes-table-content">
+				<tr>
+					<td class="tooltip-pct">{{demographics.entidad_nac}}%</td>
+					<td class="tooltip-pct">{{demographics.entidad_inm}}%</td>
+					<td class="tooltip-pct">{{demographics.entidad_mig}}%</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
 </div>

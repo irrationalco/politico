@@ -18,142 +18,142 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe ProjectionsController, type: :controller do
-
   # This should return the minimal set of attributes required to create a valid
   # Projection. As you add validations to Projection, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) do
+    skip('Add a hash of attributes valid for your model')
+  end
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) do
+    skip('Add a hash of attributes invalid for your model')
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # ProjectionsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all projections as @projections" do
+  describe 'GET #index' do
+    it 'assigns all projections as @projections' do
       projection = Projection.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(assigns(:projections)).to eq([projection])
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested projection as @projection" do
+  describe 'GET #show' do
+    it 'assigns the requested projection as @projection' do
       projection = Projection.create! valid_attributes
-      get :show, params: {id: projection.to_param}, session: valid_session
+      get :show, params: { id: projection.to_param }, session: valid_session
       expect(assigns(:projection)).to eq(projection)
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new projection as @projection" do
+  describe 'GET #new' do
+    it 'assigns a new projection as @projection' do
       get :new, params: {}, session: valid_session
       expect(assigns(:projection)).to be_a_new(Projection)
     end
   end
 
-  describe "GET #edit" do
-    it "assigns the requested projection as @projection" do
+  describe 'GET #edit' do
+    it 'assigns the requested projection as @projection' do
       projection = Projection.create! valid_attributes
-      get :edit, params: {id: projection.to_param}, session: valid_session
+      get :edit, params: { id: projection.to_param }, session: valid_session
       expect(assigns(:projection)).to eq(projection)
     end
   end
 
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Projection" do
-        expect {
-          post :create, params: {projection: valid_attributes}, session: valid_session
-        }.to change(Projection, :count).by(1)
+  describe 'POST #create' do
+    context 'with valid params' do
+      it 'creates a new Projection' do
+        expect do
+          post :create, params: { projection: valid_attributes }, session: valid_session
+        end.to change(Projection, :count).by(1)
       end
 
-      it "assigns a newly created projection as @projection" do
-        post :create, params: {projection: valid_attributes}, session: valid_session
+      it 'assigns a newly created projection as @projection' do
+        post :create, params: { projection: valid_attributes }, session: valid_session
         expect(assigns(:projection)).to be_a(Projection)
         expect(assigns(:projection)).to be_persisted
       end
 
-      it "redirects to the created projection" do
-        post :create, params: {projection: valid_attributes}, session: valid_session
+      it 'redirects to the created projection' do
+        post :create, params: { projection: valid_attributes }, session: valid_session
         expect(response).to redirect_to(Projection.last)
       end
     end
 
-    context "with invalid params" do
-      it "assigns a newly created but unsaved projection as @projection" do
-        post :create, params: {projection: invalid_attributes}, session: valid_session
+    context 'with invalid params' do
+      it 'assigns a newly created but unsaved projection as @projection' do
+        post :create, params: { projection: invalid_attributes }, session: valid_session
         expect(assigns(:projection)).to be_a_new(Projection)
       end
 
       it "re-renders the 'new' template" do
-        post :create, params: {projection: invalid_attributes}, session: valid_session
-        expect(response).to render_template("new")
+        post :create, params: { projection: invalid_attributes }, session: valid_session
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested projection" do
-        projection = Projection.create! valid_attributes
-        put :update, params: {id: projection.to_param, projection: new_attributes}, session: valid_session
-        projection.reload
-        skip("Add assertions for updated state")
+  describe 'PUT #update' do
+    context 'with valid params' do
+      let(:new_attributes) do
+        skip('Add a hash of attributes valid for your model')
       end
 
-      it "assigns the requested projection as @projection" do
+      it 'updates the requested projection' do
         projection = Projection.create! valid_attributes
-        put :update, params: {id: projection.to_param, projection: valid_attributes}, session: valid_session
+        put :update, params: { id: projection.to_param, projection: new_attributes }, session: valid_session
+        projection.reload
+        skip('Add assertions for updated state')
+      end
+
+      it 'assigns the requested projection as @projection' do
+        projection = Projection.create! valid_attributes
+        put :update, params: { id: projection.to_param, projection: valid_attributes }, session: valid_session
         expect(assigns(:projection)).to eq(projection)
       end
 
-      it "redirects to the projection" do
+      it 'redirects to the projection' do
         projection = Projection.create! valid_attributes
-        put :update, params: {id: projection.to_param, projection: valid_attributes}, session: valid_session
+        put :update, params: { id: projection.to_param, projection: valid_attributes }, session: valid_session
         expect(response).to redirect_to(projection)
       end
     end
 
-    context "with invalid params" do
-      it "assigns the projection as @projection" do
+    context 'with invalid params' do
+      it 'assigns the projection as @projection' do
         projection = Projection.create! valid_attributes
-        put :update, params: {id: projection.to_param, projection: invalid_attributes}, session: valid_session
+        put :update, params: { id: projection.to_param, projection: invalid_attributes }, session: valid_session
         expect(assigns(:projection)).to eq(projection)
       end
 
       it "re-renders the 'edit' template" do
         projection = Projection.create! valid_attributes
-        put :update, params: {id: projection.to_param, projection: invalid_attributes}, session: valid_session
-        expect(response).to render_template("edit")
+        put :update, params: { id: projection.to_param, projection: invalid_attributes }, session: valid_session
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested projection" do
+  describe 'DELETE #destroy' do
+    it 'destroys the requested projection' do
       projection = Projection.create! valid_attributes
-      expect {
-        delete :destroy, params: {id: projection.to_param}, session: valid_session
-      }.to change(Projection, :count).by(-1)
+      expect do
+        delete :destroy, params: { id: projection.to_param }, session: valid_session
+      end.to change(Projection, :count).by(-1)
     end
 
-    it "redirects to the projections list" do
+    it 'redirects to the projections list' do
       projection = Projection.create! valid_attributes
-      delete :destroy, params: {id: projection.to_param}, session: valid_session
+      delete :destroy, params: { id: projection.to_param }, session: valid_session
       expect(response).to redirect_to(projections_url)
     end
   end
-
 end
+# rubocop:enable Metrics/BlockLength
