@@ -49,3 +49,6 @@ Lint/UnusedBlockArgument:
 
 Style/FormatStringToken:
   Enabled: false
+
+Style/Lambda:
+  Enabled: false
