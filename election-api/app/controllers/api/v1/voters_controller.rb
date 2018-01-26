@@ -87,46 +87,55 @@ class Api::V1::VotersController < ApplicationController
   def dashboard
     result = nil
     if params['chart'].present?
+      if !params['capturist'].present?
+        params['capturist'] = ''
+      end
+      all_args = [params['state'], params['muni'], params['section'], params['capturist']]
     case params['chart']
     when 'gender'
-        result = gender_chart params['state'], params['muni'], params['section']
+        result = gender_chart *all_args
     when 'date_of_birth'
-        result = date_of_birth_chart params['state'], params['muni'], params['section']
+        result = date_of_birth_chart *all_args
     when 'ed_level'
-        result = education_level_chart params['state'], params['muni'], params['section']
+        result = education_level_chart *all_args
     when 'added_day'
-        result = added_by_day_chart params['state'], params['muni'], params['section']
+        result = added_by_day_chart *all_args
     when 'added_week'
-        result = added_by_week_chart params['state'], params['muni'], params['section']
+        result = added_by_week_chart *all_args
     when 'added_month'
-        result = added_by_month_chart params['state'], params['muni'], params['section']
+        result = added_by_month_chart *all_args
       when 'ocupation'
-        result = ocupation_chart params['state'], params['muni'], params['section']
+        result = ocupation_chart *all_args
       when 'party'
-        result = party_chart params['state'], params['muni'], params['section']
+        result = party_chart *all_args
       when 'state'
-        result = state_chart
+        result = state_chart params['capturist']
       when 'email'
-        result = email_chart params['state'], params['muni'], params['section']
+        result = email_chart *all_args
       when 'phone'
-        result = phone_chart params['state'], params['muni'], params['section']
+        result = phone_chart *all_args
       when 'facebook'
-        result = facebook_chart params['state'], params['muni'], params['section']
+        result = facebook_chart *all_args
       when 'municipality'
-        result = municipality_chart params['state']
+        result = municipality_chart params['state'], params['capturist']
       when 'section'
-        result = section_chart params['state'], params['municipality']
+        result = section_chart params['state'], params['muni'], params['capturist']
       end
     elsif params['info'].present?
+      if !params['capturist'].present?
+        params['capturist'] = ''
+      end
       case params['info']
       when 'total'
-        result = total_info params['state'], params['muni'], params['section']
-      when 'states'
-        result = states_info
+        result = total_info params['state'], params['muni'], params['section'], params['capturist']
+      when 'geo_data'
+        result = geo_data_info params['capturist']
       when 'municipalities'
-        result = municipality_info params['state']
+        result = municipality_info params['state'], params['capturist']
       when 'sections'
-        result = section_info params['state'], params['muni']
+        result = section_info params['state'], params['muni'], params['capturist']
+      when 'capturists'
+        result = capturist_info
       end
     end
     if result.nil?
@@ -148,88 +157,102 @@ class Api::V1::VotersController < ApplicationController
     ActiveModelSerializers::Deserialization.jsonapi_parse(params)
   end
 
-    def gender_chart state, muni, section
-      res = Voter.filtered(@current_user.id, state, muni, section).where.not(gender: nil).group(:gender).count
+    def gender_chart state, muni, section, capturist
+      res = Voter.filtered(@current_user, state, muni, section, capturist).where.not(gender: nil).group(:gender).count
       return res if res.empty?
       res = {"Hombres": res['H'] || 0, "Mujeres": res['M'] || 0}
     end
 
-    def date_of_birth_chart state, muni, section
-      res = Voter.filtered(@current_user.id, state, muni, section).group_by_year(:date_of_birth).count
+    def date_of_birth_chart state, muni, section, capturist
+      res = Voter.filtered(@current_user, state, muni, section, capturist).group_by_year(:date_of_birth).count
     end
 
-    def education_level_chart state, muni, section
-      res = Voter.filtered(@current_user.id, state, muni, section).where.not(highest_educational_level: nil).group(:highest_educational_level).count
+    def education_level_chart state, muni, section, capturist
+      res = Voter.filtered(@current_user, state, muni, section, capturist).where.not(highest_educational_level: nil).group(:highest_educational_level).count
     end
 
-    def added_by_day_chart state, muni, section
-      res = Voter.filtered(@current_user.id, state, muni, section).group_by_day(:created_at, last: 62).count
+    def added_by_day_chart state, muni, section, capturist
+      res = Voter.filtered(@current_user, state, muni, section, capturist).group_by_day(:created_at, last: 62).count
     end
 
-    def added_by_week_chart state, muni, section
-      res = Voter.filtered(@current_user.id, state, muni, section).group_by_week(:created_at, last: 52).count
+    def added_by_week_chart state, muni, section, capturist
+      res = Voter.filtered(@current_user, state, muni, section, capturist).group_by_week(:created_at, last: 52).count
     end
 
-    def added_by_month_chart state, muni, section
-      res = Voter.filtered(@current_user.id, state, muni, section).group_by_month(:created_at, last: 36).count
+    def added_by_month_chart state, muni, section, capturist
+      res = Voter.filtered(@current_user, state, muni, section, capturist).group_by_month(:created_at, last: 36).count
     end
 
-    def ocupation_chart state, muni, section
-      res = Voter.filtered(@current_user.id, state, muni, section).where.not(current_ocupation: nil).group(:current_ocupation).count
+    def ocupation_chart state, muni, section, capturist
+      res = Voter.filtered(@current_user, state, muni, section, capturist).where.not(current_ocupation: nil).group(:current_ocupation).count
     end
 
-    def party_chart state, muni, section
-      res = Voter.filtered(@current_user.id, state, muni, section).where.not(is_part_of_party: nil).group(:is_part_of_party).count
+    def party_chart state, muni, section, capturist
+      res = Voter.filtered(@current_user, state, muni, section, capturist).where.not(is_part_of_party: nil).group(:is_part_of_party).count
       return res if res.empty?
       res = {"Si": res[true] || 0, "No": res[false] || 0}
     end
 
-    def state_chart
-      res = Voter.where(user_id: @current_user.id).where.not(state: nil).group(:state).count
+    def state_chart capturist = ''
+      res = Voter.filtered(@current_user,'','','',capturist).where.not(state: nil).group(:state).count
     end
 
-    def municipality_chart state
-      res = Voter.where(user_id: @current_user.id).where(state_code: state).where.not(municipality: nil).group(:municipality).count
+    def municipality_chart state, capturist = ''
+      res = Voter.filtered(@current_user, state,'','',capturist).where.not(municipality: nil).group(:municipality).count
     end
 
-    def section_chart state, muni
-      res = Voter.where(user_id: @current_user.id).where(state_code: state).where(municipality: muni).where.not(section: nil).group(:section).count
+    def section_chart state, muni, capturist = ''
+      res = Voter.filtered(@current_user, state, muni,'',capturist).where.not(section: nil).group(:section).count
       result = {}
       res.each {|k,v| result[k.to_i]=v}
       return result
     end
 
-    def email_chart state, muni, section
-      res = Voter.filtered(@current_user.id, state, muni, section).where.not(email: nil).count
-      res = {"Si": res || 0, "No": Voter.filtered(@current_user.id, state, muni, section).count - res || 0}
+    def email_chart state, muni, section, capturist
+      res = Voter.filtered(@current_user, state, muni, section, capturist).where.not(email: nil).count
+      res = {"Si": res || 0, "No": Voter.filtered(@current_user, state, muni, section, capturist).count - res || 0}
     end
 
-    def phone_chart state, muni, section 
-      res = Voter.filtered(@current_user.id, state, muni, section).where("NOT (home_phone IS NULL OR mobile_phone IS NULL)").count
-      res = {"Si": res || 0, "No": Voter.filtered(@current_user.id, state, muni, section).count - res || 0}
+    def phone_chart state, muni, section, capturist 
+      res = Voter.filtered(@current_user, state, muni, section, capturist).where("NOT (home_phone IS NULL OR mobile_phone IS NULL)").count
+      res = {"Si": res || 0, "No": Voter.filtered(@current_user, state, muni, section, capturist).count - res || 0}
     end
 
-    def facebook_chart state, muni, section
-      res = Voter.filtered(@current_user.id, state, muni, section).where.not(facebook_account: nil).count
-      res = {"Si": res || 0, "No": Voter.filtered(@current_user.id, state, muni, section).count - res || 0}
+    def facebook_chart state, muni, section, capturist
+      res = Voter.filtered(@current_user, state, muni, section, capturist).where.not(facebook_account: nil).count
+      res = {"Si": res || 0, "No": Voter.filtered(@current_user, state, muni, section, capturist).count - res || 0}
     end
 
-    def total_info state, muni, section
-      res = Voter.filtered(@current_user.id, state, muni, section).count
+    def total_info state, muni, section, capturist
+      res = Voter.filtered(@current_user, state, muni, section, capturist).count
     end
 
-    def states_info
-      res = Voter.where(user_id: @current_user.id).distinct.pluck(:state, :state_code)
-      res.map {|st| {name: st[0], id: st[1].to_i}}
+    def geo_data_info capturist = ''
+      res = Voter.filtered(@current_user,'','','',capturist).distinct.pluck(:state, :state_code)
+      res.map {|st| {name: st[0], 
+                        id: st[1].to_i, 
+                        activeMunis: municipality_info(st[1].to_s, capturist)}}
     end
 
-    def municipality_info state
-      res = Voter.where(user_id: @current_user.id).where(state_code: state).distinct.pluck(:municipality)
+    def municipality_info state, capturist = ''
+      res = Voter.filtered(@current_user, state,'','',capturist).distinct.pluck(:municipality)
+      res.map {|mn| {name: mn, 
+                        activeSections: section_info(state, mn, capturist)}}
     end
 
     #TODO: use municipality id instead of the actual text
-    def section_info state, municipality
-      res = Voter.where(user_id: @current_user.id).where(state_code: state).where(municipality: municipality).distinct.pluck(:section)
+    def section_info state, municipality, capturist = ''
+      res = Voter.filtered(@current_user, state, municipality,'',capturist).distinct.pluck(:section)
       res.map {|section| section.to_i}
+    end
+
+    def capturist_info
+      if !(@current_user.is_superadmin? || @current_user.is_manager?)
+        return nil
+      end
+      res = User.where(suborganization_id: @current_user.suborganization_id).pluck(:id, :first_name, :last_name)
+      res.map {|user| {id: user[0].to_i, 
+                          name: "#{user[1]} #{user[2]}",
+                          activeStates: geo_data_info(user[0].to_s)}}
     end
 end

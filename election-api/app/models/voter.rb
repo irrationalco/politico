@@ -3,8 +3,13 @@ class Voter < ApplicationRecord
   belongs_to :user
   belongs_to :suborganization
 
-  scope :filtered, -> (user_id, state_code, muni, section) {
-    res = where(user_id: user_id)
+  scope :filtered, -> (user, state_code='', muni='', section='', capturist_id='') {
+    res = nil
+    if user.is_superadmin? || user.is_manager?
+      res = where(suborganization_id: user.suborganization_id)
+    else
+      res = where(user_id: user.id)
+    end
     if !state_code.empty?
       res = res.where(state_code: state_code)
     end
@@ -13,6 +18,9 @@ class Voter < ApplicationRecord
     end
     if !section.empty?
       res = res.where(section: section)
+    end
+    if !capturist_id.empty?
+      res = res.where(user_id: capturist_id)
     end
     return res
   }

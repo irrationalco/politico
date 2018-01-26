@@ -18,13 +18,8 @@ export default Ember.Component.extend({
       this.set('selectedMunicipality', null);
       this.set('selectedSection', null);
       if (selection && selection.id) {
-        this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
-          this.get('getMunicipalities').perform(headerName, headerValue);
-        });
+        this.set('municipalities', selection.activeMunis);
       } else {
-        if (!this.get('municipalities').length) {
-          return;
-        }
         this.set('municipalities', []);
       }
     },
@@ -32,13 +27,8 @@ export default Ember.Component.extend({
       this.set('selectedMunicipality', selection);
       this.set('selectedSection', null);
       if (selection) {
-        this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
-          this.get('getSections').perform(headerName, headerValue);
-        });
+        this.set('sections', selection.activeSections);
       } else {
-        if (!this.get('sections').length) {
-          return;
-        }
         this.set('sections', []);
       }
     },
@@ -47,15 +37,25 @@ export default Ember.Component.extend({
     }
   },
 
-  loadingStates: false,
+  //region geoData
+
+  loadingGeoData: false,
 
   states: [],
 
   selectedState: null,
 
-  getStates: task(function* (headerName, headerValue) {
+  municipalities: [],
+
+  selectedMunicipality: null,
+
+  sections: [],
+
+  selectedSection: null,
+
+  getGeoData: task(function* (headerName, headerValue) {
     try {
-      this.set('loadingStates', true);
+      this.set('loadingGeoData', true);
       let result = yield this.get('ajax').request(config.localhost + '/api/ine/dashboard', {
         accepts: {
           json: 'application/json'
@@ -64,7 +64,7 @@ export default Ember.Component.extend({
           [headerName]: headerValue
         },
         data: {
-          info: 'states'
+          info: 'geo_data'
         }
       });
       if (result) {
@@ -73,75 +73,11 @@ export default Ember.Component.extend({
     } catch (err) {
       console.log(err)
     } finally {
-      this.set('loadingStates', false);
+      this.set('loadingGeoData', false);
     }
   }),
 
-  loadingMunis: false,
-
-  municipalities: [],
-
-  selectedMunicipality: null,
-
-  getMunicipalities: task(function* (headerName, headerValue) {
-    try {
-      this.set('loadingMunis', true);
-      let state = this.get('selectedState');
-      let result = yield this.get('ajax').request(config.localhost + '/api/ine/dashboard', {
-        accepts: {
-          json: 'application/json'
-        },
-        headers: {
-          [headerName]: headerValue
-        },
-        data: {
-          info: 'municipalities',
-          state: state.id
-        }
-      });
-      if (result) {
-        this.set('municipalities', result);
-      }
-    } catch (err) {
-      console.log(err)
-    } finally {
-      this.set('loadingMunis', false);
-    }
-  }),
-
-  loadingSections: false,
-
-  sections: [],
-
-  selectedSection: null,
-
-  getSections: task(function* (headerName, headerValue) {
-    try {
-      this.set('loadingSections', true);
-      let state = this.get('selectedState');
-      let municipality = this.get('selectedMunicipality');
-      let result = yield this.get('ajax').request(config.localhost + '/api/ine/dashboard', {
-        accepts: {
-          json: 'application/json'
-        },
-        headers: {
-          [headerName]: headerValue
-        },
-        data: {
-          info: 'sections',
-          state: state.id,
-          muni: municipality
-        }
-      });
-      if (result) {
-        this.set('sections', result);
-      }
-    } catch (err) {
-      console.log(err)
-    } finally {
-      this.set('loadingSections', false);
-    }
-  }),
+  //endregion
 
   timeGraphOptions: {
     points: false,
@@ -156,15 +92,19 @@ export default Ember.Component.extend({
     }
   },
 
+  //region querys
+
   queryFilters: Ember.computed('{selectedState,selectedMunicipality,selectedSection}', function () {
     let state = this.get('selectedState') || {
       id: ''
     };
-    let muni = this.get('selectedMunicipality') || '';
+    let muni = this.get('selectedMunicipality') || {
+      name: ''
+    };
     let section = this.get('selectedSection') || '';
     return {
       state: state.id,
-      muni: muni,
+      muni: muni.name,
       section: section
     };
   }),
@@ -246,30 +186,25 @@ export default Ember.Component.extend({
     }, filters);
   }),
 
-  stateQuery: {
-    chart: 'state'
-  },
-
-  municipalityQuery: Ember.computed('selectedState', function () {
-    let state = this.get('selectedState') || {
-      id: null
-    };
-    return {
-      chart: 'municipality',
-      state: state.id
-    };
+  stateQuery: Ember.computed('queryFilters', function () {
+    let filters = this.get('queryFilters');
+    return Object.assign({
+      chart: 'state'
+    }, filters);
   }),
 
-  sectionQuery: Ember.computed('selectedMunicipality', function () {
-    let state = this.get('selectedState') || {
-      id: null
-    };
-    let muni = this.get('selectedMunicipality') || '';
-    return {
-      chart: 'section',
-      state: state.id,
-      municipality: muni
-    };
+  municipalityQuery: Ember.computed('queryFilters', function () {
+    let filters = this.get('queryFilters');
+    return Object.assign({
+      chart: 'municipality'
+    }, filters);
+  }),
+
+  sectionQuery: Ember.computed('queryFilters', function () {
+    let filters = this.get('queryFilters');
+    return Object.assign({
+      chart: 'section'
+    }, filters);
   }),
 
   totalQuery: Ember.computed('queryFilters', function () {
@@ -279,10 +214,12 @@ export default Ember.Component.extend({
     }, filters);
   }),
 
+  //endregion
+
   init() {
     this._super(...arguments);
     this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
-      this.get('getStates').perform(headerName, headerValue);
+      this.get('getGeoData').perform(headerName, headerValue);
     });
   }
 });
