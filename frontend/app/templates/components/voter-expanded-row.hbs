@@ -24,16 +24,29 @@
 				<p class="address">Colonia: {{voter.suburb}} </p>
 				<p class="address">C.P: {{voter.postal_code}}</p>
 				<p class="address">{{voter.state}}, {{voter.municipality}}</p>
-			{{/if}}
-
-			{{#if voter.is_part_of_party}}
-				<p><b>{{if voter.is_part_of_party "Sí" "No"}}</b> pertenece al partido.</p>
-				<p>Organización: {{if voter.organization voter.organization "N/A"}} </p>		
+				<p>Pertenece al partido: <b>{{if voter.is_part_of_party "Sí" "No"}}</b></p>
 			{{/if}}
 		</div>
 	</div>
 
-	<div class="col-xs-12 voter-details-container">
+	{{#if voter.is_part_of_party}}
+		<div class="col-xs-12 col-md-6 voter-details-container">
+			<div>
+				<h2>Información de partido</h2>
+				<p>Organización: {{voter.organization}}</p>
+				<p>Cargos partidarios: {{voter.party_positions_held}}</p>
+				<p>Ha sido candidato: <b>{{if voter.has_been_candidate "Sí" "No"}}</b></p>
+				{{#if voter.has_been_candidate}}
+					<p><b>{{if voter.won_election "Ganó" "Perdió"}}</b> la elección.</p>
+					<p>Año de candidatura: {{voter.election_year}}</p>
+					<p>Posición: {{voter.popular_election_position}}</p>
+					<p>Vía de elección: {{voter.election_route}}</p>
+				{{/if}}
+			</div>
+		</div>
+	{{/if}}
+	
+	<div class="col-xs-12 {{if voter.is_part_of_party "col-md-6"}} voter-details-container">
 		<div>
 			<h2>Notas</h2>
 			<p>{{voter.notes}}</p>
