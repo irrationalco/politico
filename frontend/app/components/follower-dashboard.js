@@ -19,6 +19,9 @@ export default Ember.Component.extend({
       this.set('selectedSection', null);
       if (selection && selection.id) {
         this.set('municipalities', selection.activeMunis);
+        if (selection.activeMunis.length === 1) {
+          this.send('municipalitySelect', selection.activeMunis[0]);
+        }
       } else {
         this.set('municipalities', []);
       }
@@ -28,6 +31,9 @@ export default Ember.Component.extend({
       this.set('selectedSection', null);
       if (selection) {
         this.set('sections', selection.activeSections);
+        if (selection.activeSections.length === 1) {
+          this.send('sectionSelect', selection.activeSections[0]);
+        }
       } else {
         this.set('sections', []);
       }
@@ -69,6 +75,9 @@ export default Ember.Component.extend({
       });
       if (result) {
         this.set('states', result);
+        if (result.length === 1) {
+          this.send('stateSelect', states[0]);
+        }
       }
     } catch (err) {
       console.log(err)

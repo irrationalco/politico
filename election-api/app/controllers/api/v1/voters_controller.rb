@@ -253,6 +253,21 @@ class Api::V1::VotersController < ApplicationController
       res = User.where(suborganization_id: @current_user.suborganization_id).pluck(:id, :first_name, :last_name)
       res.map {|user| {id: user[0].to_i, 
                           name: "#{user[1]} #{user[2]}",
-                          activeStates: geo_data_info(user[0].to_s)}}
+                          activeStates: deepArrayToHash(geo_data_info(user[0].to_s),[:id,:name,nil],[:activeMunis,:activeSections], 0, 2)}}
+    end
+
+    def deepArrayToHash arr, keys, recKeys, depth, maxDepth
+      res = {}
+      if keys[depth].nil?
+        arr.each {|x| res[x] = true }
+        return res
+      end
+      arr.each do |x|
+        if depth < maxDepth
+          x[recKeys[depth]] = deepArrayToHash(x[recKeys[depth]], keys, recKeys, depth+1, maxDepth)
+        end
+        res[x[keys[depth]]] = x
+      end
+      return res
     end
 end

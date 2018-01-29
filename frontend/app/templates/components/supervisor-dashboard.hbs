@@ -1,23 +1,4 @@
 <div class="dashboard-controls manager-dashboard">
-    {{#if loadingSupervisors}}
-        <i class="fa fa-spinner fa-pulse fa-3x fa-fw" 
-            style="justify-self: center;align-self: center;" />
-    {{else}}
-        <div>
-            <p>Supervisor:</p>
-            {{#power-select
-            options=supervisors
-            placeholder="Selecciona un supervisor para filtrar"
-            onchange=(action "supervisorSelect")
-            selected=selectedSupervisor
-            allowClear=true
-            noMatchesMessage="No hay datos"
-            loadingMessage="Cargando..."
-            as |supv|}}
-                {{supv.name}}
-            {{/power-select}}
-        </div>
-    {{/if}}
     {{#if loadingCapturists}}
         <i class="fa fa-spinner fa-pulse fa-3x fa-fw" 
             style="justify-self: center;align-self: center;" />
@@ -25,7 +6,7 @@
         <div>
             <p>Capturista:</p>
             {{#power-select
-            options=capturists
+            options=activeCapturists
             placeholder="Selecciona un capturista para filtrar"
             onchange=(action "capturistSelect")
             selected=selectedCapturist
@@ -37,6 +18,8 @@
             {{/power-select}}
         </div>
     {{/if}}
+    <div></div>
+    <div></div>
     {{#if loadingGeoData}}
         <i class="fa fa-spinner fa-pulse fa-3x fa-fw" 
             style="justify-self: center;align-self: center;" />
@@ -44,7 +27,7 @@
         <div>
             <p>Estado:</p>
             {{#power-select
-            options=states
+            options=activeStates
             placeholder="Selecciona un estado para filtrar"
             onchange=(action "stateSelect")
             selected=selectedState

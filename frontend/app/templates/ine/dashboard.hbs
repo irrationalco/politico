@@ -1,7 +1,7 @@
-{{!-- {{#if session.capturist}}
-    {{capturist-dashboard}}
-{{else}}
+{{#if session.capturist}}
+    {{follower-dashboard}}
+{{else if session.supervisor}}
+    {{supervisor-dashboard}}
+{{else if (or session.manager session.superadmin)}}
     {{manager-dashboard}}
-{{/if}} --}}
-
-{{capturist-dashboard}}
+{{/if}}
