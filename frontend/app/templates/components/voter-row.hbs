@@ -1,22 +1,15 @@
 <tr {{action 'expand'}} valign="middle">
-
 	<td>{{voter.electoral_id_number}}</td>
-
 	<td>{{voter.first_name}}</td>
 	<td>{{voter.first_last_name}}</td>
 	<td>{{voter.second_last_name}}</td>
 	<td>{{voter.state}}</td>
-	<td>{{voter.municipality}}</td>
-
-	<td>
-		{{link-to "Editar" "ine.voter-edit" voter class="btn btn-edit"}}
-	</td>
+	<td>{{link-to "Editar" "ine.voter-edit" voter class="btn btn-edit"}}</td>
 	<td><button {{action 'delete' voter.id}} class="btn btn-danger">Borrar</button></td>
 </tr>
 
-
 <tr>
-	<td class="{{"no-border no-padding" unless showExpanded}}" colspan="8">
+	<td class="{{"no-border no-padding" unless showExpanded}}" colspan="7">
 	{{#liquid-if showExpanded class="expandedVoter"}}
 		{{#click-outside action=(action "close")}}
 			{{voter-expanded-row voter=voter}}
