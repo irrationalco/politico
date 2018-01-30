@@ -12,7 +12,7 @@ Metrics/LineLength:
   Max: 120
 
 Metrics/MethodLength:
-  Max: 15
+  Enabled: false
 
 Metrics/BlockLength:
   Max: 50
@@ -33,4 +33,22 @@ Style/BlockComments:
   Enabled: false
 
 Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/For:
+  Enabled: false
+
+Style/RedundantReturn:
+  Enabled: false
+
+Layout/MultilineBlockLayout:
+  Enabled: false
+
+Lint/UnusedBlockArgument:
+  Enabled: false
+
+Style/FormatStringToken:
+  Enabled: false
+
+Style/Lambda:
   Enabled: false

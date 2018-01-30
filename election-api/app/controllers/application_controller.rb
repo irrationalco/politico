@@ -18,4 +18,10 @@ class ApplicationController < ActionController::API
     set_current_user_by_token
     render json: {}, status: 401 unless @current_user.is_superadmin? || @current_user.is_manager?
   end
+
+  # Utilities
+  # Function to make params check more explicit
+  def needed_params_present?(*ar_params)
+    ar_params.flatten.all? { |e| params[e].present? }
+  end
 end

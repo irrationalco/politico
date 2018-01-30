@@ -10,10 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171120020543) do
+ActiveRecord::Schema.define(version: 20180112030633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "TestTable", force: :cascade do |t|
+  end
+
+  create_table "demographics", force: :cascade do |t|
+    t.integer  "section_code"
+    t.integer  "muni_code"
+    t.integer  "state_code"
+    t.integer  "district_code"
+    t.integer  "total"
+    t.integer  "year"
+    t.float    "hombres"
+    t.float    "hijos"
+    t.float    "entidad_nac"
+    t.float    "entidad_inm"
+    t.float    "limitacion"
+    t.float    "analfabetismo"
+    t.float    "educacion_av"
+    t.float    "pea"
+    t.float    "no_serv_salud"
+    t.float    "matrimonios"
+    t.float    "hogares"
+    t.float    "hogares_jefa"
+    t.float    "hogares_pob"
+    t.float    "auto"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.float    "entidad_mig"
+    t.float    "mujeres"
+  end
 
   create_table "favorites", force: :cascade do |t|
     t.integer  "user_id"

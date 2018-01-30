@@ -2,11 +2,12 @@
 @import 'layout/sidebar';
 @import 'general/helpers';
 @import 'general/test';
+@import 'general/map-keys';
+@import 'general/tooltips';
 @import 'app/projections';
 @import 'app/parties-selection';
 @import 'general/polls';
 @import 'general/login';
-
 @import "ember-power-select";
 @import 'general/searchbar';
 @import 'general/admin';

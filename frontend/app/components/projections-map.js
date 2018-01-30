@@ -12,17 +12,13 @@ export default Ember.Component.extend({
 	store: 					 Ember.inject.service(),
 	cartography: 		 Ember.inject.service(),
 
-	selectedParties: Ember.computed.oneWay("partiesManager.selectedParties"),
-
-	states: 				 Ember.computed.oneWay('cartography.states'),
-
-	municipalities:  			 Ember.computed.oneWay('cartography.municipalities'),
-	municipalitiesBorders: Ember.computed.oneWay('cartography.municipalitiesBorders'),
-
+	selectedParties: 				 Ember.computed.oneWay("partiesManager.selectedParties"),
+	states: 				 				 Ember.computed.oneWay('cartography.states'),
+	municipalities:  			 	 Ember.computed.oneWay('cartography.municipalities'),
+	municipalitiesBorders: 	 Ember.computed.oneWay('cartography.municipalitiesBorders'),
 	federalDistricts: 			 Ember.computed.oneWay('cartography.federalDistricts'),
 	federalDistrictsBorders: Ember.computed.oneWay('cartography.federalDistrictsBorders'),
-
-	sections: Ember.computed.oneWay('cartography.sections'),
+	sections: 							 Ember.computed.oneWay('cartography.sections'),
 
 	scaleExtent: 	[1 << 11, 1 << 26.5],
 
@@ -44,10 +40,8 @@ export default Ember.Component.extend({
 			.domain([100, 1000, 2000, 3000])
 			.range(d3ScaleChromatic.schemeReds[5]),
 
-	width: null,
-
+	width: 	null,
 	height: null,
-
 	active: null,
 
 	// Map projection
@@ -73,12 +67,10 @@ export default Ember.Component.extend({
 
 	svg: 					 	 null,
 
+	// SVG Layers that make up the map
 	statesLayer:	 	 null,
-
 	muniLayer: 	 	 	 null,
-
 	sectionsLayer: 	 null,
-
 	imageLayer: 	 	 null,
 
 	currState: 		 	 null,
@@ -87,13 +79,12 @@ export default Ember.Component.extend({
 	currSection: 		 null,
 
 	currDataType: 	 "votes",
-
 	hoveredSection:  null,
-
 	stateCode: 			 null,
 	muniCode: 			 null,
 	fedDistrictCode: null,
 
+	// Map cursor tooltip
 	tooltip: 				 null,
 
 	didUpdateAttrs() {
@@ -298,73 +289,63 @@ export default Ember.Component.extend({
 		}
 	},
 
+	paintSectionNormally(sectionCode) {
+		let section = this.get('model').findBy('sectionCode', sectionCode);
+
+		if(this.get('dataType') === 'votes') {
+			return isEmpty(section) ? 'transparent' : this.get('partiesManager').getColor(section);
+		} else {
+			return this.get('fillPopulation')(section.get('total'));
+		}
+	},
+
+	paintSectionComparison(sectionCode) {
+		let section = this.get('model').findBy('sectionCode', sectionCode);
+
+		if(this.get('dataType') === 'votes') {
+			if(isEmpty(section)) {
+				return 'transparent';
+			} else {
+				let parties = this.get('partiesManager').computeComparison(s);
+				let color = this.get('partiesManager').getComparisonColor(parties, s);
+				return color['hex']; 
+			}
+		} else {
+			return this.get('fillPopulation')(section.get('total'));
+		}
+	},
+
 	paintComparison() {
 		let emberContext = this;
 		this.set('tooltip', d3.select('#tooltip-map'));
 
 		this.get('sectionsLayer').selectAll("path")
-			.style("fill", function(d) {
-
-				if (emberContext.get('dataType') === 'votes') {
-					let s = emberContext.get('sectionsData')
-							.findBy('sectionCode', d.properties.section_code);
-
-					if (isEmpty(s)) {
-						return "transparent";
-					} else {
-						let parties = emberContext.get('partiesManager').computeComparison(s);
-						let color = emberContext.get('partiesManager').getComparisonColor(parties, s);
-						return color["hex"];
-					}
-
-				} else {
-					return emberContext.get('fillPopulation')(d.properties.population);
-				}
+			.style("fill", function(sectionCarto) {
+				return emberContext.paintSectionComparison(sectionCarto.properties.section_code);
 			})
-			.style("stroke", function(d) {
-
-				if (emberContext.get('dataType') === 'votes') {
-					let s = emberContext.get('sectionsData')
-							.findBy('sectionCode', d.properties.section_code);
-
-					if (isEmpty(s)) {
-						return "transparent";
-					} else {
-						let parties = emberContext.get('partiesManager').computeComparison(s);
-						let color = emberContext.get('partiesManager').getComparisonColor(parties, s);
-						return color["hex"];
-					}
-
-					// if (color["isGradient"]) {
-					// 	d3.select(this).style("stroke-width", 3 / emberContext.get('transform').k + " !important");
-					// 	return "black";
-					// } else {
-					// 	return color["hex"];
-					// }
-				} else {
-					return emberContext.get('fillPopulation')(d.properties.population);
-				}
+			.style("stroke", function(sectionCarto) {
+				return emberContext.paintSectionComparison(sectionCarto.properties.section_code);
 			})
-			.style("opacity", function(d) {
+			.style("opacity", function(sectionCarto) {
 				let opacity = ".1";
 
-				if (d.properties.population > 0) {
+				if (sectionCarto.properties.population > 0) {
 					opacity = ".5";
 				}
 
-				if (d.properties.population > 400) {
+				if (sectionCarto.properties.population > 400) {
 					opacity = ".6";
 				}
 
-				if (d.properties.population > 800) {
+				if (sectionCarto.properties.population > 800) {
 					opacity = ".7";
 				}
 
-				if (d.properties.population > 1600) {
+				if (sectionCarto.properties.population > 1600) {
 					opacity = ".8";
 				}
 
-				if (d.properties.population > 3000) {
+				if (sectionCarto.properties.population > 3000) {
 					opacity = ".9";
 				}
 
@@ -378,39 +359,13 @@ export default Ember.Component.extend({
 		this.set('tooltip', d3.select('#tooltip-map'));
 
 		this.get('sectionsLayer').selectAll("path")
-			.style("fill", function(d) {
-				if (emberContext.get('dataType') === 'votes') {
-					let s = emberContext.get('sectionsData')
-							.findBy('sectionCode', d.properties.section_code);
-
-					if (isEmpty(s)) {
-						return "transparent";
-					} else {
-						return emberContext.get('partiesManager').getColor(s);
-					}
-
-				} else {
-					return emberContext.get('fillPopulation')(d.properties.population);
-				}
+			.style("fill", function(sectionCarto) {
+				return emberContext.paintSectionNormally(sectionCarto.properties.section_code);
 			})
-			.style("stroke", function(d) {
-
-				if (emberContext.get('dataType') === 'votes') {
-					// let randomNum = Math.floor(Math.random() * 50) + 10;
-					let s = emberContext.get('sectionsData')
-							.findBy('sectionCode', d.properties.section_code);
-
-					if (isEmpty(s)) {
-						return "transparent";
-					} else {
-						return emberContext.get('partiesManager').getColor(s);
-					}
-
-				} else {
-					return emberContext.get('fillPopulation')(d.properties.population);
-				}
+			.style("stroke", function(sectionCarto) {
+				return emberContext.paintSectionNormally(sectionCarto.properties.section_code);
 			})
-			.style("fill-opacity", function(d) {
+			.style("fill-opacity", function() {
 				return 1;
 			});
 	},
@@ -440,7 +395,7 @@ export default Ember.Component.extend({
 			.on("mousemove", function(d) {
 				emberContext.get('tooltip')
 					.style("left", (d3.event.pageX - 200) + "px")
-					.style("top", (d3.event.pageY - 190) + "px");
+					.style("top", (d3.event.pageY - 250) + "px");
 			})
 			.on("mouseout", function(d) {
 				emberContext.get('tooltip')

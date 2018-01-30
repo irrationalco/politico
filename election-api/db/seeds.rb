@@ -1,22 +1,38 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-
-# Monterrey
-
-# for i in 975..1686
-#   Projection.create(:state_code => 19, :muni_code => 39, :section_code => i,
-#     :PRI => Random.rand(1500), :PAN => Random.rand(1500), :PRD => Random.rand(1000),
-#     :Morena => Random.rand(1000), :PV => Random.rand(300), :PT => Random.rand(300),
-#     :MC => Random.rand(300))
-# end
-
 require 'csv'
 puts "################\nSeeds"
+
+# Demographics Dummy Data for Nuevo Leon
+# Municipalities
+for i in 0..55
+  for j in 0..3000
+    Demographic.create(section_code: j, muni_code: i, state_code: 19, district_code: nil,
+                       total: Random.rand(5000), year: 2015, hombres: Random.rand(0.0...100.0).round(2),
+                       mujeres: Random.rand(0.0...100.0).round(2), hijos: Random.rand(0.5...4).round(2),
+                       entidad_nac: Random.rand(0.0...100.0).round(2), entidad_inm: Random.rand(0.0...100.0).round(2),
+                       limitacion: Random.rand(0.0...100.0).round(2), analfabetismo: Random.rand(0.0...100.0).round(2),
+                       educacion_av: Random.rand(0.0...100.0).round(2), pea: Random.rand(0.0...100.0).round(2),
+                       no_serv_salud: Random.rand(0.0...100.0).round(2), matrimonios: Random.rand(0.0...100.0).round(2),
+                       hogares: Random.rand(0.0...100.0).round(2), hogares_jefa: Random.rand(0.0...100.0).round(2),
+                       hogares_pob: Random.rand(0.0...100.0).round(2), auto:  Random.rand(0.0...100.0).round(2),
+                       entidad_mig: Random.rand(0.0...100.0).round(2))
+  end
+end
+
+# Districts
+for x in 0..20
+  for y in 0..3000
+    Demographic.create(section_code: y, muni_code: nil, state_code: 19, district_code: x,
+                       total: Random.rand(5000), year: 2015, hombres: Random.rand(0.0...100.0).round(2),
+                       mujeres: Random.rand(0.0...100.0).round(2), hijos: Random.rand(0.5...4).round(2),
+                       entidad_nac: Random.rand(0.0...100.0).round(2), entidad_inm: Random.rand(0.0...100.0).round(2),
+                       limitacion: Random.rand(0.0...100.0).round(2), analfabetismo: Random.rand(0.0...100.0).round(2),
+                       educacion_av: Random.rand(0.0...100.0).round(2), pea: Random.rand(0.0...100.0).round(2),
+                       no_serv_salud: Random.rand(0.0...100.0).round(2), matrimonios: Random.rand(0.0...100.0).round(2),
+                       hogares: Random.rand(0.0...100.0).round(2), hogares_jefa: Random.rand(0.0...100.0).round(2),
+                       hogares_pob: Random.rand(0.0...100.0).round(2), auto:  Random.rand(0.0...100.0).round(2),
+                       entidad_mig: Random.rand(0.0...100.0).round(2))
+  end
+end
 
 # def delete_dbs(*class_names)
 #   class_names.each do |cname|
@@ -112,9 +128,9 @@ puts "Done projections: #{Time.now - t}s"
 # state_data = Projection.select('SUM("PAN") as "PAN", SUM("PCONV") as "PCONV", SUM("PES") as "PES",
 #                                 SUM("PH") as "PH", SUM("PMC") as "PMC", SUM("PMOR") as "PMOR", SUM("PNA") as "PNA",
 #                                 SUM("PPM") as "PPM", SUM("PRD") as "PRD", SUM("PRI") as "PRI", SUM("PSD") as "PSD",
-#                                 SUM("PSM") as "PSM", SUM("PT") as "PT", SUM("PVEM") as "PVEM",
-#                                 SUM("total_votes") as "total_votes",
-#                                 state_code, year, election_type').group(:state_code,:year,:election_type)
+#                                 SUM("PSM") as "PSM", SUM("PT") as "PT", SUM("PVEM") as "PVEM", SUM("total_votes") as
+#                                 "total_votes", state_code, year, election_type')
+#                        .group(:state_code,:year,:election_type)
 #
 # state_data.each do |data|
 #   StateCache.create(state_code: data.state_code, year: data.year, election_type: data.election_type,
@@ -135,7 +151,7 @@ puts "Done projections: #{Time.now - t}s"
 ###########################################################################################################
 
 # Creando algunos polls y sections de prueba para las encuestas
-Poll.create(name: 'Primer Encuesta', total_sections: 5)
+poll = Poll.create(name: 'Primer Encuesta', total_sections: 5)
 Poll.create(name: 'Segunda Encuesta', total_sections: 4)
 
 Section.create(title: '¿Cómo te sientes sobre...?', poll: poll)

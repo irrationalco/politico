@@ -14,7 +14,6 @@ class Api::V1::UsersController < ApplicationController
     render json: @users
   end
 
-  # rubocop:disable Metrics/MethodLength
   def user_by_email
     @user = User.where(email: params['email']).take if params['email'].present?
 
@@ -35,7 +34,6 @@ class Api::V1::UsersController < ApplicationController
       render(json: {}, status: 404) && return
     end
   end
-  # rubocop:enable Metrics/MethodLength
 
   # GET /users/1
   def show
