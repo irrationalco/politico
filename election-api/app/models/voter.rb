@@ -5,7 +5,7 @@ class Voter < ApplicationRecord
 
   scope :filtered, -> (user, state_code='', muni='', section='', capturist_id='') {
     res = nil
-    if user.is_superadmin? || user.is_manager?
+    if user.is_superadmin? || user.is_manager? || user.is_supervisor?
       res = where(suborganization_id: user.suborganization_id)
     else
       res = where(user_id: user.id)

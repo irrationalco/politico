@@ -10,6 +10,7 @@ const {
 const Chartkick = window.Chartkick;
 
 export default Ember.Component.extend({
+  classNames: ['chart'],
 
   ajax: service('ajax'),
   session: service('session'),
@@ -72,7 +73,7 @@ export default Ember.Component.extend({
     }
   }).restartable(),
 
-  getData(){
+  getData() {
     this.set('id', this.get('query').chart + '-' + Math.floor(Math.random() * 1000));
     this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
       this.get('runQuery').perform(headerName, headerValue);
@@ -86,7 +87,7 @@ export default Ember.Component.extend({
 
   didUpdateAttrs(info) {
     this._super(...arguments);
-    if(info.oldAttrs.query !== info.newAttrs.query){
+    if (info.oldAttrs.query !== info.newAttrs.query) {
       this.set('success', false);
       this.set('data', null);
       this.set('error', false);

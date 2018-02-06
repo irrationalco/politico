@@ -65,23 +65,34 @@
     <div class="chart-panel" id='stats'>
         <p>Número de registros:</p>{{async-data query=totalQuery}}
     </div>
-    <div class="chart-panel">
-        <p class="chart-title">Genero</p>
-        <div style="display:flex;flex-direction: column;align-content:center">
-        {{async-chart query=genderQuery type='column'}}
+
+    {{#unless selectedState}}
+        <div class="chart-panel">
+            <p class="chart-title">Número de Registros</p>
+            <p class="chart-subtitle">por estado</p>
+            {{async-chart query=stateQuery type="bar" class="tall-chart"}}
         </div>
-    </div>
+    {{/unless}}
 
-    <div class="chart-panel">
-        <p class="chart-title">Fecha de Nacimiento</p>
-        <p class="chart-subtitle">por año</p>
-        {{async-chart query=dateOfBirthQuery type='line'}}
-    </div>
+    {{#if selectedState}}
+        {{#unless selectedMunicipality}}
+            <div class="chart-panel">
+                <p class="chart-title">Número de Registros</p>
+                <p class="chart-subtitle">por municipio</p>
+                {{async-chart query=municipalityQuery type="bar"}}
+            </div>
+        {{/unless}}
+    {{/if}}
 
-    <div class="chart-panel">
-        <p class="chart-title">Nivel Educativo</p>
-            {{async-chart query=edLevelQuery type='column'}}
-    </div>
+    {{#if selectedMunicipality}}
+        {{#unless selectedSection}}
+            <div class="chart-panel">
+                <p class="chart-title">Número de Registros</p>
+                <p class="chart-subtitle">por sección</p>
+                {{async-chart query=sectionQuery type="bar"}}
+            </div>
+        {{/unless}}
+    {{/if}}
 
     <div class="chart-panel">
         <p class="chart-title">Fecha de Captura</p>
@@ -89,7 +100,7 @@
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#por-mes" aria-controls="por-mes" role="tab" data-toggle="tab">Por Mes</a></li>
             <li role="presentation"><a href="#por-semana" aria-controls="por-semana" role="tab" data-toggle="tab">Por Semana</a></li>
-            <li role="presentation"><a href="#por-dia" aria-controls="por-dia" role="tab" data-toggle="tab">Por Dia</a></li>
+            <li role="presentation"><a href="#por-dia" aria-controls="por-dia" role="tab" data-toggle="tab">Por Día</a></li>
         </ul>
 
         <div class="tab-content">
@@ -106,55 +117,47 @@
     </div>
 
     <div class="chart-panel">
-        <p class="chart-title">Ocupación</p>
-        {{async-chart query=ocupationQuery type="column"}}
-    </div>
-
-    <div class="chart-panel">
-        <p class="chart-title">Es parte del partido</p>
-        {{async-chart query=partyQuery type="column"}}
-    </div>
-
-    <div class="chart-panel">
-        <p class="chart-title">¿Tiene E-mail?</p>
-        {{async-chart query=emailQuery type="column"}}
-    </div>
-
-    <div class="chart-panel">
-        <p class="chart-title">¿Tiene Telefono?</p>
-        {{async-chart query=phoneQuery type="column"}}
-    </div>
-
-    <div class="chart-panel">
-        <p class="chart-title">¿Tiene Facebook?</p>
-        {{async-chart query=facebookQuery type="column"}}
-    </div>
-
-    {{#unless selectedState}}
-        <div class="chart-panel">
-            <p class="chart-title">Número de Registros</p>
-            <p class="chart-subtitle">por estado</p>
-            {{async-chart query=stateQuery type="column"}}
+        <p class="chart-title">Género</p>
+        <div style="display:flex;flex-direction: column;align-content:center">
+        {{async-chart query=genderQuery type='pie'}}
         </div>
-    {{/unless}}
+    </div>
 
-    {{#if selectedState}}
-        {{#unless selectedMunicipality}}
-            <div class="chart-panel">
-                <p class="chart-title">Número de Registros</p>
-                <p class="chart-subtitle">por municipio</p>
-                {{async-chart query=municipalityQuery type="column"}}
-            </div>
-        {{/unless}}
-    {{/if}}
+    <div class="chart-panel">
+        <p class="chart-title">Fecha de Nacimiento</p>
+        <p class="chart-subtitle">por año</p>
+        {{async-chart query=dateOfBirthQuery type='line' options=timeGraphOptions}}
+    </div>
 
-    {{#if selectedMunicipality}}
-        {{#unless selectedSection}}
-            <div class="chart-panel">
-                <p class="chart-title">Número de Registros</p>
-                <p class="chart-subtitle">por sección</p>
-                {{async-chart query=sectionQuery type="column"}}
-            </div>
-        {{/unless}}
-    {{/if}}
+    <div class="chart-panel">
+        <p class="chart-title">Nivel Educativo</p>
+            {{async-chart query=edLevelQuery type='bar'}}
+    </div>
+
+
+    <div class="chart-panel">
+        <p class="chart-title">Ocupación</p>
+        {{async-chart query=ocupationQuery type="bar"}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">¿Forma parte del partido?</p>
+        {{async-chart query=partyQuery type="pie"}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">¿Registró e-mail?</p>
+        {{async-chart query=emailQuery type="pie"}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">¿Registró telefono?</p>
+        {{async-chart query=phoneQuery type="pie"}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">¿Registró cuenta de facebook?</p>
+        {{async-chart query=facebookQuery type="pie"}}
+    </div>
+
 </div>

@@ -120,6 +120,8 @@ class Api::V1::VotersController < ApplicationController
         result = municipality_chart params['state'], params['capturist']
       when 'section'
         result = section_chart params['state'], params['muni'], params['capturist']
+      when 'capturists'
+        result = capturist_chart params['state'], params['muni'], params['section']
       end
     elsif params['info'].present?
       if !params['capturist'].present?
@@ -208,13 +210,22 @@ class Api::V1::VotersController < ApplicationController
       return result
     end
 
+    def capturist_chart state, muni, section
+      res = Voter.filtered(@current_user, state, muni, section).group(:user_id).count
+      capturists = User.where(suborganization_id: @current_user.suborganization_id)
+                          .where(capturist: true).pluck(:id, :first_name, :last_name)
+      result = {}
+      capturists.each {|c| result["#{c[1]} #{c[2]}"] = res[c[0]]}
+      result
+    end
+
     def email_chart state, muni, section, capturist
       res = Voter.filtered(@current_user, state, muni, section, capturist).where.not(email: nil).count
       res = {"Si": res || 0, "No": Voter.filtered(@current_user, state, muni, section, capturist).count - res || 0}
     end
 
     def phone_chart state, muni, section, capturist 
-      res = Voter.filtered(@current_user, state, muni, section, capturist).where("NOT (home_phone IS NULL OR mobile_phone IS NULL)").count
+      res = Voter.filtered(@current_user, state, muni, section, capturist).where("NOT (home_phone IS NULL AND mobile_phone IS NULL)").count
       res = {"Si": res || 0, "No": Voter.filtered(@current_user, state, muni, section, capturist).count - res || 0}
     end
 
@@ -247,10 +258,11 @@ class Api::V1::VotersController < ApplicationController
     end
 
     def capturist_info
-      if !(@current_user.is_superadmin? || @current_user.is_manager?)
+      if !(@current_user.is_superadmin? || @current_user.is_manager? || @current_user.is_supervisor?)
         return nil
       end
-      res = User.where(suborganization_id: @current_user.suborganization_id).pluck(:id, :first_name, :last_name)
+      res = User.where(suborganization_id: @current_user.suborganization_id)
+                  .where(capturist: true).pluck(:id, :first_name, :last_name)
       res.map {|user| {id: user[0].to_i, 
                           name: "#{user[1]} #{user[2]}",
                           activeStates: deepArrayToHash(geo_data_info(user[0].to_s),[:id,:name,nil],[:activeMunis,:activeSections], 0, 2)}}

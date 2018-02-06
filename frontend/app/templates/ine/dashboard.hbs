@@ -1,7 +1,5 @@
-{{#if session.capturist}}
-    {{follower-dashboard}}
-{{else if session.supervisor}}
+{{#if (can "view manager dashboard")}}
     {{supervisor-dashboard}}
-{{else if (or session.manager session.superadmin)}}
-    {{manager-dashboard}}
+{{else}}
+    {{follower-dashboard}}
 {{/if}}

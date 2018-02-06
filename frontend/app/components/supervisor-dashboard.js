@@ -17,7 +17,7 @@ export default FollowerDashboard.extend({
       if (selection) {
         if (!this.get('parentFilter')) {
           this.set('parentFilter', fOpt.PEOPLE);
-        }else if(this.get('parentFilter') === fOpt.PEOPLE){
+        } else if (this.get('parentFilter') === fOpt.PEOPLE) {
           this.refreshFilters();
         }
       } else {
@@ -32,7 +32,7 @@ export default FollowerDashboard.extend({
       if (selection) {
         if (!this.get('parentFilter')) {
           this.set('parentFilter', fOpt.GEO);
-        }else if(this.get('parentFilter') === fOpt.GEO){
+        } else if (this.get('parentFilter') === fOpt.GEO) {
           this.refreshFilters();
         }
       } else {
@@ -154,12 +154,18 @@ export default FollowerDashboard.extend({
     };
   }),
 
+  queryCapturists: Ember.computed('queryFilters', function () {
+    let filters = this.get('queryFilters');
+    return Object.assign({
+      chart: 'capturists'
+    }, filters);
+  }),
+
   //endregion
 
   init() {
     this._super(...arguments);
     this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
-      this.get('getGeoData').perform(headerName, headerValue);
       this.get('getCapturists').perform(headerName, headerValue);
     });
   }
