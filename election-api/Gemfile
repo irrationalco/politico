@@ -42,7 +42,7 @@ gem 'has_scope'
 # Simple search on single model
 gem 'ransack'
 
-#easier groupings by date
+# easier groupings by date
 gem 'groupdate'
 
 group :development, :test do
