@@ -76,7 +76,7 @@ export default Ember.Component.extend({
       if (result) {
         this.set('states', result);
         if (result.length === 1) {
-          this.send('stateSelect', states[0]);
+          this.send('stateSelect', this.get('states')[0]);
         }
       }
     } catch (err) {

@@ -4,9 +4,6 @@ import {
   task
 } from 'ember-concurrency';
 import config from '../config/environment';
-const {
-  service
-} = Ember.inject;
 
 export default FollowerDashboard.extend({
 
