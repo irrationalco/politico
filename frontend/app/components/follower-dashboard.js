@@ -9,8 +9,152 @@ const {
 
 export default Ember.Component.extend({
 
+  loadingGeoData: false,
+
+  states: [],
+
+  selectedState: null,
+
+  municipalities: [],
+
+  selectedMunicipality: null,
+
+  sections: [],
+
+  selectedSection: null,
+
+  timeGraphOptions: {
+    points: false,
+    curve: false,
+    library: {
+      xAxes: [{
+        ticks: {
+          source: 'auto'
+        },
+        bounds: 'ticks'
+      }]
+    }
+  },
+
   ajax: service('ajax'),
+
   session: service('session'),
+
+  queryFilters: Ember.computed('{selectedState,selectedMunicipality,selectedSection}', function () {
+    let state = this.get('selectedState') || {
+      id: ''
+    };
+    let muni = this.get('selectedMunicipality') || {
+      name: ''
+    };
+    let section = this.get('selectedSection') || '';
+    return {
+      state: state.id,
+      muni: muni.name,
+      section: section
+    };
+  }),
+
+  genderQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('chart', 'gender');
+  }),
+
+  dateOfBirthQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('chart', 'date_of_birth');
+  }),
+
+  edLevelQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('chart', 'ed_level');
+  }),
+
+  addedMonthQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('chart', 'added_month');
+  }),
+
+  addedWeekQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('chart', 'added_week');
+  }),
+
+  addedDayQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('chart', 'added_day');
+  }),
+
+  ocupationQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('chart', 'ocupation');
+  }),
+
+  partyQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('chart', 'party');
+  }),
+
+  emailQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('chart', 'email');
+  }),
+
+  phoneQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('chart', 'phone');
+  }),
+
+  facebookQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('chart', 'facebook');
+  }),
+
+  stateQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('chart', 'state');
+  }),
+
+  municipalityQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('chart', 'municipality');
+  }),
+
+  sectionQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('chart', 'section');
+  }),
+
+  totalQuery: Ember.computed('queryFilters', function () {
+    return this.getFilterObject('info', 'total');
+  }),
+
+  init() {
+    this._super(...arguments);
+    this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
+      this.get('getGeoData').perform(headerName, headerValue);
+    });
+  },
+
+  getGeoData: task(function* (headerName, headerValue) {
+    try {
+      this.set('loadingGeoData', true);
+      let result = yield this.get('ajax').request(config.localhost + '/api/ine/dashboard', {
+        accepts: {
+          json: 'application/json'
+        },
+        headers: {
+          [headerName]: headerValue
+        },
+        data: {
+          info: 'geo_data'
+        }
+      });
+      if (result) {
+        this.set('states', result);
+        if (result.length === 1) {
+          this.send('stateSelect', this.get('states')[0]);
+        }
+      }
+    } catch (err) {
+      console.log(err)
+    } finally {
+      this.set('loadingGeoData', false);
+    }
+  }),
+
+  getFilterObject(key, value) {
+    let filters = this.get('queryFilters');
+    return Object.assign({
+      [key]: value
+    }, filters);
+  },
 
   actions: {
     stateSelect(selection) {
@@ -42,193 +186,4 @@ export default Ember.Component.extend({
       this.set('selectedSection', selection);
     }
   },
-
-  //region geoData
-
-  loadingGeoData: false,
-
-  states: [],
-
-  selectedState: null,
-
-  municipalities: [],
-
-  selectedMunicipality: null,
-
-  sections: [],
-
-  selectedSection: null,
-
-  getGeoData: task(function* (headerName, headerValue) {
-    try {
-      this.set('loadingGeoData', true);
-      let result = yield this.get('ajax').request(config.localhost + '/api/ine/dashboard', {
-        accepts: {
-          json: 'application/json'
-        },
-        headers: {
-          [headerName]: headerValue
-        },
-        data: {
-          info: 'geo_data'
-        }
-      });
-      if (result) {
-        this.set('states', result);
-        if (result.length === 1) {
-          this.send('stateSelect', this.get('states')[0]);
-        }
-      }
-    } catch (err) {
-      console.log(err)
-    } finally {
-      this.set('loadingGeoData', false);
-    }
-  }),
-
-  //endregion
-
-  timeGraphOptions: {
-    points: false,
-    curve: false,
-    library: {
-      xAxes: [{
-        ticks: {
-          source: 'auto'
-        },
-        bounds: 'ticks'
-      }]
-    }
-  },
-
-  //region querys
-
-  queryFilters: Ember.computed('{selectedState,selectedMunicipality,selectedSection}', function () {
-    let state = this.get('selectedState') || {
-      id: ''
-    };
-    let muni = this.get('selectedMunicipality') || {
-      name: ''
-    };
-    let section = this.get('selectedSection') || '';
-    return {
-      state: state.id,
-      muni: muni.name,
-      section: section
-    };
-  }),
-
-  genderQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      chart: 'gender'
-    }, filters);
-  }),
-
-  dateOfBirthQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      chart: 'date_of_birth'
-    }, filters);
-  }),
-
-  edLevelQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      chart: 'ed_level'
-    }, filters);
-  }),
-
-  addedMonthQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      chart: 'added_month'
-    }, filters);
-  }),
-
-  addedWeekQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      chart: 'added_week'
-    }, filters);
-  }),
-
-  addedDayQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      chart: 'added_day'
-    }, filters);
-  }),
-
-  ocupationQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      chart: 'ocupation'
-    }, filters);
-  }),
-
-  partyQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      chart: 'party'
-    }, filters);
-  }),
-
-  emailQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      chart: 'email'
-    }, filters);
-  }),
-
-  phoneQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      chart: 'phone'
-    }, filters);
-  }),
-
-  facebookQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      chart: 'facebook'
-    }, filters);
-  }),
-
-  stateQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      chart: 'state'
-    }, filters);
-  }),
-
-  municipalityQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      chart: 'municipality'
-    }, filters);
-  }),
-
-  sectionQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      chart: 'section'
-    }, filters);
-  }),
-
-  totalQuery: Ember.computed('queryFilters', function () {
-    let filters = this.get('queryFilters');
-    return Object.assign({
-      info: 'total'
-    }, filters);
-  }),
-
-  //endregion
-
-  init() {
-    this._super(...arguments);
-    this.get('session').authorize('authorizer:oauth2', (headerName, headerValue) => {
-      this.get('getGeoData').perform(headerName, headerValue);
-    });
-  }
 });

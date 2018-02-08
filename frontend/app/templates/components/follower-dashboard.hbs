@@ -1,6 +1,6 @@
 <div class="dashboard-controls">
     {{#if loadingStates}}
-        <i class="fa fa-spinner fa-pulse fa-3x fa-fw" 
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"
             style="justify-self: center;align-self: center;" />
     {{else}}
         <div>
@@ -11,6 +11,7 @@
             onchange=(action "stateSelect")
             selected=selectedState
             allowClear=true
+            searchField="name"
             noMatchesMessage="No hay datos"
             loadingMessage="Cargando..."
             as |state|}}
@@ -20,7 +21,7 @@
     {{/if}}
     {{#if selectedState}}
         {{#if loadingMunis}}
-            <i class="fa fa-spinner fa-pulse fa-3x fa-fw" 
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"
                 style="justify-self: center;align-self: center;" />
         {{else}}
             <div>
@@ -31,6 +32,7 @@
                 onchange=(action "municipalitySelect")
                 selected=selectedMunicipality
                 allowClear=true
+                searchField="name"
                 noMatchesMessage="No hay datos"
                 loadingMessage="Cargando..."
                 as |mun|}}
@@ -41,7 +43,7 @@
     {{/if}}
     {{#if selectedMunicipality}}
         {{#if loadingSections}}
-            <i class="fa fa-spinner fa-pulse fa-3x fa-fw" 
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"
                 style="justify-self: center;align-self: center;" />
         {{else}}
             <div>
@@ -96,7 +98,7 @@
 
     <div class="chart-panel">
         <p class="chart-title">Fecha de Captura</p>
-        
+
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#por-mes" aria-controls="por-mes" role="tab" data-toggle="tab">Por Mes</a></li>
             <li role="presentation"><a href="#por-semana" aria-controls="por-semana" role="tab" data-toggle="tab">Por Semana</a></li>
