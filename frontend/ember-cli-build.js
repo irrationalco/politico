@@ -8,6 +8,9 @@ module.exports = function (defaults) {
     // Add options here
   });
 
+  //Chartkick
+  app.import('node_modules/chartkick/chartkick.js');
+
   // Bootstrap
   app.import(app.bowerDirectory + '/bootstrap/dist/css/bootstrap.css');
   app.import(app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js');
@@ -25,8 +28,12 @@ module.exports = function (defaults) {
   });
 
   // API Logo
-  app.import('vendor/API_logo.svg', { destDir: 'assets' });
-  app.import('vendor/apilogo.png', { destDir: 'assets' });
+  app.import('vendor/API_logo.svg', {
+    destDir: 'assets'
+  });
+  app.import('vendor/apilogo.png', {
+    destDir: 'assets'
+  });
 
   // Topojson FILES VENDOR 
   app.import('vendor/mx_states.json', {
@@ -49,12 +56,22 @@ module.exports = function (defaults) {
     destDir: 'assets'
   });
 
-  app.import('vendor/mx_tj.json', { destDir: 'assets' });
-  app.import('vendor/secciones.json', { destDir: 'assets' });
+  app.import('vendor/mx_tj.json', {
+    destDir: 'assets'
+  });
+  app.import('vendor/secciones.json', {
+    destDir: 'assets'
+  });
 
-  app.import('vendor/MX_NL.json', { destDir: 'assets' });
-  app.import('vendor/MX_NLe5.json', { destDir: 'assets' });
-  app.import('vendor/distritos.json', { destDir: 'assets' });
+  app.import('vendor/MX_NL.json', {
+    destDir: 'assets'
+  });
+  app.import('vendor/MX_NLe5.json', {
+    destDir: 'assets'
+  });
+  app.import('vendor/distritos.json', {
+    destDir: 'assets'
+  });
 
   app.import('vendor/nuevoleon_secciones.json', {
     destDir: 'assets'

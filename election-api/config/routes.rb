@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       resources :demographics
       post '/voters/file_upload/:user_id', to: 'voters#file_upload'
       get '/current_user', to: 'users#user_by_email'
+      get '/ine/dashboard', to: 'voters#dashboard'
     end
   end
 end

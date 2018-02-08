@@ -1,7 +1,7 @@
 class Api::V1::VotersController < ApplicationController
   acts_as_token_authentication_handler_for User, fallback: :none
   before_action :set_voter, only: %i[show update destroy]
-  before_action :set_current_user_by_token, only: [:index]
+  before_action :set_current_user_by_token, only: %i[index dashboard]
 
   # GET /voters
   def index
@@ -82,6 +82,67 @@ class Api::V1::VotersController < ApplicationController
   # DELETE /voters/1
   def destroy
     @voter.destroy
+  end
+
+  def dashboard
+    result = nil
+    all_args = { user: @current_user,
+                 state: params['state'] || '',
+                 muni: params['muni'] || '',
+                 section: params['section'] || '',
+                 capturist: params['capturist'] || '' }
+    if params['chart'].present?
+      case params['chart']
+      when 'gender'
+        result = Voter.filtered(**all_args).group_by_not_nil(:gender)
+        result = { "Hombres": result['H'] || 0, "Mujeres": result['M'] || 0 }
+      when 'date_of_birth'
+        result = Voter.filtered(**all_args).group_by_year(:date_of_birth).count
+      when 'ed_level'
+        result = Voter.filtered(**all_args).group_by_not_nil(:highest_educational_level)
+      when 'added_day'
+        result = Voter.filtered(**all_args).group_by_day(:created_at, last: 62).count
+      when 'added_week'
+        result = Voter.filtered(**all_args).group_by_week(:created_at, last: 52).count
+      when 'added_month'
+        result = Voter.filtered(**all_args).group_by_month(:created_at, last: 36).count
+      when 'ocupation'
+        result = Voter.filtered(**all_args).group_by_not_nil(:current_ocupation)
+      when 'party'
+        result = Voter.filtered(**all_args).group_by_not_nil(:is_part_of_party)
+        result = { "Si": result[true] || 0, "No": result[false] || 0 }
+      when 'state'
+        result = Voter.filtered(**all_args).group_by_not_nil(:state)
+      when 'email'
+        result = Voter.filtered(**all_args).yes_no_chart(:email)
+      when 'phone'
+        result = Voter.filtered(**all_args).yes_no_chart(%i[home_phone mobile_phone])
+      when 'facebook'
+        result = Voter.filtered(**all_args).yes_no_chart(:facebook_account)
+      when 'municipality'
+        result = Voter.filtered(**all_args).group_by_not_nil(:municipality)
+      when 'section'
+        result = Voter.filtered(**all_args).group_by_not_nil(:section)
+        result = result.keys.map(&:to_i).zip(result.values).to_h
+      when 'capturists'
+        result = Voter.capturist_chart(all_args[:user], all_args[:state], all_args[:muni], all_args[:section])
+      end
+    elsif params['info'].present?
+      params['capturist'] = '' unless params['capturist'].present?
+      case params['info']
+      when 'total'
+        result = Voter.filtered(**all_args).count
+      when 'geo_data'
+        result = Voter.filtered(**all_args).geo_data_info(all_args[:user], all_args[:capturist])
+      when 'capturists'
+        result = Voter.capturist_info(all_args[:user])
+      end
+    end
+    if result.nil?
+      render status: :unprocessable_entity
+    else
+      render json: result
+    end
   end
 
   private

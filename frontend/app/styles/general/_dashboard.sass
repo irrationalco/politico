@@ -1,0 +1,51 @@
+.dashboard
+    display: flex
+    flex-wrap: wrap
+    align-items: baseline
+    #stats
+        display: grid
+        grid-template-columns: 3fr 1fr
+        &>:nth-child(even)
+            padding-right: 5px;
+            text-align: right
+
+.dashboard-controls
+    display: grid
+    grid-column-gap: 10px
+    grid-row-gap: 5px
+    grid-template-columns: 1fr 1fr 1fr
+    margin: 5px 10px
+    .ember-power-select-trigger
+        border: 1px solid #e5e5e5
+    
+.chart-panel
+    padding: 10px
+    border: 1px solid #e5e5e5;
+    margin: 15px
+    margin-right: 0
+    border-radius: 2px
+    .chart-title
+        margin-bottom: 10px
+        font-size: 23px
+    .chart-subtitle
+        margin-top: -17px
+        margin-left: 10px
+        font-size: 15px
+        color: #777
+    .tab-content
+        padding-top: 10px
+    .active
+        background-color: transparent !important;
+
+.chart
+    min-height: 200px
+    min-width: 350px
+    display: flex
+    flex-direction: column
+
+.tall-chart
+    min-height: 300px
+
+@media(max-width: 629px)
+    .dashboard-controls
+        grid-template-columns: 1fr

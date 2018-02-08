@@ -3,81 +3,90 @@ class Voter < ApplicationRecord
   belongs_to :user
   belongs_to :suborganization
 
-  # Method to import voters from a CSV file
-  def self.import(file, uid)
-    invalid_rows = []
-    suborg_id = User.find(uid)
-    CSV.foreach(file.path, headers: true) do |row|
-      begin
-        Voter.create! do |v|
-          v.user_id = uid
-          v.suborganization_id = suborg_id
+  scope :filtered, ->(user:, state: '', muni: '', section: '', capturist: '') {
+    res = if user.is_superadmin? || user.is_manager? || user.is_supervisor?
+            where(suborganization_id: user.suborganization_id)
+          else
+            where(user_id: user.id)
+          end
+    res = res.where(state_code: state) unless state.empty?
+    res = res.where(municipality: muni) unless muni.empty?
+    res = res.where(section: section) unless section.empty?
+    res = res.where(user_id: capturist) unless capturist.empty?
+    return res
+  }
 
-          v.electoral_id_number = row[0].strip.upcase
-          v.expiration_date = row[1].strip.to_i
+  def self.group_by_not_nil(column)
+    where.not(column => nil).group(column).count
+  end
 
-          v.first_name = row[2].strip.upcase
-          v.first_last_name = row[3].strip.upcase
-          v.second_last_name = row[4].strip.upcase
-          v.gender = row[5].strip.upcase
-          v.date_of_birth = Date.strptime("#{row[6].strip}/#{row[7].strip}/#{row[8].strip}", '%d/%m/%Y')
-          v.electoral_code = row[9].strip.upcase
-          v.curp = row[10].strip.upcase
+  def self.yes_no_chart(columns)
+    yes = if columns.is_a?(Array)
+            tmp = where.not(columns.shift => nil)
+            columns.each { |c| tmp = tmp.or(where.not(c => nil)) }
+            tmp.count
+          else
+            where.not(columns => nil).count
+          end
+    yes ||= 0
+    { "Si": yes, "No": count - yes }
+  end
 
-          v.section = row[11].strip.upcase
-          v.street = row[12].strip.upcase
-          v.outside_number = row[13].strip.upcase
-          v.inside_number = row[14].strip.upcase
-          v.suburb = row[15].strip.upcase
-          v.locality_code = row[16].strip.to_i
-          v.locality = row[17].strip.upcase
-          v.municipality_code = row[18].strip.to_i
-          v.municipality = row[19].strip.upcase
-          v.state_code = row[20].strip.to_i
-          v.state = row[21].strip.upcase
-          v.postal_code = row[22].strip.to_i
-
-          v.home_phone = row[23].strip.to_i
-          v.mobile_phone = row[24].strip.to_i
-          v.email = row[25].strip.upcase
-          v.alternative_email = row[26].strip.upcase
-          v.facebook_account = row[27].strip.upcase
-
-          v.highest_educational_level = row[28].strip.upcase
-          v.current_ocupation = row[29].strip.upcase
-
-          v.organization = row[30].strip.upcase
-          v.party_positions_held = row[31].strip.upcase
-          v.is_part_of_party = !(row[32].strip.downcase =~ /^(si|s)$/).nil?
-          v.has_been_candidate = !(row[33].strip.downcase =~ /^(si|s)$/).nil?
-          v.popular_election_position = row[34]
-          v.election_year = row[35].strip.upcase
-          v.won_election = !(row[36].strip.downcase =~ /^(si|s)$/).nil?
-          v.election_route = row[37].strip.upcase
-          v.notes = row[38].strip.upcase
-        end
-      rescue StandardError
-        p $ERROR_INFO.message
-        invalid_rows << row
-      end
+  def self.geo_data_info(user, capturist)
+    res = distinct.pluck(:state, :state_code)
+    res.map do |st| { name: st[0],
+                      id: st[1].to_i,
+                      activeMunis: municipality_info(user, st[1].to_s, capturist) }
     end
-    return nil if invalid_rows.empty? # Guard clause
-    attributes = ['Numero de la credencial de elector', 'Vigencia de la credencial de elector', 'Nombre',
-                  'Apellido Paterno', 'Apellido Materno', 'Sexo', 'Dia de nacimiento', 'Mes de nacimiento',
-                  'Anio de nacimiento', 'Clave de elector', 'curp', 'Seccion Electoral', 'Calle', 'Numero exterior',
-                  'Numero Interior', 'Colonia', 'Clave de la localidad', 'Localidad', 'Clave de municipio', 'Municipio',
-                  'Clave de estado', 'Estado', 'Codigo postal', 'Telefono fijo', 'Telefono celular',
-                  'Correo Electronico', 'Correo electronico alternativo', 'Cuenta Facebook', 'Ultimo Grado de estudios',
-                  'Ocupacion Actual', 'Organizacion a la que pertenece', 'Cargos partidarios que ha tenido',
-                  'Pertenece a la estructura del partido', 'Ha sido candidata(o)', 'Cargo de eleccion popular',
-                  'Año de eleccion', 'Resulto electa(o)', 'Via de eleccion', 'Notas']
+  end
 
-    CSV.generate(headers: true) do |csv|
-      csv << attributes
-
-      invalid_rows.each do |row|
-        csv << row
-      end
+  def self.municipality_info(user, state, capturist = '')
+    res = Voter.filtered(user: user, state: state, capturist: capturist).distinct.pluck(:municipality)
+    res.map do |mn| { name: mn,
+                      activeSections: section_info(user, state, mn, capturist) }
     end
+  end
+
+  # TODO: use municipality id instead of the actual text
+  def self.section_info(user, state, municipality, capturist = '')
+    res = Voter.filtered(user: user, state: state, muni: municipality, capturist: capturist).distinct.pluck(:section)
+    res.map(&:to_i)
+  end
+
+  def self.capturist_chart(user, state, muni, section)
+    res = Voter.filtered(user: user, state: state, muni: muni, section: section).group(:user_id).count
+    capturists = User.where(suborganization_id: user.suborganization_id)
+                     .where(capturist: true).pluck(:id, :first_name, :last_name)
+    result = {}
+    capturists.each { |c| result["#{c[1]} #{c[2]}"] = res[c[0]] }
+    result
+  end
+
+  def self.capturist_info(user)
+    return nil unless user.is_superadmin? || user.is_manager? || user.is_supervisor?
+    res = User.where(suborganization_id: user.suborganization_id)
+              .where(capturist: true).pluck(:id, :first_name, :last_name)
+    res.map do |us| { id: us[0].to_i,
+                      name: "#{us[1]} #{us[2]}",
+                      activeStates: deep_array_to_hash(geo_data_info(user, us[0].to_s),
+                                                       [:id, :name, nil],
+                                                       %i[activeMunis activeSections], 0, 2) }
+    end
+  end
+
+  def self.deep_array_to_hash(arr, keys, rec_keys, depth, max_depth)
+    res = {}
+    if keys[depth].nil?
+      arr.each { |x| res[x] = true }
+      return res
+    end
+    arr.each do |x|
+      if depth < max_depth
+        x[rec_keys[depth]] = deep_array_to_hash(x[rec_keys[depth]],
+                                                keys, rec_keys, depth + 1, max_depth)
+      end
+      res[x[keys[depth]]] = x
+    end
+    return res
   end
 end

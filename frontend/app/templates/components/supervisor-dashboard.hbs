@@ -1,0 +1,185 @@
+<div class="dashboard-controls manager-dashboard">
+    {{#if loadingCapturists}}
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"
+            style="justify-self: center;align-self: center;" />
+    {{else}}
+        <div>
+            <p>Capturista:</p>
+            {{#power-select
+            options=activeCapturists
+            placeholder="Selecciona un capturista para filtrar"
+            onchange=(action "capturistSelect")
+            selected=selectedCapturist
+            allowClear=true
+            searchField="name"
+            noMatchesMessage="No hay datos"
+            loadingMessage="Cargando..."
+            as |capt|}}
+                {{capt.name}}
+            {{/power-select}}
+        </div>
+    {{/if}}
+    <div></div>
+    <div></div>
+    {{#if loadingGeoData}}
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"
+            style="justify-self: center;align-self: center;" />
+    {{else}}
+        <div>
+            <p>Estado:</p>
+            {{#power-select
+            options=activeStates
+            placeholder="Selecciona un estado para filtrar"
+            onchange=(action "stateSelect")
+            selected=selectedState
+            allowClear=true
+            searchField="name"
+            noMatchesMessage="No hay datos"
+            loadingMessage="Cargando..."
+            as |state|}}
+                {{state.name}}
+            {{/power-select}}
+        </div>
+    {{/if}}
+    {{#if selectedState}}
+        <div>
+            <p>Municipio:</p>
+            {{#power-select
+            options=municipalities
+            placeholder="Selecciona un municipio para filtrar"
+            onchange=(action "municipalitySelect")
+            selected=selectedMunicipality
+            allowClear=true
+            searchField="name"
+            noMatchesMessage="No hay datos"
+            loadingMessage="Cargando..."
+            as |mun|}}
+                {{mun.name}}
+            {{/power-select}}
+        </div>
+    {{/if}}
+    {{#if selectedMunicipality}}
+        <div>
+            <p>Sección:</p>
+            {{#power-select
+            options=sections
+            placeholder="Selecciona una sección para filtrar"
+            onchange=(action "sectionSelect")
+            selected=selectedSection
+            allowClear=true
+            noMatchesMessage="No hay datos"
+            loadingMessage="Cargando..."
+            as |section|}}
+                {{section}}
+            {{/power-select}}
+        </div>
+    {{/if}}
+</div>
+<div class='dashboard'>
+    <div class="chart-panel" id='stats'>
+        <p>Número de registros:</p>{{async-data query=totalQuery}}
+    </div>
+
+    {{#unless selectedCapturist}}
+        <div class="chart-panel">
+            <p class="chart-title">Número de registros</p>
+            <p class="chart-subtitle">por capturista</p>
+            {{async-chart query=queryCapturists type='bar'}}
+        </div>
+    {{/unless}}
+
+    {{#unless selectedState}}
+        <div class="chart-panel">
+            <p class="chart-title">Número de Registros</p>
+            <p class="chart-subtitle">por estado</p>
+            {{async-chart query=stateQuery type="bar" class="tall-chart"}}
+        </div>
+    {{/unless}}
+
+    {{#if selectedState}}
+        {{#unless selectedMunicipality}}
+            <div class="chart-panel">
+                <p class="chart-title">Número de Registros</p>
+                <p class="chart-subtitle">por municipio</p>
+                {{async-chart query=municipalityQuery type="bar"}}
+            </div>
+        {{/unless}}
+    {{/if}}
+
+    {{#if selectedMunicipality}}
+        {{#unless selectedSection}}
+            <div class="chart-panel">
+                <p class="chart-title">Número de Registros</p>
+                <p class="chart-subtitle">por sección</p>
+                {{async-chart query=sectionQuery type="bar"}}
+            </div>
+        {{/unless}}
+    {{/if}}
+
+    <div class="chart-panel">
+        <p class="chart-title">Fecha de Captura</p>
+
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#por-mes" aria-controls="por-mes" role="tab" data-toggle="tab">Por Mes</a></li>
+            <li role="presentation"><a href="#por-semana" aria-controls="por-semana" role="tab" data-toggle="tab">Por Semana</a></li>
+            <li role="presentation"><a href="#por-dia" aria-controls="por-dia" role="tab" data-toggle="tab">Por Día</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="por-mes">
+                {{async-chart query=addedMonthQuery type='line' options=timeGraphOptions}}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="por-semana">
+                {{async-chart query=addedWeekQuery type='line' options=timeGraphOptions}}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="por-dia">
+                {{async-chart query=addedDayQuery type='line' options=timeGraphOptions}}
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">Género</p>
+        <div style="display:flex;flex-direction: column;align-content:center">
+        {{async-chart query=genderQuery type='pie'}}
+        </div>
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">Fecha de Nacimiento</p>
+        <p class="chart-subtitle">por año</p>
+        {{async-chart query=dateOfBirthQuery type='line' options=timeGraphOptions}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">Nivel Educativo</p>
+            {{async-chart query=edLevelQuery type='bar'}}
+    </div>
+
+
+    <div class="chart-panel">
+        <p class="chart-title">Ocupación</p>
+        {{async-chart query=ocupationQuery type="bar"}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">¿Forma parte del partido?</p>
+        {{async-chart query=partyQuery type="pie"}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">¿Registró e-mail?</p>
+        {{async-chart query=emailQuery type="pie"}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">¿Registró telefono?</p>
+        {{async-chart query=phoneQuery type="pie"}}
+    </div>
+
+    <div class="chart-panel">
+        <p class="chart-title">¿Registró cuenta de facebook?</p>
+        {{async-chart query=facebookQuery type="pie"}}
+    </div>
+
+</div>

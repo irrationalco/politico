@@ -52,3 +52,6 @@ Style/FormatStringToken:
 
 Style/Lambda:
   Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false

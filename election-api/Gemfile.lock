@@ -69,6 +69,8 @@ GEM
     ffi (1.9.14)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    groupdate (3.2.0)
+      activesupport (>= 3)
     has_scope (0.7.1)
       actionpack (>= 4.1, < 5.2)
       activesupport (>= 4.1, < 5.2)
@@ -215,6 +217,7 @@ DEPENDENCIES
   byebug
   devise
   factory_girl_rails
+  groupdate
   has_scope
   kaminari
   listen (~> 3.0.5)
@@ -236,4 +239,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.4
+   1.16.0

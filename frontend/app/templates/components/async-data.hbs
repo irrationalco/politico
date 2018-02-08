@@ -1,0 +1,13 @@
+{{#if runQuery.isIdle}}
+    {{#if success}}
+        {{#if data}}
+            {{data}}
+        {{else}}
+            <span>No hay información</span>
+        {{/if}}
+    {{else}}
+        <span class="text-danger">Ha ocurrido un error al cargar los datos.</span>
+    {{/if}}
+{{else}}
+    <i class="fa fa-spinner fa-pulse fa-fw"></i>
+{{/if}}
